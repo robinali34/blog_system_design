@@ -10,20 +10,17 @@ highlighter: rouge
 theme: minima
 show_excerpts: true
 
-# Collections
-collections:
-  posts:
-    output: true
-    permalink: /:year/:month/:day/:title/
+# Permalinks for posts (baseurl is automatically prepended)
+permalink: /:year/:month/:day/:title/
 
 # Pagination
 paginate: 10
-paginate_path: "/posts/page:num/"
+paginate_path: "/blog_system_design/posts/page:num/"
 
 # Defaults
 defaults:
   - scope:
-      path: ""
+      path: "_posts"
       type: "posts"
     values:
       layout: "post"
