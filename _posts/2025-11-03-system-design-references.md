@@ -56,6 +56,8 @@ Popular channels often feature experienced engineers breaking down complex syste
 
 **Website:** [https://bytes.usc.edu/~saty/courses/docs/data/SystemDesignInterview.pdf](https://bytes.usc.edu/~saty/courses/docs/data/SystemDesignInterview.pdf)
 
+**Review:** [1Point3Acres Review](https://www.1point3acres.com/bbs/thread-1133026-1-1.html)
+
 This comprehensive book by Alex Xu (formerly at Twitter, Apple, Zynga, and Oracle) is one of the most popular resources for system design interview preparation. The book covers:
 
 - **Scaling Fundamentals**: From zero to millions of users
@@ -78,6 +80,52 @@ This comprehensive book by Alex Xu (formerly at Twitter, Apple, Zynga, and Oracl
 
 Each chapter provides a thorough explanation of the problem, requirements gathering, high-level design, detailed design, and scaling considerations.
 
+### 5. BugFree.ai - System Design Practice
+
+**Website:** [https://bugfree.ai/practice/system-design](https://bugfree.ai/practice/system-design)
+
+BugFree.ai offers a curated collection of system design problems and courses to help you practice and master system design interviews. The platform provides:
+
+- **Curated Problem Collections**: Organized sets of system design questions covering various difficulty levels
+- **Beginner Guide**: Step-by-step essentials to start your system design journey
+- **Must-have Interview Questions**: A 2025 list featuring 5 topics and 17 questions
+- **Object-Oriented Design Questions**: 2 topics with 14 questions for OOD interviews
+- **Machine Learning Design**: Resources for ML system design interviews
+- **Learning Paths and Courses**: Structured learning paths to guide your preparation
+
+The platform is designed to help you systematically practice system design problems, making it an excellent resource for hands-on learning and interview preparation.
+
+### 6. ByteByteGo - The Big Archive (2024 Edition)
+
+**PDF:** [https://blog.bytebytego.com/api/v1/file/d0601f5c-3308-430c-90d9-7f1c723b6ddd.pdf](https://blog.bytebytego.com/api/v1/file/d0601f5c-3308-430c-90d9-7f1c723b6ddd.pdf)
+
+The Big Archive is a comprehensive 2024 edition collection from ByteByteGo that compiles a vast array of system design topics, cheat sheets, and technical explanations. This massive archive covers:
+
+- **System Design Fundamentals**: Concepts like load balancing, caching, sharding, API design, and more
+- **Architecture Patterns**: Microservices, event sourcing, database design, and architectural styles
+- **Technology Deep Dives**: Detailed explanations of Redis, Kafka, Docker, Kubernetes, Git, and other essential technologies
+- **Cheat Sheets**: Quick reference guides for REST APIs, cloud services (AWS, Azure), monitoring, security, and more
+- **Real-World System Designs**: How major systems like YouTube, Netflix, Reddit, and Stack Overflow work
+- **Programming Concepts**: Memory management, concurrency, database types, and software engineering principles
+- **Security & Authentication**: OAuth, JWT, SSO, encryption, and security best practices
+- **Network & Protocols**: HTTP/HTTPS, gRPC, WebSocket, TCP/IP, and networking fundamentals
+
+The archive is organized as a comprehensive reference guide, making it an excellent resource for both learning and quick lookup. It's particularly valuable for its visual explanations and cheat sheets that condense complex topics into digestible formats.
+
+### 7. 1Point3Acres - System Design Collection
+
+**Collection:** [https://www.1point3acres.com/bbs/collection/228557](https://www.1point3acres.com/bbs/collection/228557)
+
+1Point3Acres offers a curated collection of system design resources and discussions. This collection provides:
+
+- **Community Discussions**: Real discussions and experiences from engineers who have gone through system design interviews
+- **Interview Insights**: First-hand accounts of system design interview experiences at various companies
+- **Resource Compilation**: Curated links and resources shared by the community
+- **Problem Analysis**: Discussions on specific system design problems and solutions
+- **Best Practices**: Tips and strategies shared by successful candidates
+
+The collection serves as a valuable community-driven resource where you can learn from others' experiences, find additional practice problems, and gain insights into what interviewers are looking for in system design interviews.
+
 ## How to Use These Resources
 
 ### For Interview Preparation
@@ -95,14 +143,98 @@ Each chapter provides a thorough explanation of the problem, requirements gather
 3. **Practice Design Thinking**: Use the resources to practice breaking down problems and designing solutions
 4. **Stay Updated**: System design evolves, so keep learning about new patterns and technologies
 
+## Common Mistakes in System Design Interviews
+
+Being aware of common pitfalls is crucial for avoiding them during your interview. Understanding these mistakes can significantly improve your performance and help you stand out as a candidate. Here are some of the most common mistakes candidates make:
+
+### 1. Insufficient Requirement Gathering
+
+Failing to ask detailed questions about the system's requirements can lead to designs that don't meet the user's needs. It's essential to understand:
+- The purpose and goals of the system
+- Target audience and user base
+- Specific functionalities required
+- Scale and performance requirements
+- Constraints and trade-offs
+
+Always start by clarifying requirements before jumping into design.
+
+### 2. Overlooking Scalability and Performance
+
+Designs that don't account for future growth can become bottlenecks. Always consider:
+- How the system will handle increased load
+- Data growth over time
+- Read vs. write patterns
+- Geographic distribution needs
+- Caching strategies
+
+Think about scalability from the beginning, not as an afterthought.
+
+### 3. Neglecting Failure Handling
+
+Not planning for system failures can result in significant downtimes. Important considerations include:
+- Redundancy and failover mechanisms
+- Error handling and recovery
+- Data consistency during failures
+- Graceful degradation
+- Monitoring and alerting
+
+A robust system must handle failures gracefully.
+
+### 4. Inadequate Data Modeling
+
+Poorly designed databases can lead to inefficient queries and data anomalies. Ensure:
+- Proper normalization or denormalization based on use cases
+- Appropriate indexing strategies
+- Data partitioning and sharding when needed
+- Query optimization
+- Data consistency requirements
+
+Design your data model to support your system's access patterns.
+
+### 5. Ignoring Security Concerns
+
+Overlooking security can expose the system to vulnerabilities. Incorporate:
+- Authentication and authorization mechanisms
+- Data encryption (at rest and in transit)
+- Input validation and sanitization
+- Rate limiting and DDoS protection
+- Security best practices from the start
+
+Security should be built into the design, not added later.
+
+### 6. Jumping into Implementation Too Quickly
+
+Many candidates start drawing components before understanding the problem. Always:
+- Clarify requirements first
+- Think through the high-level architecture
+- Discuss trade-offs and alternatives
+- Get feedback before diving deep
+
+A structured approach leads to better designs.
+
+### 7. Not Communicating Thought Process
+
+Interviewers want to see your thinking. Make sure to:
+- Explain your reasoning out loud
+- Discuss trade-offs and alternatives
+- Ask for feedback and clarification
+- Show that you're thinking critically
+
+Communication is a key part of the interview.
+
+For a more in-depth discussion on these common mistakes from an interviewer's perspective, refer to the detailed discussion on 1Point3Acres: [Common Mistakes in System Design Interviews](https://www.1point3acres.com/bbs/thread-1119305-1-1.html).
+
 ## Conclusion
 
 These resources provide a comprehensive foundation for learning system design and preparing for interviews. Each resource has its strengths:
 
 - **Hello Interview** for a structured, practical guide
-- **ByteByteGo** for interactive learning
+- **ByteByteGo Course** for interactive learning
 - **YouTube** for visual explanations
 - **System Design Interview PDF** for in-depth coverage
+- **BugFree.ai** for curated practice problems and learning paths
+- **ByteByteGo Big Archive** for comprehensive reference and cheat sheets
+- **1Point3Acres Collection** for community discussions and interview insights
 
 Combine these resources with hands-on practice, and you'll be well-prepared to tackle system design challenges both in interviews and in real-world scenarios.
 
