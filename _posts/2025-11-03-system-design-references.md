@@ -126,6 +126,23 @@ The archive is organized as a comprehensive reference guide, making it an excell
 
 The collection serves as a valuable community-driven resource where you can learn from others' experiences, find additional practice problems, and gain insights into what interviewers are looking for in system design interviews.
 
+### 8. System Design Primer - GitHub Repository
+
+**GitHub:** [https://github.com/donnemartin/system-design-primer](https://github.com/donnemartin/system-design-primer)
+
+The System Design Primer is one of the most comprehensive open-source resources for learning system design, with over 325k stars on GitHub. This repository provides:
+
+- **Organized Collection**: A well-structured collection of system design resources scattered across the web
+- **System Design Topics**: Summaries of various system design topics with pros and cons, emphasizing that "everything is a trade-off"
+- **Interview Preparation**: Practice common system design interview questions with sample solutions, discussions, code, and diagrams
+- **Real-World Architectures**: Detailed case studies of how major companies design their systems (Facebook, Google, Netflix, Twitter, Uber, and many more)
+- **Company Engineering Blogs**: Links to engineering blogs from top tech companies
+- **Anki Flashcards**: Spaced repetition flashcard decks for system design concepts and exercises
+- **Object-Oriented Design**: Object-oriented design interview questions with solutions
+- **Additional Resources**: Study guides, approach strategies, and extensive topic coverage
+
+The repository is continually updated by the open-source community and covers topics ranging from basic scalability concepts to advanced distributed systems patterns. It's particularly valuable for its comprehensive coverage of real-world system architectures and the emphasis on understanding trade-offs in system design.
+
 ## How to Use These Resources
 
 ### For Interview Preparation
@@ -235,6 +252,7 @@ These resources provide a comprehensive foundation for learning system design an
 - **BugFree.ai** for curated practice problems and learning paths
 - **ByteByteGo Big Archive** for comprehensive reference and cheat sheets
 - **1Point3Acres Collection** for community discussions and interview insights
+- **System Design Primer** for comprehensive open-source resource with real-world architectures
 
 Combine these resources with hands-on practice, and you'll be well-prepared to tackle system design challenges both in interviews and in real-world scenarios.
 
