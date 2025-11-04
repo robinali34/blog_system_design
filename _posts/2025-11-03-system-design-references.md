@@ -143,6 +143,41 @@ The System Design Primer is one of the most comprehensive open-source resources 
 
 The repository is continually updated by the open-source community and covers topics ranging from basic scalability concepts to advanced distributed systems patterns. It's particularly valuable for its comprehensive coverage of real-world system architectures and the emphasis on understanding trade-offs in system design.
 
+### 9. Designing Data-Intensive Applications, 2nd Edition
+
+**Book:** [Designing Data-Intensive Applications](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) by Martin Kleppmann
+
+**Purchase:** Available on [Amazon](https://www.amazon.com/Designing-Data-Intensive-Applications-Reliable-Maintainable/dp/1449373321), [O'Reilly](https://www.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/), and other book retailers
+
+"Designing Data-Intensive Applications" by Martin Kleppmann is widely regarded as one of the most comprehensive and authoritative books on building scalable, reliable, and maintainable data-intensive applications. The 2nd edition covers:
+
+- **Foundations of Data Systems**: Data models, storage engines, encoding formats, and evolution
+- **Distributed Data**: Replication, partitioning, transactions, consistency, and consensus
+- **Derived Data**: Batch processing, stream processing, and building reliable, scalable, and maintainable applications
+
+**Key Topics Covered:**
+- **Reliability**: Fault tolerance, redundancy, and failure handling
+- **Scalability**: Load balancing, partitioning, and scaling strategies
+- **Maintainability**: Operability, simplicity, and evolvability
+- **Data Models**: Relational, document, graph, and other data models
+- **Storage and Retrieval**: B-trees, LSM-trees, column-oriented storage
+- **Encoding and Evolution**: JSON, XML, Protocol Buffers, Avro, Thrift
+- **Replication**: Leader-based replication, multi-leader replication, leaderless replication
+- **Partitioning**: Partitioning strategies, rebalancing, request routing
+- **Transactions**: ACID properties, weak isolation levels, serializability
+- **Consistency and Consensus**: Linearizability, ordering guarantees, distributed transactions
+- **Batch Processing**: MapReduce, dataflow graphs, joins in batch processing
+- **Stream Processing**: Event streams, message brokers, stream processing frameworks
+
+**Why It's Essential:**
+- **Deep Technical Understanding**: Provides deep insights into how data systems actually work
+- **Real-World Examples**: Uses real-world examples and case studies
+- **Trade-off Analysis**: Explains trade-offs between different approaches
+- **Practical Guidance**: Offers practical guidance for building production systems
+- **Timeless Principles**: Focuses on fundamental principles that remain relevant
+
+This book is particularly valuable for engineers who want to understand the underlying principles of distributed systems, databases, and data processing. It's not just for interview preparation—it's a foundational text that will make you a better systems engineer. Many consider it essential reading for anyone working on data-intensive systems.
+
 ## How to Use These Resources
 
 ### For Interview Preparation
@@ -253,6 +288,7 @@ These resources provide a comprehensive foundation for learning system design an
 - **ByteByteGo Big Archive** for comprehensive reference and cheat sheets
 - **1Point3Acres Collection** for community discussions and interview insights
 - **System Design Primer** for comprehensive open-source resource with real-world architectures
+- **Designing Data-Intensive Applications** for deep technical understanding of distributed systems and data architectures
 
 Combine these resources with hands-on practice, and you'll be well-prepared to tackle system design challenges both in interviews and in real-world scenarios.
 
