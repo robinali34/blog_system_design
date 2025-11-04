@@ -12,14 +12,32 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 
 ## Problem Statement
 
-**Design a distributed job scheduler system that supports:**
+**Build a service/system that can support defining and running jobs on a schedule. Requirements:**
 
-1. **Job Submission**: Users can submit jobs via an API. Jobs include execution commands, required resources, priority, and other information.
-2. **Job Scheduling**: The system must efficiently schedule jobs to ensure optimal resource use and execute jobs according to priority.
-3. **Job Execution**: Allocate resources and execute jobs when resources are available.
-4. **Job Monitoring**: Provide an interface to check the job status, including start time, end time, and execution status (queued, running, completed, failed, etc.).
-5. **Fault Tolerance**: The system should support retries when jobs fail and log the reasons for failure.
-6. **Horizontal Scalability**: The system design should support horizontal scaling to handle high concurrent job requests.
+1. **Should be able to create jobs**: Users can create/define jobs via an API with execution commands, required resources, priority, schedule, and other configuration.
+
+2. **Should be able to schedule and run jobs**: The system must efficiently schedule jobs and execute them according to their schedule, priority, and resource availability.
+
+3. **Should be able to report failures and successes**: The system must track and report job execution outcomes (success/failure), with detailed failure reasons and success metrics.
+
+4. **Should be reliable and have strong guarantees about its job runs**: The system must provide strong guarantees:
+   - **At-least-once execution**: Jobs will execute at least once (may execute multiple times for retries)
+   - **Exactly-once semantics where possible**: For idempotent jobs
+   - **No job loss**: Jobs are never lost, even during system failures
+   - **Guaranteed execution**: Scheduled jobs will execute if resources are available
+   - **Atomic operations**: Job state transitions are atomic
+
+5. **Should be able to view logs and status of running jobs, as well as previously finished jobs**: Provide comprehensive interfaces to:
+   - View real-time status of running jobs
+   - Access execution logs (stdout, stderr)
+   - View historical job executions
+   - Query job status and history
+
+6. **Should be able to handle when a job takes longer to run than expected (SLA)**: The system must handle SLA violations:
+   - Detect when jobs exceed their expected execution time
+   - Take appropriate actions (timeout, kill, alert, extend)
+   - Track SLA compliance metrics
+   - Support configurable SLA policies
 
 **Describe the system architecture, including components and technology choices, considering system scalability and reliability.**
 
@@ -28,39 +46,64 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 ### Functional Requirements
 
 **Core Features:**
-1. **Job Submission**
-   - Submit jobs via REST API
-   - Job metadata: command, resources (CPU, memory), priority, timeout, retry policy
-   - Support different job types (one-time, recurring, scheduled)
+
+1. **Create Jobs (Job Definition)**
+   - Create jobs via REST API with complete job definition
+   - Job metadata: command, resources (CPU, memory), priority, schedule, timeout, retry policy
+   - Support different job types: one-time, recurring, scheduled, cron-based
    - Job dependencies (Job B runs after Job A completes)
+   - Job configuration and environment variables
+   - Validation of job definitions before creation
 
-2. **Job Scheduling**
-   - Priority-based scheduling
-   - Resource-aware scheduling
-   - Fair scheduling (prevent starvation)
-   - Support for different scheduling algorithms (FIFO, priority queue, fair share)
+2. **Schedule and Run Jobs**
+   - Schedule jobs based on time (cron, interval, specific time)
+   - Priority-based scheduling (higher priority jobs run first)
+   - Resource-aware scheduling (match jobs to available resources)
+   - Fair scheduling (prevent starvation, ensure fairness)
+   - Support different scheduling algorithms (FIFO, priority queue, fair share)
+   - Handle job dependencies before execution
 
-3. **Job Execution**
-   - Allocate resources (CPU, memory, storage) to jobs
-   - Execute jobs on worker nodes
-   - Support different execution environments (containers, VMs, bare metal)
-   - Resource isolation and quota management
+3. **Report Failures and Successes**
+   - Track job execution outcomes (success/failure)
+   - Detailed failure reporting: error codes, error messages, stack traces
+   - Success metrics: execution time, resource usage, output size
+   - Failure classification: transient vs. permanent errors
+   - Failure aggregation and reporting
+   - Success/failure rate tracking per job, user, team
 
-4. **Job Monitoring**
-   - Real-time job status tracking
-   - Job history and logs
-   - Metrics and analytics
-   - Alerts for job failures
+4. **Reliability and Strong Guarantees**
+   - **At-least-once execution**: Jobs execute at least once (may retry)
+   - **Exactly-once semantics**: For idempotent jobs with idempotency keys
+   - **No job loss guarantee**: Jobs persisted to database, never lost
+   - **Guaranteed execution**: Scheduled jobs will execute if resources available
+   - **Atomic state transitions**: Job status changes are atomic
+   - **Durability**: All job definitions and executions persisted
+   - **Consistency**: Strong consistency for job metadata
+   - **Transaction support**: Critical operations use transactions
 
-5. **Fault Tolerance**
-   - Automatic retry on failure
-   - Configurable retry policies
-   - Failure logging and analysis
+5. **View Logs and Status**
+   - Real-time status of running jobs (queued, scheduled, running, completed, failed)
+   - Execution logs: stdout, stderr with real-time streaming
+   - Job history: all previous executions with status
+   - Execution details: start time, end time, duration, resource usage
+   - Log search and filtering capabilities
+   - Log retention and archival policies
+
+6. **Handle SLA Violations (Long-Running Jobs)**
+   - SLA definition: expected execution time per job
+   - SLA monitoring: track execution time vs. expected time
+   - SLA violation detection: alert when job exceeds SLA
+   - SLA violation handling:
+     - Timeout and kill jobs that exceed max execution time
+     - Alert on SLA violations
+     - Extend SLA for long-running jobs (with approval)
+     - Track SLA compliance metrics
+   - Support for configurable SLA policies (strict, flexible, warning-only)
+
+7. **Additional Features**
+   - Job cancellation and pause/resume
+   - Resource quota management
    - Worker node failure handling
-
-6. **Scalability**
-   - Handle millions of jobs
-   - Support thousands of concurrent jobs
    - Horizontal scaling of all components
 
 ### Non-Functional Requirements
@@ -79,9 +122,12 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 
 **Reliability:**
 - 99.99% uptime
-- No job loss
-- At-least-once execution guarantee
+- No job loss guarantee
+- At-least-once execution guarantee (exactly-once for idempotent jobs)
+- Strong consistency for job metadata
+- Atomic state transitions
 - Automatic failover
+- Data durability (all writes persisted)
 
 **Availability:**
 - Multi-region deployment
@@ -261,8 +307,10 @@ CREATE TABLE jobs (
     
     -- Scheduling
     priority INTEGER DEFAULT 500, -- 0-1000
-    max_execution_time INTEGER, -- seconds
+    max_execution_time INTEGER, -- seconds (hard limit)
+    expected_execution_time INTEGER, -- seconds (warning threshold)
     timeout_seconds INTEGER,
+    sla_policy VARCHAR(20) DEFAULT 'flexible', -- 'strict', 'flexible', 'warning_only'
     
     -- Retry
     max_retries INTEGER DEFAULT 3,
@@ -299,29 +347,66 @@ CREATE TABLE job_executions (
     worker_node_id VARCHAR(255),
     
     -- Execution details
-    status VARCHAR(20) NOT NULL, -- 'running', 'completed', 'failed', 'cancelled'
+    status VARCHAR(20) NOT NULL, -- 'running', 'completed', 'failed', 'cancelled', 'timeout'
     exit_code INTEGER,
     error_message TEXT,
+    error_type VARCHAR(50), -- 'timeout', 'out_of_memory', 'network_error', etc.
+    stack_trace TEXT,
     
     -- Timing
     started_at TIMESTAMP NOT NULL,
     completed_at TIMESTAMP,
     duration_ms INTEGER,
     
+    -- SLA
+    expected_execution_time_ms INTEGER,
+    max_execution_time_ms INTEGER,
+    sla_met BOOLEAN,
+    sla_violation_percentage DECIMAL(5,2),
+    
     -- Resources
     cpu_cores_used INTEGER,
     memory_gb_used INTEGER,
+    disk_gb_used INTEGER,
+    
+    -- Output
+    output_size_bytes BIGINT,
     
     -- Logs
     stdout_log_url TEXT,
     stderr_log_url TEXT,
+    log_stream_url TEXT,
     
     -- Retry info
     retry_count INTEGER DEFAULT 0,
     
     INDEX idx_job_id (job_id),
     INDEX idx_worker_node_id (worker_node_id),
-    INDEX idx_started_at (started_at)
+    INDEX idx_started_at (started_at),
+    INDEX idx_status (status),
+    INDEX idx_sla_met (sla_met)
+);
+```
+
+**SLA Events Table:**
+```sql
+CREATE TABLE sla_events (
+    event_id UUID PRIMARY KEY,
+    job_id UUID REFERENCES jobs(job_id),
+    execution_id UUID REFERENCES job_executions(execution_id),
+    
+    event_type VARCHAR(20) NOT NULL, -- 'sla_warning', 'sla_violation'
+    expected_time_ms INTEGER NOT NULL,
+    actual_time_ms INTEGER NOT NULL,
+    overrun_ms INTEGER,
+    
+    action_taken VARCHAR(50), -- 'alert', 'kill', 'extend', 'none'
+    
+    timestamp TIMESTAMP NOT NULL,
+    
+    INDEX idx_job_id (job_id),
+    INDEX idx_execution_id (execution_id),
+    INDEX idx_timestamp (timestamp)
 );
 ```
 
@@ -421,8 +506,10 @@ Content-Type: application/json
   
   "scheduling": {
     "priority": 750,
-    "max_execution_time": 3600,
-    "timeout_seconds": 7200
+    "max_execution_time": 3600,  // seconds (hard limit)
+    "expected_execution_time": 1800,  // seconds (warning threshold)
+    "timeout_seconds": 7200,
+    "sla_policy": "flexible"  // 'strict', 'flexible', 'warning_only'
   },
   
   "retry": {
@@ -604,26 +691,110 @@ class ExecutorService:
             else:
                 result = self.execute_vm(job, worker_node)
             
+            # Monitor SLA during execution
+            self.sla_monitor.start_monitoring(job, execution)
+            
             # Handle result
             if result.exit_code == 0:
                 self.handle_success(job, execution, result)
             else:
                 self.handle_failure(job, execution, result)
         
+        except TimeoutError as e:
+            self.handle_timeout(job, execution, e)
         except Exception as e:
             self.handle_exception(job, execution, e)
         
         finally:
+            # Stop SLA monitoring
+            self.sla_monitor.stop_monitoring(execution.execution_id)
+            
             # Release resources
             self.resource_manager.release(allocation)
     
+    def handle_success(self, job, execution, result):
+        # Calculate execution time
+        duration_ms = (datetime.now() - execution.started_at).total_seconds() * 1000
+        
+        # Check SLA compliance
+        sla_met = duration_ms <= job.max_execution_time * 1000 if job.max_execution_time else True
+        sla_violation_pct = 0
+        if job.expected_execution_time and duration_ms > job.expected_execution_time * 1000:
+            sla_violation_pct = ((duration_ms - job.expected_execution_time * 1000) / (job.expected_execution_time * 1000)) * 100
+        
+        # Update execution
+        self.db.update_execution(
+            execution.execution_id,
+            status='completed',
+            exit_code=0,
+            completed_at=datetime.now(),
+            duration_ms=int(duration_ms),
+            sla_met=sla_met,
+            sla_violation_percentage=sla_violation_pct,
+            cpu_cores_used=result.cpu_usage,
+            memory_gb_used=result.memory_usage,
+            output_size_bytes=result.output_size
+        )
+        
+        # Report success
+        self.reporting_service.report_execution_outcome(
+            execution,
+            {
+                'status': 'success',
+                'exit_code': 0,
+                'duration_ms': duration_ms,
+                'cpu_usage': result.cpu_usage,
+                'memory_usage': result.memory_usage,
+                'output_size': result.output_size
+            }
+        )
+        
+        # Update job status
+        self.update_job_status(job.job_id, 'completed', execution.execution_id)
+        
+        # Track SLA compliance
+        if job.expected_execution_time:
+            self.sla_tracker.track_sla_compliance(
+                job.job_id,
+                duration_ms,
+                job.expected_execution_time * 1000
+            )
+        
+        # Trigger dependent jobs
+        self.trigger_dependent_jobs(job.job_id, 'success')
+    
     def handle_failure(self, job, execution, result):
-        # Log failure
+        # Calculate execution time
+        duration_ms = (datetime.now() - execution.started_at).total_seconds() * 1000 if execution.started_at else 0
+        
+        # Classify error
+        error_type = self.classify_error(result.error_message)
+        
+        # Log failure with detailed information
         self.db.update_execution(
             execution.execution_id,
             status='failed',
             exit_code=result.exit_code,
-            error_message=result.error_message
+            error_message=result.error_message,
+            error_type=error_type,
+            stack_trace=result.stack_trace,
+            completed_at=datetime.now(),
+            duration_ms=int(duration_ms),
+            cpu_cores_used=result.cpu_usage if hasattr(result, 'cpu_usage') else None,
+            memory_gb_used=result.memory_usage if hasattr(result, 'memory_usage') else None
+        )
+        
+        # Report failure
+        self.reporting_service.report_execution_outcome(
+            execution,
+            {
+                'status': 'failed',
+                'exit_code': result.exit_code,
+                'error_message': result.error_message,
+                'error_type': error_type,
+                'stack_trace': result.stack_trace,
+                'duration_ms': duration_ms
+            }
         )
         
         # Check if should retry
@@ -631,8 +802,63 @@ class ExecutorService:
             self.schedule_retry(job, execution)
         else:
             # Mark job as failed
-            self.update_job_status(job.job_id, 'failed')
+            self.update_job_status(job.job_id, 'failed', execution.execution_id)
             self.trigger_dependent_jobs(job.job_id, 'failure')
+    
+    def handle_timeout(self, job, execution, error):
+        # Handle timeout (SLA violation)
+        duration_ms = (datetime.now() - execution.started_at).total_seconds() * 1000
+        
+        # Kill the job process
+        self.kill_execution(execution.execution_id)
+        
+        # Update execution
+        self.db.update_execution(
+            execution.execution_id,
+            status='timeout',
+            exit_code=-1,
+            error_message='Job exceeded maximum execution time',
+            error_type='timeout',
+            completed_at=datetime.now(),
+            duration_ms=int(duration_ms)
+        )
+        
+        # Report timeout
+        self.reporting_service.report_execution_outcome(
+            execution,
+            {
+                'status': 'failed',
+                'exit_code': -1,
+                'error_message': 'Job exceeded maximum execution time',
+                'error_type': 'timeout',
+                'duration_ms': duration_ms
+            }
+        )
+        
+        # Check if should retry
+        if execution.retry_count < job.max_retries:
+            self.schedule_retry(job, execution)
+        else:
+            self.update_job_status(job.job_id, 'failed', execution.execution_id)
+    
+    def classify_error(self, error_message):
+        # Classify error type for better reporting
+        error_lower = error_message.lower() if error_message else ''
+        
+        if 'timeout' in error_lower:
+            return 'timeout'
+        elif 'memory' in error_lower or 'oom' in error_lower:
+            return 'out_of_memory'
+        elif 'permission' in error_lower or 'access denied' in error_lower:
+            return 'permission_error'
+        elif 'network' in error_lower or 'connection' in error_lower:
+            return 'network_error'
+        elif 'not found' in error_lower:
+            return 'not_found'
+        elif 'disk' in error_lower or 'space' in error_lower:
+            return 'disk_error'
+        else:
+            return 'unknown'
     
     def schedule_retry(self, job, execution):
         # Calculate retry delay
@@ -720,6 +946,193 @@ class ResourceManager:
         self.redis.delete(f"allocation:{allocation.allocation_id}")
 ```
 
+### Failure and Success Reporting Service
+
+**Responsibilities:**
+1. Track job execution outcomes (success/failure)
+2. Report detailed failure information
+3. Collect success metrics
+4. Aggregate failure/success statistics
+5. Generate failure reports
+
+**Implementation:**
+```python
+class FailureSuccessReportingService:
+    def report_execution_outcome(self, execution, result):
+        # Store execution outcome
+        outcome = {
+            'execution_id': execution.execution_id,
+            'job_id': execution.job_id,
+            'status': result.status,  # 'success' or 'failed'
+            'exit_code': result.exit_code,
+            'error_message': result.error_message if result.status == 'failed' else None,
+            'error_type': self.classify_error(result.error_message) if result.status == 'failed' else None,
+            'stack_trace': result.stack_trace if result.status == 'failed' else None,
+            'execution_time_ms': result.duration_ms,
+            'resource_usage': {
+                'cpu_cores_used': result.cpu_usage,
+                'memory_gb_used': result.memory_usage,
+                'disk_gb_used': result.disk_usage
+            },
+            'output_size_bytes': result.output_size if result.status == 'success' else None,
+            'timestamp': datetime.now()
+        }
+        
+        # Store in database
+        self.db.create_execution_outcome(outcome)
+        
+        # Update job statistics
+        self.update_job_statistics(execution.job_id, outcome)
+        
+        # Publish event for real-time updates
+        self.kafka.produce('job-outcomes', outcome)
+        
+        # Generate alerts if needed
+        if outcome['status'] == 'failed':
+            self.generate_failure_alert(outcome)
+    
+    def classify_error(self, error_message):
+        # Classify error type
+        if 'timeout' in error_message.lower():
+            return 'timeout'
+        elif 'memory' in error_message.lower() or 'oom' in error_message.lower():
+            return 'out_of_memory'
+        elif 'permission' in error_message.lower() or 'access denied' in error_message.lower():
+            return 'permission_error'
+        elif 'network' in error_message.lower() or 'connection' in error_message.lower():
+            return 'network_error'
+        elif 'not found' in error_message.lower():
+            return 'not_found'
+        else:
+            return 'unknown'
+    
+    def update_job_statistics(self, job_id, outcome):
+        # Update job-level statistics
+        stats = self.db.get_job_statistics(job_id)
+        
+        if outcome['status'] == 'success':
+            stats['success_count'] += 1
+            stats['total_execution_time_ms'] += outcome['execution_time_ms']
+            stats['avg_execution_time_ms'] = stats['total_execution_time_ms'] / stats['success_count']
+        else:
+            stats['failure_count'] += 1
+            stats['failure_types'][outcome['error_type']] = stats['failure_types'].get(outcome['error_type'], 0) + 1
+        
+        stats['total_executions'] += 1
+        stats['success_rate'] = stats['success_count'] / stats['total_executions']
+        
+        self.db.update_job_statistics(job_id, stats)
+```
+
+**Failure Reporting API:**
+```http
+GET /api/v1/jobs/{job_id}/failures
+
+Response:
+{
+  "job_id": "uuid-here",
+  "total_failures": 5,
+  "failure_rate": 0.05,
+  "failure_breakdown": {
+    "timeout": 2,
+    "out_of_memory": 1,
+    "network_error": 1,
+    "unknown": 1
+  },
+  "recent_failures": [
+    {
+      "execution_id": "exec-uuid-1",
+      "failed_at": "2025-11-03T10:05:00Z",
+      "error_type": "timeout",
+      "error_message": "Job exceeded maximum execution time",
+      "duration_ms": 7200000
+    }
+  ]
+}
+
+GET /api/v1/jobs/{job_id}/successes
+
+Response:
+{
+  "job_id": "uuid-here",
+  "total_successes": 95,
+  "success_rate": 0.95,
+  "avg_execution_time_ms": 325000,
+  "p50_execution_time_ms": 300000,
+  "p95_execution_time_ms": 450000,
+  "p99_execution_time_ms": 600000
+}
+```
+
+### Strong Guarantees Implementation
+
+**Reliability Guarantees:**
+
+1. **At-Least-Once Execution**
+   - Jobs stored in database before scheduling
+   - Jobs queued in Kafka (durable, replicated)
+   - Retry mechanism ensures execution
+   - Idempotency keys for deduplication
+
+2. **Exactly-Once Semantics (for Idempotent Jobs)**
+   - Idempotency key per job
+   - Checkpoint mechanism
+   - Deduplication at execution level
+   - Transactional state updates
+
+3. **No Job Loss Guarantee**
+   - All job definitions persisted to database (ACID)
+   - Jobs queued in Kafka (durable, replicated)
+   - Database replication (primary + replicas)
+   - Backup and recovery mechanisms
+
+4. **Guaranteed Execution**
+   - Jobs remain in queue until executed
+   - Automatic retry on failures
+   - Worker node failover and job rescheduling
+   - No job dropped from queue
+
+5. **Atomic State Transitions**
+   - Database transactions for state changes
+   - Optimistic locking to prevent race conditions
+   - Distributed locks for critical sections
+   - Event sourcing for audit trail
+
+**Implementation:**
+```python
+class JobStateManager:
+    def transition_job_state(self, job_id, from_state, to_state):
+        # Use database transaction for atomic state transition
+        with self.db.transaction():
+            # Check current state
+            job = self.db.get_job(job_id)
+            if job.status != from_state:
+                raise StateTransitionError(f"Job {job_id} is in {job.status}, not {from_state}")
+            
+            # Update state atomically
+            self.db.update_job(
+                job_id,
+                status=to_state,
+                updated_at=datetime.now()
+            )
+            
+            # Log state transition for audit
+            self.db.create_state_transition_log(
+                job_id=job_id,
+                from_state=from_state,
+                to_state=to_state,
+                timestamp=datetime.now()
+            )
+            
+            # Publish state change event
+            self.kafka.produce('job-state-changes', {
+                'job_id': job_id,
+                'from_state': from_state,
+                'to_state': to_state,
+                'timestamp': datetime.now().isoformat()
+            })
+```
+
 ### Monitoring Service
 
 **Responsibilities:**
@@ -727,6 +1140,100 @@ class ResourceManager:
 2. Collect metrics and analytics
 3. Generate alerts
 4. Provide job history and logs
+5. Real-time log streaming
+6. Historical log access
+
+**Real-Time Status Tracking:**
+```python
+class MonitoringService:
+    def get_job_status(self, job_id):
+        # Check cache first
+        cached_status = self.redis.get(f"job:{job_id}:status")
+        if cached_status:
+            return json.loads(cached_status)
+        
+        # Query database
+        job = self.db.get_job(job_id)
+        execution = self.db.get_current_execution(job_id)
+        
+        status = {
+            'job_id': job_id,
+            'status': job.status,
+            'created_at': job.created_at.isoformat(),
+            'scheduled_at': job.scheduled_at.isoformat() if job.scheduled_at else None,
+            'started_at': job.started_at.isoformat() if job.started_at else None,
+            'completed_at': job.completed_at.isoformat() if job.completed_at else None,
+            'current_execution': {
+                'execution_id': execution.execution_id if execution else None,
+                'worker_node_id': execution.worker_node_id if execution else None,
+                'status': execution.status if execution else None,
+                'started_at': execution.started_at.isoformat() if execution and execution.started_at else None,
+                'duration_ms': self.calculate_duration(execution) if execution else None
+            } if execution else None,
+            'retry_count': job.retry_count,
+            'max_retries': job.max_retries
+        }
+        
+        # Cache for 1 minute
+        self.redis.setex(
+            f"job:{job_id}:status",
+            60,
+            json.dumps(status)
+        )
+        
+        return status
+```
+
+**Log Viewing Service:**
+```python
+class LogViewingService:
+    def get_job_logs(self, job_id, execution_id=None):
+        # Get execution logs
+        if execution_id:
+            execution = self.db.get_execution(execution_id)
+        else:
+            execution = self.db.get_current_execution(job_id)
+        
+        if not execution:
+            return None
+        
+        logs = {
+            'execution_id': execution.execution_id,
+            'stdout_log_url': execution.stdout_log_url,
+            'stderr_log_url': execution.stderr_log_url,
+            'log_stream_url': self.get_log_stream_url(execution.execution_id)
+        }
+        
+        return logs
+    
+    def stream_logs(self, execution_id, log_type='stdout'):
+        # Stream logs in real-time
+        log_url = self.get_log_url(execution_id, log_type)
+        
+        # For real-time streaming, use WebSocket or Server-Sent Events
+        # For large logs, stream from S3
+        return self.s3_client.get_object_stream(log_url)
+    
+    def search_logs(self, job_id, query, limit=100):
+        # Search logs using Elasticsearch or similar
+        # Index logs for searchability
+        results = self.elasticsearch.search(
+            index='job-logs',
+            body={
+                'query': {
+                    'bool': {
+                        'must': [
+                            {'match': {'job_id': job_id}},
+                            {'match': {'content': query}}
+                        ]
+                    }
+                }
+            },
+            size=limit
+        )
+        
+        return results
+```
 
 **API Design:**
 ```http
@@ -773,8 +1280,254 @@ GET /api/v1/jobs/{job_id}/logs?execution_id={execution_id}
 
 Response:
 {
+  "execution_id": "exec-uuid",
   "stdout_log_url": "https://s3.amazonaws.com/logs/job-uuid/stdout.log",
-  "stderr_log_url": "https://s3.amazonaws.com/logs/job-uuid/stderr.log"
+  "stderr_log_url": "https://s3.amazonaws.com/logs/job-uuid/stderr.log",
+  "log_stream_url": "wss://api.example.com/logs/exec-uuid/stream"
+}
+
+GET /api/v1/jobs/{job_id}/executions?limit=10&offset=0
+
+Response:
+{
+  "executions": [
+    {
+      "execution_id": "exec-uuid-1",
+      "status": "completed",
+      "started_at": "2025-11-03T10:00:05Z",
+      "completed_at": "2025-11-03T10:05:30Z",
+      "duration_ms": 325000,
+      "exit_code": 0,
+      "worker_node_id": "worker-123",
+      "logs": {
+        "stdout_log_url": "...",
+        "stderr_log_url": "..."
+      }
+    }
+  ],
+  "total": 100
+}
+```
+
+### SLA Monitoring and Violation Handling Service
+
+**Responsibilities:**
+1. Monitor job execution time against SLA
+2. Detect SLA violations
+3. Handle jobs that exceed expected execution time
+4. Track SLA compliance metrics
+5. Support configurable SLA policies
+
+**SLA Definition:**
+```python
+class SLADefinition:
+    def __init__(self, job_id, expected_execution_time_ms, max_execution_time_ms, sla_policy):
+        self.job_id = job_id
+        self.expected_execution_time_ms = expected_execution_time_ms  # Warning threshold
+        self.max_execution_time_ms = max_execution_time_ms  # Hard limit
+        self.sla_policy = sla_policy  # 'strict', 'flexible', 'warning_only'
+```
+
+**SLA Monitoring:**
+```python
+class SLAMonitoringService:
+    def monitor_running_jobs(self):
+        # Poll running jobs and check SLA
+        running_jobs = self.db.get_running_jobs()
+        
+        for job in running_jobs:
+            execution = self.db.get_current_execution(job.job_id)
+            if not execution:
+                continue
+            
+            # Calculate execution duration
+            duration_ms = (datetime.now() - execution.started_at).total_seconds() * 1000
+            
+            # Get SLA definition
+            sla = self.get_sla_definition(job.job_id)
+            
+            # Check SLA violations
+            if duration_ms > sla.expected_execution_time_ms:
+                self.handle_sla_warning(job, execution, duration_ms, sla)
+            
+            if duration_ms > sla.max_execution_time_ms:
+                self.handle_sla_violation(job, execution, duration_ms, sla)
+    
+    def handle_sla_warning(self, job, execution, duration_ms, sla):
+        # Log warning
+        self.db.create_sla_event(
+            job_id=job.job_id,
+            execution_id=execution.execution_id,
+            event_type='sla_warning',
+            expected_time_ms=sla.expected_execution_time_ms,
+            actual_time_ms=duration_ms,
+            timestamp=datetime.now()
+        )
+        
+        # Send alert if policy requires
+        if sla.sla_policy in ['strict', 'flexible']:
+            self.alerting.send_warning(
+                f"Job {job.job_id} is approaching SLA limit",
+                {
+                    'job_id': job.job_id,
+                    'expected_time_ms': sla.expected_execution_time_ms,
+                    'actual_time_ms': duration_ms,
+                    'overrun_ms': duration_ms - sla.expected_execution_time_ms
+                }
+            )
+    
+    def handle_sla_violation(self, job, execution, duration_ms, sla):
+        # Log violation
+        self.db.create_sla_event(
+            job_id=job.job_id,
+            execution_id=execution.execution_id,
+            event_type='sla_violation',
+            expected_time_ms=sla.max_execution_time_ms,
+            actual_time_ms=duration_ms,
+            timestamp=datetime.now()
+        )
+        
+        # Handle based on policy
+        if sla.sla_policy == 'strict':
+            # Kill the job
+            self.kill_job(job, execution, 'SLA violation: exceeded max execution time')
+        elif sla.sla_policy == 'flexible':
+            # Send critical alert, allow job to continue
+            self.alerting.send_critical_alert(
+                f"Job {job.job_id} has exceeded SLA",
+                {
+                    'job_id': job.job_id,
+                    'max_time_ms': sla.max_execution_time_ms,
+                    'actual_time_ms': duration_ms
+                }
+            )
+        else:  # warning_only
+            # Just log and alert
+            self.alerting.send_warning(
+                f"Job {job.job_id} has exceeded SLA (warning only)",
+                {'job_id': job.job_id, 'actual_time_ms': duration_ms}
+            )
+    
+    def kill_job(self, job, execution, reason):
+        # Kill the job process
+        self.executor.kill_execution(execution.execution_id)
+        
+        # Update execution status
+        self.db.update_execution(
+            execution.execution_id,
+            status='failed',
+            exit_code=-1,
+            error_message=reason,
+            completed_at=datetime.now()
+        )
+        
+        # Update job status
+        self.db.update_job(
+            job.job_id,
+            status='failed',
+            completed_at=datetime.now()
+        )
+        
+        # Release resources
+        allocation = self.db.get_allocation(execution.execution_id)
+        if allocation:
+            self.resource_manager.release(allocation)
+        
+        # Check if should retry
+        if execution.retry_count < job.max_retries:
+            self.schedule_retry(job, execution)
+```
+
+**SLA Policies:**
+
+1. **Strict Policy**
+   - Kill job when it exceeds max execution time
+   - Used for time-sensitive jobs
+   - Prevents resource hogging
+
+2. **Flexible Policy**
+   - Alert on SLA violation but allow job to continue
+   - Used for jobs that may legitimately take longer
+   - Monitor and decide manually
+
+3. **Warning Only Policy**
+   - Log and alert but take no action
+   - Used for informational purposes
+   - Track for capacity planning
+
+**SLA Compliance Tracking:**
+```python
+class SLAComplianceTracker:
+    def track_sla_compliance(self, job_id, execution_time_ms, expected_time_ms):
+        # Track SLA compliance metrics
+        compliance = {
+            'job_id': job_id,
+            'execution_time_ms': execution_time_ms,
+            'expected_time_ms': expected_time_ms,
+            'sla_met': execution_time_ms <= expected_time_ms,
+            'sla_violation_percentage': ((execution_time_ms - expected_time_ms) / expected_time_ms) * 100 if execution_time_ms > expected_time_ms else 0,
+            'timestamp': datetime.now()
+        }
+        
+        self.db.create_sla_compliance_record(compliance)
+        
+        # Update aggregated statistics
+        self.update_sla_statistics(job_id, compliance)
+    
+    def get_sla_compliance_report(self, job_id, start_date, end_date):
+        # Generate SLA compliance report
+        records = self.db.get_sla_compliance_records(job_id, start_date, end_date)
+        
+        total = len(records)
+        met = sum(1 for r in records if r['sla_met'])
+        violated = total - met
+        
+        return {
+            'job_id': job_id,
+            'period': {'start': start_date, 'end': end_date},
+            'total_executions': total,
+            'sla_met_count': met,
+            'sla_violated_count': violated,
+            'sla_compliance_rate': met / total if total > 0 else 0,
+            'avg_execution_time_ms': sum(r['execution_time_ms'] for r in records) / total if total > 0 else 0,
+            'avg_sla_violation_percentage': sum(r['sla_violation_percentage'] for r in records if r['sla_violation_percentage'] > 0) / violated if violated > 0 else 0
+        }
+```
+
+**SLA API Design:**
+```http
+GET /api/v1/jobs/{job_id}/sla-compliance?start_date=2025-11-01&end_date=2025-11-03
+
+Response:
+{
+  "job_id": "uuid-here",
+  "period": {
+    "start": "2025-11-01T00:00:00Z",
+    "end": "2025-11-03T23:59:59Z"
+  },
+  "total_executions": 100,
+  "sla_met_count": 95,
+  "sla_violated_count": 5,
+  "sla_compliance_rate": 0.95,
+  "avg_execution_time_ms": 325000,
+  "avg_sla_violation_percentage": 15.5
+}
+
+POST /api/v1/jobs/{job_id}/extend-sla
+Content-Type: application/json
+
+{
+  "new_max_execution_time_ms": 10800000,
+  "reason": "Job requires additional processing time",
+  "approved_by": "user123"
+}
+
+Response:
+{
+  "job_id": "uuid-here",
+  "old_max_execution_time_ms": 7200000,
+  "new_max_execution_time_ms": 10800000,
+  "extended_at": "2025-11-03T10:30:00Z"
 }
 ```
 
@@ -1266,27 +2019,71 @@ Response: 200 OK
 
 ## Conclusion
 
-Designing a distributed job scheduler for Robinhood requires balancing:
+Designing a distributed job scheduler system that supports defining and running jobs on a schedule requires addressing all six core requirements:
 
-1. **Scalability**: Handle millions of jobs
-2. **Reliability**: No job loss, high availability
-3. **Performance**: Low latency scheduling and execution
-4. **Efficiency**: Optimal resource utilization
-5. **Compliance**: Audit trails, data retention
+### 1. Creating Jobs ✅
+- REST API for job creation with comprehensive validation
+- Support for different job types (one-time, recurring, scheduled, cron-based)
+- Job dependencies and configuration management
+- All job definitions persisted with ACID guarantees
+
+### 2. Scheduling and Running Jobs ✅
+- Efficient scheduling algorithms (priority-based, resource-aware, fair share)
+- Resource allocation and worker node management
+- Support for different execution environments (Docker, Kubernetes, VMs)
+- Automatic job execution when resources are available
+
+### 3. Reporting Failures and Successes ✅
+- Comprehensive failure reporting with error classification
+- Success metrics tracking (execution time, resource usage, output size)
+- Failure/success rate aggregation per job, user, and team
+- Detailed error messages, stack traces, and failure analysis
+
+### 4. Reliability and Strong Guarantees ✅
+- **At-least-once execution**: Jobs execute at least once (with retries)
+- **Exactly-once semantics**: For idempotent jobs with idempotency keys
+- **No job loss guarantee**: All jobs persisted to database, never lost
+- **Guaranteed execution**: Scheduled jobs execute if resources available
+- **Atomic state transitions**: Job status changes are atomic and consistent
+- **Data durability**: All writes persisted with strong consistency
+
+### 5. Viewing Logs and Status ✅
+- Real-time job status tracking (queued, scheduled, running, completed, failed)
+- Execution logs (stdout, stderr) with real-time streaming
+- Historical job executions with full details
+- Log search and filtering capabilities
+- Comprehensive execution history and analytics
+
+### 6. Handling SLA Violations (Long-Running Jobs) ✅
+- SLA definition per job (expected time, max time)
+- Real-time SLA monitoring during execution
+- SLA violation detection and handling
+- Configurable SLA policies (strict, flexible, warning-only)
+- SLA compliance tracking and reporting
+- Automatic timeout and kill for jobs exceeding max execution time
 
 **Key Design Decisions:**
-- PostgreSQL for strong consistency
-- Kafka for async job processing
-- Redis for caching and real-time status
-- Kubernetes for container orchestration
-- S3 for log storage
+- PostgreSQL for strong consistency and ACID guarantees
+- Kafka for async job processing and event streaming
+- Redis for caching and real-time status updates
+- Kubernetes for container orchestration and resource management
+- S3 for durable log storage and archival
+- Elasticsearch for log search and analytics
 
 **Key Takeaways:**
-- Design for horizontal scaling from the start
-- Use message queues for async processing
-- Implement comprehensive monitoring and alerting
-- Plan for failures at every level
-- Consider fintech-specific requirements (compliance, security)
+- **Strong guarantees are critical**: Use transactions, idempotency keys, and durable storage
+- **Comprehensive monitoring**: Track everything - status, logs, SLA, failures, successes
+- **SLA handling is essential**: Monitor execution time, handle violations appropriately
+- **Design for horizontal scaling**: All components must scale independently
+- **Plan for failures**: Worker failures, network partitions, database failures
+- **Fintech-specific requirements**: Compliance, audit trails, security, data retention
 
-This system design demonstrates understanding of distributed systems, resource management, fault tolerance, and scalability—all critical for fintech applications like Robinhood.
+This system design demonstrates understanding of:
+- **Distributed systems**: Scalability, consistency, fault tolerance
+- **Resource management**: Allocation, scheduling, optimization
+- **Reliability engineering**: Strong guarantees, at-least-once/exactly-once semantics
+- **Observability**: Logging, monitoring, SLA tracking, failure reporting
+- **Fintech requirements**: Compliance, security, audit trails
+
+All critical for building production-grade job scheduler systems at fintech companies like Robinhood.
 
