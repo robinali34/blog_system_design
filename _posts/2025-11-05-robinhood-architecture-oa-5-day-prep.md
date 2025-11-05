@@ -74,8 +74,8 @@ This 5-day intensive preparation guide is designed for Robinhood's Architecture 
 - Fault tolerance and error handling
 
 **Resources:**
-- [Robinhood System Design Interview Guide](/blog_system_design/posts/robinhood-system-design-interview/)
-- [Robinhood Backend System Design Questions](/blog_system_design/posts/robinhood-backend-system-design-questions/)
+- [Robinhood System Design Interview Guide](/blog_system_design/2025/11/03/robinhood-system-design-interview/)
+- [Robinhood Backend System Design Questions](/blog_system_design/2025/11/03/robinhood-backend-system-design-questions/)
 - "Designing Data-Intensive Applications" - Chapter 11: Stream Processing
 
 ---
@@ -495,9 +495,9 @@ After mock OA, evaluate:
 
 ## Related Resources
 
-- **[Robinhood System Design Interview Guide](/blog_system_design/posts/robinhood-system-design-interview/)**: Comprehensive interview guide
-- **[Robinhood Backend System Design Questions](/blog_system_design/posts/robinhood-backend-system-design-questions/)**: Question bank
-- **[Design Distributed Job Scheduler - Robinhood](/blog_system_design/posts/design-distributed-job-scheduler-robinhood/)**: Example design
+- **[Robinhood System Design Interview Guide](/blog_system_design/2025/11/03/robinhood-system-design-interview/)**: Comprehensive interview guide
+- **[Robinhood Backend System Design Questions](/blog_system_design/2025/11/03/robinhood-backend-system-design-questions/)**: Question bank
+- **[Design Distributed Job Scheduler - Robinhood](/blog_system_design/2025/11/03/design-distributed-job-scheduler-robinhood/)**: Example design
 
 ---
 

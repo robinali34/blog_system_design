@@ -57,8 +57,8 @@ Meta typically conducts 4-5 rounds:
 - Synchronization primitives
 
 **Resources:**
-- **[OS Internals Study Guide](/blog_system_design/posts/os-internals-study-guide/)**: Comprehensive deep dive
-- **[What to Study for OS Internals](/blog_system_design/posts/what-to-study-os-internals/)**: Quick reference
+- **[OS Internals Study Guide](/blog_system_design/2025/11/04/os-internals-study-guide/)**: Comprehensive deep dive
+- **[What to Study for OS Internals](/blog_system_design/2025/11/04/what-to-study-os-internals/)**: Quick reference
 - "Operating System Concepts" by Silberschatz
 - Linux kernel documentation
 
@@ -81,7 +81,7 @@ Meta typically conducts 4-5 rounds:
 - Android Open Source Project (AOSP) documentation
 - Android source code on GitHub
 - "Learning Android" by Marko Gargenta
-- **[Meta OS Frameworks Interview Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Detailed checklist
+- **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Detailed checklist
 
 **Practice:**
 - Explain Binder IPC in detail
@@ -102,8 +102,8 @@ Meta typically conducts 4-5 rounds:
 - System-level optimization
 
 **Resources:**
-- **[What to Study for Performance Optimization](/blog_system_design/posts/what-to-study-performance-optimization/)**: Quick reference
-- **[Performance Optimization Skills Study Guide](/blog_system_design/posts/performance-optimization-skills-study-guide/)**: Comprehensive guide
+- **[What to Study for Performance Optimization](/blog_system_design/2025/11/05/what-to-study-performance-optimization/)**: Quick reference
+- **[Performance Optimization Skills Study Guide](/blog_system_design/2025/11/05/performance-optimization-skills-study-guide/)**: Comprehensive guide
 - "Systems Performance" by Brendan Gregg
 - Linux `perf` tool practice
 
@@ -122,7 +122,7 @@ Meta typically conducts 4-5 rounds:
 - Memory ordering and atomic operations
 
 **Resources:**
-- **[What to Study for Thread Safety](/blog_system_design/posts/what-to-study-thread-safety/)**: Quick reference
+- **[What to Study for Thread Safety](/blog_system_design/2025/11/05/what-to-study-thread-safety/)**: Quick reference
 - "The Art of Multiprocessor Programming" by Herlihy and Shavit
 - "C++ Concurrency in Action" by Williams
 
@@ -145,8 +145,8 @@ Meta typically conducts 4-5 rounds:
 - Event-driven architectures
 
 **Resources:**
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Complete guide
-- **[Meta OS Frameworks System Design](/blog_system_design/posts/meta-os-frameworks-system-design/)**: Meta-specific questions
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Complete guide
+- **[Meta OS Frameworks System Design](/blog_system_design/2025/11/03/meta-os-frameworks-system-design/)**: Meta-specific questions
 - Study real frameworks (Android, iOS, Linux)
 
 **Practice:**
@@ -164,8 +164,8 @@ Meta typically conducts 4-5 rounds:
 - Performance optimization for Meta's scale
 
 **Resources:**
-- **[Meta OS Frameworks Common Questions](/blog_system_design/posts/meta-os-frameworks-common-questions/)**: Question bank
-- **[Meta OS Frameworks Interview Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Comprehensive checklist
+- **[Meta OS Frameworks Common Questions](/blog_system_design/2025/11/03/meta-os-frameworks-common-questions/)**: Question bank
+- **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Comprehensive checklist
 - Meta engineering blog posts
 - AOSP source code analysis
 
@@ -187,7 +187,7 @@ Meta typically conducts 4-5 rounds:
 - Testing strategies
 
 **Resources:**
-- **[What to Study for Security Awareness](/blog_system_design/posts/what-to-study-security-awareness/)**: Quick reference
+- **[What to Study for Security Awareness](/blog_system_design/2025/11/05/what-to-study-security-awareness/)**: Quick reference
 - CERT Secure Coding Standards
 - Security best practices
 
@@ -554,14 +554,14 @@ Meta typically conducts 4-5 rounds:
 
 ## Related Resources
 
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Comprehensive interview guide
-- **[Meta OS Frameworks Interview Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Detailed checklist
-- **[Meta OS Frameworks Common Questions](/blog_system_design/posts/meta-os-frameworks-common-questions/)**: Question bank
-- **[Meta OS Frameworks System Design](/blog_system_design/posts/meta-os-frameworks-system-design/)**: Meta-specific design questions
-- **[OS Internals Study Guide](/blog_system_design/posts/os-internals-study-guide/)**: OS internals deep dive
-- **[What to Study for Performance Optimization](/blog_system_design/posts/what-to-study-performance-optimization/)**: Performance guide
-- **[What to Study for Thread Safety](/blog_system_design/posts/what-to-study-thread-safety/)**: Thread safety guide
-- **[What to Study for Security Awareness](/blog_system_design/posts/what-to-study-security-awareness/)**: Security guide
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Comprehensive interview guide
+- **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Detailed checklist
+- **[Meta OS Frameworks Common Questions](/blog_system_design/2025/11/03/meta-os-frameworks-common-questions/)**: Question bank
+- **[Meta OS Frameworks System Design](/blog_system_design/2025/11/03/meta-os-frameworks-system-design/)**: Meta-specific design questions
+- **[OS Internals Study Guide](/blog_system_design/2025/11/04/os-internals-study-guide/)**: OS internals deep dive
+- **[What to Study for Performance Optimization](/blog_system_design/2025/11/05/what-to-study-performance-optimization/)**: Performance guide
+- **[What to Study for Thread Safety](/blog_system_design/2025/11/05/what-to-study-thread-safety/)**: Thread safety guide
+- **[What to Study for Security Awareness](/blog_system_design/2025/11/05/what-to-study-security-awareness/)**: Security guide
 
 ---
 

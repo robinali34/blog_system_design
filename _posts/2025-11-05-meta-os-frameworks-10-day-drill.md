@@ -258,7 +258,7 @@ This 10-day intensive drill is designed for candidates preparing for Meta OS/Fra
 **Resources:**
 - "The Art of Multiprocessor Programming" by Herlihy and Shavit
 - "C++ Concurrency in Action" by Williams
-- [What to Study for Thread Safety](/blog_system_design/posts/what-to-study-thread-safety/)
+- [What to Study for Thread Safety](/blog_system_design/2025/11/05/what-to-study-thread-safety/)
 
 ---
 
@@ -384,7 +384,7 @@ This 10-day intensive drill is designed for candidates preparing for Meta OS/Fra
 - Resource management (memory, storage limits)
 
 **Resources:**
-- [OS Frameworks Design Interview Guide - Logging Example](/blog_system_design/posts/os-frameworks-design-interview-guide/)
+- [OS Frameworks Design Interview Guide - Logging Example](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)
 - SQLite documentation
 - Ring buffer implementations
 
@@ -696,12 +696,12 @@ After each mock interview, check:
 
 ## Related Resources
 
-- **[Meta OS Frameworks Preparation Guide](/blog_system_design/posts/meta-os-frameworks-preparation-guide/)**: Comprehensive 14-week guide
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Complete interview guide with examples
-- **[Meta OS Frameworks Interview Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Detailed preparation checklist
-- **[Meta OS Frameworks Common Questions](/blog_system_design/posts/meta-os-frameworks-common-questions/)**: Question bank
-- **[What to Study for Thread Safety](/blog_system_design/posts/what-to-study-thread-safety/)**: Thread safety guide
-- **[What to Study for Performance Optimization](/blog_system_design/posts/what-to-study-performance-optimization/)**: Performance guide
+- **[Meta OS Frameworks Preparation Guide](/blog_system_design/2025/11/05/meta-os-frameworks-preparation-guide/)**: Comprehensive 14-week guide
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Complete interview guide with examples
+- **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Detailed preparation checklist
+- **[Meta OS Frameworks Common Questions](/blog_system_design/2025/11/03/meta-os-frameworks-common-questions/)**: Question bank
+- **[What to Study for Thread Safety](/blog_system_design/2025/11/05/what-to-study-thread-safety/)**: Thread safety guide
+- **[What to Study for Performance Optimization](/blog_system_design/2025/11/05/what-to-study-performance-optimization/)**: Performance guide
 
 ---
 

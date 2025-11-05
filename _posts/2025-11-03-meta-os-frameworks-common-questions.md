@@ -10,7 +10,7 @@ excerpt: "A comprehensive list of common Meta OS Frameworks system design interv
 
 This post provides a comprehensive list of common interview questions for Meta's Software Engineer - OS Frameworks in-domain system design interview. Use this as a quick reference guide for interview preparation and practice.
 
-**Note**: These questions are organized by category. For detailed preparation strategies, see the [Meta OS Frameworks Interview Preparation Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/).
+**Note**: These questions are organized by category. For detailed preparation strategies, see the [Meta OS Frameworks Interview Preparation Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/).
 
 ## Common Meta OS Frameworks Design Questions
 
@@ -130,7 +130,7 @@ These questions focus on bridging between Java and native code, and kernel-level
 - Performance optimization
 - Thread safety considerations
 
-**See Also**: [Detailed JNI Bridge Design Guide](/blog_system_design/posts/design-jni-bridge-meta/)
+**See Also**: [Detailed JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)
 
 **Critical Topics:**
 - Reference management (local, global, weak)
@@ -536,9 +536,9 @@ For each question, practice:
 
 ## Related Resources
 
-- **[Meta OS Frameworks Interview Preparation Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Detailed preparation guide
-- **[Meta OS Frameworks System Design Guide](/blog_system_design/posts/meta-os-frameworks-system-design/)**: Comprehensive interview guide
-- **[JNI Bridge Design Guide](/blog_system_design/posts/design-jni-bridge-meta/)**: Detailed JNI bridge design walkthrough
+- **[Meta OS Frameworks Interview Preparation Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Detailed preparation guide
+- **[Meta OS Frameworks System Design Guide](/blog_system_design/2025/11/03/meta-os-frameworks-system-design/)**: Comprehensive interview guide
+- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)**: Detailed JNI bridge design walkthrough
 
 ---
 

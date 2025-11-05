@@ -10,7 +10,7 @@ excerpt: "A comprehensive list of common system design interview questions for R
 
 This post provides a comprehensive list of common system design interview questions for Robinhood's Senior Backend Software Engineer positions. These questions focus on backend systems, trading infrastructure, real-time data processing, and fintech-specific challenges that Robinhood faces at scale.
 
-**Note**: For detailed preparation strategies, see the [Robinhood System Design Interview Guide](/blog_system_design/posts/robinhood-system-design-interview/).
+**Note**: For detailed preparation strategies, see the [Robinhood System Design Interview Guide](/blog_system_design/2025/11/03/robinhood-system-design-interview/).
 
 ## Robinhood Backend System Design Interview Overview
 
@@ -334,7 +334,7 @@ These questions focus on general backend infrastructure and distributed systems.
 - Monitoring service
 - Audit logging
 
-**See Also**: [Detailed Job Scheduler Design](/blog_system_design/posts/design-distributed-job-scheduler-robinhood/)
+**See Also**: [Detailed Job Scheduler Design](/blog_system_design/2025/11/03/design-distributed-job-scheduler-robinhood/)
 
 #### 13. Design a Distributed Cache System
 
@@ -941,7 +941,7 @@ These questions appear frequently and test important backend concepts. **Practic
 - Database for job metadata
 - Monitoring service
 
-**See Also**: [Detailed Job Scheduler Design](/blog_system_design/posts/design-distributed-job-scheduler-robinhood/)
+**See Also**: [Detailed Job Scheduler Design](/blog_system_design/2025/11/03/design-distributed-job-scheduler-robinhood/)
 
 ---
 
@@ -1310,8 +1310,8 @@ For each question, practice:
 
 ## Related Resources
 
-- **[Robinhood System Design Interview Guide](/blog_system_design/posts/robinhood-system-design-interview/)**: Comprehensive interview guide
-- **[Distributed Job Scheduler Design](/blog_system_design/posts/design-distributed-job-scheduler-robinhood/)**: Detailed job scheduler walkthrough
+- **[Robinhood System Design Interview Guide](/blog_system_design/2025/11/03/robinhood-system-design-interview/)**: Comprehensive interview guide
+- **[Distributed Job Scheduler Design](/blog_system_design/2025/11/03/design-distributed-job-scheduler-robinhood/)**: Detailed job scheduler walkthrough
 
 ---
 

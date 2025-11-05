@@ -444,10 +444,10 @@ This post provides a focused, actionable answer to "What should I study for thre
 
 ## Related Resources
 
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Interview preparation guide
-- **[OS Internals Study Guide](/blog_system_design/posts/os-internals-study-guide/)**: OS internals deep dive
-- **[What to Study for OS Internals](/blog_system_design/posts/what-to-study-os-internals/)**: OS internals quick reference
-- **[What to Study for Performance Optimization](/blog_system_design/posts/what-to-study-performance-optimization/)**: Performance optimization guide
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Interview preparation guide
+- **[OS Internals Study Guide](/blog_system_design/2025/11/04/os-internals-study-guide/)**: OS internals deep dive
+- **[What to Study for OS Internals](/blog_system_design/2025/11/04/what-to-study-os-internals/)**: OS internals quick reference
+- **[What to Study for Performance Optimization](/blog_system_design/2025/11/05/what-to-study-performance-optimization/)**: Performance optimization guide
 
 ---
 

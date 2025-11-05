@@ -10,7 +10,7 @@ excerpt: "A comprehensive list of common Meta Senior Software Engineer system de
 
 This post provides a comprehensive list of common system design interview questions for Meta's Senior Software Engineer positions. These questions are based on extensive research, interview experiences, and Meta's actual products and systems.
 
-**Note**: For detailed preparation strategies, see the [Meta System Design Interview Guide](/blog_system_design/posts/meta-system-design-interview/).
+**Note**: For detailed preparation strategies, see the [Meta System Design Interview Guide](/blog_system_design/2025/11/03/meta-system-design-interview/).
 
 ## Meta System Design Interview Overview
 
@@ -733,9 +733,9 @@ Meta commonly uses:
 
 ## Related Resources
 
-- **[Meta System Design Interview Guide](/blog_system_design/posts/meta-system-design-interview/)**: Comprehensive interview guide
-- **[Meta SpecSWE System Design Guide](/blog_system_design/posts/meta-specswe-system-design/)**: Specialized roles guide
-- **[Meta In-Domain Design Guide](/blog_system_design/posts/meta-in-domain-design-interview/)**: Domain-specific design
+- **[Meta System Design Interview Guide](/blog_system_design/2025/11/03/meta-system-design-interview/)**: Comprehensive interview guide
+- **[Meta SpecSWE System Design Guide](/blog_system_design/2025/11/03/meta-specswe-system-design/)**: Specialized roles guide
+- **[Meta In-Domain Design Guide](/blog_system_design/2025/11/03/meta-in-domain-design-interview/)**: Domain-specific design
 
 ---
 

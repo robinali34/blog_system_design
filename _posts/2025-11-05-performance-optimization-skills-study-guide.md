@@ -574,9 +574,9 @@ OS Frameworks run on constrained devices where:
 
 ## Related Resources
 
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Comprehensive interview guide
-- **[OS Internals Study Guide](/blog_system_design/posts/os-internals-study-guide/)**: Deep dive into OS internals
-- **[What to Study for OS Internals](/blog_system_design/posts/what-to-study-os-internals/)**: Quick reference guide
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Comprehensive interview guide
+- **[OS Internals Study Guide](/blog_system_design/2025/11/04/os-internals-study-guide/)**: Deep dive into OS internals
+- **[What to Study for OS Internals](/blog_system_design/2025/11/04/what-to-study-os-internals/)**: Quick reference guide
 
 ---
 

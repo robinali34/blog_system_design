@@ -291,7 +291,7 @@ This 7-day preparation plan is specifically tailored for Meta OS/Frameworks inte
 
 **Resources:**
 - Android Binder documentation
-- [OS Frameworks Design Interview Guide - IPC Section](/blog_system_design/posts/os-frameworks-design-interview-guide/)
+- [OS Frameworks Design Interview Guide - IPC Section](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)
 
 ---
 
@@ -346,7 +346,7 @@ This 7-day preparation plan is specifically tailored for Meta OS/Frameworks inte
 - Deadlock prevention
 
 **Resources:**
-- [What to Study for Thread Safety](/blog_system_design/posts/what-to-study-thread-safety/)
+- [What to Study for Thread Safety](/blog_system_design/2025/11/05/what-to-study-thread-safety/)
 - "The Art of Multiprocessor Programming" by Herlihy and Shavit
 
 ---
@@ -402,7 +402,7 @@ This 7-day preparation plan is specifically tailored for Meta OS/Frameworks inte
 - Trade-offs: fairness vs throughput
 
 **Resources:**
-- [OS Internals Study Guide - Memory Management](/blog_system_design/posts/os-internals-study-guide/)
+- [OS Internals Study Guide - Memory Management](/blog_system_design/2025/11/04/os-internals-study-guide/)
 - Linux kernel memory management documentation
 
 ---
@@ -762,12 +762,12 @@ Use this template each day:
 
 ## Related Resources
 
-- **[Meta OS/Frameworks 10-Day Drill](/blog_system_design/posts/meta-os-frameworks-10-day-drill/)**: More intensive 10-day plan
-- **[Meta OS Frameworks Preparation Guide](/blog_system_design/posts/meta-os-frameworks-preparation-guide/)**: Comprehensive 14-week guide
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Complete interview guide with examples
-- **[Meta OS Frameworks Interview Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Detailed preparation checklist
-- **[What to Study for Thread Safety](/blog_system_design/posts/what-to-study-thread-safety/)**: Thread safety deep dive
-- **[What to Study for Performance Optimization](/blog_system_design/posts/what-to-study-performance-optimization/)**: Performance guide
+- **[Meta OS/Frameworks 10-Day Drill](/blog_system_design/2025/11/05/meta-os-frameworks-10-day-drill/)**: More intensive 10-day plan
+- **[Meta OS Frameworks Preparation Guide](/blog_system_design/2025/11/05/meta-os-frameworks-preparation-guide/)**: Comprehensive 14-week guide
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Complete interview guide with examples
+- **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Detailed preparation checklist
+- **[What to Study for Thread Safety](/blog_system_design/2025/11/05/what-to-study-thread-safety/)**: Thread safety deep dive
+- **[What to Study for Performance Optimization](/blog_system_design/2025/11/05/what-to-study-performance-optimization/)**: Performance guide
 
 ---
 

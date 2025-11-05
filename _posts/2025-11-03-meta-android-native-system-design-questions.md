@@ -761,9 +761,9 @@ For each question, practice:
 
 ## Related Resources
 
-- **[Meta OS Frameworks System Design](/blog_system_design/posts/meta-os-frameworks-system-design/)**: OS-level Android frameworks
-- **[JNI Bridge Design Guide](/blog_system_design/posts/design-jni-bridge-meta/)**: Detailed JNI bridge design
-- **[Meta Senior System Design Questions](/blog_system_design/posts/meta-senior-system-design-common-questions/)**: General system design questions
+- **[Meta OS Frameworks System Design](/blog_system_design/2025/11/03/meta-os-frameworks-system-design/)**: OS-level Android frameworks
+- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)**: Detailed JNI bridge design
+- **[Meta Senior System Design Questions](/blog_system_design/2025/11/03/meta-senior-system-design-common-questions/)**: General system design questions
 
 ---
 

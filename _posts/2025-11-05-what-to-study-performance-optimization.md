@@ -360,10 +360,10 @@ This post provides a focused, actionable answer to "What should I study for perf
 
 ## Related Resources
 
-- **[Performance Optimization Skills Study Guide](/blog_system_design/posts/performance-optimization-skills-study-guide/)**: Comprehensive deep dive
-- **[OS Frameworks Design Interview Guide](/blog_system_design/posts/os-frameworks-design-interview-guide/)**: Interview preparation guide
-- **[OS Internals Study Guide](/blog_system_design/posts/os-internals-study-guide/)**: OS internals deep dive
-- **[What to Study for OS Internals](/blog_system_design/posts/what-to-study-os-internals/)**: OS internals quick reference
+- **[Performance Optimization Skills Study Guide](/blog_system_design/2025/11/05/performance-optimization-skills-study-guide/)**: Comprehensive deep dive
+- **[OS Frameworks Design Interview Guide](/blog_system_design/2025/11/04/os-frameworks-design-interview-guide/)**: Interview preparation guide
+- **[OS Internals Study Guide](/blog_system_design/2025/11/04/os-internals-study-guide/)**: OS internals deep dive
+- **[What to Study for OS Internals](/blog_system_design/2025/11/04/what-to-study-os-internals/)**: OS internals quick reference
 
 ---
 

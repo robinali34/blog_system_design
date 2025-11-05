@@ -872,10 +872,10 @@ Overall, this design optimizes for constrained devices while supporting large-sc
 
 ## Related Resources
 
-- **[Local OS Framework System Design](/blog_system_design/posts/design-local-os-framework-system/)**: Detailed design walkthrough
-- **[Local OS Frameworks Design Questions](/blog_system_design/posts/local-os-frameworks-design-questions/)**: Question list
-- **[Meta OS Frameworks Interview Checklist](/blog_system_design/posts/meta-os-frameworks-interview-checklist/)**: Comprehensive preparation guide
-- **[JNI Bridge Design Guide](/blog_system_design/posts/design-jni-bridge-meta/)**: Native code integration
+- **[Local OS Framework System Design](/blog_system_design/2025/11/04/design-local-os-framework-system/)**: Detailed design walkthrough
+- **[Local OS Frameworks Design Questions](/blog_system_design/2025/11/04/local-os-frameworks-design-questions/)**: Question list
+- **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Comprehensive preparation guide
+- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)**: Native code integration
 
 ---
 
