@@ -30,14 +30,17 @@ The guide is designed to be practical and efficient, focusing on the most impact
 
 **Website:** [https://bytebytego.com/courses/system-design-interview](https://bytebytego.com/courses/system-design-interview)
 
+**Foreword:** [https://bytebytego.com/courses/system-design-interview/foreword](https://bytebytego.com/courses/system-design-interview/foreword)
+
 ByteByteGo provides a structured course on system design interviews. This platform offers:
 
-- Comprehensive system design interview preparation
-- Visual explanations of complex concepts
-- Real-world examples and case studies
-- Interactive learning materials
+- **Comprehensive Course Content**: Full system design interview preparation with structured learning paths
+- **Visual Explanations**: Complex concepts explained through clear diagrams and visualizations
+- **Real-World Examples**: Case studies from actual system designs at major tech companies
+- **Interactive Learning Materials**: Hands-on practice with interactive examples
+- **Foreword and Introduction**: The foreword provides an excellent introduction to the course, outlining the approach and what to expect
 
-The course is designed to help you understand both the theoretical concepts and practical applications of system design principles.
+The course is designed to help you understand both the theoretical concepts and practical applications of system design principles. The foreword section sets the foundation for the entire course, explaining the methodology and learning approach.
 
 ### 3. YouTube - System Design Interview
 
@@ -178,6 +181,50 @@ The repository is continually updated by the open-source community and covers to
 
 This book is particularly valuable for engineers who want to understand the underlying principles of distributed systems, databases, and data processing. It's not just for interview preparation—it's a foundational text that will make you a better systems engineer. Many consider it essential reading for anyone working on data-intensive systems.
 
+### 10. Awesome Scalability - Patterns of Large-Scale Systems
+
+**GitHub:** [https://github.com/binhnguyennus/awesome-scalability](https://github.com/binhnguyennus/awesome-scalability)
+
+Awesome Scalability is a curated GitHub repository with over 66k stars that provides an organized reading list for illustrating the patterns of scalable, reliable, and performant large-scale systems. This comprehensive resource includes:
+
+- **Concepts and Patterns**: Articles explaining scalability, reliability, and performance patterns from prominent engineers
+- **Case Studies**: Battle-tested systems that serve millions to billions of users, including:
+  - Real-world architectures from companies like Netflix, Uber, Facebook, LinkedIn, Pinterest, and many others
+  - Detailed breakdowns of how these systems handle scale
+  - Lessons learned from actual production systems
+- **Interview Resources**: System design interview notes and real-world architectures with completed diagrams
+- **Technology Talks**: Presentations from engineers at tech giants explaining how they build, scale, and optimize systems
+- **Organized Sections**: 
+  - Scalability patterns and solutions
+  - Reliability and availability strategies
+  - Performance optimization techniques
+  - Intelligence and machine learning at scale
+  - Interview preparation materials
+  - Team scaling and organization patterns
+
+**Key Features:**
+- **Real-World Focus**: All examples come from actual production systems
+- **Comprehensive Coverage**: Covers everything from basic scalability to advanced distributed systems
+- **Multiple Formats**: Includes articles, case studies, talks, and interview resources
+- **Community Maintained**: Regularly updated with new patterns and case studies
+- **Practical Patterns**: Focuses on actionable patterns you can apply to your own systems
+
+This repository is particularly valuable because it aggregates high-quality content from various sources, making it easy to find relevant information about specific scalability challenges and solutions. Whether you're dealing with slow systems, system failures, interview preparation, or team scaling, this resource provides targeted sections to address your needs.
+
+### 11. ShowOffer - System Design Interview Preparation
+
+**Website:** [https://www.showoffer.io/system-design](https://www.showoffer.io/system-design)
+
+ShowOffer provides system design interview preparation resources designed to help candidates succeed in technical interviews. The platform offers:
+
+- **Structured Learning Path**: A clear path for learning system design concepts from basics to advanced topics
+- **Interview Preparation**: Focused content for system design interviews at top tech companies
+- **Practice Problems**: System design problems with detailed solutions and explanations
+- **Concept Explanations**: Clear explanations of fundamental system design concepts
+- **Best Practices**: Interview strategies and best practices for system design interviews
+
+The platform is designed to help candidates build confidence in system design interviews by providing structured learning materials and practice opportunities. It's particularly useful for candidates who need a guided approach to mastering system design interview skills.
+
 ## How to Use These Resources
 
 ### For Interview Preparation
@@ -281,7 +328,7 @@ For a more in-depth discussion on these common mistakes from an interviewer's pe
 These resources provide a comprehensive foundation for learning system design and preparing for interviews. Each resource has its strengths:
 
 - **Hello Interview** for a structured, practical guide
-- **ByteByteGo Course** for interactive learning
+- **ByteByteGo Course** for interactive learning and foundational concepts
 - **YouTube** for visual explanations
 - **System Design Interview PDF** for in-depth coverage
 - **BugFree.ai** for curated practice problems and learning paths
@@ -289,6 +336,8 @@ These resources provide a comprehensive foundation for learning system design an
 - **1Point3Acres Collection** for community discussions and interview insights
 - **System Design Primer** for comprehensive open-source resource with real-world architectures
 - **Designing Data-Intensive Applications** for deep technical understanding of distributed systems and data architectures
+- **Awesome Scalability** for real-world patterns and case studies from production systems
+- **ShowOffer** for structured interview preparation and practice
 
 Combine these resources with hands-on practice, and you'll be well-prepared to tackle system design challenges both in interviews and in real-world scenarios.
 
