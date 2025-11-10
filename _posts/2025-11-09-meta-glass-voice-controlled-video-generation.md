@@ -236,65 +236,98 @@ Camera Hardware → Camera HAL → Camera Service → Media Framework → Storag
 
 ## System Architecture for New Feature
 
-### High-Level Flow
+### High-Level Flow (Hybrid Mode)
 
 ```
-User Voice Command
+User Voice Command (Meta Glass)
     ↓
-Voice Recognition (On-Device + Cloud)
+Voice Recognition (On-Device)
     ↓
-NLP Processing (Intent + Entity Extraction)
+NLP Processing (On-Device or Cloud)
     ↓
-Video Search (Metadata + Semantic Search)
+WiFi Direct Connection to Phone
     ↓
-Video Selection Algorithm
+Transfer Request to Phone App
     ↓
-Video Processing Pipeline
+Phone App: Video Search (Local + Cloud Metadata)
     ↓
-Final Video Generation
+Phone App: Fetch Videos/Images via WiFi Direct
     ↓
-Delivery to User
+Phone App: Video Selection Algorithm
+    ↓
+Phone App: Video Processing Pipeline (On-Phone)
+    ↓
+Phone App: Generate 2-minute Video
+    ↓
+Transfer Final Video to Meta Glass via WiFi Direct
+    ↓
+Display on Meta Glass
 ```
 
-### Component Architecture
+### Component Architecture (Hybrid Mode)
 
 ```
 ┌─────────────────────────────────────────┐
 │      Meta Glass Device (Local)          │
 │  ┌───────────────────────────────────┐ │
 │  │ Voice Capture & Wake Word          │ │
-│  │ On-Device NLU (Basic)              │ │
-│  │ Media Library Cache (Local)        │ │
+│  │ On-Device NLU                      │ │
+│  │ WiFi Direct Client                 │ │
+│  │ Media Display                       │ │
 │  └──────────────┬──────────────────────┘ │
 └─────────────────┼───────────────────────┘
-                  │ HTTPS/WSS
                   │
          ┌────────▼────────┐
-         │   API Gateway   │
-         │  (Load Balancer)│
-         │     (Cloud)      │
+         │  WiFi Direct   │
+         │  (P2P Connection)│
          └────────┬────────┘
                   │
-    ┌─────────────┼─────────────┐
-    │             │             │
-┌───▼───┐   ┌─────▼─────┐  ┌───▼───┐
-│ NLP   │   │  Video     │  │ Video │
-│Service│   │  Search    │  │Process│
-│(Cloud)│   │ (Cloud)    │  │(Cloud)│
-└───┬───┘   └─────┬─────┘  └───┬───┘
-    │             │             │
-┌───▼───┐   ┌─────▼─────┐  ┌───▼───┐
-│Intent │   │ Metadata  │  │Worker │
-│Extract│   │ Database  │  │Pool   │
-│(Cloud)│   │ (Cloud)   │  │(Cloud)│
-└───────┘   └─────┬─────┘  └───┬───┘
-                  │             │
-         ┌────────▼─────────────▼──┐
-         │  Blob Storage (S3)       │
-         │  (Remote Cloud Storage)  │
-         │  Video Files Storage     │
-         └─────────────────────────┘
+┌─────────────────▼───────────────────────┐
+│      Phone App (Local Processing)       │
+│  ┌───────────────────────────────────┐ │
+│  │ WiFi Direct Server                │ │
+│  │ Media Library Manager              │ │
+│  │ Video Search Engine                │ │
+│  │ Video Processing Engine            │ │
+│  │ (FFmpeg, GPU Acceleration)        │ │
+│  └──────────────┬──────────────────────┘ │
+└─────────────────┼───────────────────────┘
+                  │
+         ┌────────┴────────┐
+         │                 │
+    ┌────▼────┐      ┌─────▼─────┐
+    │  Phone  │      │   Cloud   │
+    │ Storage │      │  Services │
+    │ (Local) │      │ (Optional)│
+    └─────────┘      └───────────┘
+                           │
+                    ┌──────▼──────┐
+                    │  Metadata   │
+                    │  Database   │
+                    │  (Cloud)    │
+                    └─────────────┘
 ```
+
+### Hybrid Mode Architecture Details
+
+**Primary Path: Phone-Based Processing (WiFi Direct)**
+
+**Flow:**
+1. **Meta Glass** captures voice command
+2. **Meta Glass** processes intent locally or sends to cloud for NLP
+3. **Meta Glass** establishes WiFi Direct connection to phone
+4. **Phone App** receives request and searches local media library
+5. **Phone App** fetches videos/images from phone storage (or cloud if needed)
+6. **Phone App** processes videos locally (trimming, merging, effects)
+7. **Phone App** generates final 2-minute video on phone
+8. **Phone App** transfers final video to Meta Glass via WiFi Direct
+9. **Meta Glass** displays video
+
+**Fallback Path: Cloud Processing**
+
+- If WiFi Direct unavailable → Use cloud processing
+- If phone processing fails → Fallback to cloud
+- If videos not on phone → Fetch from cloud storage
 
 ### Storage Architecture: Local vs Remote
 
@@ -645,93 +678,165 @@ Entities:
 - **Entity Recognition**: spaCy, NER models
 - **Knowledge Graph**: Resolve relationships
 
-### 2. Video Search Service
+### 2. WiFi Direct Connection Service
 
-**Search Strategy:**
+**On Meta Glass (Client):**
 
-**1. Metadata Search:**
-- Location: GPS coordinates, location names
-- People: Face recognition IDs
-- Time: Date ranges
-- Duration: Video length
+**WiFi Direct Client:**
+- Discover phone devices
+- Connect to phone's WiFi Direct group
+- Maintain connection
+- Handle reconnection
 
-**2. Semantic Search:**
-- Vector embeddings of video content
-- Similarity search for "Paris trip"
-- Scene understanding
-- Object detection
-
-**Database Architecture:**
-
-**Metadata Database (Cassandra):**
-```sql
-CREATE TABLE video_metadata (
-    video_id UUID,
-    user_id UUID,
-    timestamp TIMESTAMP,
-    location_name TEXT,
-    gps_lat DOUBLE,
-    gps_lon DOUBLE,
-    detected_faces LIST<UUID>,
-    detected_objects LIST<TEXT>,
-    scene_tags LIST<TEXT>,
-    duration_seconds INT,
-    embedding_vector BLOB,
-    blob_url TEXT,
-    PRIMARY KEY (user_id, timestamp, video_id)
-);
-```
-
-**Search Index (Elasticsearch):**
-```json
-{
-  "mappings": {
-    "properties": {
-      "video_id": {"type": "keyword"},
-      "user_id": {"type": "keyword"},
-      "location_name": {"type": "text"},
-      "gps": {"type": "geo_point"},
-      "detected_faces": {"type": "keyword"},
-      "embedding_vector": {
-        "type": "dense_vector",
-        "dims": 768
-      }
+**Implementation:**
+```kotlin
+// Android WiFi Direct API
+class WiFiDirectClient {
+    fun discoverPeers() {
+        val manager = context.getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
+        manager.discoverPeers(channel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                // Peers discovered
+            }
+            override fun onFailure(reasonCode: Int) {
+                // Handle failure
+            }
+        })
     }
-  }
+    
+    fun connectToDevice(device: WifiP2pDevice) {
+        val config = WifiP2pConfig().apply {
+            deviceAddress = device.deviceAddress
+        }
+        manager.connect(channel, config, connectionListener)
+    }
 }
 ```
 
-**Search Query:**
-```python
-def search_videos(user_id, location, people, time_range):
-    # Build Elasticsearch query
-    query = {
-        "bool": {
-            "must": [
-                {"term": {"user_id": user_id}},
-                {"match": {"location_name": location}},
-                {"terms": {"detected_faces": people}},
-                {"range": {"timestamp": time_range}}
-            ]
-        }
-    }
-    
-    # Vector search for semantic similarity
-    vector_query = {
-        "script_score": {
-            "query": {"match_all": {}},
-            "script": {
-                "source": "cosineSimilarity(params.query_vector, 'embedding_vector') + 1.0",
-                "params": {"query_vector": generate_embedding("Paris trip")}
+**On Phone App (Server):**
+
+**WiFi Direct Server:**
+- Create WiFi Direct group
+- Accept connections from Meta Glass
+- Serve media files
+- Handle video generation requests
+
+**Implementation:**
+```kotlin
+class WiFiDirectServer {
+    fun createGroup() {
+        manager.createGroup(channel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                // Group created, phone is Group Owner
             }
-        }
+            override fun onFailure(reasonCode: Int) {
+                // Handle failure
+            }
+        })
     }
     
-    # Combine queries
-    return hybrid_search(query, vector_query)
+    fun startMediaServer() {
+        // Start HTTP server for media transfer
+        val server = NanoHTTPD(8080)
+        server.start()
+    }
+}
 ```
 
-### 3. Video Selection Algorithm
+### 3. Phone App: Video Search Service
+
+**Search Strategy (Hybrid):**
+
+**1. Local Search (Primary):**
+- Search phone's local media library
+- Use MediaStore API (Android)
+- Filter by location, date, people
+- Fast, no network required
+
+**2. Cloud Metadata Search (Optional):**
+- Query cloud metadata database for video locations
+- Download videos not on phone if needed
+- Sync metadata for better search
+
+**Phone App Implementation:**
+```kotlin
+class PhoneVideoSearch {
+    fun searchLocalVideos(query: VideoQuery): List<Video> {
+        // Search local MediaStore
+        val projection = arrayOf(
+            MediaStore.Video.Media._ID,
+            MediaStore.Video.Media.DATA,
+            MediaStore.Video.Media.DATE_TAKEN,
+            MediaStore.Video.Media.DURATION
+        )
+        
+        val selection = buildSelection(query)
+        val cursor = contentResolver.query(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            selection,
+            null,
+            null
+        )
+        
+        return cursor?.use { parseVideos(it) } ?: emptyList()
+    }
+    
+    fun searchCloudMetadata(query: VideoQuery): List<VideoMetadata> {
+        // Query cloud metadata database
+        // Return metadata for videos (including those not on phone)
+        return cloudService.searchMetadata(query)
+    }
+    
+    fun fetchVideoIfNeeded(metadata: VideoMetadata): File? {
+        // If video not on phone, download from cloud
+        if (!isVideoOnPhone(metadata.videoId)) {
+            return downloadFromCloud(metadata.blobUrl)
+        }
+        return getLocalVideoFile(metadata.videoId)
+    }
+}
+```
+
+**Local Metadata Storage (SQLite on Phone):**
+```sql
+CREATE TABLE local_video_metadata (
+    video_id TEXT PRIMARY KEY,
+    file_path TEXT,
+    timestamp INTEGER,
+    location_name TEXT,
+    gps_lat REAL,
+    gps_lon REAL,
+    detected_faces TEXT,  -- JSON array
+    duration_seconds INTEGER,
+    file_size INTEGER,
+    last_modified INTEGER
+);
+
+CREATE INDEX idx_location ON local_video_metadata(location_name);
+CREATE INDEX idx_timestamp ON local_video_metadata(timestamp);
+```
+
+**Search Query (Phone App):**
+```kotlin
+fun searchVideos(location: String, people: List<String>, timeRange: TimeRange): List<Video> {
+    // 1. Search local videos first
+    val localVideos = searchLocalVideos(location, people, timeRange)
+    
+    // 2. If not enough results, search cloud metadata
+    if (localVideos.size < MIN_RESULTS) {
+        val cloudMetadata = searchCloudMetadata(location, people, timeRange)
+        val cloudVideos = cloudMetadata.map { fetchVideoIfNeeded(it) }
+        return localVideos + cloudVideos.filterNotNull()
+    }
+    
+    return localVideos
+}
+```
+
+### 4. Phone App: Video Selection Algorithm
+
+**Location: Phone App (Local Processing)**
 
 **Selection Criteria:**
 
@@ -753,42 +858,55 @@ def search_videos(user_id, location, people, time_range):
 - Different activities
 - Temporal distribution
 
-**Selection Algorithm:**
-```python
-def select_clips(videos, target_duration=120):
-    # Score and rank videos
-    scored_videos = []
-    for video in videos:
-        score = (
-            relevance_score(video) * 0.5 +
-            quality_score(video) * 0.3 +
-            diversity_score(video, selected) * 0.2
-        )
-        scored_videos.append((video, score))
-    
-    # Sort by score
-    scored_videos.sort(key=lambda x: x[1], reverse=True)
-    
-    # Select clips to fill duration
-    selected = []
-    total_duration = 0
-    
-    for video, score in scored_videos:
-        # Extract best segment (e.g., 10-15 seconds)
-        segment = extract_best_segment(video, duration=12)
+**Selection Algorithm (Phone App):**
+```kotlin
+class VideoSelectionEngine {
+    fun selectClips(videos: List<Video>, targetDuration: Int = 120): List<VideoClip> {
+        // Score and rank videos
+        val scoredVideos = videos.map { video ->
+            val score = (
+                relevanceScore(video) * 0.5f +
+                qualityScore(video) * 0.3f +
+                diversityScore(video, selected) * 0.2f
+            )
+            Pair(video, score)
+        }.sortedByDescending { it.second }
         
-        if total_duration + segment.duration <= target_duration:
-            selected.append(segment)
-            total_duration += segment.duration
-        else:
-            # Fill remaining time
-            remaining = target_duration - total_duration
-            if remaining > 5:  # Minimum segment length
-                segment = extract_segment(video, duration=remaining)
-                selected.append(segment)
-            break
+        // Select clips to fill duration
+        val selected = mutableListOf<VideoClip>()
+        var totalDuration = 0
+        
+        for ((video, score) in scoredVideos) {
+            // Extract best segment (e.g., 10-15 seconds)
+            val segment = extractBestSegment(video, duration = 12)
+            
+            if (totalDuration + segment.duration <= targetDuration) {
+                selected.add(segment)
+                totalDuration += segment.duration
+            } else {
+                // Fill remaining time
+                val remaining = targetDuration - totalDuration
+                if (remaining > 5) {  // Minimum segment length
+                    val finalSegment = extractSegment(video, duration = remaining)
+                    selected.add(finalSegment)
+                }
+                break
+            }
+        }
+        
+        return selected
+    }
     
-    return selected
+    private fun extractBestSegment(video: Video, duration: Int): VideoClip {
+        // Analyze video for interesting moments
+        val sceneChanges = detectSceneChanges(video)
+        val keyFrames = identifyKeyFrames(video)
+        
+        // Extract segment around most interesting part
+        val bestStart = findBestStartTime(video, sceneChanges, keyFrames)
+        return VideoClip(video, bestStart, bestStart + duration)
+    }
+}
 ```
 
 **Best Segment Extraction:**
@@ -797,14 +915,17 @@ def select_clips(videos, target_duration=120):
 - Identify key frames
 - Extract segments around highlights
 
-### 4. Video Processing Pipeline
+### 5. Phone App: Video Processing Pipeline
+
+**Location: Phone App (Local Processing with GPU Acceleration)**
 
 **Processing Steps:**
 
 **1. Video Trimming:**
 - Extract selected segments from source videos
-- Precise frame-level trimming
+- Precise frame-level trimming using FFmpeg
 - Maintain audio sync
+- Use MediaCodec API for hardware acceleration
 
 **2. Transitions:**
 - Add smooth transitions between clips
@@ -830,35 +951,84 @@ def select_clips(videos, target_duration=120):
 - Final encoding (H.264/H.265)
 - Generate thumbnail
 
-**Processing Pipeline:**
-```python
-class VideoProcessor:
-    def process_video(self, clips, config):
-        # Step 1: Trim clips
-        trimmed_clips = []
-        for clip in clips:
-            trimmed = self.trim_video(clip.source, clip.start, clip.end)
-            trimmed_clips.append(trimmed)
+**Processing Pipeline (Phone App):**
+```kotlin
+class PhoneVideoProcessor {
+    private val ffmpeg = FFmpeg.getInstance(context)
+    
+    suspend fun processVideo(clips: List<VideoClip>, config: VideoConfig): File {
+        // Step 1: Trim clips
+        val trimmedClips = clips.map { clip ->
+            trimVideo(clip.source, clip.startTime, clip.endTime)
+        }
         
-        # Step 2: Add transitions
-        with_transitions = self.add_transitions(trimmed_clips)
+        // Step 2: Add transitions
+        val withTransitions = addTransitions(trimmedClips)
         
-        # Step 3: Enhance
-        enhanced = self.enhance_video(with_transitions)
+        // Step 3: Enhance
+        val enhanced = enhanceVideo(withTransitions)
         
-        # Step 4: Add music
-        with_music = self.add_music(enhanced, config.music_track)
+        // Step 4: Add music
+        val withMusic = addMusic(enhanced, config.musicTrack)
         
-        # Step 5: Final assembly
-        final_video = self.assemble_video(with_music)
+        // Step 5: Final assembly
+        val finalVideo = assembleVideo(withMusic)
         
-        return final_video
+        return finalVideo
+    }
+    
+    private suspend fun trimVideo(
+        source: File, 
+        start: Long, 
+        end: Long
+    ): File {
+        // Use FFmpeg or MediaCodec for trimming
+        val output = File(context.cacheDir, "trimmed_${System.currentTimeMillis()}.mp4")
+        
+        val command = arrayOf(
+            "-i", source.absolutePath,
+            "-ss", start.toString(),
+            "-t", (end - start).toString(),
+            "-c", "copy",  // Fast copy mode
+            output.absolutePath
+        )
+        
+        ffmpeg.execute(command)
+        return output
+    }
+    
+    private suspend fun assembleVideo(clips: List<File>): File {
+        // Create concat file for FFmpeg
+        val concatFile = createConcatFile(clips)
+        val output = File(context.getExternalFilesDir(null), "final_video.mp4")
+        
+        val command = arrayOf(
+            "-f", "concat",
+            "-safe", "0",
+            "-i", concatFile.absolutePath,
+            "-c", "copy",
+            output.absolutePath
+        )
+        
+        ffmpeg.execute(command)
+        return output
+    }
+}
 ```
 
-**Technology:**
-- **FFmpeg**: Video processing
-- **GPU Acceleration**: NVENC, VideoToolbox
-- **ML Models**: Scene detection, quality assessment
+**Technology (Phone App):**
+- **FFmpeg Mobile**: FFmpeg for Android/iOS
+- **MediaCodec API**: Hardware-accelerated encoding/decoding (Android)
+- **VideoToolbox**: Hardware acceleration (iOS)
+- **GPU Acceleration**: Use device GPU for processing
+- **ML Kit**: On-device ML for scene detection (optional)
+
+**Performance Optimization:**
+- **Hardware Acceleration**: Use MediaCodec/VideoToolbox
+- **Parallel Processing**: Process multiple clips in parallel
+- **Background Threading**: Use coroutines/async tasks
+- **Memory Management**: Stream processing for large videos
+- **Battery Optimization**: Throttle processing to save battery
 
 ### 5. Caching and Optimization
 
@@ -891,46 +1061,56 @@ TTL: 1 hour
 - **Progressive Loading**: Return partial results quickly
 - **Parallel Processing**: Process multiple segments in parallel
 
-### 6. Delivery Service
+### 6. Phone App: Video Delivery Service
 
-**Delivery Options:**
+**Delivery Flow (Hybrid Mode):**
 
-**1. Real-Time Generation:**
-- Generate video on-demand
-- Return URL when ready
-- 2-5 second latency
-
-**2. Background Generation:**
-- Queue video generation
-- Notify user when ready
-- Better for complex videos
-
-**3. Pre-Generation:**
-- Generate common memories proactively
-- Instant delivery
-- Higher storage cost
-
-**Delivery Flow:**
+**1. WiFi Direct Transfer (Primary):**
 ```
-Video Generated → Upload to Blob Storage → 
-Generate Thumbnail → Update Metadata → 
-Return URL to User → Push Notification (if background)
+Video Generated on Phone → Transfer via WiFi Direct → Meta Glass
+↓
+Display on Meta Glass immediately
+↓
+No cloud upload needed (local only)
+```
+
+**2. Cloud Sync (Optional):**
+```
+Video Generated on Phone → Upload to Cloud (background) → 
+Available on other devices
+```
+
+**Phone App Implementation:**
+```kotlin
+class VideoDeliveryService {
+    suspend fun deliverVideo(video: File, toMetaGlass: Boolean) {
+        if (toMetaGlass) {
+            // Transfer via WiFi Direct
+            wifiDirectService.sendFile(video, metaGlassAddress)
+        }
+        
+        // Optionally sync to cloud in background
+        lifecycleScope.launch {
+            cloudService.uploadVideo(video)
+        }
+    }
+}
 ```
 
 ---
 
-## Data Flow: Complete Example
+## Data Flow: Complete Example (Hybrid Mode)
 
 ### Scenario: "Create a 2-minute video of me and my wife's trip in Paris"
 
-**Step 1: Voice Capture (On-Device)**
+**Step 1: Voice Capture (Meta Glass)**
 ```
 User: "Hey Meta, create a 2-minute video of me and my wife's trip in Paris"
 ↓
-Wake word detected → Voice capture → Send to cloud
+Wake word detected → Voice capture → On-device NLU or Cloud NLP
 ```
 
-**Step 2: NLP Processing (Cloud)**
+**Step 2: NLP Processing (Meta Glass or Cloud)**
 ```
 Speech-to-Text: "create a 2-minute video of me and my wife's trip in Paris"
 ↓
@@ -938,29 +1118,49 @@ Intent Recognition: CREATE_MEMORY_VIDEO
 ↓
 Entity Extraction:
   - Duration: 120 seconds
-  - People: [user_id, wife_person_id]
+  - People: ["me", "wife"]
   - Location: "Paris"
   - Time: (infer from recent trip dates)
+↓
+Map "wife" → person_id (from user profile)
 ```
 
-**Step 3: Video Search (Cloud)**
+**Step 3: WiFi Direct Connection (Meta Glass → Phone)**
 ```
-Query Metadata DB:
-  - user_id = current_user
-  - location_name = "Paris" OR gps within Paris bounds
-  - detected_faces CONTAINS [user_id, wife_person_id]
-  - timestamp IN [trip_start_date, trip_end_date]
+Meta Glass discovers phone via WiFi Direct
 ↓
-Semantic Search:
-  - Vector similarity search for "Paris trip"
-  - Combine with metadata results
+Establish P2P connection
 ↓
-Return: 50 candidate videos
+Send video generation request to phone app
+↓
+Request: {
+  intent: "CREATE_MEMORY_VIDEO",
+  duration: 120,
+  location: "Paris",
+  people: [user_id, wife_person_id],
+  timeRange: [trip_start, trip_end]
+}
 ```
 
-**Step 4: Video Selection (Cloud)**
+**Step 4: Video Search (Phone App)**
 ```
-Score videos:
+Phone App receives request
+↓
+Search Local Media Library:
+  - Query MediaStore for videos in Paris
+  - Filter by date range (trip dates)
+  - Filter by detected faces (user + wife)
+↓
+If not enough local videos:
+  - Query cloud metadata database
+  - Download missing videos from cloud
+↓
+Return: 50 candidate videos (local + cloud)
+```
+
+**Step 5: Video Selection (Phone App)**
+```
+Phone App: Score videos:
   - Relevance: Location, people, time match
   - Quality: Resolution, stability, lighting
   - Diversity: Different scenes, times
@@ -972,69 +1172,161 @@ Extract best segments (10-15 seconds each)
 Total duration: ~120 seconds
 ```
 
-**Step 5: Video Processing (Cloud)**
+**Step 6: Video Processing (Phone App)**
 ```
-Trim selected segments
+Phone App: Trim selected segments
+  - Use FFmpeg or MediaCodec (hardware accelerated)
 ↓
-Add transitions between clips
+Phone App: Add transitions between clips
 ↓
-Enhance video (color, stabilization)
+Phone App: Enhance video (color, stabilization)
 ↓
-Add background music
+Phone App: Add background music
 ↓
-Assemble final video
+Phone App: Assemble final video
 ↓
-Encode to H.264 (1080p)
-```
-
-**Step 6: Delivery (Cloud → Device)**
-```
-Upload video to blob storage
+Phone App: Encode to H.264 (1080p)
 ↓
-Generate thumbnail
-↓
-Update metadata
-↓
-Return video URL to device
-↓
-Display in Meta Glass UI
+Generated video stored on phone
 ```
 
-**Total Time: 2-5 seconds**
+**Step 7: Video Delivery (Phone → Meta Glass via WiFi Direct)**
+```
+Phone App: Transfer final video to Meta Glass
+  - Via WiFi Direct (fast local transfer)
+  - No internet required
+↓
+Meta Glass: Receive video
+↓
+Meta Glass: Display video in UI
+↓
+Optional: Phone App uploads to cloud in background
+```
+
+**Total Time: 2-5 seconds (processing on phone, transfer via WiFi Direct)**
+
+---
+
+## Benefits of Hybrid Mode (Phone Processing + WiFi Direct)
+
+### Advantages of Phone-Based Processing
+
+**1. Privacy**
+- ✅ Videos processed locally on phone
+- ✅ No video data sent to cloud (unless user chooses)
+- ✅ User has full control over data
+- ✅ Meets privacy regulations (GDPR, etc.)
+
+**2. Performance**
+- ✅ Faster processing (no network latency)
+- ✅ WiFi Direct transfer is very fast (1+ Gbps)
+- ✅ Lower latency than cloud processing
+- ✅ No dependency on internet connection
+
+**3. Cost**
+- ✅ No cloud processing costs
+- ✅ No data transfer charges
+- ✅ Reduced cloud storage usage
+- ✅ Lower infrastructure costs
+
+**4. Reliability**
+- ✅ Works offline (no internet needed)
+- ✅ No cloud service dependencies
+- ✅ More reliable for local processing
+- ✅ Better user experience
+
+**5. Scalability**
+- ✅ Processing distributed across user devices
+- ✅ No cloud processing bottleneck
+- ✅ Scales naturally with user base
+- ✅ Reduced cloud infrastructure needs
+
+### When Cloud Processing is Used (Fallback)
+
+**Fallback Scenarios:**
+- WiFi Direct unavailable (devices too far apart)
+- Phone processing fails (insufficient resources)
+- Videos not on phone (need to fetch from cloud)
+- Complex processing requiring cloud ML models
+- User preference for cloud processing
+
+**Hybrid Strategy:**
+```
+Try Phone Processing First (WiFi Direct)
+    ↓ (if fails or unavailable)
+Fallback to Cloud Processing
+    ↓
+Sync result back to phone/Meta Glass
+```
 
 ---
 
 ## Performance Optimization
 
-### Latency Optimization
+### Phone Processing Optimization
 
-**1. Parallel Processing:**
-- Search videos in parallel
-- Process video segments in parallel
-- Use GPU acceleration
+**1. Hardware Acceleration:**
+- Use MediaCodec API (Android) for hardware encoding/decoding
+- Use VideoToolbox (iOS) for hardware acceleration
+- GPU acceleration for video processing
+- NPU acceleration for ML inference (if available)
 
-**2. Caching:**
+**2. Parallel Processing:**
+- Process multiple video segments in parallel
+- Use coroutines/async tasks for concurrent operations
+- Background threading to avoid blocking UI
+
+**3. Memory Management:**
+- Stream processing for large videos
+- Reuse buffers to reduce allocations
+- Clear temporary files after processing
+- Monitor memory usage
+
+**4. Battery Optimization:**
+- Throttle processing when battery is low
+- Process during charging when possible
+- Optimize CPU/GPU usage
+- Background processing with low priority
+
+**5. Caching:**
+- Cache processed videos on phone
 - Cache search results
-- Cache processed videos
-- Pre-compute common queries
+- Cache metadata locally
+- Avoid reprocessing same videos
 
-**3. Incremental Processing:**
-- Start processing while searching
-- Stream results as available
-- Progressive enhancement
+### WiFi Direct Optimization
 
-### Scalability
+**1. Connection Management:**
+- Maintain persistent connection
+- Auto-reconnect on disconnect
+- Connection pooling
+- Efficient discovery
 
-**Horizontal Scaling:**
-- **NLP Service**: Scale based on voice requests
-- **Search Service**: Multiple Elasticsearch nodes
-- **Video Processing**: Worker pool with auto-scaling
-- **Storage**: Distributed blob storage
+**2. Transfer Optimization:**
+- Chunked file transfer
+- Compression for transfer
+- Resume interrupted transfers
+- Parallel transfers for multiple files
 
-**Load Balancing:**
-- API Gateway distributes requests
-- Worker pool for video processing
-- CDN for video delivery
+**3. Bandwidth Management:**
+- Prioritize video transfer
+- Throttle during active use
+- Background transfer when idle
+- Adaptive quality based on connection
+
+### Scalability (Hybrid Mode)
+
+**Distributed Processing:**
+- Processing distributed across user phones
+- No central processing bottleneck
+- Scales naturally with user base
+- Reduced cloud infrastructure
+
+**Cloud Fallback:**
+- Cloud processing for complex cases
+- Auto-scale cloud workers when needed
+- Load balancing for cloud services
+- CDN for video delivery (when using cloud)
 
 ---
 
@@ -1103,34 +1395,33 @@ Display in Meta Glass UI
 
 ---
 
-## Technology Stack
+## Technology Stack (Hybrid Mode)
 
-| Component | Technology | Rationale |
-|-----------|-----------|-----------|
-| **Voice Recognition** | Whisper, Google Speech-to-Text | High accuracy |
-| **NLP** | BERT, GPT models | Natural language understanding |
-| **Metadata DB** | Cassandra | High write throughput |
-| **Search** | Elasticsearch | Full-text + vector search |
-| **Video Processing** | FFmpeg + GPU | Industry standard |
-| **Blob Storage** | S3/Azure Blob | Scalable object storage |
-| **Cache** | Redis | Fast in-memory caching |
-| **Queue** | Kafka | Video processing queue |
-| **CDN** | CloudFront/Azure CDN | Global video delivery |
+| Component | Technology | Location | Rationale |
+|-----------|-----------|----------|-----------|
+| **Voice Recognition** | On-Device ML, Whisper | Meta Glass/Phone | Low latency, privacy |
+| **NLP** | On-Device NLU, Cloud BERT/GPT | Meta Glass/Cloud | Hybrid processing |
+| **WiFi Direct** | Android WiFi P2P API | Phone ↔ Meta Glass | Fast local transfer |
+| **Video Search** | MediaStore API, SQLite | Phone (Local) | Fast local search |
+| **Metadata DB** | SQLite (Phone), Cassandra (Cloud) | Phone/Cloud | Local + cloud hybrid |
+| **Video Processing** | FFmpeg Mobile, MediaCodec | Phone | Hardware acceleration |
+| **Storage** | Phone Storage, S3 (Optional) | Phone/Cloud | Local primary, cloud backup |
+| **Cache** | In-Memory Cache (Phone) | Phone | Fast local caching |
 
 ---
 
 ## Future Enhancements
 
 1. **Real-Time Preview**
-   - Show preview while generating
+   - Show preview while generating on phone
    - Allow user to adjust selection
    - Interactive editing
 
 2. **Advanced AI Features**
-   - Automatic music selection
+   - On-device ML for scene detection
+   - Automatic music selection (on phone)
    - Story generation
    - Emotion detection
-   - Automatic captions
 
 3. **AR Integration**
    - Preview video in AR overlay
@@ -1138,34 +1429,47 @@ Display in Meta Glass UI
    - Collaborative editing
 
 4. **Personalization**
-   - Learn user preferences
+   - Learn user preferences (on device)
    - Custom video styles
    - Personalized music selection
+
+5. **Offline Mode**
+   - Full functionality without internet
+   - Sync when online
+   - Background sync
 
 ---
 
 ## Conclusion
 
-This system design enables Meta Glass users to generate personalized memory videos through natural language voice commands. The architecture leverages:
+This hybrid mode system design enables Meta Glass users to generate personalized memory videos through natural language voice commands, with processing primarily happening on the user's phone via WiFi Direct connection.
+
+**Key Architecture Decisions:**
+
+1. **Hybrid Processing**: Phone-based processing (primary) + Cloud fallback
+2. **WiFi Direct**: Fast local transfer between phone and Meta Glass
+3. **Local-First**: Process videos on phone for privacy and performance
+4. **Cloud Optional**: Use cloud only when needed (fallback, sync)
 
 **Key Components:**
 1. **Voice Recognition**: On-device + cloud NLP
-2. **Video Search**: Metadata + semantic search
-3. **Video Selection**: Intelligent algorithm for best clips
-4. **Video Processing**: Automated editing and enhancement
-5. **Delivery**: Fast, cached delivery
-
-**Key Design Decisions:**
-- **Hybrid Processing**: On-device for speed, cloud for power
-- **Caching**: Multi-layer caching for performance
-- **Parallel Processing**: GPU acceleration and parallel workers
-- **Scalable Architecture**: Horizontal scaling for all components
+2. **WiFi Direct**: P2P connection between devices
+3. **Phone App**: Video search, selection, and processing
+4. **Local Processing**: FFmpeg + hardware acceleration on phone
+5. **Delivery**: WiFi Direct transfer to Meta Glass
 
 **Benefits:**
-- **User Experience**: Simple voice command, fast results
-- **Quality**: AI-powered selection and enhancement
-- **Scalability**: Handles millions of users
-- **Privacy**: Secure processing with user control
+- **Privacy**: Videos processed locally, no cloud upload required
+- **Performance**: Faster processing (no network latency)
+- **Cost**: Reduced cloud infrastructure costs
+- **Reliability**: Works offline, no internet dependency
+- **Scalability**: Distributed processing across user devices
 
-The system transforms the way users interact with their memories, making it effortless to create beautiful, personalized video content from their life experiences.
+**Trade-offs:**
+- **Phone Resources**: Uses phone CPU/GPU/battery
+- **Device Dependency**: Requires phone nearby
+- **Storage**: Uses phone storage
+- **Complexity**: More complex than pure cloud solution
+
+The hybrid approach provides the best balance of privacy, performance, and user experience while maintaining the flexibility to fall back to cloud processing when needed.
 
