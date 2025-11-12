@@ -10,9 +10,28 @@ permalink: /posts/
   </header>
 
   {%- if site.posts.size > 0 -%}
-    <ul class="post-list">
+    <!-- Category Filter Menu -->
+    <div class="category-filter-section">
+      <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search posts by title or category...">
+      </div>
+      
+      <div class="category-filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        {%- assign all_categories = site.posts | map: 'categories' | flatten | uniq | sort -%}
+        {%- for category in all_categories -%}
+          <button class="filter-btn" data-category="{{ category | downcase }}">{{ category }}</button>
+        {%- endfor -%}
+      </div>
+      
+      <div class="search-results-info" id="results-info"></div>
+    </div>
+
+    <ul class="post-list" id="post-list">
       {%- for post in site.posts -%}
-      <li>
+      <li class="post-item" 
+          data-categories="{%- if post.categories -%}{%- for category in post.categories -%}{{ category | downcase }} {%- endfor -%}{%- endif -%}"
+          data-title="{{ post.title | downcase }}">
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         <span class="post-meta">{{ post.date | date: date_format }}</span>
         <h3>
@@ -21,12 +40,12 @@ permalink: /posts/
           </a>
         </h3>
         {%- if post.excerpt -%}
-          {{ post.excerpt }}
+          <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</div>
         {%- endif -%}
         {%- if post.categories -%}
           <div class="post-categories">
             {%- for category in post.categories -%}
-              <span class="category-tag">{{ category }}</span>
+              <span class="category-tag" data-category="{{ category | downcase }}">{{ category }}</span>
             {%- endfor -%}
           </div>
         {%- endif -%}
@@ -35,4 +54,66 @@ permalink: /posts/
     </ul>
   {%- endif -%}
 </div>
+
+<script>
+(function() {
+  const searchInput = document.getElementById('search-input');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const postItems = document.querySelectorAll('.post-item');
+  const resultsInfo = document.getElementById('results-info');
+  
+  let currentCategory = 'all';
+  let currentSearch = '';
+  
+  function filterPosts() {
+    let visibleCount = 0;
+    
+    postItems.forEach(item => {
+      const categories = item.getAttribute('data-categories') || '';
+      const title = item.getAttribute('data-title') || '';
+      
+      const matchesCategory = currentCategory === 'all' || categories.includes(currentCategory);
+      const matchesSearch = currentSearch === '' || 
+                           title.includes(currentSearch.toLowerCase()) ||
+                           categories.includes(currentSearch.toLowerCase());
+      
+      if (matchesCategory && matchesSearch) {
+        item.style.display = 'block';
+        visibleCount++;
+      } else {
+        item.style.display = 'none';
+      }
+    });
+    
+    // Update results info
+    if (currentCategory !== 'all' || currentSearch !== '') {
+      resultsInfo.textContent = `Showing ${visibleCount} of ${postItems.length} posts`;
+      resultsInfo.style.display = 'block';
+    } else {
+      resultsInfo.style.display = 'none';
+    }
+  }
+  
+  // Category filter buttons
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentCategory = this.getAttribute('data-category');
+      filterPosts();
+    });
+  });
+  
+  // Search input
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      currentSearch = this.value.trim();
+      filterPosts();
+    });
+  }
+  
+  // Initialize
+  filterPosts();
+})();
+</script>
 

@@ -14,11 +14,30 @@ layout: default
   </section>
 
   {%- if site.posts.size > 0 -%}
+    <!-- Category Filter Menu -->
+    <div class="category-filter-section">
+      <div class="search-container">
+        <input type="text" id="search-input" class="search-input" placeholder="Search posts by title or category...">
+      </div>
+      
+      <div class="category-filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        {%- assign all_categories = site.posts | map: 'categories' | flatten | uniq | sort -%}
+        {%- for category in all_categories -%}
+          <button class="filter-btn" data-category="{{ category | downcase }}">{{ category }}</button>
+        {%- endfor -%}
+      </div>
+      
+      <div class="search-results-info" id="results-info"></div>
+    </div>
+
     <section class="latest-posts">
       <h2>Latest Posts</h2>
-      <div class="post-grid">
-        {%- for post in site.posts limit:6 -%}
-        <article class="post-card">
+      <div class="post-grid" id="post-grid">
+        {%- for post in site.posts -%}
+        <article class="post-card" 
+                 data-categories="{%- if post.categories -%}{%- for category in post.categories -%}{{ category | downcase }} {%- endfor -%}{%- endif -%}"
+                 data-title="{{ post.title | downcase }}">
           {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
           <div class="post-meta">{{ post.date | date: date_format }}</div>
           <h3 class="post-title">
@@ -32,7 +51,7 @@ layout: default
           {%- if post.categories -%}
             <div class="post-categories">
               {%- for category in post.categories -%}
-                <span class="category-tag">{{ category }}</span>
+                <span class="category-tag" data-category="{{ category | downcase }}">{{ category }}</span>
               {%- endfor -%}
             </div>
           {%- endif -%}
@@ -46,6 +65,76 @@ layout: default
       {%- endif -%}
     </section>
   {%- endif -%}
+
+<script>
+(function() {
+  const searchInput = document.getElementById('search-input');
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const postCards = document.querySelectorAll('.post-card');
+  const resultsInfo = document.getElementById('results-info');
+  
+  let currentCategory = 'all';
+  let currentSearch = '';
+  
+  function filterPosts() {
+    let visibleCount = 0;
+    
+    postCards.forEach(card => {
+      const categories = card.getAttribute('data-categories') || '';
+      const title = card.getAttribute('data-title') || '';
+      
+      const matchesCategory = currentCategory === 'all' || categories.includes(currentCategory);
+      const matchesSearch = currentSearch === '' || 
+                           title.includes(currentSearch.toLowerCase()) ||
+                           categories.includes(currentSearch.toLowerCase());
+      
+      if (matchesCategory && matchesSearch) {
+        card.style.display = 'block';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+    
+    // Update results info
+    if (currentCategory !== 'all' || currentSearch !== '') {
+      if (resultsInfo) {
+        resultsInfo.textContent = `Showing ${visibleCount} of ${postCards.length} posts`;
+        resultsInfo.style.display = 'block';
+      }
+    } else {
+      if (resultsInfo) {
+        resultsInfo.style.display = 'none';
+      }
+    }
+  }
+  
+  // Category filter buttons
+  if (filterButtons.length > 0) {
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        currentCategory = this.getAttribute('data-category');
+        filterPosts();
+      });
+    });
+  }
+  
+  // Search input
+  if (searchInput) {
+    searchInput.addEventListener('input', function() {
+      currentSearch = this.value.trim();
+      filterPosts();
+    });
+  }
+  
+  // Initialize
+  if (postCards.length > 0) {
+    filterPosts();
+  }
+})();
+</script>
 
   {%- if paginator and paginator.posts -%}
     <section class="all-posts">
