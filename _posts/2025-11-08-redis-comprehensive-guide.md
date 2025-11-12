@@ -846,9 +846,9 @@ SUBSCRIBE notifications
 
 ### 6. Job Queues
 
-**Pattern:** Background job processing.
+**Pattern:** Background job processing with reliable delivery and visibility timeout.
 
-**Implementation:**
+**Basic Implementation:**
 ```redis
 # Producer
 LPUSH jobs "job_data"
@@ -862,6 +862,331 @@ process_job(job)
 - Asynchronous processing
 - Simple implementation
 - Reliable delivery
+
+#### Task Queue with Visibility Feature
+
+**What is Visibility Timeout?**
+- When a worker receives a task, it becomes "invisible" to other workers
+- Worker has a limited time to process the task
+- If task not completed within timeout, it becomes visible again
+- Prevents task loss if worker crashes
+- Allows retry of failed tasks
+
+**Implementation Using Redis Lists:**
+
+**1. Simple Task Queue (Basic):**
+```redis
+# Producer: Add task to queue
+LPUSH task:queue "{\"task_id\":\"123\",\"data\":\"...\"}"
+
+# Consumer: Get task (blocking)
+BRPOP task:queue 0
+```
+
+**2. Task Queue with Visibility (Advanced):**
+
+**Architecture:**
+```
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐
+│  Producer   │─────►│  Task Queue  │─────►│  Consumer   │
+│             │      │  (Redis)     │      │  (Worker)   │
+└─────────────┘      └──────────────┘      └─────────────┘
+                            │
+                            ▼
+                     ┌──────────────┐
+                     │ Processing   │
+                     │ Queue        │
+                     │ (Visibility) │
+                     └──────────────┘
+```
+
+**Python Implementation:**
+
+```python
+import redis
+import json
+import time
+import uuid
+from typing import Optional, Dict, Any
+
+class RedisTaskQueue:
+    def __init__(self, redis_client: redis.Redis, queue_name: str = "tasks"):
+        self.redis = redis_client
+        self.queue_name = queue_name
+        self.processing_queue = f"{queue_name}:processing"
+        self.visibility_timeout = 30  # seconds
+        
+    def enqueue_task(self, task_data: Dict[Any, Any]) -> str:
+        """Add a task to the queue."""
+        task_id = str(uuid.uuid4())
+        task = {
+            "task_id": task_id,
+            "data": task_data,
+            "created_at": time.time(),
+            "attempts": 0
+        }
+        
+        # Add to main queue
+        self.redis.lpush(self.queue_name, json.dumps(task))
+        return task_id
+    
+    def dequeue_task(self, timeout: int = 0) -> Optional[Dict[Any, Any]]:
+        """
+        Get a task from the queue with visibility timeout.
+        Task is moved to processing queue and becomes invisible.
+        """
+        # Blocking pop from main queue
+        result = self.redis.brpop(self.queue_name, timeout=timeout)
+        
+        if not result:
+            return None
+            
+        _, task_json = result
+        task = json.loads(task_json)
+        
+        # Add visibility timeout and move to processing queue
+        task["visibility_timeout"] = time.time() + self.visibility_timeout
+        task["attempts"] = task.get("attempts", 0) + 1
+        
+        # Move to processing queue (sorted set by timeout)
+        self.redis.zadd(
+            self.processing_queue,
+            {json.dumps(task): task["visibility_timeout"]}
+        )
+        
+        return task
+    
+    def complete_task(self, task: Dict[Any, Any]):
+        """Mark task as completed and remove from processing queue."""
+        task_json = json.dumps(task)
+        self.redis.zrem(self.processing_queue, task_json)
+    
+    def release_task(self, task: Dict[Any, Any]):
+        """Release task back to main queue (for retry)."""
+        task_json = json.dumps(task)
+        self.redis.zrem(self.processing_queue, task_json)
+        
+        # Remove visibility timeout and add back to main queue
+        task.pop("visibility_timeout", None)
+        self.redis.lpush(self.queue_name, json.dumps(task))
+    
+    def requeue_expired_tasks(self):
+        """Move expired tasks from processing queue back to main queue."""
+        current_time = time.time()
+        
+        # Get expired tasks (score < current_time)
+        expired_tasks = self.redis.zrangebyscore(
+            self.processing_queue,
+            "-inf",
+            current_time,
+            withscores=False
+        )
+        
+        for task_json in expired_tasks:
+            task = json.loads(task_json)
+            task.pop("visibility_timeout", None)
+            
+            # Remove from processing queue
+            self.redis.zrem(self.processing_queue, task_json)
+            
+            # Add back to main queue
+            self.redis.lpush(self.queue_name, json.dumps(task))
+            
+            print(f"Requeued expired task: {task['task_id']}")
+    
+    def get_queue_length(self) -> int:
+        """Get number of tasks in queue."""
+        return self.redis.llen(self.queue_name)
+    
+    def get_processing_count(self) -> int:
+        """Get number of tasks being processed."""
+        return self.redis.zcard(self.processing_queue)
+
+
+# Usage Example
+if __name__ == "__main__":
+    # Connect to Redis
+    redis_client = redis.Redis(host='localhost', port=6379, db=0)
+    task_queue = RedisTaskQueue(redis_client, queue_name="tasks")
+    
+    # Producer: Add tasks
+    for i in range(10):
+        task_data = {"type": "process_image", "image_id": f"img_{i}"}
+        task_id = task_queue.enqueue_task(task_data)
+        print(f"Enqueued task: {task_id}")
+    
+    # Consumer: Process tasks
+    def process_task(task: Dict[Any, Any]):
+        """Process a task."""
+        print(f"Processing task: {task['task_id']}")
+        print(f"Task data: {task['data']}")
+        print(f"Attempt: {task['attempts']}")
+        
+        # Simulate processing
+        time.sleep(2)
+        
+        # Simulate success/failure
+        return True  # or False for failure
+    
+    # Worker loop
+    while True:
+        # Requeue expired tasks periodically
+        task_queue.requeue_expired_tasks()
+        
+        # Get task from queue
+        task = task_queue.dequeue_task(timeout=1)
+        
+        if task:
+            try:
+                # Process task
+                success = process_task(task)
+                
+                if success:
+                    # Mark as completed
+                    task_queue.complete_task(task)
+                    print(f"Completed task: {task['task_id']}")
+                else:
+                    # Retry if failed (with max attempts check)
+                    if task['attempts'] < 3:
+                        task_queue.release_task(task)
+                        print(f"Released task for retry: {task['task_id']}")
+                    else:
+                        # Move to dead letter queue or log
+                        task_queue.complete_task(task)
+                        print(f"Task failed after max attempts: {task['task_id']}")
+                        
+            except Exception as e:
+                # Handle errors
+                print(f"Error processing task {task['task_id']}: {e}")
+                
+                # Retry if attempts < max
+                if task['attempts'] < 3:
+                    task_queue.release_task(task)
+                else:
+                    task_queue.complete_task(task)
+```
+
+**Redis Commands Used:**
+
+```redis
+# Producer: Add task
+LPUSH tasks "{\"task_id\":\"123\",\"data\":\"...\"}"
+
+# Consumer: Get task (blocking)
+BRPOP tasks 0
+
+# Move to processing queue with visibility timeout
+ZADD tasks:processing <timestamp> "{\"task_id\":\"123\",...}"
+
+# Check for expired tasks
+ZRANGEBYSCORE tasks:processing -inf <current_timestamp>
+
+# Complete task: Remove from processing queue
+ZREM tasks:processing "{\"task_id\":\"123\",...}"
+
+# Requeue expired task: Remove from processing, add to main queue
+ZREM tasks:processing "{\"task_id\":\"123\",...}"
+LPUSH tasks "{\"task_id\":\"123\",...}"
+```
+
+**Features:**
+- ✅ **Visibility Timeout**: Tasks become invisible during processing
+- ✅ **Automatic Requeue**: Expired tasks automatically requeued
+- ✅ **Retry Logic**: Failed tasks can be retried
+- ✅ **Dead Letter Queue**: Tasks exceeding max attempts can be handled
+- ✅ **Monitoring**: Track queue length and processing count
+- ✅ **Reliability**: Tasks not lost if worker crashes
+
+**Advanced Features:**
+
+**1. Priority Queue:**
+```python
+def enqueue_priority_task(self, task_data: Dict, priority: int = 0):
+    """Add task with priority (higher number = higher priority)."""
+    task_id = str(uuid.uuid4())
+    task = {
+        "task_id": task_id,
+        "data": task_data,
+        "priority": priority,
+        "created_at": time.time()
+    }
+    
+    # Use sorted set for priority queue
+    self.redis.zadd(self.queue_name, {json.dumps(task): priority})
+```
+
+**2. Scheduled Tasks:**
+```python
+def enqueue_scheduled_task(self, task_data: Dict, delay: int):
+    """Add task to be processed after delay (seconds)."""
+    task_id = str(uuid.uuid4())
+    task = {
+        "task_id": task_id,
+        "data": task_data,
+        "scheduled_at": time.time() + delay,
+        "created_at": time.time()
+    }
+    
+    # Use sorted set with scheduled time as score
+    self.redis.zadd(
+        f"{self.queue_name}:scheduled",
+        {json.dumps(task): task["scheduled_at"]}
+    )
+```
+
+**3. Task Status Tracking:**
+```python
+def get_task_status(self, task_id: str) -> str:
+    """Get status of a task."""
+    # Check main queue
+    tasks = self.redis.lrange(self.queue_name, 0, -1)
+    for task_json in tasks:
+        task = json.loads(task_json)
+        if task["task_id"] == task_id:
+            return "pending"
+    
+    # Check processing queue
+    processing = self.redis.zrange(self.processing_queue, 0, -1)
+    for task_json in processing:
+        task = json.loads(task_json)
+        if task["task_id"] == task_id:
+            return "processing"
+    
+    return "completed"
+```
+
+**Comparison with Other Queue Systems:**
+
+| Feature | Redis Lists | Redis Streams | RabbitMQ | AWS SQS |
+|---------|-------------|---------------|----------|---------|
+| **Visibility Timeout** | Manual | Built-in | Built-in | Built-in |
+| **Message Persistence** | Optional | Yes | Yes | Yes |
+| **Priority** | Manual | Yes | Yes | Yes |
+| **Dead Letter Queue** | Manual | Manual | Built-in | Built-in |
+| **Complexity** | Low | Medium | High | Low |
+| **Performance** | Very High | High | Medium | High |
+
+**Best Practices:**
+
+1. **Set Appropriate Visibility Timeout:**
+   - Too short: Tasks requeued before completion
+   - Too long: Delayed retry of failed tasks
+   - Typical: 30-300 seconds depending on task
+
+2. **Monitor Queue Length:**
+   - Alert on queue buildup
+   - Scale workers based on queue length
+   - Prevent memory issues
+
+3. **Handle Failures:**
+   - Implement retry logic
+   - Use dead letter queue for failed tasks
+   - Log errors for debugging
+
+4. **Clean Up Processing Queue:**
+   - Periodically requeue expired tasks
+   - Monitor stuck tasks
+   - Handle worker crashes gracefully
 
 ### 7. Distributed Locks
 

@@ -269,6 +269,8 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 └─────────────────────────────────────────────────────────────┘
 ```
 
+![Job Scheduler System Architecture](/images/Job-Scheduler-2025-10-22-1613.png)
+
 ### Core Services
 
 1. **API Gateway**: Handles client requests, authentication, rate limiting
