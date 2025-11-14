@@ -3,66 +3,118 @@
 
 @import "minima";
 
-// Override Minima theme colors to match reference site
-$brand-color: #2c3e50 !default;
-$grey-color: #7f8c8d !default;
-$grey-color-light: #bdc3c7 !default;
-$grey-color-dark: #34495e !default;
-$text-color: #2c3e50 !default;
-$background-color: #ffffff !default;
+// Giorgio Morandi Color Palette - Simple but Colorful
+// Inspired by the muted, earthy tones of Morandi's paintings
+
+// Base Colors
+$morandi-cream: #F4F0E4;      // Warm cream background
+$morandi-beige: #E8E4D8;       // Light beige
+$morandi-gray: #D4D0C4;        // Soft gray
+$morandi-text: #6B6B6B;        // Soft gray text
+$morandi-heading: #8B7A6B;     // Warm brown for headings
+
+// Accent Colors (Morandi's muted palette)
+$morandi-blue: #A8B4C0;        // Muted blue
+$morandi-pink: #D4B8B0;        // Dusty pink
+$morandi-green: #B8C4B0;       // Soft green
+$morandi-brown: #B8A898;       // Warm brown
+$morandi-lavender: #C8B8C0;    // Soft lavender
+
+// Override Minima theme colors
+$brand-color: $morandi-heading !default;
+$grey-color: $morandi-text !default;
+$grey-color-light: $morandi-gray !default;
+$grey-color-dark: $morandi-heading !default;
+$text-color: $morandi-text !default;
+$background-color: $morandi-cream !default;
+
+// Typography
+$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-heading: Georgia, "Times New Roman", serif;
+$line-height-base: 1.7;
+$line-height-heading: 1.3;
+
+// Spacing
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 2rem;
+$spacing-lg: 3rem;
+$spacing-xl: 4rem;
+
+// Border radius
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-full: 24px;
 
 // Custom styles for the homepage
 .home {
+  background-color: $morandi-cream;
+  
   .site-header {
     text-align: center;
-    padding: 2rem 0;
-    border-bottom: 1px solid #ecf0f1;
-    margin-bottom: 2rem;
-    background-color: #f8f9fa;
+    padding: $spacing-lg 0;
+    border-bottom: 2px solid $morandi-gray;
+    margin-bottom: $spacing-lg;
+    background: linear-gradient(135deg, $morandi-beige 0%, $morandi-cream 100%);
+    border-radius: $radius-md;
+    box-shadow: 0 2px 8px rgba(139, 122, 107, 0.1);
     
     .site-title {
+      font-family: $font-family-heading;
       font-size: 2.5rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: #2c3e50;
+      color: $morandi-heading;
+      letter-spacing: -0.5px;
     }
     
     .site-subtitle {
       font-size: 1.2rem;
-      color: #7f8c8d;
+      color: $morandi-text;
       margin: 0;
       font-weight: 300;
+      font-style: italic;
     }
   }
 
   .welcome-section {
     text-align: center;
-    margin-bottom: 3rem;
+    margin-bottom: $spacing-xl;
+    padding: $spacing-lg;
+    background: linear-gradient(135deg, rgba(232, 228, 216, 0.5) 0%, rgba(244, 240, 228, 0.5) 100%);
+    border-radius: $radius-md;
+    border: 2px solid $morandi-gray;
     
     h2 {
+      font-family: $font-family-heading;
       font-size: 2rem;
-      font-weight: 400;
-      margin-bottom: 1rem;
-      color: #2c3e50;
+      font-weight: 600;
+      margin-bottom: $spacing-sm;
+      color: $morandi-heading;
     }
     
     p {
       font-size: 1.1rem;
-      color: #7f8c8d;
-      max-width: 600px;
+      color: $morandi-text;
+      max-width: 700px;
       margin: 0 auto;
+      line-height: $line-height-base;
     }
   }
 
   .latest-posts {
-    margin-bottom: 3rem;
+    margin-bottom: $spacing-xl;
     
     h2 {
+      font-family: $font-family-heading;
       font-size: 1.8rem;
-      font-weight: 400;
-      margin-bottom: 2rem;
+      font-weight: 600;
+      margin-bottom: $spacing-md;
       text-align: center;
-      color: #2c3e50;
+      color: $morandi-heading;
+      padding-bottom: $spacing-sm;
+      border-bottom: 2px solid $morandi-gray;
     }
   }
 
@@ -75,52 +127,113 @@ $background-color: #ffffff !default;
 
   .post-card {
     background: #ffffff;
-    border: 1px solid #ecf0f1;
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: box-shadow 0.3s ease;
+    border: 2px solid $morandi-gray;
+    border-left: 5px solid $morandi-blue;
+    border-radius: $radius-md;
+    padding: $spacing-md;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(139, 122, 107, 0.08);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(180deg, $morandi-blue 0%, $morandi-green 100%);
+      transition: width 0.3s ease;
+    }
     
     &:hover {
-      box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+      border-left-color: $morandi-pink;
+      box-shadow: 0 8px 24px rgba(139, 122, 107, 0.2);
+      transform: translateY(-4px);
+      
+      &::before {
+        width: 6px;
+      }
+    }
+    
+    &:nth-child(3n+1) {
+      border-left-color: $morandi-blue;
+      &::before { background: linear-gradient(180deg, $morandi-blue 0%, darken($morandi-blue, 5%) 100%); }
+      &:hover { border-left-color: darken($morandi-blue, 10%); }
+    }
+    
+    &:nth-child(3n+2) {
+      border-left-color: $morandi-green;
+      &::before { background: linear-gradient(180deg, $morandi-green 0%, darken($morandi-green, 5%) 100%); }
+      &:hover { border-left-color: darken($morandi-green, 10%); }
+    }
+    
+    &:nth-child(3n+3) {
+      border-left-color: $morandi-pink;
+      &::before { background: linear-gradient(180deg, $morandi-pink 0%, darken($morandi-pink, 5%) 100%); }
+      &:hover { border-left-color: darken($morandi-pink, 10%); }
     }
     
     .post-meta {
-      font-size: 0.9rem;
-      color: #95a5a6;
-      margin-bottom: 0.5rem;
+      font-size: 0.85rem;
+      color: $morandi-text;
+      margin-bottom: $spacing-xs;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
     
     .post-title {
-      margin-bottom: 1rem;
+      margin-bottom: $spacing-sm;
       
       .post-link {
-        color: #2c3e50;
+        color: $morandi-heading;
         text-decoration: none;
-        font-size: 1.3rem;
-        font-weight: 500;
+        font-size: 1.4rem;
+        font-weight: 600;
+        font-family: $font-family-heading;
+        line-height: $line-height-heading;
+        display: block;
+        transition: color 0.3s ease;
         
         &:hover {
-          color: #3498db;
+          color: $morandi-blue;
         }
       }
     }
     
     .post-excerpt {
-      color: #7f8c8d;
-      line-height: 1.6;
-      margin-bottom: 1rem;
+      color: $morandi-text;
+      line-height: $line-height-base;
+      margin-bottom: $spacing-sm;
+      font-size: 1rem;
     }
     
     .post-categories {
+      margin-top: $spacing-sm;
+      padding-top: $spacing-sm;
+      border-top: 1px solid $morandi-gray;
+      
       .category-tag {
         display: inline-block;
-        background: #ecf0f1;
-        color: #7f8c8d;
-        padding: 0.2rem 0.6rem;
-        border-radius: 12px;
+        background: $morandi-beige;
+        color: $morandi-heading;
+        padding: 0.4rem 0.9rem;
+        border-radius: $radius-full;
         font-size: 0.8rem;
         margin-right: 0.5rem;
-        margin-bottom: 0.3rem;
+        margin-bottom: 0.4rem;
+        border: 1px solid $morandi-gray;
+        transition: all 0.3s ease;
+        font-weight: 500;
+        
+        &:hover {
+          background: $morandi-blue;
+          color: #ffffff;
+          border-color: $morandi-blue;
+          transform: scale(1.05);
+        }
       }
     }
   }
@@ -130,16 +243,20 @@ $background-color: #ffffff !default;
     
     .btn {
       display: inline-block;
-      background: #3498db;
+      background: $morandi-blue;
       color: white;
       padding: 0.8rem 2rem;
-      border-radius: 6px;
+      border-radius: 24px;
       text-decoration: none;
       font-weight: 500;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      border: 2px solid $morandi-blue;
       
       &:hover {
-        background: #2980b9;
+        background: darken($morandi-blue, 10%);
+        border-color: darken($morandi-blue, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(168, 180, 192, 0.3);
       }
     }
   }
@@ -147,17 +264,18 @@ $background-color: #ffffff !default;
   .rss-section {
     text-align: center;
     padding: 2rem 0;
-    border-top: 1px solid #ecf0f1;
+    border-top: 2px solid $morandi-gray;
     
     .rss-subscribe {
-      color: #7f8c8d;
+      color: $morandi-text;
       font-size: 0.9rem;
       
       a {
-        color: #3498db;
+        color: $morandi-blue;
         text-decoration: none;
         
         &:hover {
+          color: $morandi-pink;
           text-decoration: underline;
         }
       }
@@ -169,8 +287,9 @@ $background-color: #ffffff !default;
 .category-filter-section {
   margin-bottom: 3rem;
   padding: 2rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
+  background: linear-gradient(135deg, $morandi-beige 0%, #ffffff 100%);
+  border-radius: 12px;
+  border: 2px solid $morandi-gray;
   
   .search-container {
     max-width: 800px;
@@ -181,20 +300,21 @@ $background-color: #ffffff !default;
     width: 100%;
     padding: 1rem 1.5rem;
     font-size: 1rem;
-    border: 2px solid #ecf0f1;
-    border-radius: 8px;
+    border: 2px solid $morandi-gray;
+    border-radius: 24px;
     background-color: #ffffff;
-    color: #2c3e50;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    color: $morandi-heading;
+    transition: all 0.3s ease;
     
     &:focus {
       outline: none;
-      border-color: #3498db;
-      box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+      border-color: $morandi-blue;
+      box-shadow: 0 0 0 3px rgba(168, 180, 192, 0.2);
     }
     
     &::placeholder {
-      color: #95a5a6;
+      color: $morandi-text;
+      opacity: 0.6;
     }
   }
   
@@ -208,10 +328,10 @@ $background-color: #ffffff !default;
     
     .filter-btn {
       padding: 0.6rem 1.2rem;
-      border: 2px solid #ecf0f1;
+      border: 2px solid $morandi-gray;
       border-radius: 20px;
       background-color: #ffffff;
-      color: #7f8c8d;
+      color: $morandi-heading;
       font-size: 0.9rem;
       font-weight: 500;
       cursor: pointer;
@@ -219,22 +339,22 @@ $background-color: #ffffff !default;
       white-space: nowrap;
       
       &:hover {
-        background-color: #f8f9fa;
-        border-color: #3498db;
-        color: #3498db;
+        background-color: $morandi-beige;
+        border-color: $morandi-blue;
+        color: $morandi-blue;
         transform: translateY(-2px);
-        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.15);
+        box-shadow: 0 2px 8px rgba(168, 180, 192, 0.2);
       }
       
       &.active {
-        background-color: #3498db;
-        border-color: #3498db;
+        background-color: $morandi-blue;
+        border-color: $morandi-blue;
         color: #ffffff;
-        box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+        box-shadow: 0 2px 8px rgba(168, 180, 192, 0.3);
         
         &:hover {
-          background-color: #2980b9;
-          border-color: #2980b9;
+          background-color: darken($morandi-blue, 10%);
+          border-color: darken($morandi-blue, 10%);
           transform: translateY(-2px);
         }
       }
@@ -243,7 +363,7 @@ $background-color: #ffffff !default;
   
   .search-results-info {
     text-align: center;
-    color: #7f8c8d;
+    color: $morandi-text;
     font-size: 0.9rem;
     margin-top: 1rem;
     display: none;
@@ -280,19 +400,20 @@ $background-color: #ffffff !default;
     text-align: center;
     margin-bottom: 3rem;
     padding: 2rem 0;
-    background-color: #f8f9fa;
-    border-radius: 8px;
+    background: linear-gradient(135deg, $morandi-beige 0%, $morandi-cream 100%);
+    border-radius: 12px;
+    border: 2px solid $morandi-gray;
     
     .page-title {
       font-size: 2.5rem;
       font-weight: 600;
       margin-bottom: 0.5rem;
-      color: #2c3e50;
+      color: $morandi-heading;
     }
     
     .page-description {
       font-size: 1.1rem;
-      color: #7f8c8d;
+      color: $morandi-text;
       margin: 0;
     }
   }
@@ -372,19 +493,22 @@ $background-color: #ffffff !default;
 
   .post-item {
     background: #ffffff;
-    border: 1px solid #ecf0f1;
+    border: 2px solid $morandi-gray;
+    border-left: 4px solid $morandi-blue;
     border-radius: 8px;
     padding: 2rem;
     margin-bottom: 2rem;
-    transition: box-shadow 0.3s ease;
+    transition: all 0.3s ease;
     
     &:hover {
-      box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+      border-left-color: $morandi-pink;
+      box-shadow: 0 4px 12px rgba(139, 122, 107, 0.15);
+      transform: translateY(-2px);
     }
     
     .post-meta {
       font-size: 0.9rem;
-      color: #95a5a6;
+      color: $morandi-text;
       margin-bottom: 0.5rem;
     }
     
@@ -392,33 +516,41 @@ $background-color: #ffffff !default;
       margin-bottom: 1rem;
       
       .post-link {
-        color: #2c3e50;
+        color: $morandi-heading;
         text-decoration: none;
         font-size: 1.5rem;
         font-weight: 500;
         
         &:hover {
-          color: #3498db;
+          color: $morandi-blue;
         }
       }
     }
     
     .post-excerpt {
-      color: #7f8c8d;
-      line-height: 1.6;
+      color: $morandi-text;
+      line-height: 1.7;
       margin-bottom: 1rem;
     }
     
     .post-categories {
       .category-tag {
         display: inline-block;
-        background: #ecf0f1;
-        color: #7f8c8d;
-        padding: 0.2rem 0.6rem;
-        border-radius: 12px;
+        background: $morandi-beige;
+        color: $morandi-heading;
+        padding: 0.3rem 0.8rem;
+        border-radius: 16px;
         font-size: 0.8rem;
         margin-right: 0.5rem;
         margin-bottom: 0.3rem;
+        border: 1px solid $morandi-gray;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: $morandi-green;
+          color: #ffffff;
+          border-color: $morandi-green;
+        }
       }
     }
   }
@@ -426,7 +558,7 @@ $background-color: #ffffff !default;
   .no-posts {
     text-align: center;
     padding: 3rem;
-    color: #7f8c8d;
+    color: $morandi-text;
   }
 
   .back-to-home {
@@ -435,16 +567,20 @@ $background-color: #ffffff !default;
     
     .btn {
       display: inline-block;
-      background: #3498db;
+      background: $morandi-blue;
       color: white;
       padding: 0.8rem 2rem;
-      border-radius: 6px;
+      border-radius: 24px;
       text-decoration: none;
       font-weight: 500;
-      transition: background-color 0.3s ease;
+      transition: all 0.3s ease;
+      border: 2px solid $morandi-blue;
       
       &:hover {
-        background: #2980b9;
+        background: darken($morandi-blue, 10%);
+        border-color: darken($morandi-blue, 10%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(168, 180, 192, 0.3);
       }
     }
   }
@@ -452,37 +588,159 @@ $background-color: #ffffff !default;
 
 // Original styles for other pages
 .site-header {
-  border-top: 5px solid #2c3e50;
-  border-bottom: 1px solid #ecf0f1;
-  min-height: 56px;
+  border-top: 5px solid $morandi-blue;
+  border-bottom: 2px solid $morandi-gray;
+  min-height: 70px;
   position: relative;
+  background-color: $morandi-cream;
+  box-shadow: 0 2px 8px rgba(139, 122, 107, 0.08);
+  margin-bottom: $spacing-lg;
+  
+  .wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+  }
 }
 
 .site-title {
-  font-size: 26px;
-  font-weight: 300;
-  line-height: 56px;
-  letter-spacing: -1px;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.5px;
   margin-bottom: 0;
-  float: left;
-  color: #2c3e50;
+  color: $morandi-heading;
+  text-decoration: none;
+  font-family: $font-family-heading;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: $morandi-blue;
+  }
 }
 
 .site-nav {
-  float: right;
-  line-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
   
   .page-link {
-    color: #7f8c8d;
+    color: $morandi-text;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color 0.3s ease;
     
     &:hover {
-      color: #3498db;
+      color: $morandi-blue;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: $morandi-blue;
+      transition: width 0.3s ease;
+    }
+    
+    &:hover::after {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .nav-trigger {
+      display: block;
+    }
+    
+    .trigger {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background-color: $morandi-cream;
+      border-bottom: 2px solid $morandi-gray;
+      padding: 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
+      
+      .page-link {
+        padding: 0.75rem;
+        border-bottom: 1px solid $morandi-gray;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+    
+    .nav-trigger:checked ~ .trigger {
+      display: flex;
     }
   }
 }
 
 .page-content {
   padding: $spacing-unit 0;
+  background-color: $morandi-cream;
+  min-height: 100vh;
+}
+
+body {
+  background-color: $morandi-cream;
+  font-family: $font-family-base;
+  font-size: 18px;
+  line-height: $line-height-base;
+  color: $morandi-text;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  
+  @media screen and (min-width: 1200px) {
+    max-width: 1000px;
+  }
+}
+
+.post-header {
+  text-align: center;
+  margin-bottom: $spacing-lg;
+  padding: $spacing-lg 0;
+  background: linear-gradient(135deg, $morandi-beige 0%, $morandi-cream 100%);
+  border-radius: $radius-md;
+  border: 2px solid $morandi-gray;
+  padding: $spacing-lg;
+  
+  .post-title {
+    font-family: $font-family-heading;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: $spacing-sm;
+    color: $morandi-heading;
+    letter-spacing: -0.5px;
+    
+    @media screen and (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+  
+  .post-description {
+    font-size: 1.1rem;
+    color: $morandi-text;
+    margin: 0;
+    font-style: italic;
+  }
 }
 
 .post-list-heading {
@@ -490,7 +748,7 @@ $background-color: #ffffff !default;
   font-weight: 300;
   line-height: 1;
   letter-spacing: -1px;
-  color: #2c3e50;
+  color: $morandi-heading;
 }
 
 .post-list {
@@ -502,20 +760,50 @@ $background-color: #ffffff !default;
     
     &.post-item {
       background: #ffffff;
-      border: 1px solid #ecf0f1;
-      border-radius: 8px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      transition: box-shadow 0.3s ease;
+      border: 2px solid $morandi-gray;
+      border-left: 5px solid $morandi-green;
+      border-radius: $radius-md;
+      padding: $spacing-md;
+      margin-bottom: $spacing-md;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 8px rgba(139, 122, 107, 0.08);
+      position: relative;
       
       &:hover {
-        box-shadow: 0 4px 12px rgba(44, 62, 80, 0.1);
+        border-left-color: $morandi-pink;
+        box-shadow: 0 8px 24px rgba(139, 122, 107, 0.2);
+        transform: translateY(-4px);
+      }
+      
+      .post-meta {
+        font-size: 0.85rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      
+      h3 {
+        font-family: $font-family-heading;
+        margin-bottom: $spacing-sm;
+        
+        .post-link {
+          font-size: 1.5rem;
+          font-weight: 600;
+          line-height: $line-height-heading;
+        }
       }
       
       .post-excerpt {
-        color: #7f8c8d;
-        line-height: 1.6;
-        margin-bottom: 1rem;
+        color: $morandi-text;
+        line-height: $line-height-base;
+        margin-bottom: $spacing-sm;
+        font-size: 1rem;
+      }
+      
+      .post-categories {
+        margin-top: $spacing-sm;
+        padding-top: $spacing-sm;
+        border-top: 1px solid $morandi-gray;
       }
     }
   }
@@ -523,36 +811,442 @@ $background-color: #ffffff !default;
 
 .post-meta {
   font-size: $small-font-size;
-  color: #95a5a6;
+  color: $morandi-text;
 }
 
 .post-link {
   display: block;
   font-size: 24px;
-  color: #2c3e50;
+  color: $morandi-heading;
   
   &:hover {
-    color: #3498db;
+    color: $morandi-blue;
+  }
+}
+
+// Post Layout Styles
+.post {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-lg 0;
+  
+  .post-header {
+    margin-bottom: $spacing-lg;
+    padding-bottom: $spacing-md;
+    border-bottom: 3px solid $morandi-gray;
+    background: linear-gradient(135deg, rgba(232, 228, 216, 0.3) 0%, transparent 100%);
+    padding: $spacing-md;
+    border-radius: $radius-sm;
+    
+    .post-title {
+      font-family: $font-family-heading;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: $line-height-heading;
+      color: $morandi-heading;
+      margin-bottom: $spacing-sm;
+      letter-spacing: -0.5px;
+      
+      @media screen and (max-width: 768px) {
+        font-size: 2rem;
+      }
+    }
+    
+    .post-meta-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-sm;
+    }
+    
+    .post-meta {
+      font-size: 0.95rem;
+      color: $morandi-text;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin: 0;
+      
+      time {
+        font-weight: 500;
+      }
+    }
+    
+    .post-categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      
+      .category-tag {
+        display: inline-block;
+        background: $morandi-beige;
+        color: $morandi-heading;
+        padding: 0.4rem 0.9rem;
+        border-radius: $radius-full;
+        font-size: 0.85rem;
+        border: 1px solid $morandi-gray;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        
+        &:hover {
+          background: $morandi-blue;
+          color: #ffffff;
+          border-color: $morandi-blue;
+        }
+      }
+    }
+  }
+  
+  .post-footer {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-md;
+    border-top: 2px solid $morandi-gray;
+    
+    .post-navigation {
+      .back-to-posts {
+        display: inline-flex;
+        align-items: center;
+        color: $morandi-blue;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          color: $morandi-pink;
+          transform: translateX(-4px);
+        }
+      }
+    }
   }
 }
 
 .post-content {
   margin-bottom: $spacing-unit;
-  color: #2c3e50;
+  color: $morandi-text;
+  background-color: #ffffff;
+  padding: $spacing-lg;
+  border-radius: $radius-md;
+  box-shadow: 0 2px 8px rgba(139, 122, 107, 0.08);
+  line-height: $line-height-base;
+  font-size: 1.1rem;
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: $font-family-heading;
+    color: $morandi-heading;
+    font-weight: 600;
+    line-height: $line-height-heading;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    border-bottom: 3px solid $morandi-blue;
+    padding-bottom: $spacing-sm;
+  }
 
   h2 {
-    font-size: 32px;
-    color: #2c3e50;
+    font-size: 1.875rem;
+    border-bottom: 2px solid $morandi-gray;
+    padding-bottom: 0.5rem;
+    margin-top: $spacing-md;
   }
 
   h3 {
-    font-size: 26px;
-    color: #2c3e50;
+    font-size: 1.5rem;
+    color: $morandi-heading;
+    margin-top: $spacing-md;
   }
 
   h4 {
-    font-size: 20px;
-    color: #2c3e50;
+    font-size: 1.25rem;
+    color: $morandi-heading;
   }
+  
+  p {
+    margin-bottom: $spacing-sm;
+    line-height: $line-height-base;
+  }
+  
+  ul, ol {
+    margin-bottom: $spacing-sm;
+    padding-left: $spacing-md;
+    
+    li {
+      margin-bottom: 0.5rem;
+      line-height: $line-height-base;
+    }
+  }
+  
+  a {
+    color: $morandi-blue;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease;
+    
+    &:hover {
+      color: $morandi-pink;
+      border-bottom-color: $morandi-pink;
+    }
+  }
+  
+  code {
+    background-color: $morandi-beige;
+    color: $morandi-heading;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  }
+  
+  pre {
+    background-color: $morandi-beige;
+    border: 1px solid $morandi-gray;
+    border-radius: $radius-sm;
+    border-left: 4px solid $morandi-blue;
+    padding: $spacing-sm;
+    margin: $spacing-md 0;
+    overflow-x: auto;
+    
+    code {
+      background: transparent;
+      padding: 0;
+      color: $morandi-heading;
+    }
+  }
+  
+  blockquote {
+    border-left: 4px solid $morandi-green;
+    background: linear-gradient(90deg, $morandi-beige 0%, transparent 100%);
+    padding: $spacing-sm $spacing-md;
+    margin: $spacing-md 0;
+    border-radius: 0 $radius-sm $radius-sm 0;
+    font-style: italic;
+    color: $morandi-heading;
+    position: relative;
+    
+    &::before {
+      content: '"';
+      font-size: 3rem;
+      color: $morandi-green;
+      position: absolute;
+      left: 0.5rem;
+      top: -0.5rem;
+      opacity: 0.3;
+    }
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: $spacing-md 0;
+    border-radius: $radius-sm;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(139, 122, 107, 0.1);
+    
+    th {
+      background-color: $morandi-beige;
+      color: $morandi-heading;
+      padding: $spacing-sm;
+      text-align: left;
+      border: 1px solid $morandi-gray;
+      font-weight: 600;
+    }
+    
+    td {
+      padding: $spacing-sm;
+      border: 1px solid $morandi-gray;
+      background-color: #ffffff;
+    }
+    
+    tr:nth-child(even) td {
+      background-color: $morandi-cream;
+    }
+    
+    tr:hover td {
+      background-color: $morandi-beige;
+    }
+  }
+  
+  hr {
+    border: none;
+    border-top: 2px solid $morandi-gray;
+    margin: $spacing-lg 0;
+    opacity: 0.5;
+  }
+  
+  strong {
+    color: $morandi-heading;
+    font-weight: 600;
+  }
+  
+  em {
+    color: $morandi-heading;
+    font-style: italic;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    border-radius: $radius-sm;
+    margin: $spacing-md 0;
+    box-shadow: 0 4px 12px rgba(139, 122, 107, 0.15);
+  }
+  
+  // List styling
+  ul {
+    list-style: none;
+    padding-left: 0;
+    
+    li {
+      position: relative;
+      padding-left: $spacing-md;
+      
+      &::before {
+        content: '▸';
+        position: absolute;
+        left: 0;
+        color: $morandi-blue;
+        font-weight: bold;
+      }
+    }
+  }
+  
+  ol {
+    counter-reset: list-counter;
+    
+    li {
+      counter-increment: list-counter;
+      position: relative;
+      padding-left: $spacing-md;
+      
+      &::marker {
+        color: $morandi-blue;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Footer Styles
+.site-footer {
+  border-top: 2px solid $morandi-gray;
+  padding: $spacing-lg 0;
+  margin-top: $spacing-xl;
+  background-color: $morandi-beige;
+  
+  .footer-heading {
+    font-family: $font-family-heading;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: $morandi-heading;
+    margin-bottom: $spacing-md;
+  }
+  
+  .footer-col-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: $spacing-md;
+    
+    @media screen and (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .footer-col {
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      
+      li {
+        margin-bottom: $spacing-xs;
+        color: $morandi-text;
+        
+        a {
+          color: $morandi-blue;
+          text-decoration: none;
+          transition: color 0.3s ease;
+          
+          &:hover {
+            color: $morandi-pink;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+    
+    p {
+      color: $morandi-text;
+      line-height: $line-height-base;
+    }
+  }
+  
+  .social-media-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    
+    li {
+      a {
+        color: $morandi-text;
+        text-decoration: none;
+        transition: color 0.3s ease;
+        
+        &:hover {
+          color: $morandi-blue;
+        }
+      }
+    }
+  }
+}
+
+// Additional Blog Enhancements
+.home {
+  .site-header {
+    .site-title {
+      font-family: $font-family-heading;
+    }
+  }
+  
+  .welcome-section {
+    h2 {
+      font-family: $font-family-heading;
+    }
+  }
+  
+  .latest-posts {
+    h2 {
+      font-family: $font-family-heading;
+    }
+  }
+}
+
+// Smooth scrolling
+html {
+  scroll-behavior: smooth;
+}
+
+// Selection color
+::selection {
+  background-color: $morandi-blue;
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: $morandi-blue;
+  color: #ffffff;
+}
+
+// Focus styles for accessibility
+*:focus {
+  outline: 2px solid $morandi-blue;
+  outline-offset: 2px;
+}
+
+button:focus,
+a:focus {
+  outline: 2px solid $morandi-blue;
+  outline-offset: 2px;
 }
 
