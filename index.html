@@ -3,187 +3,102 @@ layout: default
 ---
 
 <div class="home">
-  <header class="site-header">
-    <h1 class="site-title">{{ site.title | default: "Robina Li" }}</h1>
-    <p class="site-subtitle">System Design Blog</p>
-  </header>
-
-  <section class="welcome-section">
-    <h2>Welcome to My System Design Blog</h2>
-    <p>Exploring scalable system architectures, distributed systems, and design patterns for technical interviews</p>
+  <!-- Hero Section -->
+  <section class="blog-hero">
+    <div class="hero-content">
+      <h1 class="hero-title">{{ site.title | default: "Robina Li" }}</h1>
+      <p class="hero-subtitle">{{ site.description | default: "System Design Blog" }}</p>
+      <p class="hero-description">Exploring scalable system architectures, distributed systems, and design patterns for technical interviews</p>
+      <div class="hero-actions">
+        <a href="{{ "/posts/" | relative_url }}" class="btn btn-primary">Browse All Posts</a>
+        <a href="{{ "/feed.xml" | relative_url }}" class="btn btn-secondary">Subscribe RSS</a>
+      </div>
+    </div>
   </section>
 
   {%- if site.posts.size > 0 -%}
-    <!-- Category Filter Menu -->
-    <div class="category-filter-section">
-      <div class="search-container">
-        <input type="text" id="search-input" class="search-input" placeholder="Search posts by title or category...">
+    <!-- Latest Posts Section -->
+    <section class="blog-posts">
+      <div class="section-header">
+        <h2 class="section-title">Latest Posts</h2>
+        <a href="{{ "/posts/" | relative_url }}" class="view-all-link">View All →</a>
       </div>
-      
-      <div class="category-filters">
-        <button class="filter-btn active" data-category="all">All</button>
-        {%- assign all_categories = site.posts | map: 'categories' | flatten | uniq | sort -%}
-        {%- for category in all_categories -%}
-          <button class="filter-btn" data-category="{{ category | downcase }}">{{ category }}</button>
-        {%- endfor -%}
-      </div>
-      
-      <div class="search-results-info" id="results-info"></div>
-    </div>
 
-    <section class="latest-posts">
-      <h2>Latest Posts</h2>
-      <div class="post-grid" id="post-grid">
-        {%- for post in site.posts -%}
-        <article class="post-card" 
-                 data-categories="{%- if post.categories -%}{%- for category in post.categories -%}{{ category | downcase }} {%- endfor -%}{%- endif -%}"
-                 data-title="{{ post.title | downcase }}">
+      <div class="posts-timeline">
+        {%- assign recent_posts = site.posts | limit: 10 -%}
+        {%- for post in recent_posts -%}
+        <article class="blog-post-item">
           {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-          <div class="post-meta">{{ post.date | date: date_format }}</div>
-          <h3 class="post-title">
-            <a class="post-link" href="{{ post.url | relative_url }}">
-              {{ post.title | escape }}
-            </a>
-          </h3>
-          {%- if post.excerpt -%}
-            <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 20 }}</div>
-          {%- endif -%}
-          {%- if post.categories -%}
-            <div class="post-categories">
-              {%- for category in post.categories -%}
-                <span class="category-tag" data-category="{{ category | downcase }}">{{ category }}</span>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
+          <div class="post-date">{{ post.date | date: date_format }}</div>
+          <div class="post-content-wrapper">
+            <h3 class="post-title">
+              <a class="post-link" href="{{ post.url | relative_url }}">
+                {{ post.title | escape }}
+              </a>
+            </h3>
+            {%- if post.excerpt -%}
+              <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 35 }}</div>
+            {%- endif -%}
+            {%- if post.categories -%}
+              <div class="post-categories">
+                {%- for category in post.categories -%}
+                  <a href="{{ "/posts/" | relative_url }}?category={{ category | downcase }}" class="category-tag">{{ category }}</a>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+            <a href="{{ post.url | relative_url }}" class="read-more">Read more →</a>
+          </div>
         </article>
         {%- endfor -%}
       </div>
-      {%- if site.posts.size > 3 -%}
+
+      {%- if site.posts.size > 10 -%}
         <div class="view-all-posts">
-          <a href="{{ "/posts/" | relative_url }}" class="btn">View All Posts</a>
+          <a href="{{ "/posts/" | relative_url }}" class="btn btn-primary">View All Posts</a>
         </div>
       {%- endif -%}
     </section>
-  {%- endif -%}
 
-<script>
-(function() {
-  const searchInput = document.getElementById('search-input');
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const postCards = document.querySelectorAll('.post-card');
-  const resultsInfo = document.getElementById('results-info');
-  
-  let currentCategory = 'all';
-  let currentSearch = '';
-  
-  function filterPosts() {
-    let visibleCount = 0;
-    
-    postCards.forEach(card => {
-      const categories = card.getAttribute('data-categories') || '';
-      const title = card.getAttribute('data-title') || '';
-      
-      const matchesCategory = currentCategory === 'all' || categories.includes(currentCategory);
-      const matchesSearch = currentSearch === '' || 
-                           title.includes(currentSearch.toLowerCase()) ||
-                           categories.includes(currentSearch.toLowerCase());
-      
-      if (matchesCategory && matchesSearch) {
-        card.style.display = 'block';
-        visibleCount++;
-      } else {
-        card.style.display = 'none';
-      }
-    });
-    
-    // Update results info
-    if (currentCategory !== 'all' || currentSearch !== '') {
-      if (resultsInfo) {
-        resultsInfo.textContent = `Showing ${visibleCount} of ${postCards.length} posts`;
-        resultsInfo.style.display = 'block';
-      }
-    } else {
-      if (resultsInfo) {
-        resultsInfo.style.display = 'none';
-      }
-    }
-  }
-  
-  // Category filter buttons
-  if (filterButtons.length > 0) {
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        filterButtons.forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        currentCategory = this.getAttribute('data-category');
-        filterPosts();
-      });
-    });
-  }
-  
-  // Search input
-  if (searchInput) {
-    searchInput.addEventListener('input', function() {
-      currentSearch = this.value.trim();
-      filterPosts();
-    });
-  }
-  
-  // Initialize
-  if (postCards.length > 0) {
-    filterPosts();
-  }
-})();
-</script>
-
-  {%- if paginator and paginator.posts -%}
-    <section class="all-posts">
-      <h2>All Posts</h2>
-      <div class="posts-list">
-        {%- for post in paginator.posts -%}
-        <article class="post-item">
-          {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-          <div class="post-meta">{{ post.date | date: date_format }}</div>
-          <h3 class="post-title">
-            <a class="post-link" href="{{ post.url | relative_url }}">
-              {{ post.title | escape }}
-            </a>
-          </h3>
-          {%- if post.excerpt -%}
-            <div class="post-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</div>
-          {%- endif -%}
-          {%- if post.categories -%}
-            <div class="post-categories">
-              {%- for category in post.categories -%}
-                <span class="category-tag">{{ category }}</span>
-              {%- endfor -%}
-            </div>
-          {%- endif -%}
-        </article>
+    <!-- Categories Section -->
+    <section class="blog-categories">
+      <h2 class="section-title">Browse by Category</h2>
+      <div class="categories-grid">
+        {%- assign all_categories = site.posts | map: 'categories' | flatten | uniq | sort -%}
+        {%- for category in all_categories -%}
+          {%- assign category_posts = site.posts | where_exp: "post", "post.categories contains category" -%}
+          <a href="{{ "/posts/" | relative_url }}" class="category-card" data-category="{{ category | downcase }}">
+            <div class="category-name">{{ category }}</div>
+            <div class="category-count">{{ category_posts.size }} post{{ category_posts.size | pluralize }}</div>
+          </a>
         {%- endfor -%}
       </div>
-
-      <nav class="pagination" role="navigation">
-        {%- if paginator.previous_page -%}
-          <a class="newer-posts" href="{{ paginator.previous_page_path | relative_url }}">← Newer</a>
-        {%- else -%}
-          <span class="newer-posts disabled">← Newer</span>
-        {%- endif -%}
-
-        <span class="page-number">Page {{ paginator.page }} of {{ paginator.total_pages }}</span>
-
-        {%- if paginator.next_page -%}
-          <a class="older-posts" href="{{ paginator.next_page_path | relative_url }}">Older →</a>
-        {%- else -%}
-          <span class="older-posts disabled">Older →</span>
-        {%- endif -%}
-      </nav>
     </section>
   {%- endif -%}
 
-  <section class="rss-section">
-    <p class="rss-subscribe">Subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a> to stay updated</p>
+  <!-- About Section -->
+  <section class="blog-about">
+    <div class="about-content">
+      <h2 class="section-title">About This Blog</h2>
+      <p>This blog covers system design concepts, interview preparation guides, and real-world architecture patterns. Whether you're preparing for technical interviews at companies like Meta, Google, or Robinhood, or looking to deepen your understanding of distributed systems, you'll find valuable insights here.</p>
+      <div class="about-links">
+        <a href="{{ "/about" | relative_url }}" class="about-link">Learn More</a>
+      </div>
+    </div>
   </section>
 
 </div>
+
+<script>
+// Category card click handler
+document.addEventListener('DOMContentLoaded', function() {
+  const categoryCards = document.querySelectorAll('.category-card');
+  categoryCards.forEach(card => {
+    card.addEventListener('click', function(e) {
+      e.preventDefault();
+      const category = this.getAttribute('data-category');
+      window.location.href = '{{ "/posts/" | relative_url }}?category=' + category;
+    });
+  });
+});
+</script>
 
