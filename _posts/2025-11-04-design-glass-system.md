@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Design a Meta Glass (Smart Glasses) System"
+title: "Design a Smart Glasses System"
 date: 2025-11-04
-categories: [System Design, Interview Example, Meta, AR, Smart Glasses, Edge Computing]
+categories: [System Design, Interview Example, AR, Smart Glasses, Edge Computing]
 excerpt: "A detailed walkthrough of designing a system for Meta Glass smart glasses, including real-time processing, AI/ML integration, cloud sync, edge computing, and low-power constraints."
 ---
 

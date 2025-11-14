@@ -2,7 +2,7 @@
 layout: post
 title: "Local OS Frameworks Design Interview Questions (Non-Distributed, No Cloud)"
 date: 2025-11-04
-categories: [Interview Questions, Meta, OS Frameworks, Android, Local Systems, Non-Distributed]
+categories: [Interview Questions, OS Frameworks, Android, Local Systems, Non-Distributed]
 excerpt: "A comprehensive list of local OS Frameworks system design interview questions that focus on on-device systems without cloud or distributed architecture dependencies."
 ---
 

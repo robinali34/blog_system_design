@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta OS/Frameworks 10-Day Interview Drill"
+title: "OS/Frameworks 10-Day Interview Drill"
 date: 2025-11-05
-categories: [Interview Preparation, Meta, OS Frameworks, Study Plan, Intensive Prep]
+categories: [Interview Preparation, OS Frameworks, Study Plan, Intensive Prep]
 excerpt: "An intensive 10-day drill plan for Meta OS/Frameworks interviews, covering Android frameworks, Linux drivers, JNI, concurrency, IPC, system design, and mock interviews."
 ---
 

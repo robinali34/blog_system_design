@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Distributed Job Scheduler System - Robinhood Interview"
+title: "Design a Distributed Job Scheduler System"
 date: 2025-11-03
-categories: [System Design, Interview Example, Robinhood, Distributed Systems]
-excerpt: "A detailed walkthrough of designing a distributed job scheduler system for Robinhood, including architecture, technology choices, scalability, and reliability considerations."
+categories: [System Design, Interview Example, Distributed Systems]
+excerpt: "A detailed walkthrough of designing a distributed job scheduler system, including architecture, technology choices, scalability, and reliability considerations."
 ---
 
 ## Introduction
 
-This post provides a comprehensive walkthrough of designing a distributed job scheduler system, a common interview question at Robinhood and other fintech companies. We'll design a system that can handle millions of jobs, ensure reliable execution, and scale horizontally to meet Robinhood's requirements for financial operations.
+This post provides a comprehensive walkthrough of designing a distributed job scheduler system, a common interview question at fintech companies. We'll design a system that can handle millions of jobs, ensure reliable execution, and scale horizontally to meet requirements for financial operations.
 
 ## Problem Statement
 
@@ -2087,5 +2087,5 @@ This system design demonstrates understanding of:
 - **Observability**: Logging, monitoring, SLA tracking, failure reporting
 - **Fintech requirements**: Compliance, security, audit trails
 
-All critical for building production-grade job scheduler systems at fintech companies like Robinhood.
+All critical for building production-grade job scheduler systems at fintech companies.
 

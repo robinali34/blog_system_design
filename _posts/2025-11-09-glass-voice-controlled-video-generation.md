@@ -1,20 +1,20 @@
 ---
 layout: post
-title: "Meta Glass: Voice-Controlled Video Generation System Design"
+title: "Smart Glass: Voice-Controlled Video Generation System Design"
 date: 2025-11-09
-categories: [System Design, Meta Glass, AR, Voice Control, Video Processing, AI/ML, Architecture]
-excerpt: "A comprehensive system design for Meta Glass featuring voice-controlled automatic video generation, covering current Meta Glass architecture and the new feature to generate 2-minute memory videos from natural language commands."
+categories: [System Design, AR Glass, AR, Voice Control, Video Processing, AI/ML, Architecture]
+excerpt: "A comprehensive system design for smart glasses featuring voice-controlled automatic video generation, covering current smart glass architecture and the new feature to generate 2-minute memory videos from natural language commands."
 ---
 
 ## Introduction
 
-Meta Glass represents the next generation of augmented reality smart glasses, combining advanced computer vision, AI, and voice control to create immersive experiences. This post explores the current Meta Glass architecture and designs a new feature that enables users to generate personalized memory videos through natural language voice commands.
+Smart glasses represent the next generation of augmented reality devices, combining advanced computer vision, AI, and voice control to create immersive experiences. This post explores the current smart glass architecture and designs a new feature that enables users to generate personalized memory videos through natural language voice commands.
 
 **Example Use Case:** User says "Create a 2-minute video of me and my wife's trip in Paris" and the system automatically finds, selects, and compiles relevant video clips into a polished memory video.
 
 ---
 
-## Meta Glass Specifications
+## Smart Glass Specifications
 
 ### Audio
 
@@ -50,14 +50,14 @@ Meta Glass represents the next generation of augmented reality smart glasses, co
 **Frame Charging Case:**
 - Up to 24 additional hours with fully charged case
 
-**Meta Neural Band:**
+**Neural Band:**
 - Capacity: 134 mAh
 - Usage time: Up to 18 hours
 
 ### Water Resistance
 
 - **Frame**: IPx4 (splash resistant)
-- **Meta Neural Band**: IPx7 (water resistant up to 1 meter)
+- **Neural Band**: IPx7 (water resistant up to 1 meter)
 
 ### Memory
 
@@ -76,7 +76,7 @@ Meta Glass represents the next generation of augmented reality smart glasses, co
 
 **Bluetooth:**
 - Bluetooth 5.3 (Frame)
-- Bluetooth 5.2 (Meta Neural Band)
+- Bluetooth 5.2 (Neural Band)
 
 **OS Compatibility:**
 - iOS 15.2 and above
@@ -84,18 +84,18 @@ Meta Glass represents the next generation of augmented reality smart glasses, co
 
 ---
 
-## Current Meta Glass Architecture
+## Current Smart Glass Architecture
 
 ### High-Level Architecture
 
 ```
 ┌─────────────────────────────────────────────────┐
-│           Meta Glass Hardware                   │
+│           Smart Glass Hardware                   │
 │  (Cameras, Sensors, Display, Audio, Compute)   │
 └──────────────┬──────────────────────────────────┘
                │
 ┌──────────────▼──────────────────────────────────┐
-│         Meta Glass OS (AOSP-based)             │
+│         Smart Glass OS (AOSP-based)             │
 │  (Android Runtime, AR Framework, Services)      │
 └──────────────┬──────────────────────────────────┘
                │
@@ -140,11 +140,11 @@ Meta Glass represents the next generation of augmented reality smart glasses, co
 - **Battery**: 
   - Frame: 960 mWh (248 mAh), up to 6 hours mixed-use
   - Charging Case: Up to 24 additional hours
-  - Meta Neural Band: 134 mAh, up to 18 hours
+  - Neural Band: 134 mAh, up to 18 hours
 
 **5. Connectivity**
 - **Wi-Fi**: Wi-Fi 6 certified
-- **Bluetooth**: Bluetooth 5.3 (Frame), Bluetooth 5.2 (Meta Neural Band)
+- **Bluetooth**: Bluetooth 5.3 (Frame), Bluetooth 5.2 (Neural Band)
 - **OS Support**: iOS 15.2+, Android 10+
 
 **6. Sensors**
@@ -155,11 +155,11 @@ Meta Glass represents the next generation of augmented reality smart glasses, co
 
 **7. Water Resistance**
 - **Frame**: IPx4 (splash resistant)
-- **Meta Neural Band**: IPx7 (water resistant up to 1 meter)
+- **Neural Band**: IPx7 (water resistant up to 1 meter)
 
 ### Software Architecture
 
-**1. Meta Glass OS Layer**
+**1. Smart Glass OS Layer**
 
 **Base:**
 - Android-based OS (AOSP)
@@ -338,7 +338,7 @@ Camera Hardware → Camera HAL → Camera Service → Media Framework → Storag
 ### High-Level Flow (Hybrid Mode)
 
 ```
-User Voice Command (Meta Glass)
+User Voice Command (Smart Glass)
     ↓
 Voice Recognition (On-Device)
     ↓
@@ -358,16 +358,16 @@ Phone App: Video Processing Pipeline (On-Phone)
     ↓
 Phone App: Generate 2-minute Video
     ↓
-Transfer Final Video to Meta Glass via WiFi Direct
+Transfer Final Video to Smart Glass via WiFi Direct
     ↓
-Display on Meta Glass
+Display on Smart Glass
 ```
 
 ### Component Architecture (Hybrid Mode)
 
 ```
 ┌─────────────────────────────────────────┐
-│      Meta Glass Device (Local)          │
+│      Smart Glass Device (Local)          │
 │  ┌───────────────────────────────────┐ │
 │  │ Voice Capture & Wake Word          │ │
 │  │ On-Device NLU                      │ │
@@ -412,15 +412,15 @@ Display on Meta Glass
 **Primary Path: Phone-Based Processing (WiFi Direct)**
 
 **Flow:**
-1. **Meta Glass** captures voice command
-2. **Meta Glass** processes intent locally or sends to cloud for NLP
-3. **Meta Glass** establishes WiFi Direct connection to phone
+1. **Smart Glass** captures voice command
+2. **Smart Glass** processes intent locally or sends to cloud for NLP
+3. **Smart Glass** establishes WiFi Direct connection to phone
 4. **Phone App** receives request and searches local media library
 5. **Phone App** fetches videos/images from phone storage (or cloud if needed)
 6. **Phone App** processes videos locally (trimming, merging, effects)
 7. **Phone App** generates final 2-minute video on phone
-8. **Phone App** transfers final video to Meta Glass via WiFi Direct
-9. **Meta Glass** displays video
+8. **Phone App** transfers final video to Smart Glass via WiFi Direct
+9. **Smart Glass** displays video
 
 **Fallback Path: Cloud Processing**
 
@@ -432,7 +432,7 @@ Display on Meta Glass
 
 **Storage Layers:**
 
-**1. Local Storage (On Meta Glass Device)**
+**1. Local Storage (On Smart Glass Device)**
 - **Purpose**: Temporary cache, recent media, offline access
 - **Capacity**: 32 GB Flash storage (stores up to 1,000 photos, 100+ 30-second videos)
 - **Use Cases**:
@@ -453,7 +453,7 @@ Display on Meta Glass
 
 **Storage Flow:**
 ```
-Meta Glass Device
+Smart Glass Device
     │
     ├─→ Local Cache (Recent videos, metadata cache)
     │   └─→ Limited capacity, fast access
@@ -477,11 +477,11 @@ Meta Glass Device
 
 ### Local WiFi Transfer Options
 
-**Option 1: Direct WiFi Transfer (Phone ↔ Meta Glass)**
+**Option 1: Direct WiFi Transfer (Phone ↔ Smart Glass)**
 
 **Architecture:**
 ```
-Phone (WiFi Direct/Hotspot) ←→ Meta Glass (WiFi Client)
+Phone (WiFi Direct/Hotspot) ←→ Smart Glass (WiFi Client)
     │                              │
     └──→ Local WiFi Network ───────┘
 ```
@@ -498,7 +498,7 @@ Phone (WiFi Direct/Hotspot) ←→ Meta Glass (WiFi Client)
 **Flow:**
 ```
 1. Phone creates WiFi Direct group
-2. Meta Glass discovers and connects
+2. Smart Glass discovers and connects
 3. Phone acts as Group Owner (GO)
 4. Transfer media files directly
 5. No internet connection needed
@@ -525,7 +525,7 @@ Phone (WiFi Direct/Hotspot) ←→ Meta Glass (WiFi Client)
 
 **Flow:**
 ```
-1. Phone and Meta Glass connect to same WiFi router
+1. Phone and Smart Glass connect to same WiFi router
 2. Devices discover each other via mDNS/Bonjour
 3. Establish direct connection (IP addresses)
 4. Transfer media files over local network
@@ -546,15 +546,15 @@ Phone (WiFi Direct/Hotspot) ←→ Meta Glass (WiFi Client)
 
 **3. Phone Hotspot Mode**
 - **Technology**: Phone creates WiFi hotspot
-- **Setup**: Phone creates hotspot, Meta Glass connects
+- **Setup**: Phone creates hotspot, Smart Glass connects
 - **Speed**: Depends on phone's WiFi capability
 - **Use Case**: On-the-go sync, no router available
 
 **Flow:**
 ```
 1. Phone enables WiFi hotspot
-2. Meta Glass connects to phone's hotspot
-3. Phone and Meta Glass on same network
+2. Smart Glass connects to phone's hotspot
+3. Phone and Smart Glass on same network
 4. Transfer media files
 5. Phone uses cellular data for internet (if needed)
 ```
@@ -579,7 +579,7 @@ import zeroconf
 
 class DeviceDiscovery:
     def discover_devices(self):
-        # Discover Meta Glass devices on local network
+        # Discover Smart Glass devices on local network
         zeroconf.Zeroconf().browse_services(
             "_metaglass._tcp.local.",
             "_services._dns-sd._udp.local."
@@ -588,7 +588,7 @@ class DeviceDiscovery:
 
 **Transfer Protocol:**
 ```python
-# HTTP server on phone, client on Meta Glass
+# HTTP server on phone, client on Smart Glass
 # Or use WebRTC for peer-to-peer transfer
 
 class LocalTransfer:
@@ -645,7 +645,7 @@ class SmartSync:
 - Low power consumption
 
 **Features:**
-- **Auto-Discovery**: Automatically find Meta Glass when on same network
+- **Auto-Discovery**: Automatically find Smart Glass when on same network
 - **Incremental Sync**: Only transfer new/changed files
 - **Background Processing**: Sync without user intervention
 - **Bandwidth Management**: Throttle during active use
@@ -670,15 +670,15 @@ class SmartSync:
 
 **Example User Flow:**
 ```
-User opens Meta Glass app on phone
+User opens Smart Glass app on phone
     ↓
-App detects Meta Glass on local WiFi
+App detects Smart Glass on local WiFi
     ↓
 "Sync media via local WiFi?" → User confirms
     ↓
 Fast local transfer (no internet, no data charges)
     ↓
-Media available on Meta Glass immediately
+Media available on Smart Glass immediately
 ```
 
 **Technical Implementation:**
@@ -700,9 +700,9 @@ def initiate_sync():
     return {'files': list_media_files()}
 ```
 
-**Meta Glass Side (Client):**
+**Smart Glass Side (Client):**
 ```python
-# Client on Meta Glass
+# Client on Smart Glass
 class MediaSyncClient:
     def sync_from_phone(self, phone_ip):
         # Discover phone
@@ -730,7 +730,7 @@ class MediaSyncClient:
 
 ### 1. Voice Recognition Service
 
-**On-Device (Meta Glass):**
+**On-Device (Smart Glass):**
 
 **Wake Word Detection:**
 - Always-on wake word detection ("Hey Meta")
@@ -784,7 +784,7 @@ Entities:
 
 ### 2. WiFi Direct Connection Service
 
-**On Meta Glass (Client):**
+**On Smart Glass (Client):**
 
 **WiFi Direct Client:**
 - Discover phone devices
@@ -821,7 +821,7 @@ class WiFiDirectClient {
 
 **WiFi Direct Server:**
 - Create WiFi Direct group
-- Accept connections from Meta Glass
+- Accept connections from Smart Glass
 - Serve media files
 - Handle video generation requests
 
@@ -1171,9 +1171,9 @@ TTL: 1 hour
 
 **1. WiFi Direct Transfer (Primary):**
 ```
-Video Generated on Phone → Transfer via WiFi Direct → Meta Glass
+Video Generated on Phone → Transfer via WiFi Direct → Smart Glass
 ↓
-Display on Meta Glass immediately
+Display on Smart Glass immediately
 ↓
 No cloud upload needed (local only)
 ```
@@ -1207,14 +1207,14 @@ class VideoDeliveryService {
 
 ### Scenario: "Create a 2-minute video of me and my wife's trip in Paris"
 
-**Step 1: Voice Capture (Meta Glass)**
+**Step 1: Voice Capture (Smart Glass)**
 ```
 User: "Hey Meta, create a 2-minute video of me and my wife's trip in Paris"
 ↓
 Wake word detected → Voice capture → On-device NLU or Cloud NLP
 ```
 
-**Step 2: NLP Processing (Meta Glass or Cloud)**
+**Step 2: NLP Processing (Smart Glass or Cloud)**
 ```
 Speech-to-Text: "create a 2-minute video of me and my wife's trip in Paris"
 ↓
@@ -1229,9 +1229,9 @@ Entity Extraction:
 Map "wife" → person_id (from user profile)
 ```
 
-**Step 3: WiFi Direct Connection (Meta Glass → Phone)**
+**Step 3: WiFi Direct Connection (Smart Glass → Phone)**
 ```
-Meta Glass discovers phone via WiFi Direct
+Smart Glass discovers phone via WiFi Direct
 ↓
 Establish P2P connection
 ↓
@@ -1294,15 +1294,15 @@ Phone App: Encode to H.264 (1080p)
 Generated video stored on phone
 ```
 
-**Step 7: Video Delivery (Phone → Meta Glass via WiFi Direct)**
+**Step 7: Video Delivery (Phone → Smart Glass via WiFi Direct)**
 ```
-Phone App: Transfer final video to Meta Glass
+Phone App: Transfer final video to Smart Glass
   - Via WiFi Direct (fast local transfer)
   - No internet required
 ↓
-Meta Glass: Receive video
+Smart Glass: Receive video
 ↓
-Meta Glass: Display video in UI
+Smart Glass: Display video in UI
 ↓
 Optional: Phone App uploads to cloud in background
 ```
@@ -1319,17 +1319,17 @@ Optional: Phone App uploads to cloud in background
 
 | Step | Operation | Location | Time | Notes |
 |------|-----------|----------|------|-------|
-| **1** | Voice Capture | Meta Glass | 50-200ms | Audio capture duration |
-| **2** | Voice Recognition | Meta Glass/Cloud | 100-500ms | On-device: 100ms, Cloud: 500ms |
-| **3** | NLP Processing | Meta Glass/Cloud | 200-800ms | Intent + entity extraction |
-| **4** | WiFi Direct Connection | Meta Glass ↔ Phone | 500-2000ms | Discovery + connection setup |
-| **5** | Request Transfer | Meta Glass → Phone | 10-50ms | Small JSON payload |
+| **1** | Voice Capture | Smart Glass | 50-200ms | Audio capture duration |
+| **2** | Voice Recognition | Smart Glass/Cloud | 100-500ms | On-device: 100ms, Cloud: 500ms |
+| **3** | NLP Processing | Smart Glass/Cloud | 200-800ms | Intent + entity extraction |
+| **4** | WiFi Direct Connection | Smart Glass ↔ Phone | 500-2000ms | Discovery + connection setup |
+| **5** | Request Transfer | Smart Glass → Phone | 10-50ms | Small JSON payload |
 | **6** | Video Search (Local) | Phone | 100-500ms | MediaStore query |
 | **7** | Video Search (Cloud) | Phone → Cloud | 200-1000ms | If needed, metadata query |
 | **8** | Video Selection | Phone | 50-200ms | Algorithm execution |
 | **9** | Video Processing | Phone | 1000-3000ms | Trimming, merging, encoding |
-| **10** | Video Transfer | Phone → Meta Glass | 200-1000ms | WiFi Direct transfer |
-| **11** | Display | Meta Glass | 50-100ms | Video playback start |
+| **10** | Video Transfer | Phone → Smart Glass | 200-1000ms | WiFi Direct transfer |
+| **11** | Display | Smart Glass | 50-100ms | Video playback start |
 
 **Total Time: 2.3-9.2 seconds**
 
@@ -1470,7 +1470,7 @@ Optional: Phone App uploads to cloud in background
 #### Input Data Sizes
 
 **Source Videos:**
-- **Meta Glass native format**: 1440 × 1920 @ 30 FPS
+- **Smart Glass native format**: 1440 × 1920 @ 30 FPS
 - **Average video**: 50-60MB (1440×1920, 30 seconds, H.264)
 - **50 candidate videos**: 2.5-3GB total
 - **15 selected clips**: 750-900MB (15 × 50-60MB)
@@ -1501,20 +1501,20 @@ Optional: Phone App uploads to cloud in background
 - **Storage**: Temporary
 
 **Final Video:**
-- **2-minute video (1440×1920 @ 30 FPS - Meta Glass native)**: 30-60MB
+- **2-minute video (1440×1920 @ 30 FPS - Smart Glass native)**: 30-60MB
 - **2-minute video (1080p)**: 30-60MB
 - **2-minute video (720p)**: 15-30MB
-- **Recommended**: 1440×1920 @ 30 FPS (30-60MB) - matches Meta Glass native resolution
+- **Recommended**: 1440×1920 @ 30 FPS (30-60MB) - matches Smart Glass native resolution
 
 #### Transfer Data Sizes
 
 **WiFi Direct Transfer:**
 
-**Request (Meta Glass → Phone):**
+**Request (Smart Glass → Phone):**
 - **Size**: 1-5KB (JSON)
 - **Time**: 10-50ms
 
-**Video Transfer (Phone → Meta Glass):**
+**Video Transfer (Phone → Smart Glass):**
 - **Size**: 30-60MB (final video)
 - **Time**: 500-5000ms (depends on WiFi Direct speed)
 - **Bandwidth**: 100-500 Mbps typical
@@ -1544,7 +1544,7 @@ Optional: Phone App uploads to cloud in background
 - **1000 videos**: 2-5MB
 - **Storage**: Negligible
 
-**On Meta Glass:**
+**On Smart Glass:**
 
 **Cached Videos:**
 - **Total storage**: 32 GB Flash storage
@@ -1564,13 +1564,13 @@ Optional: Phone App uploads to cloud in background
 
 #### WiFi Direct Bandwidth
 
-**Meta Glass Wi-Fi Specification:**
+**Smart Glass Wi-Fi Specification:**
 - **Wi-Fi 6 certified** (802.11ax)
 - Supports WiFi Direct over Wi-Fi 6
 
 **Theoretical Speeds:**
 - **WiFi 5 (802.11ac)**: Up to 433 Mbps (single stream)
-- **WiFi 6 (802.11ax)**: Up to 1.2 Gbps (Meta Glass supports this)
+- **WiFi 6 (802.11ax)**: Up to 1.2 Gbps (Smart Glass supports this)
 - **WiFi 6E**: Up to 1.2 Gbps (6GHz band)
 
 **Practical Speeds (WiFi Direct with Wi-Fi 6):**
@@ -1645,7 +1645,7 @@ Optional: Phone App uploads to cloud in background
 - **Processed videos**: 300MB-6GB (cache)
 - **App data**: 100-500MB
 
-#### Meta Glass Resource Usage
+#### Smart Glass Resource Usage
 
 **CPU Usage:**
 - **Voice recognition**: 10-20%
@@ -1812,7 +1812,7 @@ Try Phone Processing First (WiFi Direct)
     ↓ (if fails or unavailable)
 Fallback to Cloud Processing
     ↓
-Sync result back to phone/Meta Glass
+Sync result back to phone/Smart Glass
 ```
 
 ---
@@ -1955,9 +1955,9 @@ Sync result back to phone/Meta Glass
 
 | Component | Technology | Location | Rationale |
 |-----------|-----------|----------|-----------|
-| **Voice Recognition** | On-Device ML, Whisper | Meta Glass/Phone | Low latency, privacy |
-| **NLP** | On-Device NLU, Cloud BERT/GPT | Meta Glass/Cloud | Hybrid processing |
-| **WiFi Direct** | Android WiFi P2P API | Phone ↔ Meta Glass | Fast local transfer |
+| **Voice Recognition** | On-Device ML, Whisper | Smart Glass/Phone | Low latency, privacy |
+| **NLP** | On-Device NLU, Cloud BERT/GPT | Smart Glass/Cloud | Hybrid processing |
+| **WiFi Direct** | Android WiFi P2P API | Phone ↔ Smart Glass | Fast local transfer |
 | **Video Search** | MediaStore API, SQLite | Phone (Local) | Fast local search |
 | **Metadata DB** | SQLite (Phone), Cassandra (Cloud) | Phone/Cloud | Local + cloud hybrid |
 | **Video Processing** | FFmpeg Mobile, MediaCodec | Phone | Hardware acceleration |
@@ -1998,12 +1998,12 @@ Sync result back to phone/Meta Glass
 
 ## Conclusion
 
-This hybrid mode system design enables Meta Glass users to generate personalized memory videos through natural language voice commands, with processing primarily happening on the user's phone via WiFi Direct connection.
+This hybrid mode system design enables Smart Glass users to generate personalized memory videos through natural language voice commands, with processing primarily happening on the user's phone via WiFi Direct connection.
 
 **Key Architecture Decisions:**
 
 1. **Hybrid Processing**: Phone-based processing (primary) + Cloud fallback
-2. **WiFi Direct**: Fast local transfer between phone and Meta Glass
+2. **WiFi Direct**: Fast local transfer between phone and Smart Glass
 3. **Local-First**: Process videos on phone for privacy and performance
 4. **Cloud Optional**: Use cloud only when needed (fallback, sync)
 
@@ -2012,7 +2012,7 @@ This hybrid mode system design enables Meta Glass users to generate personalized
 2. **WiFi Direct**: P2P connection between devices
 3. **Phone App**: Video search, selection, and processing
 4. **Local Processing**: FFmpeg + hardware acceleration on phone
-5. **Delivery**: WiFi Direct transfer to Meta Glass
+5. **Delivery**: WiFi Direct transfer to Smart Glass
 
 **Benefits:**
 - **Privacy**: Videos processed locally, no cloud upload required

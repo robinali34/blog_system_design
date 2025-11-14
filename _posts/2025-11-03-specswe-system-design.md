@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta SpecSWE System Design Interview Guide"
+title: "SpecSWE System Design Interview Guide"
 date: 2025-11-03
-categories: [Interview Preparation, System Design, Meta, SpecSWE]
+categories: [Interview Preparation, System Design, SpecSWE]
 excerpt: "Complete preparation guide for Meta's SpecSWE System Design and Product Architecture interviews, including evaluation criteria, interview format, and preparation strategies."
 ---
 

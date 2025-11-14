@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta Senior Software Engineer - Android Native System Design Questions"
+title: "Senior Software Engineer - Android Native System Design Questions"
 date: 2025-11-04
-categories: [Interview Questions, Meta, Android, Native Systems, System Design, Senior Engineer]
+categories: [Interview Questions, Android, Native Systems, System Design, Senior Engineer]
 excerpt: "A comprehensive list of common Android and native system design interview questions for Meta Senior Software Engineer positions, covering Android architecture, native code, and system-level design."
 ---
 

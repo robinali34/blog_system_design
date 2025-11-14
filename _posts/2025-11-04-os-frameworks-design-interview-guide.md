@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "OS Frameworks Design Interview Guide - Meta/Google/Apple"
+title: "OS Frameworks Design Interview Guide"
 date: 2025-11-04
-categories: [Interview Preparation, OS Frameworks, Meta, System Design, Embedded Systems]
+categories: [Interview Preparation, OS Frameworks, System Design, Embedded Systems]
 excerpt: "A comprehensive guide to OS Frameworks design interviews at Meta, Google, and Apple, covering common topics, evaluation criteria, answer structure, and a complete example walkthrough."
 ---
 

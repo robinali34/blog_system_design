@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta OS Frameworks - Common Interview Questions"
+title: "OS Frameworks - Common Interview Questions"
 date: 2025-11-04
-categories: [Interview Questions, Meta, OS Frameworks, Android, Quick Reference]
+categories: [Interview Questions, OS Frameworks, Android, Quick Reference]
 excerpt: "A comprehensive list of common Meta OS Frameworks system design interview questions, organized by category for quick reference and practice."
 ---
 

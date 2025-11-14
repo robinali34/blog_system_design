@@ -43,7 +43,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Geospatial data (with PostGIS)
 - Multi-tenant applications
 
-**Companies Using:** Instagram, Spotify, Reddit, Apple
+**Common Use Cases:** Social media platforms, streaming services, content management systems
 
 ---
 
@@ -70,7 +70,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Simple to moderate complexity queries
 - When team is already familiar with MySQL
 
-**Companies Using:** Facebook, Twitter, YouTube, GitHub
+**Common Use Cases:** Social media platforms, video streaming, developer platforms
 
 ---
 
@@ -102,7 +102,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Rapid prototyping
 - Flexible, evolving schemas
 
-**Companies Using:** eBay, Adobe, Forbes, Cisco
+**Common Use Cases:** E-commerce platforms, enterprise applications, content platforms
 
 ---
 
@@ -131,7 +131,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need linear scalability
 - Eventual consistency acceptable
 
-**Companies Using:** Netflix, Instagram, Apple, Reddit
+**Common Use Cases:** Streaming platforms, social media, mobile applications
 
 ---
 
@@ -161,7 +161,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Pub/sub messaging
 - Simple queues
 
-**Companies Using:** Twitter, GitHub, Snapchat, Pinterest
+**Common Use Cases:** Real-time platforms, developer tools, social media
 
 ---
 
@@ -190,7 +190,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need managed service
 - Simple key-value access patterns
 
-**Companies Using:** Amazon, Airbnb, Samsung, Lyft
+**Common Use Cases:** E-commerce platforms, marketplace applications, IoT devices
 
 ---
 
@@ -244,7 +244,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - When Redis features not needed
 - Multi-threaded workloads
 
-**Companies Using:** Facebook, Wikipedia, Twitter
+**Common Use Cases:** Social media platforms, content platforms, real-time applications
 
 ---
 
@@ -269,7 +269,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Global user base
 - High traffic websites
 
-**Companies Using:** Netflix, YouTube, Facebook, Amazon
+**Common Use Cases:** Streaming platforms, video services, social media, e-commerce
 
 ---
 
@@ -299,7 +299,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Multiple consumer groups
 - Need message replay
 
-**Companies Using:** Netflix, LinkedIn, Uber, Twitter
+**Common Use Cases:** Streaming platforms, professional networks, ride-sharing, real-time platforms
 
 ---
 
@@ -325,7 +325,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Enterprise features needed
 - AMQP protocol required
 
-**Companies Using:** Pivotal, Mozilla, Red Hat
+**Common Use Cases:** Pivotal, Mozilla, Red Hat
 
 ---
 
@@ -352,7 +352,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Want managed service
 - Decoupled microservices
 
-**Companies Using:** Amazon, Airbnb, Netflix
+**Common Use Cases:** E-commerce platforms, marketplace applications, streaming services
 
 ---
 
@@ -426,7 +426,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Cost-sensitive deployments
 - Custom requirements
 
-**Companies Using:** GitHub, Stack Overflow, Reddit
+**Common Use Cases:** Developer platforms, Q&A platforms, community forums
 
 ---
 
@@ -452,7 +452,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Cost-sensitive deployments
 - Need rate limiting
 
-**Companies Using:** Netflix, Dropbox, WordPress
+**Common Use Cases:** Streaming platforms, file storage, content management systems
 
 ---
 
@@ -482,7 +482,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Complex search requirements
 - Need aggregations
 
-**Companies Using:** Netflix, GitHub, Stack Overflow, Uber
+**Common Use Cases:** Streaming platforms, developer tools, Q&A platforms, ride-sharing
 
 ---
 
@@ -507,13 +507,13 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need faceted search
 - Prefer Solr ecosystem
 
-**Companies Using:** Netflix, eBay, Instagram
+**Common Use Cases:** Streaming platforms, e-commerce, social media
 
 ---
 
 ## 6. Storage Systems
 
-### Amazon S3
+### S3 (Object Storage)
 
 **Pros:**
 - ✅ **Fully Managed**: No infrastructure management
@@ -537,30 +537,30 @@ Understanding when to use which technology and why is crucial for designing scal
 - Data lakes
 - Media storage
 
-**Companies Using:** Netflix, Airbnb, Dropbox
+**Common Use Cases:** Streaming platforms, marketplace applications, file storage
 
 ---
 
-### Google Cloud Storage
+### Cloud Storage
 
 **Pros:**
 - ✅ **Fully Managed**: No infrastructure management
 - ✅ **Multi-Region**: Automatic multi-region replication
-- ✅ **Integration**: Good Google Cloud integration
+- ✅ **Integration**: Good cloud platform integration
 - ✅ **Lifecycle Management**: Automatic data management
 - ✅ **Versioning**: Object versioning
 
 **Cons:**
-- ❌ **Vendor Lock-in**: Google Cloud-specific
+- ❌ **Vendor Lock-in**: Cloud provider-specific
 - ❌ **Less Popular**: Less popular than S3
 - ❌ **Ecosystem**: Smaller ecosystem than AWS
 
 **When to Use:**
-- Google Cloud Platform applications
+- Cloud platform applications
 - Need multi-region replication
-- Google Cloud integration
+- Cloud platform integration
 
-**Companies Using:** Spotify, Snapchat, PayPal
+**Common Use Cases:** Streaming services, social media, payment platforms
 
 ---
 
@@ -581,9 +581,9 @@ Understanding when to use which technology and why is crucial for designing scal
 **When to Use:**
 - Azure-native applications
 - Need Azure integration
-- Microsoft ecosystem
+- Enterprise ecosystems
 
-**Companies Using:** Microsoft, Adobe, BMW
+**Common Use Cases:** Enterprise software, creative tools, automotive industry
 
 ---
 
@@ -611,7 +611,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need managed API gateway
 - Microservices API management
 
-**Companies Using:** Amazon, Netflix, Airbnb
+**Common Use Cases:** E-commerce platforms, streaming services, marketplace applications
 
 ---
 
@@ -635,7 +635,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Custom requirements
 - Cost-sensitive deployments
 
-**Companies Using:** Glovo, Vox Media, Rakuten
+**Common Use Cases:** Glovo, Vox Media, Rakuten
 
 ---
 
@@ -659,7 +659,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need commercial support
 - Enterprise requirements
 
-**Companies Using:** Netflix, Dropbox, WordPress
+**Common Use Cases:** Streaming platforms, file storage, content management systems
 
 ---
 
@@ -687,7 +687,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need pull-based collection
 - Cost-sensitive deployments
 
-**Companies Using:** SoundCloud, DigitalOcean, Docker
+**Common Use Cases:** SoundCloud, DigitalOcean, Docker
 
 ---
 
@@ -712,7 +712,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Dashboard requirements
 - Metrics visualization
 
-**Companies Using:** PayPal, eBay, JPMorgan Chase
+**Common Use Cases:** Payment platforms, e-commerce, financial services
 
 ---
 
@@ -736,7 +736,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Quick setup required
 - Budget allows
 
-**Companies Using:** Airbnb, Spotify, Peloton
+**Common Use Cases:** Marketplace applications, streaming services, fitness platforms
 
 ---
 
@@ -763,7 +763,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Static content serving
 - Load balancing
 
-**Companies Using:** Netflix, Dropbox, WordPress, GitHub
+**Common Use Cases:** Streaming platforms, file storage, content management systems, developer tools
 
 ---
 
@@ -788,7 +788,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Per-directory configuration needed
 - Team familiar with Apache
 
-**Companies Using:** Wikipedia, Apple, IBM
+**Common Use Cases:** Content platforms, mobile applications, enterprise systems
 
 ---
 
@@ -816,7 +816,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need advanced features
 - Microservices architecture
 
-**Companies Using:** Google, Netflix, Spotify, Uber
+**Common Use Cases:** Cloud platforms, streaming services, music platforms, ride-sharing
 
 ---
 
@@ -870,7 +870,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Rapid prototyping
 - When performance is critical (no network overhead)
 
-**Companies Using:** Many startups, small applications
+**Common Use Cases:** Many startups, small applications
 
 ---
 
@@ -901,7 +901,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Different services have different requirements
 - Microservices expertise available
 
-**Companies Using:** Netflix, Amazon, Uber, Spotify
+**Common Use Cases:** Streaming platforms, e-commerce, ride-sharing, music platforms
 
 ---
 
@@ -932,7 +932,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Multiple consumers for same events
 - Event sourcing patterns
 
-**Companies Using:** Netflix, Uber, LinkedIn, Twitter
+**Common Use Cases:** Streaming platforms, ride-sharing, professional networks, social media
 
 ---
 
@@ -964,7 +964,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Scheduled tasks
 - Cost optimization for low-traffic services
 
-**Companies Using:** Netflix, Airbnb, Coca-Cola, iRobot
+**Common Use Cases:** Streaming platforms, marketplace applications, consumer brands, IoT devices
 
 ---
 
@@ -994,7 +994,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Knowledge graphs
 - Network analysis
 
-**Companies Using:** eBay, Walmart, Cisco, NASA
+**Common Use Cases:** eBay, Walmart, Cisco, NASA
 
 ---
 
@@ -1020,7 +1020,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Financial time-series data
 - Real-time analytics
 
-**Companies Using:** Cisco, IBM, Tesla
+**Common Use Cases:** Cisco, IBM, Tesla
 
 ---
 
@@ -1043,7 +1043,7 @@ Understanding when to use which technology and why is crucial for designing scal
 - Need ACID guarantees
 - Complex queries on time-series data
 
-**Companies Using:** Comcast, Microsoft, IBM
+**Common Use Cases:** Comcast, Microsoft, IBM
 
 ---
 
@@ -1098,7 +1098,7 @@ Understanding when to use which technology and why is crucial for designing scal
 
 **Common Providers:** Cloudflare, AWS CloudFront, Fastly, Akamai
 
-**Companies Using:** Netflix, YouTube, Facebook, Amazon
+**Common Use Cases:** Streaming platforms, video services, social media, e-commerce
 
 ---
 

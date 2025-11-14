@@ -2,7 +2,7 @@
 layout: post
 title: "Performance Optimization Skills Study Guide for OS Frameworks Interviews"
 date: 2025-11-05
-categories: [Study Guide, Performance Optimization, Interview Preparation, Meta, OS Frameworks]
+categories: [Study Guide, Performance Optimization, Interview Preparation, OS Frameworks]
 excerpt: "A comprehensive study guide for mastering performance optimization skills required for OS Frameworks design interviews, covering CPU, memory, I/O, algorithm, concurrency, and system-level optimization techniques."
 ---
 

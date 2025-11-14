@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta OS Frameworks Software Engineer - Complete Preparation Guide"
+title: "OS Frameworks Software Engineer - Complete Preparation Guide"
 date: 2025-11-05
-categories: [Interview Preparation, Meta, OS Frameworks, Study Guide]
+categories: [Interview Preparation, OS Frameworks, Study Guide]
 excerpt: "A comprehensive preparation guide for Meta Software Engineer - OS Frameworks interviews, including study strategy, key topics, practice plan, and interview tips."
 ---
 

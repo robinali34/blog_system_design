@@ -2,7 +2,7 @@
 layout: post
 title: "OS Internals Study Guide for OS Frameworks Interviews"
 date: 2025-11-04
-categories: [Study Guide, OS Internals, Interview Preparation, Meta, OS Frameworks]
+categories: [Study Guide, OS Internals, Interview Preparation, OS Frameworks]
 excerpt: "A comprehensive study guide for mastering OS internals required for OS Frameworks design interviews, covering process management, memory management, file systems, I/O, and more."
 ---
 

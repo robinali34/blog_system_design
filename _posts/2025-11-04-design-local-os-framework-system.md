@@ -2,7 +2,7 @@
 layout: post
 title: "Design a Local OS Framework System (Non-Distributed, No Cloud)"
 date: 2025-11-04
-categories: [System Design, Interview Example, Meta, OS Frameworks, Android, Local Systems]
+categories: [System Design, Interview Example, OS Frameworks, Android, Local Systems]
 excerpt: "A detailed walkthrough of designing a local OS framework system that runs entirely on-device without cloud dependencies, focusing on Android framework components, system services, and native code integration."
 ---
 

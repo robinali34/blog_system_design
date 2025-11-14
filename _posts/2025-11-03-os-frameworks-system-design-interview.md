@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta System Design Interview Guide"
+title: "OS Frameworks System Design Interview Guide"
 date: 2025-11-03
-categories: [Interview Preparation, System Design, Meta]
+categories: [Interview Preparation, System Design]
 excerpt: "A comprehensive guide to Meta's system design interviews, including common topics, interview format, and preparation resources."
 ---
 

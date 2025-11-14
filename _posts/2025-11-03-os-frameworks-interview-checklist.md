@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta OS Frameworks Interview Preparation Checklist"
+title: "OS Frameworks Interview Preparation Checklist"
 date: 2025-11-04
-categories: [Interview Preparation, Meta, OS Frameworks, Android, Checklist]
+categories: [Interview Preparation, OS Frameworks, Android, Checklist]
 excerpt: "A comprehensive checklist and detailed preparation guide for Meta's Software Engineer - OS Frameworks in-domain system design interview, covering all key topics, practice areas, and preparation strategies."
 ---
 

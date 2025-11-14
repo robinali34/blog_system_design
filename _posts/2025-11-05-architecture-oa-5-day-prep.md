@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Robinhood Architecture OA - 5-Day Preparation Guide"
+title: "Architecture OA - 5-Day Preparation Guide"
 date: 2025-11-05
-categories: [Interview Preparation, Robinhood, OA, Architecture, Fintech, Study Plan]
-excerpt: "A focused 5-day preparation plan for Robinhood's Architecture Online Assessment (OA), covering trading systems, real-time data, order management, portfolio systems, and fintech-specific challenges."
+categories: [Interview Preparation, OA, Architecture, Fintech, Study Plan]
+excerpt: "A focused 5-day preparation plan for Architecture Online Assessment (OA), covering trading systems, real-time data, order management, portfolio systems, and fintech-specific challenges."
 ---
 
 ## Introduction
 
-This 5-day intensive preparation guide is designed for Robinhood's Architecture Online Assessment (OA). Robinhood's OA typically focuses on designing scalable, high-performance financial systems that handle real-time trading, market data, and millions of transactions. The assessment emphasizes fintech domain knowledge, low-latency systems, data consistency, and reliability.
+This 5-day intensive preparation guide is designed for Architecture Online Assessment (OA). Architecture OAs typically focus on designing scalable, high-performance financial systems that handle real-time trading, market data, and millions of transactions. The assessment emphasizes fintech domain knowledge, low-latency systems, data consistency, and reliability.
 
-**Key Characteristics of Robinhood Architecture OA:**
+**Key Characteristics of Architecture OA:**
 - **Fintech Focus**: Trading systems, order management, market data
 - **Real-Time Requirements**: Low-latency order execution, live market data
 - **High Reliability**: Financial transactions must be accurate and consistent
@@ -74,8 +74,8 @@ This 5-day intensive preparation guide is designed for Robinhood's Architecture 
 - Fault tolerance and error handling
 
 **Resources:**
-- [Robinhood System Design Interview Guide](/blog_system_design/2025/11/03/robinhood-system-design-interview/)
-- [Robinhood Backend System Design Questions](/blog_system_design/2025/11/03/robinhood-backend-system-design-questions/)
+- [System Design Interview Guide](/blog_system_design/2025/11/03/system-design-interview/)
+- [Backend System Design Questions](/blog_system_design/2025/11/03/backend-system-design-questions/)
 - "Designing Data-Intensive Applications" - Chapter 11: Stream Processing
 
 ---
@@ -495,15 +495,15 @@ After mock OA, evaluate:
 
 ## Related Resources
 
-- **[Robinhood System Design Interview Guide](/blog_system_design/2025/11/03/robinhood-system-design-interview/)**: Comprehensive interview guide
-- **[Robinhood Backend System Design Questions](/blog_system_design/2025/11/03/robinhood-backend-system-design-questions/)**: Question bank
-- **[Design Distributed Job Scheduler - Robinhood](/blog_system_design/2025/11/03/design-distributed-job-scheduler-robinhood/)**: Example design
+- **[System Design Interview Guide](/blog_system_design/2025/11/03/system-design-interview/)**: Comprehensive interview guide
+- **[Backend System Design Questions](/blog_system_design/2025/11/03/backend-system-design-questions/)**: Question bank
+- **[Design Distributed Job Scheduler](/blog_system_design/2025/11/03/design-distributed-job-scheduler/)**: Example design
 
 ---
 
 ## Conclusion
 
-This 5-day preparation plan provides focused, intensive preparation for Robinhood's Architecture OA. Each day builds essential knowledge and skills:
+This 5-day preparation plan provides focused, intensive preparation for Architecture OA. Each day builds essential knowledge and skills:
 
 1. **Day 1**: Trading systems and order management (core)
 2. **Day 2**: Real-time market data and data feeds (critical)
@@ -520,11 +520,11 @@ This 5-day preparation plan provides focused, intensive preparation for Robinhoo
 - Communicate clearly and structure answers
 
 **Remember:**
-- Robinhood values fintech domain knowledge
+- Fintech companies value fintech domain knowledge
 - Real-time performance is critical
 - Data consistency is non-negotiable
 - Regulatory compliance is essential
 - Scalability must be addressed from the start
 
-Good luck with your Robinhood Architecture OA! 🚀📈
+Good luck with your Architecture OA! 🚀📈
 

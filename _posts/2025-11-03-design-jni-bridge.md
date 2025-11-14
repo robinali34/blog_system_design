@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Design a JNI (Java Native Interface) Bridge - Meta OS Frameworks Interview"
+title: "Design a JNI (Java Native Interface) Bridge - OS Frameworks Interview"
 date: 2025-11-03
-categories: [System Design, Interview Example, Meta, OS Frameworks, Android, JNI]
+categories: [System Design, Interview Example, OS Frameworks, Android, JNI]
 excerpt: "A detailed walkthrough of designing a JNI bridge for efficient data transfer, memory management, error handling, performance optimization, and thread safety between Java and native code."
 ---
 

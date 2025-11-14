@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta In-Domain Design Interview Guide"
+title: "In-Domain Design Interview Guide"
 date: 2025-11-03
-categories: [Interview Preparation, System Design, Meta]
+categories: [Interview Preparation, System Design]
 excerpt: "Complete guide to Meta's In-Domain Design interview format, evaluation criteria, and preparation strategies for specialized engineering roles."
 ---
 

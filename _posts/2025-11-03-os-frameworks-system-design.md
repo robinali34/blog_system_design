@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta OS Frameworks System Design Interview Guide"
+title: "OS Frameworks System Design Interview Guide"
 date: 2025-11-03
-categories: [Interview Preparation, System Design, Meta, OS Frameworks]
+categories: [Interview Preparation, System Design, OS Frameworks]
 excerpt: "Complete preparation guide for Meta's Software Engineer - OS Frameworks in-domain system design interview, including interview format, key topics, and preparation strategies."
 ---
 

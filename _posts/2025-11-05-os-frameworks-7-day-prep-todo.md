@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta OS/Frameworks 7-Day Preparation Todo - OS/Middleware Focus"
+title: "OS/Frameworks 7-Day Preparation Todo - OS/Middleware Focus"
 date: 2025-11-05
-categories: [Interview Preparation, Meta, OS Frameworks, Study Plan, Todo List]
+categories: [Interview Preparation, OS Frameworks, Study Plan, Todo List]
 excerpt: "A focused 7-day preparation todo list for Meta OS/Frameworks interviews, emphasizing OS/middleware concepts, IPC, threading models, memory management, and platform-agnostic design."
 ---
 

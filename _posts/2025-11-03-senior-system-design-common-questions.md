@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "Meta Senior Software Engineer - Common System Design Interview Questions"
+title: "Senior Software Engineer - Common System Design Interview Questions"
 date: 2025-11-04
-categories: [Interview Questions, Meta, System Design, Senior Engineer, Quick Reference]
+categories: [Interview Questions, System Design, Senior Engineer, Quick Reference]
 excerpt: "A comprehensive list of common Meta Senior Software Engineer system design interview questions, organized by category and frequency for quick reference and practice."
 ---
 
