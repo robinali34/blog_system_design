@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Amazon SQS: Comprehensive Guide with Use Cases and Deployment"
-date: 2025-11-10
+date: 2025-11-13
 categories: [AWS, Message Queue, SQS, Tutorial, Use Cases, Deployment, Distributed Systems]
 excerpt: "A comprehensive guide to Amazon SQS (Simple Queue Service), covering queue types, use cases, deployment strategies, best practices, and practical examples for building decoupled, scalable applications."
 ---

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Dead Letter Queue (DLQ): Comprehensive Guide with Use Cases and Implementation"
-date: 2025-11-10
+date: 2025-11-13
 categories: [Message Queue, DLQ, Error Handling, System Design, Tutorial, Best Practices]
 excerpt: "A comprehensive guide to Dead Letter Queues (DLQ), covering concepts, use cases, implementation patterns, and best practices for handling failed messages in distributed systems."
 ---

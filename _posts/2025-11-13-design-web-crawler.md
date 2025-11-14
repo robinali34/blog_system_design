@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Design a Web Crawler System"
-date: 2025-11-10
+date: 2025-11-13
 categories: [System Design, Interview Example, Distributed Systems, Web Crawling]
 excerpt: "A comprehensive guide to designing a scalable web crawler system, covering architecture, politeness policies, fault tolerance, and efficient crawling strategies for indexing billions of web pages."
 ---

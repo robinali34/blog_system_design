@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Apache Kafka: Comprehensive Guide with Use Cases and Deployment"
-date: 2025-11-10
+date: 2025-11-13
 categories: [Apache Kafka, Message Queue, Streaming, Tutorial, Use Cases, Deployment, Distributed Systems]
 excerpt: "A comprehensive guide to Apache Kafka, covering core concepts, use cases, deployment strategies, best practices, and practical examples for building real-time streaming applications."
 ---
