@@ -473,16 +473,23 @@ $radius-full: 24px;
       }
       
       &[data-level="1"] {
-        padding: 0.5rem 1rem;
-        font-size: 0.85rem;
-        margin-left: 1rem;
-        border-left: 3px solid $morandi-blue;
-        border-radius: 12px;
+        padding: 0.4rem 0.7rem;
+        font-size: 0.8rem;
+        border-left: 2px solid $morandi-blue;
+        border-radius: 8px;
+        text-align: center;
+        white-space: nowrap;
+        
+        &:hover {
+          background-color: $morandi-beige;
+          transform: translateY(-1px);
+        }
         
         &.active {
           background-color: $morandi-pink;
           border-color: $morandi-pink;
           border-left-color: $morandi-blue;
+          color: #ffffff;
         }
       }
     }
@@ -492,17 +499,16 @@ $radius-full: 24px;
       display: inline-block;
       
       .category-parent {
-        padding: 0.7rem 1.3rem;
+        padding: 0.6rem 1.1rem;
         border: 2px solid $morandi-gray;
-        border-radius: 20px;
+        border-radius: 18px;
         background: linear-gradient(135deg, $morandi-beige 0%, #ffffff 100%);
         color: $morandi-heading;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
         font-weight: 600;
         cursor: pointer;
         transition: all 0.3s ease;
         white-space: nowrap;
-        margin-bottom: 0.5rem;
         
         &:hover {
           background: linear-gradient(135deg, $morandi-blue 0%, $morandi-beige 100%);
@@ -522,17 +528,50 @@ $radius-full: 24px;
       
       .category-children {
         display: none;
-        flex-wrap: wrap;
-        gap: 0.5rem;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 100;
         margin-top: 0.5rem;
-        padding: 1rem;
-        background: linear-gradient(135deg, rgba(232, 228, 216, 0.3) 0%, rgba(244, 240, 228, 0.3) 100%);
+        padding: 0.75rem;
+        background: #ffffff;
         border-radius: 12px;
         border: 2px solid $morandi-gray;
-        margin-left: 0;
+        box-shadow: 0 8px 24px rgba(139, 122, 107, 0.2);
+        min-width: 200px;
+        max-width: 300px;
+        max-height: 400px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        
+        // Custom scrollbar
+        &::-webkit-scrollbar {
+          width: 6px;
+        }
+        
+        &::-webkit-scrollbar-track {
+          background: rgba(232, 228, 216, 0.3);
+          border-radius: 3px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+          background: $morandi-gray;
+          border-radius: 3px;
+          
+          &:hover {
+            background: darken($morandi-gray, 10%);
+          }
+        }
+        
+        &.dropdown-panel {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+          gap: 0.4rem;
+          padding: 0.6rem;
+        }
         
         &.expanded {
-          display: flex;
+          display: grid;
         }
       }
     }
@@ -573,7 +612,7 @@ $radius-full: 24px;
     .category-hierarchy {
       flex-direction: column;
       align-items: stretch;
-      gap: 1rem;
+      gap: 0.75rem;
       
       .filter-btn {
         padding: 0.5rem 1rem;
@@ -582,6 +621,7 @@ $radius-full: 24px;
       
       .category-group {
         width: 100%;
+        position: relative;
         
         .category-parent {
           width: 100%;
@@ -591,15 +631,18 @@ $radius-full: 24px;
         }
         
         .category-children {
-          flex-direction: column;
-          align-items: stretch;
-          padding: 0.75rem;
+          position: relative;
+          width: 100%;
+          max-width: 100%;
+          max-height: 300px;
+          grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+          padding: 0.6rem;
           
           .filter-btn[data-level="1"] {
-            margin-left: 0;
             width: 100%;
-            text-align: left;
-            padding: 0.5rem 0.8rem;
+            text-align: center;
+            padding: 0.4rem 0.6rem;
+            font-size: 0.75rem;
           }
         }
       }
