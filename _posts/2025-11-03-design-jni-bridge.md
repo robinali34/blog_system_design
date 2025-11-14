@@ -10,6 +10,28 @@ excerpt: "A detailed walkthrough of designing a JNI bridge for efficient data tr
 
 This post provides a comprehensive walkthrough of designing a JNI (Java Native Interface) Bridge, a common interview question for Meta's Software Engineer - OS Frameworks role. JNI bridges are critical components in Android frameworks that enable communication between Java and native (C/C++) code, requiring careful design for performance, memory safety, and reliability.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Understanding JNI](#understanding-jni)
+3. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+4. [High-Level Design](#high-level-design)
+5. [Core Entities](#core-entities)
+6. [API](#api)
+7. [Data Flow](#data-flow)
+8. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Complete Implementation Example](#complete-implementation-example)
+   - [Best Practices Summary](#best-practices-summary)
+   - [Common Pitfalls and Solutions](#common-pitfalls-and-solutions)
+10. [Conclusion](#conclusion)
+
 ## Problem Statement
 
 **Design a JNI (Java Native Interface) Bridge that addresses:**
@@ -42,7 +64,7 @@ JNI (Java Native Interface) is a programming framework that allows Java code run
 5. **Type Mapping**: Converting between Java and native types
 6. **Reference Management**: Managing local and global references
 
-## Step 1: Requirements Gathering
+## Requirements
 
 ### Functional Requirements
 
@@ -97,7 +119,7 @@ JNI (Java Native Interface) is a programming framework that allows Java code run
 - Comprehensive error messages
 - Easy to debug and profile
 
-## Step 2: High-Level Architecture
+## High-Level Design
 
 ### System Components
 
@@ -145,7 +167,106 @@ JNI (Java Native Interface) is a programming framework that allows Java code run
 7. **Thread Manager**: Manages thread attachment/detachment
 8. **Call Optimizer**: Optimizes JNI call performance
 
-## Step 3: Detailed Design
+## Core Entities
+
+### JNI Call
+- **Attributes**: call_id, method_name, parameters, return_type, timestamp
+- **Relationships**: Executed via JNI bridge, has result
+
+### Native Reference
+- **Attributes**: ref_id, ref_type, object_type, created_at
+- **Relationships**: Managed by reference manager
+
+### Memory Allocation
+- **Attributes**: allocation_id, size, type, native_ptr, java_ref
+- **Relationships**: Tracked for leak detection
+
+## API
+
+### Java API
+```java
+public class JNIBridge {
+    public native int processData(byte[] data);
+    public native void releaseNativeResource(long nativePtr);
+    public native String getNativeString();
+}
+```
+
+### Native API
+```cpp
+extern "C" {
+    JNIEXPORT jint JNICALL
+    Java_com_example_JNIBridge_processData(JNIEnv* env, jobject thiz, jbyteArray data);
+    
+    JNIEXPORT void JNICALL
+    Java_com_example_JNIBridge_releaseNativeResource(JNIEnv* env, jobject thiz, jlong nativePtr);
+}
+```
+
+## Data Flow
+
+### Java to Native Call Flow
+1. Java code calls native method → JVM
+2. JVM → JNI Bridge (lookup native function)
+3. JNI Bridge → Parameter Conversion (Java types to native types)
+4. Parameter Conversion → Native Function (execute native code)
+5. Native Function → Result Conversion (native types to Java types)
+6. Result Conversion → JVM (return to Java)
+7. JVM → Java code (return result)
+
+### Native to Java Callback Flow
+1. Native code needs Java callback → JNI Bridge
+2. JNI Bridge → Get JNI Environment (attach thread if needed)
+3. Get JNI Environment → Find Java Method (lookup method ID)
+4. Find Java Method → Call Java Method (invoke via JNI)
+5. Call Java Method → Java Code (execute callback)
+6. Java Code → Return Result (via JNI)
+7. Return Result → Native Code (receive result)
+
+## Database Design
+
+### Schema Design
+
+**JNI Calls Log Table:**
+```sql
+CREATE TABLE jni_calls_log (
+    call_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    method_name VARCHAR(255) NOT NULL,
+    parameters TEXT,
+    return_type VARCHAR(50),
+    execution_time_ms INTEGER,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_method_name (method_name),
+    INDEX idx_timestamp (timestamp)
+);
+```
+
+**Native References Table:**
+```sql
+CREATE TABLE native_references (
+    ref_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ref_type VARCHAR(20) NOT NULL, -- 'local', 'global', 'weak'
+    object_type VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    released_at TIMESTAMP,
+    INDEX idx_ref_type (ref_type),
+    INDEX idx_released_at (released_at)
+);
+```
+
+### Database Sharding Strategy
+
+**Local SQLite Database:**
+- Single database file per application
+- Used for debugging and profiling only
+- No sharding needed (local-only)
+- Can be disabled in production for performance
+
+## Deep Dive
+
+### Component Design
+
+#### Detailed Design
 
 ### 1. Efficient Data Transfer
 
@@ -754,7 +875,7 @@ public:
 };
 ```
 
-## Step 4: Complete Implementation Example
+### Complete Implementation Example
 
 ### Java API
 
@@ -971,7 +1092,7 @@ Java_JNIBridge_processValueThreadSafe(JNIEnv *env, jobject thiz, jint value) {
 }
 ```
 
-## Step 5: Best Practices Summary
+### Best Practices Summary
 
 ### Performance Optimization
 
@@ -1005,7 +1126,7 @@ Java_JNIBridge_processValueThreadSafe(JNIEnv *env, jobject thiz, jint value) {
 4. **Avoid Sharing JNIEnv**: Each thread has its own
 5. **Use Thread-Local Storage**: For thread-specific data
 
-## Step 6: Common Pitfalls and Solutions
+### Common Pitfalls and Solutions
 
 ### Pitfall 1: Memory Leaks
 

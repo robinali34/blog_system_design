@@ -12,6 +12,33 @@ A news feed is a core feature of social media platforms that displays a personal
 
 This post provides a detailed walkthrough of designing a news feed system, covering key architectural decisions, feed generation strategies, ranking algorithms, and scalability challenges. This is one of the most common system design interview questions that tests your understanding of distributed systems, caching, real-time processing, and algorithmic ranking.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+   - [Traffic Estimates](#traffic-estimates)
+   - [Storage Estimates](#storage-estimates)
+   - [Bandwidth Estimates](#bandwidth-estimates)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Feed Generation Strategies](#feed-generation-strategies)
+10. [Deep Dive](#deep-dive)
+    - [Component Design](#component-design)
+    - [Detailed Design](#detailed-design)
+    - [Scalability Considerations](#scalability-considerations)
+    - [Security Considerations](#security-considerations)
+    - [Monitoring & Observability](#monitoring--observability)
+    - [Trade-offs and Optimizations](#trade-offs-and-optimizations)
+11. [Summary](#summary)
+
 ## Problem Statement
 
 **Design a news feed system with the following features:**
@@ -33,7 +60,7 @@ This post provides a detailed walkthrough of designing a news feed system, cover
 - Average posts per user per day: 5 posts
 - Read:Write ratio: 200:1 (100B views / 500M posts)
 
-## Requirements Gathering
+## Requirements
 
 ### Functional Requirements
 
@@ -98,7 +125,25 @@ This post provides a detailed walkthrough of designing a news feed system, cover
 - **Write bandwidth**: 500M posts/day × 1KB = 500GB/day = 5.8MB/s
 - **Peak bandwidth**: 3x average = 174GB/s
 
-## System APIs
+## Core Entities
+
+### User
+- **Attributes**: user_id, username, email, created_at
+- **Relationships**: Follows users/pages/groups, creates posts, interacts with posts
+
+### Post
+- **Attributes**: post_id, user_id, content_type, content, media_url, like_count, comment_count, share_count, created_at
+- **Relationships**: Belongs to user/page/group, has likes, comments, shares
+
+### Follow
+- **Attributes**: follower_id, followee_id, followee_type, created_at
+- **Relationships**: Links user to user/page/group
+
+### Interaction
+- **Attributes**: interaction_id, user_id, post_id, interaction_type, created_at
+- **Relationships**: Links user to post (like, comment, share, view)
+
+## API
 
 ### 1. Get Feed
 ```
@@ -154,6 +199,40 @@ Parameters:
 Response:
   - comment_id: unique comment identifier
 ```
+
+## Data Flow
+
+### Feed Generation Flow
+1. Client requests feed → Load Balancer
+2. Load Balancer → API Gateway
+3. API Gateway → Feed Service
+4. Feed Service checks Redis cache for pre-computed feed
+5. If cache miss:
+   - Fetch followed entities from Social Graph Service
+   - Fetch cached posts (push model) from Redis
+   - Fetch recent posts from celebrities (pull model) from Database
+   - Merge and rank posts using Ranking Service
+   - Cache result in Redis
+6. Return feed to client
+
+### Post Creation Flow
+1. User creates post → API Gateway
+2. API Gateway → Post Service
+3. Post Service → Database (store post)
+4. Post Service → Message Queue (for async processing)
+5. Message Queue → Ranking Service (calculate relevance score)
+6. Message Queue → Feed Service (fan-out to followers)
+7. Feed Service updates followers' feed caches
+8. Response returned to client
+
+### Ranking Update Flow
+1. User likes/comments on post → API Gateway
+2. API Gateway → Interaction Service
+3. Interaction Service → Database (store interaction)
+4. Interaction Service → Message Queue
+5. Message Queue → Ranking Service (recalculate score)
+6. Ranking Service → Feed Service (update feed rankings)
+7. Response returned to client
 
 ## Database Design
 
@@ -244,7 +323,7 @@ CREATE TABLE user_interactions (
 - Posts distributed across shards
 - Enables parallel processing
 
-## High-Level System Design
+## High-Level Design
 
 ```
 ┌─────────────┐
@@ -359,9 +438,11 @@ CREATE TABLE user_interactions (
 
 **Use Case:** Production systems at scale
 
-## Component Design
+## Deep Dive
 
-### 1. Feed Service
+### Component Design
+
+#### 1. Feed Service
 
 **Responsibilities:**
 - Generate user feeds
@@ -387,7 +468,7 @@ Value: post_id
 TTL: 7 days
 ```
 
-### 2. Ranking Service
+#### 2. Ranking Service
 
 **Ranking Factors:**
 1. **Recency**: Newer posts ranked higher
@@ -432,7 +513,7 @@ affinity_score = (
 - Store scores in Redis sorted sets
 - Update scores as engagement changes
 
-### 3. Social Graph Service
+#### 3. Social Graph Service
 
 **Responsibilities:**
 - Manage follow/unfollow relationships
@@ -462,7 +543,7 @@ TTL: 1 hour
 - Unfollow: Remove from sets, decrement counter
 - Get followers: Read from cache or DB
 
-### 4. Real-time Update Service
+#### 4. Real-time Update Service
 
 **Requirements:**
 - Update feed when new posts are created
@@ -496,7 +577,7 @@ TTL: 1 hour
 4. Push notification service sends to active users via WebSocket
 5. Inactive users get updates on next feed request
 
-### 5. Feed Pre-computation Service
+#### 5. Feed Pre-computation Service
 
 **Purpose:**
 - Pre-compute feeds for better performance
@@ -515,7 +596,7 @@ TTL: 1 hour
 - Prioritize active users' feeds
 - Use message queue for async processing
 
-## Detailed Design
+### Detailed Design
 
 ### Caching Strategy
 
@@ -591,7 +672,7 @@ TTL: 1 hour
 - Real-time updates via WebSocket
 - TTL-based cache invalidation
 
-## Scalability Considerations
+### Scalability Considerations
 
 ### Horizontal Scaling
 
@@ -623,7 +704,7 @@ TTL: 1 hour
    - Serve static content from CDN
    - Reduce origin server load
 
-## Security Considerations
+### Security Considerations
 
 1. **Authentication**: JWT tokens, OAuth 2.0
 2. **Authorization**: Verify user can access feed
@@ -632,7 +713,7 @@ TTL: 1 hour
 5. **Privacy**: Respect user privacy settings
 6. **Content Filtering**: Filter inappropriate content
 
-## Monitoring & Observability
+### Monitoring & Observability
 
 **Key Metrics:**
 - Feed generation latency (p50, p95, p99)
@@ -647,7 +728,7 @@ TTL: 1 hour
 - ELK stack for logging
 - Distributed tracing (Jaeger/Zipkin)
 
-## Trade-offs and Optimizations
+### Trade-offs and Optimizations
 
 ### Trade-offs
 

@@ -12,9 +12,36 @@ Smart glasses represent the next frontier in wearable technology, combining augm
 
 This post designs a scalable system architecture for smart glasses that handles voice-controlled media capture and intelligent memory video generation, with a focus on managing read-heavy search queries and write-heavy video ingestion/processing workloads.
 
+## Table of Contents
+
+1. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+2. [Capacity Estimation](#capacity-estimation)
+   - [Traffic Estimates](#traffic-estimates)
+   - [Storage Estimates](#storage-estimates)
+   - [Bandwidth Estimates](#bandwidth-estimates)
+3. [Workload Analysis](#workload-analysis)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Scalability & Performance](#scalability--performance)
+   - [Reliability & Durability](#reliability--durability)
+   - [Security & Privacy](#security--privacy)
+   - [Cost Optimization](#cost-optimization)
+   - [Monitoring & Observability](#monitoring--observability)
+   - [Technology Stack Summary](#technology-stack-summary)
+
 ---
 
-## Problem Statement
+## Requirements
 
 ### Functional Requirements
 
@@ -55,9 +82,9 @@ This post designs a scalable system architecture for smart glasses that handles 
 
 ---
 
-## System Requirements Analysis
+## Capacity Estimation
 
-### Scale Estimates
+### Traffic Estimates
 
 **Users:**
 - 10 million active users
@@ -112,9 +139,241 @@ This post designs a scalable system architecture for smart glasses that handles 
 - Async processing needed
 - Batch processing for efficiency
 
----
+### Storage Estimates
 
-## Architecture Overview
+**Video Storage:**
+- Daily uploads: 100 million videos = 5TB/day
+- Annual storage: 1.8PB/year
+- With 3x replication: 5.4PB/year
+
+**Metadata Storage:**
+- Per video: ~10KB metadata
+- 100M videos/day × 10KB = 1TB/day metadata
+- Annual: ~365TB metadata
+
+### Bandwidth Estimates
+
+**Upload Bandwidth:**
+- 100M videos/day × 50MB = 5TB/day
+- Peak: ~100GB/hour
+
+**Download Bandwidth:**
+- Memory video downloads: 50M/day × 20MB = 1TB/day
+- Video streaming: Variable based on concurrent viewers
+
+## Core Entities
+
+### User
+- **Attributes**: user_id, username, email, created_at, subscription_tier
+- **Relationships**: Owns videos, has memory videos, has voice commands
+
+### Video
+- **Attributes**: video_id, user_id, file_url, duration, size, created_at, metadata
+- **Relationships**: Belongs to user, processed into memory videos, has tags/embeddings
+
+### Memory Video
+- **Attributes**: memory_id, user_id, query_text, video_clips, created_at, status
+- **Relationships**: Belongs to user, contains video clips
+
+### Video Clip
+- **Attributes**: clip_id, video_id, start_time, end_time, duration, tags
+- **Relationships**: Belongs to video, part of memory videos
+
+### Voice Command
+- **Attributes**: command_id, user_id, command_text, intent, executed_at, result
+- **Relationships**: Belongs to user, triggers actions
+
+## API
+
+### Upload Video
+```http
+POST /api/v1/videos/upload
+Authorization: Bearer {token}
+Content-Type: multipart/form-data
+
+{
+  "video": <binary>,
+  "metadata": {
+    "duration": 30,
+    "location": {...}
+  }
+}
+
+Response: 202 Accepted
+{
+  "video_id": "uuid",
+  "status": "uploading",
+  "upload_url": "https://s3.example.com/upload/..."
+}
+```
+
+### Create Memory Video
+```http
+POST /api/v1/memories/create
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "query": "Create a memory video of my wife and me in Paris",
+  "max_duration": 120
+}
+
+Response: 202 Accepted
+{
+  "memory_id": "uuid",
+  "status": "processing",
+  "estimated_completion": "2025-11-08T10:05:00Z"
+}
+```
+
+### Get Memory Video
+```http
+GET /api/v1/memories/{memory_id}
+
+Response: 200 OK
+{
+  "memory_id": "uuid",
+  "status": "completed",
+  "video_url": "https://cdn.example.com/memories/uuid.mp4",
+  "clips_used": [...],
+  "created_at": "2025-11-08T10:00:00Z"
+}
+```
+
+### Search Videos
+```http
+POST /api/v1/videos/search
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "query": "videos with my wife in Paris",
+  "filters": {
+    "date_range": {...},
+    "people": [...]
+  }
+}
+
+Response: 200 OK
+{
+  "videos": [
+    {
+      "video_id": "uuid",
+      "thumbnail_url": "...",
+      "duration": 30,
+      "matched_clips": [...]
+    }
+  ],
+  "total": 25
+}
+```
+
+## Data Flow
+
+### Video Upload Flow
+1. Smart Glass captures video → Device
+2. Device → Upload Service (chunked upload)
+3. Upload Service → Blob Storage (S3) - direct upload with signed URL
+4. Upload Service → Message Queue (Kafka) - publish video-upload event
+5. Message Queue → Metadata Extraction Service
+6. Metadata Extraction Service processes:
+   - Extract faces → Identify people
+   - Detect objects/scenes
+   - Generate embeddings
+   - Extract location/time
+7. Metadata Extraction Service → Metadata Database (store metadata)
+8. Metadata Extraction Service → Vector Database (store embeddings)
+9. Response returned to device
+
+### Memory Video Creation Flow
+1. User speaks command → Device
+2. Device → Voice Processing Service (NLP)
+3. Voice Processing Service → Memory Video Service (create request)
+4. Memory Video Service → Vector Search Service (search videos by query)
+5. Vector Search Service → Vector Database (semantic search)
+6. Vector Search Service → Memory Video Service (return matching clips)
+7. Memory Video Service → Video Processing Service (trim and merge clips)
+8. Video Processing Service → Blob Storage (store memory video)
+9. Video Processing Service → Memory Video Service (update status)
+10. Memory Video Service → Device (return memory video URL)
+
+## Database Design
+
+### Schema Design
+
+**Users Table:**
+```sql
+CREATE TABLE users (
+    user_id VARCHAR(36) PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    subscription_tier VARCHAR(50),
+    created_at TIMESTAMP,
+    INDEX idx_email (email)
+);
+```
+
+**Videos Table:**
+```sql
+CREATE TABLE videos (
+    video_id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    file_url VARCHAR(512) NOT NULL,
+    duration INT,
+    size BIGINT,
+    metadata JSON,
+    created_at TIMESTAMP,
+    INDEX idx_user_id (user_id),
+    INDEX idx_created_at (created_at),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+```
+
+**Memory Videos Table:**
+```sql
+CREATE TABLE memory_videos (
+    memory_id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    query_text TEXT NOT NULL,
+    video_clips JSON,
+    status ENUM('processing', 'completed', 'failed') DEFAULT 'processing',
+    video_url VARCHAR(512),
+    created_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    INDEX idx_user_id (user_id),
+    INDEX idx_status (status),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+```
+
+**Video Clips Table:**
+```sql
+CREATE TABLE video_clips (
+    clip_id VARCHAR(36) PRIMARY KEY,
+    video_id VARCHAR(36) NOT NULL,
+    start_time INT NOT NULL,
+    end_time INT NOT NULL,
+    duration INT,
+    tags JSON,
+    embeddings JSON,
+    INDEX idx_video_id (video_id),
+    FOREIGN KEY (video_id) REFERENCES videos(video_id)
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by User ID:**
+- User data, videos, and memory videos on same shard
+- Enables efficient user queries
+- Use consistent hashing for distribution
+
+**Vector Database:**
+- Use specialized vector DB (Pinecone, Weaviate, Milvus)
+- Partition by user_id for isolation
+- Optimize for similarity search
+
+## High-Level Design
 
 ### High-Level Architecture
 
@@ -167,9 +426,11 @@ This post designs a scalable system architecture for smart glasses that handles 
 
 ---
 
-## Component Design
+## Deep Dive
 
-### 1. Smart Glasses / Mobile App
+### Component Design
+
+#### 1. Smart Glasses / Mobile App
 
 **Responsibilities:**
 - Voice command capture and processing
@@ -191,7 +452,7 @@ This post designs a scalable system architecture for smart glasses that handles 
 
 ---
 
-### 2. API Gateway
+#### 2. API Gateway
 
 **Responsibilities:**
 - Request routing
@@ -213,7 +474,7 @@ This post designs a scalable system architecture for smart glasses that handles 
 
 ---
 
-### 3. Write Path (Write-Heavy)
+#### 3. Write Path (Write-Heavy)
 
 #### 3.1 Video Upload Service
 
@@ -369,7 +630,7 @@ Video Clip → Decode → Trim/Merge → Encode → Upload → Update Metadata
 
 ---
 
-### 4. Read Path (Read-Heavy)
+#### 4. Read Path (Read-Heavy)
 
 #### 4.1 Query Processing Service
 
@@ -557,7 +818,7 @@ Processing:
 
 ---
 
-### 5. Memory Video Creation Service
+#### 5. Memory Video Creation Service
 
 **Workflow:**
 
@@ -623,7 +884,7 @@ Trim & Merge → Generate Video → Store → Return URL
 
 ---
 
-### 6. Blob Storage
+#### 6. Blob Storage
 
 **Storage Choice: S3 / Azure Blob Storage**
 
@@ -660,9 +921,9 @@ s3://smart-glass-videos/
 
 ---
 
-## Data Flow Examples
+### Detailed Design
 
-### Example 1: Video Upload Flow
+#### Video Upload Flow
 
 ```
 1. Smart Glass captures video
@@ -688,7 +949,7 @@ s3://smart-glass-videos/
 9. Trigger video processing (trimming, encoding)
 ```
 
-### Example 2: Memory Video Creation Flow
+#### Memory Video Creation Flow
 
 ```
 1. User: "Create a memory video of my wife and me in Paris"
@@ -729,7 +990,7 @@ s3://smart-glass-videos/
 
 ---
 
-## Scalability & Performance
+### Scalability & Performance
 
 ### Read Scaling
 
@@ -770,7 +1031,7 @@ s3://smart-glass-videos/
 
 ---
 
-## Reliability & Durability
+### Reliability & Durability
 
 ### Data Durability
 

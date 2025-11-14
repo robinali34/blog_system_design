@@ -12,6 +12,32 @@ Instagram is a photo and video-sharing social networking service where users can
 
 This post provides a detailed walkthrough of designing Instagram, covering key features, scalability challenges, and architectural decisions. This is one of the most common system design interview questions that tests your understanding of distributed systems, media storage, feed generation, and real-time features.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+   - [Traffic Estimates](#traffic-estimates)
+   - [Storage Estimates](#storage-estimates)
+   - [Bandwidth Estimates](#bandwidth-estimates)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Scalability Considerations](#scalability-considerations)
+   - [Security Considerations](#security-considerations)
+   - [Monitoring & Observability](#monitoring--observability)
+   - [Trade-offs and Optimizations](#trade-offs-and-optimizations)
+10. [Summary](#summary)
+
 ## Problem Statement
 
 **Design Instagram with the following features:**
@@ -31,7 +57,7 @@ This post provides a detailed walkthrough of designing Instagram, covering key f
 - Average photo size: 200KB
 - Average video size: 2MB
 
-## Requirements Gathering
+## Requirements
 
 ### Functional Requirements
 
@@ -97,7 +123,33 @@ This post provides a detailed walkthrough of designing Instagram, covering key f
 - **Upload bandwidth**: 20TB/day (photos) + 40TB/day (videos) = 60TB/day = 694MB/s
 - **Download bandwidth**: 60TB/day × 100 (read:write ratio) = 6PB/day = 69GB/s
 
-## System APIs
+## Core Entities
+
+### User
+- **Attributes**: user_id, username, email, password_hash, full_name, bio, profile_picture_url
+- **Relationships**: Follows other users, creates posts, likes/comments on posts
+
+### Post
+- **Attributes**: post_id, user_id, media_type, media_url, thumbnail_url, caption, location, like_count, comment_count, created_at
+- **Relationships**: Belongs to user, has likes and comments
+
+### Follow
+- **Attributes**: follower_id, followee_id, created_at
+- **Relationships**: Links users (follower → followee)
+
+### Like
+- **Attributes**: like_id, user_id, post_id, created_at
+- **Relationships**: Links user to post
+
+### Comment
+- **Attributes**: comment_id, post_id, user_id, text, created_at
+- **Relationships**: Belongs to post and user
+
+### Story
+- **Attributes**: story_id, user_id, media_url, media_type, expires_at, created_at
+- **Relationships**: Belongs to user, expires after 24 hours
+
+## API
 
 ### 1. Upload Photo/Video
 ```
@@ -163,6 +215,41 @@ Parameters:
 Response:
   - stories: array of story objects
 ```
+
+## Data Flow
+
+### Upload Flow
+1. Client uploads media file → Load Balancer
+2. Load Balancer → API Gateway
+3. API Gateway → Upload Service
+4. Upload Service validates file and generates media ID
+5. Upload Service → Object Storage (S3) for media storage
+6. Upload Service → Database for metadata storage
+7. Upload Service → Message Queue (for async processing)
+8. Message Queue → Thumbnail Service (async)
+9. Upload Service → Cache invalidation (user feed)
+10. Response returned to client
+
+### Feed Generation Flow
+1. Client requests feed → Load Balancer
+2. Load Balancer → API Gateway
+3. API Gateway → Feed Service
+4. Feed Service checks Redis cache
+5. If cache miss:
+   - Fetch followed users from Social Graph Service
+   - Fetch posts from Database (or cache)
+   - Merge and sort posts
+   - Cache result in Redis
+6. Return feed to client
+
+### Like/Comment Flow
+1. Client submits like/comment → API Gateway
+2. API Gateway → Interaction Service
+3. Interaction Service → Database (write)
+4. Interaction Service → Cache invalidation (post cache)
+5. Interaction Service → Message Queue (for notifications)
+6. Message Queue → Notification Service
+7. Response returned to client
 
 ## Database Design
 
@@ -273,7 +360,7 @@ CREATE TABLE stories (
 - Cross-shard queries for feed generation (posts from multiple users)
 - Need to aggregate data from multiple shards
 
-## High-Level System Design
+## High-Level Design
 
 ```
 ┌─────────────┐
@@ -308,9 +395,11 @@ CREATE TABLE stories (
 └──────────────┘
 ```
 
-## Component Design
+## Deep Dive
 
-### 1. Upload Service
+### Component Design
+
+#### 1. Upload Service
 
 **Flow:**
 1. Client uploads media file to Upload Service
@@ -327,7 +416,7 @@ CREATE TABLE stories (
 - **Async processing**: Thumbnail generation and metadata extraction done asynchronously
 - **CDN integration**: Upload directly to CDN edge locations
 
-### 2. Feed Service
+#### 2. Feed Service
 
 **Feed Generation Approaches:**
 
@@ -364,7 +453,7 @@ Value: post_id
 TTL: 7 days
 ```
 
-### 3. Social Graph Service
+#### 3. Social Graph Service
 
 **Stores follow relationships:**
 - Use graph database (Neo4j) or relational DB with optimized indexes
@@ -383,7 +472,7 @@ Value: followee user_ids
 TTL: 1 hour
 ```
 
-### 4. Search Service
+#### 4. Search Service
 
 **Features:**
 - Search by username
@@ -395,7 +484,7 @@ TTL: 1 hour
 - Index usernames, hashtags, captions, locations
 - Real-time indexing via message queue
 
-### 5. Stories Service
+#### 5. Stories Service
 
 **Features:**
 - Stories expire after 24 hours
@@ -407,7 +496,7 @@ TTL: 1 hour
 - Background cron job deletes expired stories
 - Cache active stories in Redis with TTL
 
-## Detailed Design
+### Detailed Design
 
 ### Media Storage Architecture
 
@@ -480,7 +569,7 @@ TTL: 1 hour
 
 **Technology**: Apache Kafka or AWS SQS
 
-## Scalability Considerations
+### Scalability Considerations
 
 ### Horizontal Scaling
 
@@ -510,7 +599,7 @@ TTL: 1 hour
 3. **Rate limiting**: Prevent abuse
 4. **Caching**: Aggressive caching for hot content
 
-## Security Considerations
+### Security Considerations
 
 1. **Authentication**: JWT tokens, OAuth 2.0
 2. **Authorization**: Role-based access control
@@ -520,7 +609,7 @@ TTL: 1 hour
 6. **Data encryption**: Encrypt data at rest and in transit
 7. **Privacy**: User privacy settings, content visibility controls
 
-## Monitoring & Observability
+### Monitoring & Observability
 
 **Key Metrics:**
 - Upload success rate
@@ -535,7 +624,7 @@ TTL: 1 hour
 - ELK stack for logging
 - Distributed tracing (Jaeger/Zipkin)
 
-## Trade-offs and Optimizations
+### Trade-offs and Optimizations
 
 ### Trade-offs
 

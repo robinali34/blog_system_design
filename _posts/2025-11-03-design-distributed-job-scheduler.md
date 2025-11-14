@@ -10,6 +10,31 @@ excerpt: "A detailed walkthrough of designing a distributed job scheduler system
 
 This post provides a comprehensive walkthrough of designing a distributed job scheduler system, a common interview question at fintech companies. We'll design a system that can handle millions of jobs, ensure reliable execution, and scale horizontally to meet requirements for financial operations.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Technology Choices](#technology-choices)
+   - [Scalability Design](#scalability-design)
+   - [Reliability and Fault Tolerance](#reliability-and-fault-tolerance)
+   - [Monitoring and Observability](#monitoring-and-observability)
+   - [Trade-offs and Design Decisions](#trade-offs-and-design-decisions)
+   - [Failure Scenarios](#failure-scenarios)
+10. [Conclusion](#conclusion)
+
 ## Problem Statement
 
 **Build a service/system that can support defining and running jobs on a schedule. Requirements:**
@@ -41,7 +66,7 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 
 **Describe the system architecture, including components and technology choices, considering system scalability and reliability.**
 
-## Step 1: Requirements Gathering and Clarification
+## Requirements
 
 ### Functional Requirements
 
@@ -169,7 +194,7 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 - Q: Do jobs have dependencies?
 - A: Yes, support job dependencies (Job B depends on Job A)
 
-## Step 2: Scale Estimation
+## Capacity Estimation
 
 ### Storage Estimates
 
@@ -223,7 +248,222 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 - Need to handle 2,250 write QPS and 600,000 read QPS
 - Requires sharding and read replicas
 
-## Step 3: High-Level Architecture
+## Core Entities
+
+### Job
+- **Attributes**: job_id, job_name, job_type, command, resources, priority, schedule, status, created_at, updated_at
+- **Relationships**: Has executions, has dependencies, belongs to user/team
+
+### Job Execution
+- **Attributes**: execution_id, job_id, worker_node_id, status, started_at, completed_at, exit_code, logs_url
+- **Relationships**: Belongs to job, runs on worker node
+
+### Worker Node
+- **Attributes**: worker_id, hostname, ip_address, available_resources, status, last_heartbeat
+- **Relationships**: Executes jobs, reports status
+
+### Schedule
+- **Attributes**: schedule_id, job_id, cron_expression, timezone, next_run_time, enabled
+- **Relationships**: Belongs to job
+
+## API
+
+### Job Submission
+```http
+POST /api/v1/jobs
+Authorization: Bearer {token}
+
+Request:
+{
+  "job_name": "portfolio_rebalancing",
+  "job_type": "batch",
+  "command": "python /app/scripts/rebalance.py",
+  "execution_env": "docker",
+  "resources": {
+    "cpu_cores": 4,
+    "memory_gb": 8,
+    "disk_gb": 10
+  },
+  "scheduling": {
+    "priority": 750,
+    "max_execution_time": 3600
+  },
+  "retry": {
+    "max_retries": 3,
+    "retry_policy": "exponential_backoff"
+  }
+}
+
+Response: 201 Created
+{
+  "job_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "queued",
+  "created_at": "2025-11-03T10:00:00Z",
+  "estimated_start_time": "2025-11-03T10:00:05Z"
+}
+```
+
+### Get Job Status
+```http
+GET /api/v1/jobs/{job_id}
+
+Response: 200 OK
+{
+  "job_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "running",
+  "created_at": "2025-11-03T10:00:00Z",
+  "started_at": "2025-11-03T10:00:05Z",
+  "current_execution": {
+    "execution_id": "exec-uuid",
+    "worker_node_id": "worker-123",
+    "status": "running",
+    "started_at": "2025-11-03T10:00:05Z"
+  },
+  "retry_count": 0
+}
+```
+
+### Cancel Job
+```http
+DELETE /api/v1/jobs/{job_id}
+
+Response: 200 OK
+{
+  "job_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "cancelled",
+  "cancelled_at": "2025-11-03T10:05:00Z"
+}
+```
+
+### List Jobs
+```http
+GET /api/v1/jobs?status=running&limit=100&offset=0
+
+Response: 200 OK
+{
+  "jobs": [
+    {
+      "job_id": "uuid-1",
+      "job_name": "job-1",
+      "status": "running",
+      "created_at": "2025-11-03T10:00:00Z"
+    }
+  ],
+  "total": 1500,
+  "limit": 100,
+  "offset": 0
+}
+```
+
+## Data Flow
+
+### Job Submission Flow
+1. Client submits job → API Gateway
+2. API Gateway → Job Submission Service
+3. Job Submission Service validates job definition
+4. Job Submission Service → Database (store job)
+5. Job Submission Service → Message Queue (job created event)
+6. Message Queue → Scheduler Service (trigger scheduling)
+7. Response returned to client
+
+### Job Scheduling Flow
+1. Scheduler Service polls for jobs to schedule
+2. Scheduler Service checks job dependencies
+3. Scheduler Service matches job to available worker
+4. Scheduler Service → Database (update job status to "scheduled")
+5. Scheduler Service → Message Queue (job scheduled event)
+6. Message Queue → Executor Service (execute job)
+
+### Job Execution Flow
+1. Executor Service receives job execution request
+2. Executor Service → Worker Node (dispatch job)
+3. Worker Node executes job
+4. Worker Node → Log Storage (stream logs)
+5. Worker Node → Executor Service (status updates)
+6. Executor Service → Database (update execution status)
+7. Executor Service → Message Queue (execution completed event)
+
+## Database Design
+
+### Schema Design
+
+**Jobs Table:**
+```sql
+CREATE TABLE jobs (
+    job_id VARCHAR(36) PRIMARY KEY,
+    job_name VARCHAR(255) NOT NULL,
+    job_type ENUM('batch', 'streaming', 'scheduled') NOT NULL,
+    command TEXT NOT NULL,
+    execution_env VARCHAR(50),
+    resources JSON,
+    priority INT DEFAULT 500,
+    status ENUM('queued', 'scheduled', 'running', 'completed', 'failed', 'cancelled') DEFAULT 'queued',
+    user_id VARCHAR(36),
+    team_id VARCHAR(36),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    INDEX idx_status_priority (status, priority DESC),
+    INDEX idx_user_id (user_id),
+    INDEX idx_created_at (created_at)
+);
+```
+
+**Job Executions Table:**
+```sql
+CREATE TABLE job_executions (
+    execution_id VARCHAR(36) PRIMARY KEY,
+    job_id VARCHAR(36) NOT NULL,
+    worker_node_id VARCHAR(36),
+    status ENUM('running', 'completed', 'failed', 'cancelled') NOT NULL,
+    started_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    exit_code INT,
+    logs_url VARCHAR(512),
+    resource_usage JSON,
+    FOREIGN KEY (job_id) REFERENCES jobs(job_id),
+    INDEX idx_job_id (job_id),
+    INDEX idx_status (status),
+    INDEX idx_started_at (started_at)
+);
+```
+
+**Worker Nodes Table:**
+```sql
+CREATE TABLE worker_nodes (
+    worker_id VARCHAR(36) PRIMARY KEY,
+    hostname VARCHAR(255) NOT NULL,
+    ip_address VARCHAR(45),
+    available_resources JSON,
+    status ENUM('active', 'inactive', 'draining') DEFAULT 'active',
+    last_heartbeat TIMESTAMP,
+    INDEX idx_status (status),
+    INDEX idx_last_heartbeat (last_heartbeat)
+);
+```
+
+**Job Schedules Table:**
+```sql
+CREATE TABLE job_schedules (
+    schedule_id VARCHAR(36) PRIMARY KEY,
+    job_id VARCHAR(36) NOT NULL,
+    cron_expression VARCHAR(255),
+    timezone VARCHAR(50),
+    next_run_time TIMESTAMP,
+    enabled BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (job_id) REFERENCES jobs(job_id),
+    INDEX idx_next_run_time (next_run_time),
+    INDEX idx_enabled (enabled)
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by Job ID:**
+- Use consistent hashing to distribute jobs across shards
+- Job data and executions on same shard for locality
+- Enables efficient job queries
+
+## High-Level Design
 
 ### System Components
 
@@ -287,9 +527,13 @@ This post provides a comprehensive walkthrough of designing a distributed job sc
 3. **Cache (Redis)**: Job status, recent executions, worker node metadata
 4. **Object Storage (S3)**: Job logs, large outputs
 
-## Step 4: Detailed Design
+## Deep Dive
 
-### Database Schema
+### Component Design
+
+### Detailed Design
+
+#### Database Schema
 
 **Jobs Table:**
 ```sql
@@ -1533,7 +1777,7 @@ Response:
 }
 ```
 
-## Step 5: Technology Choices
+### Technology Choices
 
 ### Database: PostgreSQL
 
@@ -1605,7 +1849,7 @@ s3://job-logs/
     execution_metadata.json
 ```
 
-## Step 6: Scalability Design
+### Scalability Design
 
 ### Horizontal Scaling
 
@@ -1664,7 +1908,7 @@ s3://job-logs/
 - Multiple consumer instances per consumer group
 - Scale consumers based on lag
 
-## Step 7: Reliability and Fault Tolerance
+### Reliability and Fault Tolerance
 
 ### Worker Node Failures
 
@@ -1771,7 +2015,7 @@ def should_retry(self, job, execution, error):
 - Graceful degradation
 - Health checks and automatic recovery
 
-## Step 8: Fintech-Specific Considerations
+### Fintech-Specific Considerations
 
 ### Audit Trail
 
@@ -1816,100 +2060,7 @@ def should_retry(self, job, execution, error):
 - Resource utilization reports
 - Failure analysis reports
 
-## Step 9: API Design
-
-### Job Submission
-
-```http
-POST /api/v1/jobs
-Authorization: Bearer {token}
-
-Request:
-{
-  "job_name": "portfolio_rebalancing",
-  "job_type": "batch",
-  "command": "python /app/scripts/rebalance.py",
-  "execution_env": "docker",
-  "resources": {
-    "cpu_cores": 4,
-    "memory_gb": 8,
-    "disk_gb": 10
-  },
-  "scheduling": {
-    "priority": 750,
-    "max_execution_time": 3600
-  },
-  "retry": {
-    "max_retries": 3,
-    "retry_policy": "exponential_backoff"
-  }
-}
-
-Response: 201 Created
-{
-  "job_id": "550e8400-e29b-41d4-a716-446655440000",
-  "status": "queued",
-  "created_at": "2025-11-03T10:00:00Z",
-  "estimated_start_time": "2025-11-03T10:00:05Z"
-}
-```
-
-### Get Job Status
-
-```http
-GET /api/v1/jobs/{job_id}
-
-Response: 200 OK
-{
-  "job_id": "550e8400-e29b-41d4-a716-446655440000",
-  "status": "running",
-  "created_at": "2025-11-03T10:00:00Z",
-  "started_at": "2025-11-03T10:00:05Z",
-  "current_execution": {
-    "execution_id": "exec-uuid",
-    "worker_node_id": "worker-123",
-    "status": "running",
-    "started_at": "2025-11-03T10:00:05Z"
-  },
-  "retry_count": 0
-}
-```
-
-### Cancel Job
-
-```http
-DELETE /api/v1/jobs/{job_id}
-
-Response: 200 OK
-{
-  "job_id": "550e8400-e29b-41d4-a716-446655440000",
-  "status": "cancelled",
-  "cancelled_at": "2025-11-03T10:05:00Z"
-}
-```
-
-### List Jobs
-
-```http
-GET /api/v1/jobs?status=running&limit=100&offset=0
-
-Response: 200 OK
-{
-  "jobs": [
-    {
-      "job_id": "uuid-1",
-      "job_name": "job-1",
-      "status": "running",
-      "created_at": "2025-11-03T10:00:00Z"
-    }
-  ],
-  "total": 1500,
-  "limit": 100,
-  "offset": 0
-}
-```
-
-## Step 10: Monitoring and Observability
+### Monitoring and Observability
 
 ### Key Metrics
 
@@ -1947,7 +2098,7 @@ Response: 200 OK
 - Queue depth > 100K
 - Worker node health degradation
 
-## Step 11: Trade-offs and Design Decisions
+### Trade-offs and Design Decisions
 
 ### Database vs. Message Queue
 
@@ -1975,7 +2126,7 @@ Response: 200 OK
 - **Why**: Financial systems need consistency for job metadata
 - **Trade-off**: Performance vs. consistency
 
-## Step 12: Failure Scenarios
+### Failure Scenarios
 
 ### Worker Node Crash During Job Execution
 

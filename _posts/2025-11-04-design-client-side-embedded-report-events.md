@@ -10,7 +10,32 @@ excerpt: "A detailed walkthrough of designing a client-side embedded report even
 
 This post provides a comprehensive walkthrough of designing a client-side embedded report events system in C++. This system focuses on the client-side implementation—native C++ SDK, event tracking, embedded report widgets, and platform-specific optimization. This is a common system design question for companies building analytics and reporting platforms that need to be embedded in native desktop and mobile applications.
 
-## Problem Statement
+## Table of Contents
+
+1. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+2. [Capacity Estimation](#capacity-estimation)
+3. [High-Level Design](#high-level-design)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Performance Optimization](#performance-optimization)
+   - [Privacy and Security](#privacy-and-security)
+   - [Cross-Platform Support](#cross-platform-support)
+   - [Monitoring and Debugging](#monitoring-and-debugging)
+   - [Testing and Quality Assurance](#testing-and-quality-assurance)
+9. [Conclusion](#conclusion)
+
+## Requirements
+
+### Functional Requirements
 
 **Design a client-side embedded report events system that:**
 
@@ -23,10 +48,6 @@ This post provides a comprehensive walkthrough of designing a client-side embedd
 7. **Cross-Platform Support**: Support desktop (Windows, macOS, Linux), mobile (iOS/Android), and embedded systems
 
 **Describe the architecture, C++ SDK design, widget embedding, and how to optimize for performance, privacy, and reliability.**
-
-## Step 1: Requirements Gathering and Clarification
-
-### Functional Requirements
 
 **Core Features:**
 
@@ -118,7 +139,7 @@ This post provides a comprehensive walkthrough of designing a client-side embedd
 - Q: What privacy requirements?
 - A: GDPR, CCPA, cookie consent, opt-out support
 
-## Step 2: Scale Estimation
+## Capacity Estimation
 
 ### Client-Side Estimates
 
@@ -160,7 +181,7 @@ This post provides a comprehensive walkthrough of designing a client-side embedd
 - Widget assets: 1M × 100KB = 100GB/day
 - Total: ~55TB/day
 
-## Step 3: High-Level Architecture
+## High-Level Design
 
 ### Client-Side Architecture
 
@@ -219,7 +240,136 @@ This post provides a comprehensive walkthrough of designing a client-side embedd
 7. **Widget Loader**: Loads and renders embedded widgets (platform-specific UI)
 8. **Real-Time Connector**: WebSocket connection (websocketpp)
 
-## Step 4: Detailed Design
+## Core Entities
+
+### Event
+- **Attributes**: event_id, event_name, properties, timestamp, user_id, session_id
+- **Relationships**: Belongs to SDK instance, tracked by application
+
+### Widget
+- **Attributes**: widget_id, widget_type, data, config, cache_key
+- **Relationships**: Embedded in application, displays report data
+
+### SDK Instance
+- **Attributes**: sdk_id, api_key, config, initialized_at, version
+- **Relationships**: Tracks events, manages widgets
+
+## API
+
+### Event Collection API
+```http
+POST /api/v1/events
+Content-Type: application/json
+Authorization: Bearer {api_key}
+
+{
+  "events": [
+    {
+      "event_id": "uuid",
+      "event_name": "page_view",
+      "properties": {...},
+      "timestamp": "2025-11-04T10:00:00Z",
+      "user_id": "user-123",
+      "session_id": "session-456"
+    }
+  ]
+}
+
+Response: 200 OK
+{
+  "status": "success",
+  "processed": 1,
+  "failed": 0
+}
+```
+
+### Widget API
+```http
+GET /api/v1/widgets/{widget_id}
+Authorization: Bearer {api_key}
+
+Response: 200 OK
+{
+  "widget_id": "uuid",
+  "widget_type": "chart",
+  "data": {
+    "series": [
+      {"time": "2025-11-01", "value": 1000},
+      {"time": "2025-11-02", "value": 1200}
+    ]
+  }
+}
+```
+
+## Data Flow
+
+### Event Tracking Flow
+1. User action occurs → Application
+2. Application → C++ SDK (track event)
+3. SDK → Event Queue (batch events)
+4. SDK → Local Storage (persist offline)
+5. SDK → API Gateway (send events when online)
+6. API Gateway → Event Processing Service
+7. Event Processing Service → Database (store events)
+8. Response returned to SDK
+
+### Widget Rendering Flow
+1. Application loads page → Application
+2. Application → C++ SDK (initialize widget)
+3. SDK → Widget API (request widget data)
+4. Widget API → Report Service (generate report)
+5. Report Service → Database (query event data)
+6. Report Service → Widget API (return widget data)
+7. Widget API → SDK (return data)
+8. SDK → Application (render widget)
+
+## Database Design
+
+### Schema Design
+
+**Events Table:**
+```sql
+CREATE TABLE events (
+    event_id VARCHAR(36) PRIMARY KEY,
+    sdk_id VARCHAR(36) NOT NULL,
+    event_name VARCHAR(255) NOT NULL,
+    properties JSON,
+    user_id VARCHAR(36),
+    session_id VARCHAR(36),
+    timestamp TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
+    INDEX idx_sdk_timestamp (sdk_id, timestamp),
+    INDEX idx_event_name (event_name),
+    INDEX idx_user_id (user_id)
+);
+```
+
+**Widgets Table:**
+```sql
+CREATE TABLE widgets (
+    widget_id VARCHAR(36) PRIMARY KEY,
+    sdk_id VARCHAR(36) NOT NULL,
+    widget_type VARCHAR(50) NOT NULL,
+    config JSON,
+    cache_key VARCHAR(255),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    INDEX idx_sdk_id (sdk_id)
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by SDK ID:**
+- SDK data, events, and widgets on same shard
+- Enables efficient SDK queries
+- Use consistent hashing for distribution
+
+## Deep Dive
+
+### Component Design
+
+#### Detailed Design
 
 ### C++ SDK Design
 
@@ -1188,7 +1338,7 @@ private:
 };
 ```
 
-## Step 5: Performance Optimization
+### Performance Optimization
 
 ### SDK Optimization
 
@@ -1377,7 +1527,7 @@ private:
 };
 ```
 
-## Step 6: Privacy and Security
+### Privacy and Security
 
 ### GDPR/CCPA Compliance
 
@@ -1413,7 +1563,7 @@ private:
                connect-src 'self' https://api.example.com;">
 ```
 
-## Step 7: Cross-Platform Support
+### Cross-Platform Support
 
 ### Mobile SDK (iOS)
 
@@ -1680,7 +1830,7 @@ private:
 };
 ```
 
-## Step 10: Testing and Quality Assurance
+### Testing and Quality Assurance
 
 ### Testing Strategy
 

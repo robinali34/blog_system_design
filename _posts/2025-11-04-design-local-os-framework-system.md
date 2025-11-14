@@ -10,6 +10,31 @@ excerpt: "A detailed walkthrough of designing a local OS framework system that r
 
 This post provides a comprehensive walkthrough of designing a local OS framework system that operates entirely on-device without cloud dependencies or distributed architecture. This type of system design question is common in Meta's OS Frameworks interviews, focusing on Android framework components, system services, and native code that must work reliably on a single device.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [High-Level Design](#high-level-design)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Data Structures](#data-structures)
+   - [Memory Management](#memory-management)
+   - [Thread Safety](#thread-safety)
+   - [Error Handling](#error-handling)
+   - [Performance Optimization](#performance-optimization)
+   - [Battery Optimization](#battery-optimization)
+   - [Testing Strategy](#testing-strategy)
+9. [Conclusion](#conclusion)
+
 ## Problem Statement
 
 **Design a local OS framework system that:**
@@ -25,7 +50,7 @@ This post provides a comprehensive walkthrough of designing a local OS framework
 
 **Describe the architecture, components, data structures, and how to handle on-device constraints like limited memory, battery, and CPU resources.**
 
-## Step 1: Requirements Gathering and Clarification
+## Requirements
 
 ### Functional Requirements
 
@@ -100,7 +125,7 @@ This post provides a comprehensive walkthrough of designing a local OS framework
 - Q: Real-time processing needed?
 - A: Yes, low-latency responses required
 
-## Step 2: High-Level Architecture
+## High-Level Design
 
 ### System Components
 
@@ -164,7 +189,104 @@ This post provides a comprehensive walkthrough of designing a local OS framework
 2. **File Storage**: File system operations
 3. **Cache Manager**: In-memory and disk cache
 
-## Step 3: Detailed Design
+## Core Entities
+
+### Service Request
+- **Attributes**: request_id, request_type, parameters, priority, timestamp
+- **Relationships**: Processed by service, generates response
+
+### Service Response
+- **Attributes**: response_id, request_id, result, status_code, data
+- **Relationships**: Belongs to request
+
+### Resource Allocation
+- **Attributes**: allocation_id, resource_type, amount, limit, usage
+- **Relationships**: Managed by resource manager
+
+## API
+
+### Service Request API
+```java
+// Java API
+public class FrameworkService {
+    public Response processRequest(Request request) throws ServiceException;
+    public void registerCallback(Callback callback);
+    public void unregisterCallback(Callback callback);
+}
+```
+
+### Native API
+```cpp
+// C++ Native API
+extern "C" {
+    jint processNativeRequest(JNIEnv* env, jobject thiz, jbyteArray data);
+    void registerNativeCallback(JNIEnv* env, jobject thiz, jobject callback);
+}
+```
+
+## Data Flow
+
+### Request Processing Flow
+1. Application → Framework Service (send request via Binder IPC)
+2. Framework Service → Request Handler (validate and queue request)
+3. Request Handler → Thread Manager (assign to worker thread)
+4. Worker Thread → Native Layer (process via JNI)
+5. Native Layer → Hardware/System (execute operation)
+6. Native Layer → Framework Service (return result)
+7. Framework Service → Response Handler (format response)
+8. Response Handler → Application (return via Binder IPC)
+
+### Resource Management Flow
+1. Service starts → Resource Manager (allocate resources)
+2. Resource Manager → Monitor (track usage)
+3. Usage exceeds limit → Resource Manager (throttle/limit)
+4. Service stops → Resource Manager (release resources)
+
+## Database Design
+
+### Schema Design
+
+**Service Requests Table:**
+```sql
+CREATE TABLE service_requests (
+    request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    request_type VARCHAR(50) NOT NULL,
+    parameters BLOB,
+    priority INTEGER DEFAULT 0,
+    status VARCHAR(20) DEFAULT 'pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    INDEX idx_status (status),
+    INDEX idx_created_at (created_at)
+);
+```
+
+**Resource Allocations Table:**
+```sql
+CREATE TABLE resource_allocations (
+    allocation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    resource_type VARCHAR(50) NOT NULL,
+    amount INTEGER NOT NULL,
+    limit INTEGER,
+    usage INTEGER DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_resource_type (resource_type)
+);
+```
+
+### Database Sharding Strategy
+
+**Local SQLite Database:**
+- Single database file per device
+- No sharding needed (local-only system)
+- Use WAL mode for better concurrency
+- Index optimization for query performance
+
+## Deep Dive
+
+### Component Design
+
+#### Detailed Design
 
 ### Framework Service Design
 
@@ -702,7 +824,7 @@ public abstract class LocationServiceStub extends Binder implements ILocationSer
 }
 ```
 
-## Step 4: Data Structures
+### Data Structures
 
 ### Efficient Data Structures
 
@@ -777,7 +899,7 @@ public class RequestQueue {
 }
 ```
 
-## Step 5: Memory Management
+### Memory Management
 
 ### Memory Optimization Strategies
 
@@ -839,7 +961,7 @@ public class MemoryTracker {
 }
 ```
 
-## Step 6: Thread Safety
+### Thread Safety
 
 ### Synchronization Patterns
 
@@ -896,7 +1018,7 @@ public class AtomicCounter {
 }
 ```
 
-## Step 7: Error Handling
+### Error Handling
 
 ### Error Handling Strategy
 
@@ -931,7 +1053,7 @@ public class ErrorHandler {
 }
 ```
 
-## Step 8: Performance Optimization
+### Performance Optimization
 
 ### Optimization Techniques
 
@@ -988,7 +1110,7 @@ public class BatchProcessor {
 }
 ```
 
-## Step 9: Battery Optimization
+### Battery Optimization
 
 ### Power Management
 
@@ -1018,7 +1140,7 @@ public class PowerManager {
 }
 ```
 
-## Step 10: Testing Strategy
+### Testing Strategy
 
 ### Unit Testing
 

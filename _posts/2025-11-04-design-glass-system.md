@@ -10,6 +10,28 @@ excerpt: "A detailed walkthrough of designing a system for Meta Glass smart glas
 
 This post provides a comprehensive walkthrough of designing a system for Meta Glass (smart glasses) like the Ray-Ban Meta smart glasses. This system design question tests your ability to design systems for edge devices with constraints like battery life, connectivity, real-time processing, and AI/ML integration.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Technology Choices](#technology-choices)
+   - [Key Design Considerations](#key-design-considerations)
+   - [Failure Scenarios](#failure-scenarios)
+10. [Conclusion](#conclusion)
+
 ## Problem Statement
 
 **Design a system for Meta Glass smart glasses that supports:**
@@ -25,7 +47,7 @@ This post provides a comprehensive walkthrough of designing a system for Meta Gl
 
 **Describe the system architecture, including edge computing, cloud services, and how to handle constraints like battery life, connectivity, and real-time processing.**
 
-## Step 1: Requirements Gathering and Clarification
+## Requirements
 
 ### Functional Requirements
 
@@ -122,7 +144,7 @@ This post provides a comprehensive walkthrough of designing a system for Meta Gl
 - Q: What processing happens on-device vs. cloud?
 - A: Real-time processing on-device, heavy ML inference in cloud, hybrid approach
 
-## Step 2: Scale Estimation
+## Capacity Estimation
 
 ### Storage Estimates
 
@@ -169,7 +191,205 @@ This post provides a comprehensive walkthrough of designing a system for Meta Gl
 - Streaming: 200Gbps
 - Total: ~1.5PB/day
 
-## Step 3: High-Level Architecture
+## Core Entities
+
+### Device
+- **Attributes**: device_id, user_id, device_type, firmware_version, battery_level, connectivity_status, last_sync_at
+- **Relationships**: Belongs to user, captures media, syncs to cloud
+
+### Media
+- **Attributes**: media_id, device_id, user_id, media_type, file_path, cloud_url, size, created_at, metadata
+- **Relationships**: Belongs to device and user, has processing jobs
+
+### Media Processing Job
+- **Attributes**: job_id, media_id, processing_type, status, started_at, completed_at, result_url
+- **Relationships**: Belongs to media
+
+### User
+- **Attributes**: user_id, username, email, subscription_tier, storage_quota, created_at
+- **Relationships**: Owns devices, has media, has settings
+
+## API
+
+### Device API
+
+#### Upload Photo
+```http
+POST /api/v1/device/photos
+Content-Type: multipart/form-data
+Authorization: Bearer {device_token}
+
+{
+  "photo": <binary>,
+  "metadata": {
+    "timestamp": "2025-11-04T10:00:00Z",
+    "location": {...},
+    "filters": [...]
+  }
+}
+
+Response: 202 Accepted
+{
+  "photo_id": "uuid",
+  "status": "queued",
+  "local_path": "/storage/photos/uuid.jpg"
+}
+```
+
+#### Upload Video
+```http
+POST /api/v1/device/videos
+Content-Type: multipart/form-data
+Authorization: Bearer {device_token}
+
+{
+  "video": <binary>,
+  "metadata": {...}
+}
+
+Response: 202 Accepted
+{
+  "video_id": "uuid",
+  "status": "uploading"
+}
+```
+
+### Cloud API
+
+#### Get User Photos
+```http
+GET /api/v1/users/{user_id}/photos?start_time=2025-11-01&limit=50
+
+Response: 200 OK
+{
+  "photos": [
+    {
+      "photo_id": "uuid",
+      "url": "https://cdn.example.com/photo.jpg",
+      "thumbnail_url": "https://cdn.example.com/thumb.jpg",
+      "metadata": {...},
+      "created_at": "2025-11-04T10:00:00Z"
+    }
+  ],
+  "total": 1000,
+  "next_cursor": "..."
+}
+```
+
+#### Start Streaming
+```http
+POST /api/v1/streaming/start
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "user_id": "user-123",
+  "destination": "instagram",
+  "quality": "1080p"
+}
+
+Response: 200 OK
+{
+  "stream_id": "uuid",
+  "rtmp_url": "rtmp://stream.example.com/live/...",
+  "stream_key": "...",
+  "status": "active"
+}
+```
+
+## Data Flow
+
+### Photo Capture and Upload Flow
+1. User captures photo → Device Camera System
+2. Camera System → Local Storage (save photo)
+3. Camera System → Media Processing Service (on-device processing)
+4. Media Processing Service → Local Storage (save processed photo)
+5. Sync Service → Cloud API (upload photo)
+6. Cloud API → Object Storage (store photo)
+7. Cloud API → Media Database (store metadata)
+8. Cloud API → CDN (cache photo)
+9. Response returned to device
+
+### Video Streaming Flow
+1. User starts streaming → Device
+2. Device → Video Encoder (encode video)
+3. Video Encoder → Streaming Service (send video stream)
+4. Streaming Service → CDN (distribute stream)
+5. Streaming Service → Social Media Platform (forward stream)
+6. Viewers receive stream from CDN
+
+### Voice Command Flow
+1. User speaks command → Device Microphone
+2. Microphone → Voice Processing Service (on-device)
+3. Voice Processing Service → Cloud NLP Service (if needed)
+4. NLP Service → Command Processor
+5. Command Processor → Device (execute command)
+6. Response returned to user
+
+## Database Design
+
+### Schema Design
+
+**Devices Table:**
+```sql
+CREATE TABLE devices (
+    device_id VARCHAR(36) PRIMARY KEY,
+    user_id VARCHAR(36) NOT NULL,
+    device_type VARCHAR(50) NOT NULL,
+    firmware_version VARCHAR(50),
+    battery_level INT,
+    connectivity_status ENUM('wifi', 'bluetooth', 'cellular', 'offline'),
+    last_sync_at TIMESTAMP,
+    created_at TIMESTAMP,
+    INDEX idx_user_id (user_id),
+    INDEX idx_last_sync (last_sync_at)
+);
+```
+
+**Media Table:**
+```sql
+CREATE TABLE media (
+    media_id VARCHAR(36) PRIMARY KEY,
+    device_id VARCHAR(36) NOT NULL,
+    user_id VARCHAR(36) NOT NULL,
+    media_type ENUM('photo', 'video') NOT NULL,
+    local_path VARCHAR(512),
+    cloud_url VARCHAR(512),
+    size BIGINT,
+    metadata JSON,
+    created_at TIMESTAMP,
+    synced_at TIMESTAMP,
+    INDEX idx_user_id (user_id),
+    INDEX idx_device_id (device_id),
+    INDEX idx_created_at (created_at),
+    FOREIGN KEY (device_id) REFERENCES devices(device_id)
+);
+```
+
+**Processing Jobs Table:**
+```sql
+CREATE TABLE processing_jobs (
+    job_id VARCHAR(36) PRIMARY KEY,
+    media_id VARCHAR(36) NOT NULL,
+    processing_type VARCHAR(50) NOT NULL,
+    status ENUM('pending', 'processing', 'completed', 'failed') DEFAULT 'pending',
+    started_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    result_url VARCHAR(512),
+    FOREIGN KEY (media_id) REFERENCES media(media_id),
+    INDEX idx_status (status),
+    INDEX idx_media_id (media_id)
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by User ID:**
+- User data, devices, and media on same shard
+- Enables efficient user queries
+- Use consistent hashing for distribution
+
+## High-Level Design
 
 ### System Components
 
@@ -240,7 +460,11 @@ This post provides a comprehensive walkthrough of designing a system for Meta Gl
 5. **Analytics Service**: Usage analytics, insights
 6. **User Service**: User management, preferences, settings
 
-## Step 4: Detailed Design
+## Deep Dive
+
+### Component Design
+
+#### Detailed Design
 
 ### Device Architecture
 
@@ -585,7 +809,7 @@ class PowerManager:
             processing_task.skip_non_essential()
 ```
 
-## Step 5: Technology Choices
+### Technology Choices
 
 ### Device Side
 
@@ -626,7 +850,7 @@ class PowerManager:
 - **Redis**: Cache, real-time data
 - **DynamoDB**: High-throughput metadata
 
-## Step 6: Key Design Considerations
+### Key Design Considerations
 
 ### Battery Life Optimization
 
@@ -662,76 +886,7 @@ class PowerManager:
 4. **Data Anonymization**: Anonymize data for analytics
 5. **Access Control**: Role-based access to user data
 
-## Step 7: API Design
-
-### Device API
-
-```http
-POST /api/v1/device/photos
-Content-Type: multipart/form-data
-Authorization: Bearer {device_token}
-
-{
-  "photo": <binary>,
-  "metadata": {
-    "timestamp": "2025-11-04T10:00:00Z",
-    "location": {...},
-    "filters": [...]
-  }
-}
-
-Response: 202 Accepted
-{
-  "photo_id": "uuid",
-  "status": "queued",
-  "local_path": "/storage/photos/uuid.jpg"
-}
-```
-
-### Cloud API
-
-```http
-GET /api/v1/users/{user_id}/photos?start_time=2025-11-01&limit=50
-
-Response: 200 OK
-{
-  "photos": [
-    {
-      "photo_id": "uuid",
-      "url": "https://cdn.example.com/photo.jpg",
-      "thumbnail_url": "https://cdn.example.com/thumb.jpg",
-      "metadata": {...},
-      "created_at": "2025-11-04T10:00:00Z"
-    }
-  ],
-  "total": 1000,
-  "next_cursor": "..."
-}
-```
-
-### Streaming API
-
-```http
-POST /api/v1/streaming/start
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "user_id": "user-123",
-  "destination": "instagram",
-  "quality": "1080p"
-}
-
-Response: 200 OK
-{
-  "stream_id": "uuid",
-  "rtmp_url": "rtmp://stream.example.com/live/...",
-  "stream_key": "...",
-  "status": "active"
-}
-```
-
-## Step 8: Failure Scenarios
+### Failure Scenarios
 
 ### Device Disconnection
 

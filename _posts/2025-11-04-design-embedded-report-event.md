@@ -10,6 +10,32 @@ excerpt: "A detailed walkthrough of designing an embedded report event system fo
 
 This post provides a comprehensive walkthrough of designing an embedded report event system. This system captures user events, processes them, and generates embedded reports (dashboards, analytics, insights) that can be displayed within applications. This is a common system design question for companies that need to provide analytics and reporting capabilities to their users.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Technology Choices](#technology-choices)
+   - [Scalability Design](#scalability-design)
+   - [Real-Time Updates](#real-time-updates)
+   - [Multi-Tenancy](#multi-tenancy)
+   - [Monitoring and Observability](#monitoring-and-observability)
+   - [Trade-offs and Design Decisions](#trade-offs-and-design-decisions)
+   - [Failure Scenarios](#failure-scenarios)
+10. [Conclusion](#conclusion)
+
 ## Problem Statement
 
 **Design an embedded report event system that:**
@@ -24,7 +50,7 @@ This post provides a comprehensive walkthrough of designing an embedded report e
 
 **Describe the system architecture, components, technology choices, and how to handle scalability, reliability, and real-time processing.**
 
-## Step 1: Requirements Gathering and Clarification
+## Requirements
 
 ### Functional Requirements
 
@@ -115,7 +141,7 @@ This post provides a comprehensive walkthrough of designing an embedded report e
 - Q: How many customers?
 - A: 1000+ customers, each with their own events and reports
 
-## Step 2: Scale Estimation
+## Capacity Estimation
 
 ### Storage Estimates
 
@@ -159,7 +185,187 @@ This post provides a comprehensive walkthrough of designing an embedded report e
 - Real-time updates: 1,000 updates/s × 5KB = 5MB/s
 - Total: ~100MB/s
 
-## Step 3: High-Level Architecture
+## Core Entities
+
+### Event
+- **Attributes**: event_id, tenant_id, event_type, user_id, properties, timestamp, created_at
+- **Relationships**: Belongs to tenant, processed into reports
+
+### Report
+- **Attributes**: report_id, tenant_id, report_name, report_type, widgets, created_at, updated_at
+- **Relationships**: Belongs to tenant, contains widgets, generated from events
+
+### Widget
+- **Attributes**: widget_id, report_id, widget_type, query, visualization_config, created_at
+- **Relationships**: Belongs to report, queries event data
+
+### Tenant
+- **Attributes**: tenant_id, tenant_name, plan_tier, storage_quota, created_at
+- **Relationships**: Has events, has reports, has users
+
+## API
+
+### Event Collection API
+```http
+POST /api/v1/events
+Authorization: Bearer {token}
+Content-Type: application/json
+
+{
+  "event_type": "page_view",
+  "user_id": "user-123",
+  "properties": {
+    "page_url": "/products"
+  }
+}
+
+Response: 202 Accepted
+{
+  "event_id": "uuid",
+  "status": "accepted"
+}
+```
+
+### Report Generation API
+```http
+GET /api/v1/reports/{report_id}?start_time=2025-11-01&end_time=2025-11-04
+
+Response: 200 OK
+{
+  "report_id": "uuid",
+  "report_name": "Traffic Overview",
+  "widgets": [
+    {
+      "widget_id": "uuid",
+      "type": "time_series",
+      "data": {
+        "series": [
+          {"time": "2025-11-01T00:00:00Z", "value": 1000},
+          {"time": "2025-11-02T00:00:00Z", "value": 1200}
+        ]
+      }
+    }
+  ]
+}
+```
+
+### Embedding API
+```http
+GET /api/v1/reports/{report_id}/embed?width=800&height=600
+
+Response: 200 OK
+{
+  "embed_code": "<iframe src='...'></iframe>",
+  "embed_url": "https://embed.example.com/report?token=...",
+  "javascript_sdk": "<script src='...'></script>"
+}
+```
+
+## Data Flow
+
+### Event Ingestion Flow
+1. Client sends event → API Gateway
+2. API Gateway → Event Collection Service
+3. Event Collection Service validates event
+4. Event Collection Service → Message Queue (Kafka)
+5. Message Queue → Event Processing Service (real-time)
+6. Event Processing Service → Time-Series Database (store event)
+7. Event Processing Service → Cache (update real-time metrics)
+8. Response returned to client
+
+### Report Generation Flow
+1. Client requests report → API Gateway
+2. API Gateway → Report Service
+3. Report Service checks cache for pre-computed report
+4. If cache miss:
+   - Report Service → Query Service (query event data)
+   - Query Service → Time-Series Database (aggregate events)
+   - Query Service → Report Service (return aggregated data)
+   - Report Service → Cache (cache report)
+5. Report Service → API Gateway (return report)
+6. API Gateway → Client (return report)
+
+### Real-Time Update Flow
+1. New event processed → Event Processing Service
+2. Event Processing Service → Cache (update metrics)
+3. Event Processing Service → Message Queue (report update event)
+4. Message Queue → Real-Time Service
+5. Real-Time Service → WebSocket/SSE (push update to clients)
+6. Clients receive updated report data
+
+## Database Design
+
+### Schema Design
+
+**Events Table:**
+```sql
+CREATE TABLE events (
+    event_id VARCHAR(36) PRIMARY KEY,
+    tenant_id VARCHAR(36) NOT NULL,
+    event_type VARCHAR(100) NOT NULL,
+    user_id VARCHAR(36),
+    properties JSON,
+    timestamp TIMESTAMP NOT NULL,
+    created_at TIMESTAMP,
+    INDEX idx_tenant_timestamp (tenant_id, timestamp),
+    INDEX idx_event_type (event_type),
+    INDEX idx_user_id (user_id)
+);
+```
+
+**Reports Table:**
+```sql
+CREATE TABLE reports (
+    report_id VARCHAR(36) PRIMARY KEY,
+    tenant_id VARCHAR(36) NOT NULL,
+    report_name VARCHAR(255) NOT NULL,
+    report_type VARCHAR(50) NOT NULL,
+    widgets JSON,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    INDEX idx_tenant_id (tenant_id),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(tenant_id)
+);
+```
+
+**Widgets Table:**
+```sql
+CREATE TABLE widgets (
+    widget_id VARCHAR(36) PRIMARY KEY,
+    report_id VARCHAR(36) NOT NULL,
+    widget_type VARCHAR(50) NOT NULL,
+    query JSON,
+    visualization_config JSON,
+    created_at TIMESTAMP,
+    FOREIGN KEY (report_id) REFERENCES reports(report_id),
+    INDEX idx_report_id (report_id)
+);
+```
+
+**Tenants Table:**
+```sql
+CREATE TABLE tenants (
+    tenant_id VARCHAR(36) PRIMARY KEY,
+    tenant_name VARCHAR(255) NOT NULL,
+    plan_tier VARCHAR(50),
+    storage_quota BIGINT,
+    created_at TIMESTAMP
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by Tenant ID:**
+- Tenant data, events, and reports on same shard
+- Enables efficient tenant queries
+- Use consistent hashing for distribution
+
+**Time-Series Database:**
+- Use specialized time-series DB (InfluxDB, TimescaleDB)
+- Partition by time for efficient time-range queries
+- Optimize for time-series aggregations
+
+## High-Level Design
 
 ### System Components
 
@@ -241,7 +447,11 @@ This post provides a comprehensive walkthrough of designing an embedded report e
 4. **Cache (Redis)**: Report cache and real-time data
 5. **Object Storage (S3)**: Report exports and archives
 
-## Step 4: Detailed Design
+## Deep Dive
+
+### Component Design
+
+#### Detailed Design
 
 ### Event Schema
 
@@ -616,7 +826,7 @@ class WebSocketService:
         self.unsubscribe(websocket, channel)
 ```
 
-## Step 5: Technology Choices
+### Technology Choices
 
 ### Message Queue: Apache Kafka
 
@@ -672,7 +882,7 @@ class WebSocketService:
 - **Real-Time Metrics**: Cache real-time metrics (TTL: 1 minute)
 - **Dashboard Cache**: Cache dashboard data (TTL: 1 minute)
 
-## Step 6: Scalability Design
+### Scalability Design
 
 ### Horizontal Scaling
 
@@ -715,7 +925,7 @@ class WebSocketService:
 - Event-driven invalidation
 - Manual cache invalidation API
 
-## Step 7: Real-Time Updates
+### Real-Time Updates
 
 ### WebSocket Architecture
 
@@ -737,7 +947,7 @@ For simpler use cases:
 - Automatic reconnection
 - Lower overhead
 
-## Step 8: Multi-Tenancy
+### Multi-Tenancy
 
 ### Data Isolation
 
@@ -780,68 +990,7 @@ class TenantContext:
 - Role-based access within tenant
 - Report-level permissions
 
-## Step 9: API Design
-
-### Event Collection API
-
-```http
-POST /api/v1/events
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "event_type": "page_view",
-  "user_id": "user-123",
-  "properties": {
-    "page_url": "/products"
-  }
-}
-
-Response: 202 Accepted
-{
-  "event_id": "uuid",
-  "status": "accepted"
-}
-```
-
-### Report Generation API
-
-```http
-GET /api/v1/reports/{report_id}?start_time=2025-11-01&end_time=2025-11-04
-
-Response: 200 OK
-{
-  "report_id": "uuid",
-  "report_name": "Traffic Overview",
-  "widgets": [
-    {
-      "widget_id": "uuid",
-      "type": "time_series",
-      "data": {
-        "series": [
-          {"time": "2025-11-01T00:00:00Z", "value": 1000},
-          {"time": "2025-11-02T00:00:00Z", "value": 1200}
-        ]
-      }
-    }
-  ]
-}
-```
-
-### Embedding API
-
-```http
-GET /api/v1/reports/{report_id}/embed?width=800&height=600
-
-Response: 200 OK
-{
-  "embed_code": "<iframe src='...'></iframe>",
-  "embed_url": "https://embed.example.com/report?token=...",
-  "javascript_sdk": "<script src='...'></script>"
-}
-```
-
-## Step 10: Monitoring and Observability
+### Monitoring and Observability
 
 ### Key Metrics
 
@@ -877,7 +1026,7 @@ Response: 200 OK
 - High error rates
 - Resource utilization
 
-## Step 11: Trade-offs and Design Decisions
+### Trade-offs and Design Decisions
 
 ### Real-Time vs. Batch Processing
 
@@ -903,7 +1052,7 @@ Response: 200 OK
 
 **Trade-off**: Complexity vs. real-time capabilities
 
-## Step 12: Failure Scenarios
+### Failure Scenarios
 
 ### Event Collection Failure
 

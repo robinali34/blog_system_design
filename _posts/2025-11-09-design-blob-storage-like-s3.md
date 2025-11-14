@@ -12,9 +12,37 @@ Object storage (blob storage) is a fundamental building block of modern cloud in
 
 This post designs a scalable blob storage system that can handle massive scale, ensure data durability, and provide high availability while maintaining low latency and cost efficiency.
 
+## Table of Contents
+
+1. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+2. [Capacity Estimation](#capacity-estimation)
+   - [Storage Scale](#storage-scale)
+   - [Request Scale](#request-scale)
+   - [User Scale](#user-scale)
+3. [Core Entities](#core-entities)
+4. [API](#api)
+5. [Data Flow](#data-flow)
+6. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+7. [High-Level Design](#high-level-design)
+8. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Scalability Design](#scalability-design)
+   - [Performance Optimization](#performance-optimization)
+   - [Data Integrity](#data-integrity)
+   - [Cost Optimization](#cost-optimization)
+   - [Security](#security)
+   - [Monitoring & Observability](#monitoring--observability)
+   - [Disaster Recovery](#disaster-recovery)
+   - [Technology Stack](#technology-stack)
+   - [Comparison with Real Systems](#comparison-with-real-systems)
+
 ---
 
-## Problem Statement
+## Requirements
 
 ### Functional Requirements
 
@@ -50,9 +78,7 @@ This post designs a scalable blob storage system that can handle massive scale, 
 - **Cost Efficiency**: Optimize storage and bandwidth costs
 - **Consistency**: Eventually consistent (or strong consistency option)
 
----
-
-## Scale Estimates
+## Capacity Estimation
 
 ### Storage Scale
 
@@ -74,11 +100,190 @@ This post designs a scalable blob storage system that can handle massive scale, 
 - **Concurrent Users**: 1 million
 - **Buckets**: 100 million buckets
 
----
+## Core Entities
 
-## Architecture Overview
+### Bucket
+- **Attributes**: bucket_id, bucket_name, owner_id, region, created_at, policy, acl
+- **Relationships**: Contains objects, belongs to user
 
-### High-Level Architecture
+### Object
+- **Attributes**: object_id, bucket_id, key, size, content_type, etag, version_id, created_at, updated_at
+- **Relationships**: Belongs to bucket, has metadata, has versions
+
+### Object Metadata
+- **Attributes**: metadata_id, object_id, key, value, created_at
+- **Relationships**: Belongs to object
+
+### Object Version
+- **Attributes**: version_id, object_id, version_number, is_latest, created_at
+- **Relationships**: Belongs to object
+
+## API
+
+### PUT Object (Upload)
+```
+PUT /{bucket}/{key}
+Headers:
+  - Content-Type: application/json
+  - Content-Length: 1024
+  - x-amz-meta-custom-key: custom-value
+Body: [object data]
+
+Response: 200 OK
+Headers:
+  - ETag: "d41d8cd98f00b204e9800998ecf8427e"
+  - x-amz-version-id: version-id
+```
+
+### GET Object (Download)
+```
+GET /{bucket}/{key}
+Headers:
+  - Range: bytes=0-1023 (optional)
+
+Response: 200 OK
+Headers:
+  - Content-Type: application/json
+  - Content-Length: 1024
+  - ETag: "d41d8cd98f00b204e9800998ecf8427e"
+  - Last-Modified: Wed, 01 Jan 2025 12:00:00 GMT
+Body: [object data]
+```
+
+### DELETE Object
+```
+DELETE /{bucket}/{key}
+
+Response: 204 No Content
+```
+
+### LIST Objects
+```
+GET /{bucket}?prefix=photos/&max-keys=1000&marker=photos/photo-100.jpg
+
+Response: 200 OK
+{
+  "Contents": [
+    {
+      "Key": "photos/photo-1.jpg",
+      "Size": 1024,
+      "LastModified": "2025-01-01T12:00:00Z",
+      "ETag": "etag-1"
+    }
+  ],
+  "IsTruncated": false,
+  "NextMarker": null
+}
+```
+
+### HEAD Object (Get Metadata)
+```
+HEAD /{bucket}/{key}
+
+Response: 200 OK
+Headers:
+  - Content-Type: application/json
+  - Content-Length: 1024
+  - ETag: "d41d8cd98f00b204e9800998ecf8427e"
+  - Last-Modified: Wed, 01 Jan 2025 12:00:00 GMT
+  - x-amz-meta-custom-key: custom-value
+```
+
+## Data Flow
+
+### PUT Object (Upload) Flow
+1. Client uploads object → API Gateway
+2. API Gateway → Metadata Service (validate bucket, permissions)
+3. Metadata Service → Storage Service (get storage node locations)
+4. Storage Service → Storage Nodes (write object data)
+5. Storage Nodes → Replication Service (replicate to other nodes)
+6. Storage Service → Metadata Service (confirm write success)
+7. Metadata Service → Metadata Database (store object metadata)
+8. Metadata Service → API Gateway (return success with ETag)
+9. API Gateway → Client (return response)
+
+### GET Object (Download) Flow
+1. Client requests object → API Gateway
+2. API Gateway → Metadata Service (get object metadata)
+3. Metadata Service → Metadata Database (query metadata)
+4. Metadata Service → Storage Service (get object location)
+5. Storage Service → Storage Nodes (read object data)
+6. Storage Nodes → Storage Service (return object data)
+7. Storage Service → API Gateway (stream object data)
+8. API Gateway → Client (return object)
+
+### LIST Objects Flow
+1. Client requests list → API Gateway
+2. API Gateway → Metadata Service
+3. Metadata Service → Metadata Database (query objects by prefix)
+4. Metadata Database → Metadata Service (return object list)
+5. Metadata Service → API Gateway (return paginated results)
+6. API Gateway → Client (return object list)
+
+## Database Design
+
+### Schema Design
+
+**Buckets Table:**
+```sql
+CREATE TABLE buckets (
+    bucket_id VARCHAR(36) PRIMARY KEY,
+    bucket_name VARCHAR(255) UNIQUE NOT NULL,
+    owner_id VARCHAR(36) NOT NULL,
+    region VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP,
+    policy JSON,
+    acl JSON,
+    INDEX idx_owner_id (owner_id),
+    INDEX idx_bucket_name (bucket_name)
+);
+```
+
+**Objects Table:**
+```sql
+CREATE TABLE objects (
+    object_id VARCHAR(36) PRIMARY KEY,
+    bucket_id VARCHAR(36) NOT NULL,
+    key VARCHAR(1024) NOT NULL,
+    size BIGINT NOT NULL,
+    content_type VARCHAR(255),
+    etag VARCHAR(64) NOT NULL,
+    version_id VARCHAR(36),
+    is_latest BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    UNIQUE KEY unique_bucket_key_version (bucket_id, key, version_id),
+    INDEX idx_bucket_key (bucket_id, key),
+    INDEX idx_bucket_prefix (bucket_id, key(255)),
+    FOREIGN KEY (bucket_id) REFERENCES buckets(bucket_id)
+);
+```
+
+**Object Metadata Table:**
+```sql
+CREATE TABLE object_metadata (
+    metadata_id VARCHAR(36) PRIMARY KEY,
+    object_id VARCHAR(36) NOT NULL,
+    meta_key VARCHAR(255) NOT NULL,
+    meta_value TEXT,
+    created_at TIMESTAMP,
+    INDEX idx_object_id (object_id),
+    FOREIGN KEY (object_id) REFERENCES objects(object_id)
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by Bucket ID:**
+- Buckets and their objects on same shard
+- Enables efficient bucket operations
+- Use consistent hashing for distribution
+
+**Partition Objects Table:**
+- Partition by bucket_id for large buckets
+- Enables parallel queries within bucket
+
+## High-Level Design
 
 ```
 ┌─────────────────────────────────────────┐
@@ -120,11 +325,11 @@ This post designs a scalable blob storage system that can handle massive scale, 
 6. **Replication Service**: Ensures data durability through replication
 7. **Monitoring & Analytics**: System health and usage metrics
 
----
+## Deep Dive
 
-## Component Design
+### Component Design
 
-### 1. API Gateway / Load Balancer
+#### 1. API Gateway / Load Balancer
 
 **Responsibilities:**
 - Request routing to appropriate services
@@ -155,7 +360,7 @@ GET /{bucket}?prefix={prefix} # List objects
 
 ---
 
-### 2. Metadata Service
+#### 2. Metadata Service
 
 **Responsibilities:**
 - Object metadata management
@@ -191,7 +396,7 @@ GET /{bucket}?prefix={prefix} # List objects
 
 ---
 
-### 3. Metadata Database
+#### 3. Metadata Database
 
 **Database Choice: Cassandra / DynamoDB**
 
@@ -442,7 +647,7 @@ Most large-scale blob storage systems use NoSQL databases for metadata due to wr
 
 ---
 
-### 4. Storage Service
+#### 4. Storage Service
 
 **Responsibilities:**
 - Object storage and retrieval
@@ -464,7 +669,7 @@ Most large-scale blob storage systems use NoSQL databases for metadata due to wr
 
 ---
 
-### 5. Storage Nodes
+#### 5. Storage Nodes
 
 **Physical Architecture:**
 - Servers with multiple disks (HDD/SSD)
@@ -498,7 +703,7 @@ Most large-scale blob storage systems use NoSQL databases for metadata due to wr
 
 ---
 
-### 6. Data Durability & Replication
+#### 6. Data Durability & Replication
 
 #### Replication Strategies
 
@@ -570,7 +775,7 @@ Object (60MB) → Split into:
 
 ---
 
-### 7. Consistency Model
+#### 7. Consistency Model
 
 #### Eventual Consistency (Default)
 
@@ -610,132 +815,7 @@ Eventually all nodes have latest data
 - When consistency is required
 - Lower throughput acceptable
 
----
-
-## Data Flow Examples
-
-### Example 1: PUT Object (Upload)
-
-```
-1. Client → API Gateway
-   PUT /my-bucket/my-object
-   Headers: Content-Type, Content-Length, Authorization
-   Body: Object data
-   
-2. API Gateway → Authentication Service
-   Validate credentials, check permissions
-   
-3. API Gateway → Metadata Service
-   Check bucket exists, validate key
-   
-4. Metadata Service → Storage Service
-   Request storage allocation
-   
-5. Storage Service:
-   a. Split object into chunks (if needed)
-   b. Select storage nodes (3 nodes for replication)
-   c. Write chunks to primary node
-   d. Trigger replication to secondary nodes
-   e. Wait for quorum (2 of 3 written)
-   
-6. Storage Service → Metadata Service
-   Update metadata with:
-   - Object key, size, etag
-   - Storage node locations
-   - Timestamps
-   
-7. Metadata Service → Metadata DB
-   Insert/update object metadata
-   
-8. Metadata Service → API Gateway
-   Return success (201 Created)
-   
-9. API Gateway → Client
-   Return ETag, location
-```
-
-**Optimization:**
-- Parallel writes to storage nodes
-- Asynchronous replication (for non-critical)
-- Chunked uploads for large objects
-- Direct upload to storage nodes (signed URLs)
-
----
-
-### Example 2: GET Object (Download)
-
-```
-1. Client → API Gateway
-   GET /my-bucket/my-object
-   Headers: Authorization, Range (optional)
-   
-2. API Gateway → Authentication Service
-   Validate credentials, check permissions
-   
-3. API Gateway → Metadata Service
-   Get object metadata
-   
-4. Metadata Service → Metadata DB
-   Query object metadata by bucket+key
-   
-5. Metadata DB → Metadata Service
-   Return metadata including storage locations
-   
-6. Metadata Service → Storage Service
-   Request object retrieval
-   
-7. Storage Service:
-   a. Select nearest/available storage node
-   b. Read object chunks from node
-   c. Verify checksum
-   d. If node unavailable, read from replica
-   
-8. Storage Service → API Gateway
-   Stream object data
-   
-9. API Gateway → Client
-   Return object with headers (Content-Type, ETag)
-```
-
-**Optimization:**
-- CDN caching for popular objects
-- Range requests for partial downloads
-- Parallel reads from multiple replicas
-- Compression for transfer
-
----
-
-### Example 3: LIST Objects
-
-```
-1. Client → API Gateway
-   GET /my-bucket?prefix=photos/
-   
-2. API Gateway → Metadata Service
-   List objects with prefix
-   
-3. Metadata Service → Metadata DB
-   Query objects by bucket+prefix
-   
-4. Metadata DB → Metadata Service
-   Return paginated results
-   
-5. Metadata Service → API Gateway
-   Return object list (keys, sizes, timestamps)
-   
-6. API Gateway → Client
-   Return XML/JSON response
-```
-
-**Optimization:**
-- Pagination (limit results per page)
-- Caching common prefixes
-- Index optimization for prefix queries
-- Parallel queries for large buckets
-
----
-
-## Scalability Design
+### Scalability Design
 
 ### Horizontal Scaling
 
@@ -790,7 +870,7 @@ Object "photos/img2.jpg" → Hash → Node 2
 
 ---
 
-## Performance Optimization
+### Performance Optimization
 
 ### Caching Strategy
 
@@ -848,7 +928,7 @@ Object "photos/img2.jpg" → Hash → Node 2
 
 ---
 
-## Data Integrity
+### Data Integrity
 
 ### Checksums
 
@@ -882,7 +962,7 @@ Download: Server sends ETag → Client verifies
 
 ---
 
-## Cost Optimization
+### Cost Optimization
 
 ### Storage Tiers
 

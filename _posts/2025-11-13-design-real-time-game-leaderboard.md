@@ -12,6 +12,32 @@ A real-time game leaderboard is a critical component of gaming systems that disp
 
 This post provides a detailed walkthrough of designing a real-time game leaderboard system, covering key architectural decisions, ranking algorithms, data structures, and scalability challenges. This is a common system design interview question that tests your understanding of distributed systems, caching, real-time processing, and efficient data structures for ranking.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+   - [Traffic Estimates](#traffic-estimates)
+   - [Storage Estimates](#storage-estimates)
+   - [Bandwidth Estimates](#bandwidth-estimates)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Scalability Considerations](#scalability-considerations)
+   - [Security Considerations](#security-considerations)
+   - [Monitoring & Observability](#monitoring--observability)
+   - [Trade-offs and Optimizations](#trade-offs-and-optimizations)
+10. [Summary](#summary)
+
 ## Problem Statement
 
 **Design a real-time game leaderboard system with the following features:**
@@ -36,7 +62,7 @@ This post provides a detailed walkthrough of designing a real-time game leaderbo
 - Read:Write ratio: 10:1 (500M views / 50M submissions)
 - Average latency: < 50ms for reads, < 100ms for writes
 
-## Requirements Gathering
+## Requirements
 
 ### Functional Requirements
 
@@ -101,7 +127,25 @@ This post provides a detailed walkthrough of designing a real-time game leaderbo
 - **Read bandwidth**: 500M views/day × 5KB avg = 2.5TB/day = 29GB/s
 - **Peak bandwidth**: 3x average = 87GB/s
 
-## System APIs
+## Core Entities
+
+### Player
+- **Attributes**: user_id, username, country_code, created_at, updated_at
+- **Relationships**: Submits scores, has friends, participates in leaderboards
+
+### Score
+- **Attributes**: score_id, user_id, game_id, leaderboard_type, score, metadata, created_at
+- **Relationships**: Belongs to player and game, contributes to leaderboard ranking
+
+### Leaderboard
+- **Attributes**: leaderboard_type, game_id, snapshot_date (for historical)
+- **Relationships**: Contains scores, ranked by score value
+
+### Friend
+- **Attributes**: user_id, friend_id, created_at
+- **Relationships**: Links players for friends leaderboard
+
+## API
 
 ### 1. Submit Score
 ```
@@ -164,6 +208,39 @@ Response:
   - players: array of players from historical leaderboard
   - date: leaderboard date
 ```
+
+## Data Flow
+
+### Score Submission Flow
+1. Player submits score → Load Balancer
+2. Load Balancer → API Gateway
+3. API Gateway → Score Service
+4. Score Service validates score
+5. Score Service → Database (store score)
+6. Score Service → Message Queue (for async ranking)
+7. Message Queue → Ranking Engine (calculate rank)
+8. Ranking Engine → Redis (update leaderboard)
+9. Ranking Engine → Cache invalidation
+10. Response returned to client (with new rank)
+
+### Leaderboard Query Flow
+1. Client requests leaderboard → Load Balancer
+2. Load Balancer → API Gateway
+3. API Gateway → Leaderboard Service
+4. Leaderboard Service checks Redis cache
+5. If cache miss:
+   - Query Redis Sorted Set for leaderboard
+   - If not in Redis, query Database
+   - Cache result in Redis
+6. Return leaderboard to client
+
+### Rank Update Flow
+1. Score update triggers ranking recalculation
+2. Ranking Engine calculates new rank
+3. Ranking Engine updates Redis Sorted Set
+4. Ranking Engine → Message Queue (for real-time updates)
+5. Message Queue → Real-time Service
+6. Real-time Service pushes update to active clients via WebSocket
 
 ## Database Design
 
@@ -235,7 +312,7 @@ CREATE TABLE friends (
 - Global leaderboard requires aggregation across shards
 - Need efficient cross-shard queries
 
-## High-Level System Design
+## High-Level Design
 
 ```
 ┌─────────────┐
@@ -263,9 +340,11 @@ CREATE TABLE friends (
 └──────────────┘  └──────────────┘  └──────────────┘
 ```
 
-## Component Design
+## Deep Dive
 
-### 1. Score Service
+### Component Design
+
+#### 1. Score Service
 
 **Responsibilities:**
 - Receive score submissions
@@ -285,7 +364,7 @@ CREATE TABLE friends (
 - Async processing for ranking
 - Rate limiting per user
 
-### 2. Ranking Engine
+#### 2. Ranking Engine
 
 **Responsibilities:**
 - Calculate and maintain rankings
@@ -331,7 +410,7 @@ Value: user_id
 final_score = base_score + bonus_points - penalty_points
 ```
 
-### 3. Leaderboard Service
+#### 3. Leaderboard Service
 
 **Responsibilities:**
 - Serve leaderboard queries
@@ -362,7 +441,7 @@ ZREVRANGE leaderboard:global:1 rank-5 rank+5 WITHSCORES
 - TTL: 1 second (very short for real-time)
 - Invalidate on score updates
 
-### 4. Real-time Update Service
+#### 4. Real-time Update Service
 
 **Requirements:**
 - Push leaderboard updates to clients
@@ -395,7 +474,7 @@ ZREVRANGE leaderboard:global:1 rank-5 rank+5 WITHSCORES
 3. Real-time service consumes and pushes to clients
 4. Clients receive updated leaderboard
 
-### 5. Historical Leaderboard Service
+#### 5. Historical Leaderboard Service
 
 **Responsibilities:**
 - Store leaderboard snapshots
@@ -411,7 +490,7 @@ ZREVRANGE leaderboard:global:1 rank-5 rank+5 WITHSCORES
 - Compress old snapshots
 - Archive to cold storage after 1 year
 
-## Detailed Design
+### Detailed Design
 
 ### Data Structure: Redis Sorted Sets
 
@@ -619,7 +698,7 @@ Composite B: 1000.0000000008103714
 3. **Rate Limiting**: Limit queries per user
 4. **CDN**: Cache static leaderboard pages
 
-## Security Considerations
+### Security Considerations
 
 1. **Score Validation**: Prevent cheating
    - Server-side validation
@@ -643,7 +722,7 @@ Composite B: 1000.0000000008103714
    - Pattern detection
    - Manual review
 
-## Monitoring & Observability
+### Monitoring & Observability
 
 **Key Metrics:**
 - Score submission rate
@@ -664,7 +743,7 @@ Composite B: 1000.0000000008103714
 - ELK stack for logging
 - Distributed tracing (Jaeger/Zipkin)
 
-## Trade-offs and Optimizations
+### Trade-offs and Optimizations
 
 ### Trade-offs
 

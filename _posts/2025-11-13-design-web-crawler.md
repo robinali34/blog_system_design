@@ -12,6 +12,33 @@ A web crawler is a program that automatically traverses the web by downloading w
 
 This post provides a detailed walkthrough of designing a scalable web crawler system that can efficiently crawl billions of web pages while adhering to politeness policies and handling failures gracefully. This is a common system design interview question that tests your understanding of distributed systems, queue management, rate limiting, and data storage at scale.
 
+## Table of Contents
+
+1. [Problem Statement](#problem-statement)
+2. [Requirements](#requirements)
+   - [Functional Requirements](#functional-requirements)
+   - [Non-Functional Requirements](#non-functional-requirements)
+3. [Capacity Estimation](#capacity-estimation)
+   - [Traffic Estimates](#traffic-estimates)
+   - [Storage Estimates](#storage-estimates)
+   - [Bandwidth Estimates](#bandwidth-estimates)
+4. [Core Entities](#core-entities)
+5. [API](#api)
+6. [Data Flow](#data-flow)
+7. [Database Design](#database-design)
+   - [Schema Design](#schema-design)
+   - [Database Sharding Strategy](#database-sharding-strategy)
+8. [High-Level Design](#high-level-design)
+9. [Deep Dive](#deep-dive)
+   - [Component Design](#component-design)
+   - [Detailed Design](#detailed-design)
+   - [Scalability](#scalability)
+   - [Security](#security)
+   - [Monitoring](#monitoring)
+   - [Trade-offs](#trade-offs)
+   - [Advanced Considerations](#advanced-considerations)
+10. [Summary](#summary)
+
 ## Problem Statement
 
 **Design a web crawler system that can:**
@@ -29,7 +56,7 @@ This post provides a detailed walkthrough of designing a scalable web crawler sy
 - Handling dynamic content (JavaScript-rendered pages)
 - Handling authentication (login-required pages)
 
-## Requirements Gathering
+## Requirements
 
 ### Functional Requirements
 
@@ -67,13 +94,89 @@ This post provides a detailed walkthrough of designing a scalable web crawler sy
 - Cost optimization
 - Legal compliance and privacy regulations
 
-## System Interface
+## Capacity Estimation
 
-**Input:**
-- Seed URLs to start crawling from
+### Traffic Estimates
 
-**Output:**
-- Text data extracted from web pages (stored in blob storage)
+- **Total pages to crawl**: 10 billion
+- **Average page size**: 2MB
+- **Time constraint**: 5 days
+- **Required throughput**: 10B pages / (5 days × 24 hours × 3600 seconds) = ~23,148 pages/second
+- **Bandwidth requirement**: 23,148 pages/sec × 2MB = ~46GB/s
+
+### Storage Estimates
+
+**Text Data:**
+- 10B pages × 200KB (extracted text) = 2PB
+- With compression (50%): 1PB
+
+**Metadata:**
+- 10B URLs × 100 bytes = 1TB
+- Crawl history: 10B × 50 bytes = 500GB
+- Total metadata: ~1.5TB
+
+**Total Storage**: ~1PB
+
+### Bandwidth Estimates
+
+- **Download bandwidth**: 46GB/s peak
+- **Upload bandwidth**: 46GB/s (to blob storage)
+- **Total bandwidth**: ~92GB/s
+
+## Core Entities
+
+### URL
+- **Attributes**: url_id, url_string, domain, status, priority, discovered_at, crawled_at
+- **Relationships**: Links to other URLs, belongs to domain
+
+### Domain
+- **Attributes**: domain_id, domain_name, robots_txt, rate_limit, last_crawled_at
+- **Relationships**: Contains URLs, has rate limits
+
+### Page
+- **Attributes**: page_id, url_id, content_hash, text_data_url, links_count, created_at
+- **Relationships**: Belongs to URL, contains links to other URLs
+
+### Crawl Job
+- **Attributes**: job_id, seed_urls, status, started_at, completed_at
+- **Relationships**: Contains URLs to crawl
+
+## API
+
+### 1. Start Crawl Job
+```
+POST /api/v1/crawl/start
+Parameters:
+  - seed_urls: array of seed URLs
+  - max_pages: maximum pages to crawl (optional)
+Response:
+  - job_id: unique job identifier
+  - status: "started"
+```
+
+### 2. Get Crawl Status
+```
+GET /api/v1/crawl/{job_id}/status
+Parameters:
+  - job_id: job ID
+Response:
+  - status: "running", "completed", "failed"
+  - pages_crawled: number of pages crawled
+  - pages_remaining: number of pages remaining
+  - progress: percentage complete
+```
+
+### 3. Get Crawled Data
+```
+GET /api/v1/crawl/{job_id}/data
+Parameters:
+  - job_id: job ID
+  - limit: number of pages to return (default: 100)
+  - offset: pagination offset (optional)
+Response:
+  - pages: array of page objects
+  - total_pages: total number of pages crawled
+```
 
 ## Data Flow
 
@@ -134,18 +237,78 @@ The high-level data flow for our web crawler:
 └─────────────────┘
 ```
 
-### Core Components
+## Database Design
 
-1. **Frontier Queue**: Queue of URLs to crawl (Kafka, Redis, or SQS)
-2. **Crawler Workers**: Fetch web pages from external servers
-3. **DNS Service**: Resolve domain names to IP addresses
-4. **Parser Workers**: Extract text data and links from HTML
-5. **Blob Storage (S3)**: Store extracted text data
-6. **Metadata Database**: Track crawled URLs, status, and metadata
+### Schema Design
 
-## Detailed Design
+**URLs Table:**
+```sql
+CREATE TABLE urls (
+    url_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    url_string VARCHAR(2048) UNIQUE NOT NULL,
+    domain VARCHAR(255) NOT NULL,
+    status ENUM('pending', 'crawling', 'completed', 'failed') DEFAULT 'pending',
+    priority INT DEFAULT 0,
+    discovered_at TIMESTAMP,
+    crawled_at TIMESTAMP,
+    INDEX idx_domain_status (domain, status),
+    INDEX idx_status_priority (status, priority DESC),
+    INDEX idx_url_string (url_string(255))
+);
+```
 
-### 1. Frontier Queue
+**Domains Table:**
+```sql
+CREATE TABLE domains (
+    domain_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    domain_name VARCHAR(255) UNIQUE NOT NULL,
+    robots_txt TEXT,
+    rate_limit_per_second INT DEFAULT 1,
+    last_crawled_at TIMESTAMP,
+    INDEX idx_domain_name (domain_name)
+);
+```
+
+**Pages Table:**
+```sql
+CREATE TABLE pages (
+    page_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    url_id BIGINT NOT NULL,
+    content_hash VARCHAR(64) NOT NULL,
+    text_data_url VARCHAR(512) NOT NULL,
+    links_count INT DEFAULT 0,
+    created_at TIMESTAMP,
+    INDEX idx_url_id (url_id),
+    INDEX idx_content_hash (content_hash),
+    FOREIGN KEY (url_id) REFERENCES urls(url_id)
+);
+```
+
+**Crawl Jobs Table:**
+```sql
+CREATE TABLE crawl_jobs (
+    job_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    seed_urls JSON NOT NULL,
+    status ENUM('pending', 'running', 'completed', 'failed') DEFAULT 'pending',
+    pages_crawled INT DEFAULT 0,
+    started_at TIMESTAMP,
+    completed_at TIMESTAMP,
+    INDEX idx_status (status)
+);
+```
+
+### Database Sharding Strategy
+
+**Shard by Domain:**
+- URLs and pages grouped by domain
+- Enables efficient domain-based rate limiting
+- Reduces cross-shard queries
+
+## Deep Dive
+
+### Component Design
+
+#### 1. Frontier Queue
 
 The frontier queue stores URLs that need to be crawled. It should support:
 - **High throughput**: Millions of URLs per second
@@ -184,7 +347,7 @@ The frontier queue stores URLs that need to be crawled. It should support:
 - Use priority queues for important URLs
 - Implement deduplication using Bloom filters or hash sets
 
-### 2. Crawler Workers
+#### 2. Crawler Workers
 
 Crawler workers fetch HTML pages from web servers. They need to:
 - **Respect robots.txt**: Check robots.txt before crawling
@@ -219,7 +382,7 @@ Crawler Worker Pool
 - Track failure rates per domain
 - Blacklist domains with high failure rates
 
-### 3. DNS Resolution
+#### 3. DNS Resolution
 
 DNS resolution is a critical bottleneck. We need to:
 - **Cache DNS lookups**: Avoid repeated DNS queries
@@ -237,7 +400,7 @@ DNS resolution is a critical bottleneck. We need to:
 - Cache in Redis with TTL from DNS response
 - Maintain DNS resolver pool for parallel lookups
 
-### 4. Parser Workers
+#### 4. Parser Workers
 
 Parser workers extract text data and links from HTML:
 - **HTML Parsing**: Parse HTML and extract text content
@@ -264,7 +427,7 @@ Parser workers extract text data and links from HTML:
 - Convert to lowercase
 - Remove trailing slashes (optional)
 
-### 5. Blob Storage (S3)
+#### 5. Blob Storage (S3)
 
 Store extracted text data in blob storage:
 - **Scalability**: Handle petabytes of data
@@ -287,7 +450,7 @@ s3://crawler-data/
 - Store metadata in separate database (not in S3)
 - Include: URL, crawl timestamp, file path, size, etc.
 
-### 6. Metadata Database
+#### 6. Metadata Database
 
 Track crawled URLs and their status:
 - **URL Status**: Pending, Crawling, Completed, Failed
@@ -333,7 +496,7 @@ CREATE TABLE crawl_history (
 
 **Recommendation**: Use **PostgreSQL** for structured queries and **Cassandra** for high-scale scenarios.
 
-## Scalability and Performance
+### Scalability and Performance
 
 ### Throughput Calculation
 
@@ -417,7 +580,7 @@ class RateLimiter:
         return False
 ```
 
-## Fault Tolerance
+### Fault Tolerance
 
 ### Failure Scenarios
 
@@ -488,7 +651,7 @@ def crawl_url(url):
         raise
 ```
 
-## Advanced Considerations
+### Advanced Considerations
 
 ### 1. URL Prioritization
 
