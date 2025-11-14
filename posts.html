@@ -17,12 +17,129 @@ permalink: /posts/
         <input type="text" id="search-input" class="search-input" placeholder="Search posts by title or category...">
       </div>
       
-      <div class="category-filters">
-        <button class="filter-btn active" data-category="all">All</button>
+      <div class="category-hierarchy">
+        <button class="filter-btn active" data-category="all" data-level="0">All</button>
+        
+        <!-- System Design -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="system-design">System Design ▾</button>
+          <div class="category-children" data-parent="system-design">
+            <button class="filter-btn" data-category="system design" data-level="1" data-parent="system-design">All System Design</button>
+            <button class="filter-btn" data-category="interview example" data-level="1" data-parent="system-design">Interview Examples</button>
+            <button class="filter-btn" data-category="distributed systems" data-level="1" data-parent="system-design">Distributed Systems</button>
+            <button class="filter-btn" data-category="architecture" data-level="1" data-parent="system-design">Architecture</button>
+            <button class="filter-btn" data-category="storage" data-level="1" data-parent="system-design">Storage</button>
+            <button class="filter-btn" data-category="web crawling" data-level="1" data-parent="system-design">Web Crawling</button>
+            <button class="filter-btn" data-category="ar" data-level="1" data-parent="system-design">AR/Smart Glass</button>
+            <button class="filter-btn" data-category="analytics" data-level="1" data-parent="system-design">Analytics</button>
+          </div>
+        </div>
+        
+        <!-- Interview Preparation -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="interview-preparation">Interview Preparation ▾</button>
+          <div class="category-children" data-parent="interview-preparation">
+            <button class="filter-btn" data-category="interview preparation" data-level="1" data-parent="interview-preparation">All Preparation</button>
+            <button class="filter-btn" data-category="system design" data-level="1" data-parent="interview-preparation">System Design Prep</button>
+            <button class="filter-btn" data-category="os frameworks" data-level="1" data-parent="interview-preparation">OS Frameworks</button>
+            <button class="filter-btn" data-category="study guide" data-level="1" data-parent="interview-preparation">Study Guides</button>
+            <button class="filter-btn" data-category="study plan" data-level="1" data-parent="interview-preparation">Study Plans</button>
+            <button class="filter-btn" data-category="checklist" data-level="1" data-parent="interview-preparation">Checklists</button>
+            <button class="filter-btn" data-category="oa" data-level="1" data-parent="interview-preparation">Online Assessment</button>
+          </div>
+        </div>
+        
+        <!-- Interview Questions -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="interview-questions">Interview Questions ▾</button>
+          <div class="category-children" data-parent="interview-questions">
+            <button class="filter-btn" data-category="interview questions" data-level="1" data-parent="interview-questions">All Questions</button>
+            <button class="filter-btn" data-category="system design" data-level="1" data-parent="interview-questions">System Design Q&A</button>
+            <button class="filter-btn" data-category="os frameworks" data-level="1" data-parent="interview-questions">OS Frameworks Q&A</button>
+            <button class="filter-btn" data-category="backend engineering" data-level="1" data-parent="interview-questions">Backend Q&A</button>
+            <button class="filter-btn" data-category="android" data-level="1" data-parent="interview-questions">Android Q&A</button>
+            <button class="filter-btn" data-category="senior engineer" data-level="1" data-parent="interview-questions">Senior Level</button>
+          </div>
+        </div>
+        
+        <!-- Tutorials & Guides -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="tutorials">Tutorials & Guides ▾</button>
+          <div class="category-children" data-parent="tutorials">
+            <button class="filter-btn" data-category="tutorial" data-level="1" data-parent="tutorials">All Tutorials</button>
+            <button class="filter-btn" data-category="aws" data-level="1" data-parent="tutorials">AWS Services</button>
+            <button class="filter-btn" data-category="deployment" data-level="1" data-parent="tutorials">Deployment</button>
+            <button class="filter-btn" data-category="use cases" data-level="1" data-parent="tutorials">Use Cases</button>
+            <button class="filter-btn" data-category="best practices" data-level="1" data-parent="tutorials">Best Practices</button>
+          </div>
+        </div>
+        
+        <!-- Databases -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="databases">Databases ▾</button>
+          <div class="category-children" data-parent="databases">
+            <button class="filter-btn" data-category="database" data-level="1" data-parent="databases">All Databases</button>
+            <button class="filter-btn" data-category="redis" data-level="1" data-parent="databases">Redis</button>
+            <button class="filter-btn" data-category="dynamodb" data-level="1" data-parent="databases">DynamoDB</button>
+            <button class="filter-btn" data-category="postgresql" data-level="1" data-parent="databases">PostgreSQL</button>
+            <button class="filter-btn" data-category="cassandra" data-level="1" data-parent="databases">Cassandra</button>
+            <button class="filter-btn" data-category="timescaledb" data-level="1" data-parent="databases">TimescaleDB</button>
+            <button class="filter-btn" data-category="nosql" data-level="1" data-parent="databases">NoSQL</button>
+            <button class="filter-btn" data-category="sql" data-level="1" data-parent="databases">SQL</button>
+          </div>
+        </div>
+        
+        <!-- Message Queues -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="message-queues">Message Queues ▾</button>
+          <div class="category-children" data-parent="message-queues">
+            <button class="filter-btn" data-category="message queue" data-level="1" data-parent="message-queues">All Message Queues</button>
+            <button class="filter-btn" data-category="kafka" data-level="1" data-parent="message-queues">Kafka</button>
+            <button class="filter-btn" data-category="sqs" data-level="1" data-parent="message-queues">SQS</button>
+            <button class="filter-btn" data-category="dlq" data-level="1" data-parent="message-queues">Dead Letter Queue</button>
+            <button class="filter-btn" data-category="rabbitmq" data-level="1" data-parent="message-queues">RabbitMQ</button>
+            <button class="filter-btn" data-category="streaming" data-level="1" data-parent="message-queues">Streaming</button>
+          </div>
+        </div>
+        
+        <!-- Cloud Services -->
+        <div class="category-group">
+          <button class="category-parent" data-parent="cloud">Cloud Services ▾</button>
+          <div class="category-children" data-parent="cloud">
+            <button class="filter-btn" data-category="aws" data-level="1" data-parent="cloud">AWS</button>
+            <button class="filter-btn" data-category="s3" data-level="1" data-parent="cloud">S3</button>
+            <button class="filter-btn" data-category="cloud storage" data-level="1" data-parent="cloud">Cloud Storage</button>
+            <button class="filter-btn" data-category="distributed systems" data-level="1" data-parent="cloud">Distributed Systems</button>
+          </div>
+        </div>
+        
+        <!-- Other Categories -->
         {%- assign all_categories = site.posts | map: 'categories' | flatten | uniq | sort -%}
+        {%- assign main_categories = "System Design,Interview Preparation,Interview Questions,Tutorial,Database,Message Queue,AWS,Redis,Kafka,SQS,OS Frameworks,Study Guide" | split: "," -%}
+        {%- assign other_categories = "" | split: "" -%}
         {%- for category in all_categories -%}
-          <button class="filter-btn" data-category="{{ category | downcase }}">{{ category }}</button>
+          {%- assign is_main = false -%}
+          {%- for main_cat in main_categories -%}
+            {%- if category == main_cat or category contains main_cat or main_cat contains category -%}
+              {%- assign is_main = true -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
+          {%- unless is_main -%}
+            {%- assign other_categories = other_categories | push: category -%}
+          {%- endunless -%}
         {%- endfor -%}
+        
+        {%- if other_categories.size > 0 -%}
+        <div class="category-group">
+          <button class="category-parent" data-parent="other">Other ▾</button>
+          <div class="category-children" data-parent="other">
+            {%- for category in other_categories -%}
+              <button class="filter-btn" data-category="{{ category | downcase }}" data-level="1" data-parent="other">{{ category }}</button>
+            {%- endfor -%}
+          </div>
+        </div>
+        {%- endif -%}
       </div>
       
       <div class="search-results-info" id="results-info"></div>
@@ -60,6 +177,7 @@ permalink: /posts/
 (function() {
   const searchInput = document.getElementById('search-input');
   const filterButtons = document.querySelectorAll('.filter-btn');
+  const categoryParents = document.querySelectorAll('.category-parent');
   const postItems = document.querySelectorAll('.post-item');
   const resultsInfo = document.getElementById('results-info');
   
@@ -70,10 +188,15 @@ permalink: /posts/
     let visibleCount = 0;
     
     postItems.forEach(item => {
-      const categories = item.getAttribute('data-categories') || '';
-      const title = item.getAttribute('data-title') || '';
+      const categories = (item.getAttribute('data-categories') || '').toLowerCase();
+      const title = (item.getAttribute('data-title') || '').toLowerCase();
+      const searchCategory = currentCategory.toLowerCase();
       
-      const matchesCategory = currentCategory === 'all' || categories.includes(currentCategory);
+      // Check if category matches (handles partial matches and spaces)
+      const matchesCategory = currentCategory === 'all' || 
+                             categories.includes(searchCategory) ||
+                             categories.split(' ').some(cat => cat.includes(searchCategory) || searchCategory.includes(cat));
+      
       const matchesSearch = currentSearch === '' || 
                            title.includes(currentSearch.toLowerCase()) ||
                            categories.includes(currentSearch.toLowerCase());
@@ -95,12 +218,41 @@ permalink: /posts/
     }
   }
   
+  // Category parent buttons (expand/collapse)
+  categoryParents.forEach(parent => {
+    parent.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const parentId = this.getAttribute('data-parent');
+      const children = document.querySelector(`.category-children[data-parent="${parentId}"]`);
+      
+      // Toggle children visibility
+      if (children.style.display === 'none' || !children.style.display) {
+        children.style.display = 'flex';
+        this.textContent = this.textContent.replace('▾', '▴');
+        this.classList.add('expanded');
+      } else {
+        children.style.display = 'none';
+        this.textContent = this.textContent.replace('▴', '▾');
+        this.classList.remove('expanded');
+      }
+    });
+  });
+  
   // Category filter buttons
   filterButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      
+      // Remove active from all buttons
       filterButtons.forEach(b => b.classList.remove('active'));
+      
+      // Add active to clicked button
       this.classList.add('active');
+      
+      // Set current category
       currentCategory = this.getAttribute('data-category');
+      
+      // Filter posts
       filterPosts();
     });
   });
@@ -113,7 +265,12 @@ permalink: /posts/
     });
   }
   
-  // Initialize
+  // Initialize - collapse all category groups
+  document.querySelectorAll('.category-children').forEach(children => {
+    children.style.display = 'none';
+  });
+  
+  // Initialize filter
   filterPosts();
 })();
 </script>
