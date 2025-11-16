@@ -27,7 +27,7 @@ Feel free to reach out if you have any questions or would like to discuss techni
 
 - **GitHub**: [@robinali34](https://github.com/robinali34)
 - **LinkedIn**: Connect with me for professional discussions
-- **Email**: For direct inquiries and collaborations
+- **Email**: [robinali34@gmail.com](mailto:robinali34@gmail.com)
 
 ### What I'm Interested In
 
