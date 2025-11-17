@@ -79,9 +79,10 @@ $radius-full: 24px;
     left: 0;
     right: 0;
     width: 100%;
-    z-index: 100;
+    z-index: 1000;
     box-sizing: border-box;
     overflow: visible;
+    display: block;
     
     @media (max-width: 768px) {
       padding: 1rem 0;
@@ -120,23 +121,26 @@ $radius-full: 24px;
         flex-direction: column;
         align-items: flex-start;
         gap: 0.75rem;
-        padding: 0 1rem;
-        width: 100%;
+        padding: 0 1rem !important;
+        width: 100% !important;
         box-sizing: border-box;
         overflow: visible;
+        max-width: 100%;
       }
       
       @media (max-width: 480px) {
-        padding: 0 0.875rem;
+        padding: 0 0.875rem !important;
         gap: 0.625rem;
-        width: 100%;
+        width: 100% !important;
         overflow: visible;
+        max-width: 100%;
       }
       
       @media (max-width: 360px) {
-        padding: 0 0.75rem;
+        padding: 0 0.75rem !important;
         gap: 0.5rem;
         overflow: visible;
+        max-width: 100%;
       }
       
       .site-title {
@@ -178,24 +182,27 @@ $radius-full: 24px;
         width: auto;
         
         @media (max-width: 768px) {
-          width: 100%;
+          width: 100% !important;
           gap: 0.75rem;
           margin-top: 0.5rem;
           flex-wrap: wrap;
           align-items: flex-start;
+          display: flex;
         }
         
         @media (max-width: 480px) {
           gap: 0.625rem;
           font-size: 0.9rem;
-          width: 100%;
+          width: 100% !important;
           margin-top: 0.5rem;
           flex-wrap: wrap;
+          display: flex;
         }
         
         @media (max-width: 360px) {
           gap: 0.5rem;
           font-size: 0.85rem;
+          width: 100% !important;
         }
         
         a {
@@ -239,8 +246,15 @@ $radius-full: 24px;
 }
 
 // Blog-like homepage styles
-.home {
+.post-container > .home {
   background-color: $morandi-cream;
+  padding: 0;
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    padding: 0;
+    margin: 0;
+  }
   
   // Hero Section
   .blog-hero {

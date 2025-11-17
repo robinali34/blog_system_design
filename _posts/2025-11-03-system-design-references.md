@@ -225,6 +225,28 @@ ShowOffer provides system design interview preparation resources designed to hel
 
 The platform is designed to help candidates build confidence in system design interviews by providing structured learning materials and practice opportunities. It's particularly useful for candidates who need a guided approach to mastering system design interview skills.
 
+### 12. System Design Fight Club
+
+**Website:** [https://systemdesignfightclub.com/](https://systemdesignfightclub.com/)
+
+System Design Fight Club is a comprehensive resource offering over 50 system design interview question solutions, covering a wide range of real-world system design problems. This platform provides detailed solutions for designing various types of systems commonly encountered in technical interviews. The collection includes:
+
+- **Social Media Platforms**: Twitter, Reddit, Craigslist, Facebook Messenger (Chat App), Dating App like Tinder
+- **E-Commerce & Marketplaces**: Ticketmaster, Flash Sale, Online Auction and Bidding Service, Price Drop Tracker like CamelCamelCamel, Stock Exchange
+- **Content Platforms**: YouTube (Video Upload and Hosting), Pastebin, Photo Sharing Service, Nested Comments
+- **Storage & File Services**: File Upload and Hosting Service like Dropbox
+- **Search & Discovery**: Web Crawler / Search Engine, Search Autocomplete, Proximity Service, Social Graph
+- **Infrastructure & Services**: Logging Service, Distributed Tracing, Rate Limiter, Metrics & Alarms Service, Health Check Endpoint Migration, Orchestration, Workflow Automation Service
+- **Distributed Systems**: Distributed Counter, Distributed Cron, Distributed Linked List, Distributed OLTP Database
+- **Real-Time Systems**: Online Presence Indicator, Get Active Events, Chat App, Superbowl Voting Service
+- **Specialized Systems**: Uber, Google Calendar, Digital Wallet, Payment Gateway, Airline Ticketing, Hotel Booking, Vending Machines, Traffic Violation Detection Service
+- **ML & Analytics**: Hyperparameter Training & Tuning, Audience Segmentation, Ad Click Ecosystem, Ad Click Counter, Spotify "Top K" Songs
+- **Developer Tools**: Coding Contest platform like Leetcode or Codeforces, Tagging Service, Captcha
+- **Communication & Notifications**: One Time Password (OTP) with Cache, Batch Marketing Email Service
+- **Other Systems**: TinyURL (Revisited), Dashboard, Weather App with Millions of Smart Device Sensors, Inventory Tracking & Management Service, Scheduled Digital Transaction
+
+System Design Fight Club serves as an extensive problem bank for system design interview preparation, offering solutions to a diverse set of design challenges that span multiple domains and complexity levels. Whether you're preparing for interviews at top tech companies or looking to expand your system design knowledge, this resource provides comprehensive coverage of common and advanced system design problems.
+
 ## How to Use These Resources
 
 ### For Interview Preparation
@@ -338,6 +360,7 @@ These resources provide a comprehensive foundation for learning system design an
 - **Designing Data-Intensive Applications** for deep technical understanding of distributed systems and data architectures
 - **Awesome Scalability** for real-world patterns and case studies from production systems
 - **ShowOffer** for structured interview preparation and practice
+- **System Design Fight Club** for an extensive collection of over 50 system design interview question solutions
 
 Combine these resources with hands-on practice, and you'll be well-prepared to tackle system design challenges both in interviews and in real-world scenarios.
 
