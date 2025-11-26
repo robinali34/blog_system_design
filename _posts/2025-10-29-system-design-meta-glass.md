@@ -177,3 +177,108 @@ POST /v1/ota/apply { version, url, sig } -> { job_id }
 ---
 
 This Android‑based architecture maps firmware drivers through HALs into NDK services for low‑latency media and display handling, with clean AIDL/JNI bridges into a Kotlin/Jetpack UI. It supports dual control (voice + phone) and an in‑glass display while balancing power, privacy, and developer ergonomics.
+
+## What Interviewers Look For
+
+### Embedded/Wearable Systems Skills
+
+1. **Hardware Integration**
+   - Camera/ISP pipeline
+   - Display drivers
+   - Sensor integration
+   - **Red Flags**: No hardware understanding, poor integration, inefficient
+
+2. **Power Management**
+   - Battery optimization
+   - Thermal management
+   - Duty cycling
+   - **Red Flags**: Poor battery life, thermal issues, no optimization
+
+3. **Low-Latency Design**
+   - Preview latency < 150ms
+   - Display update < 50ms
+   - Voice command < 300ms
+   - **Red Flags**: High latency, slow operations, poor UX
+
+### Android/OS Systems Skills
+
+1. **NDK/Native Development**
+   - Camera HAL3
+   - MediaCodec
+   - NNAPI/ML
+   - **Red Flags**: No native knowledge, inefficient, poor performance
+
+2. **System Services**
+   - AIDL services
+   - Binder IPC
+   - HAL abstraction
+   - **Red Flags**: No system knowledge, poor architecture, inefficient
+
+3. **Android Architecture**
+   - Jetpack components
+   - Lifecycle management
+   - Background services
+   - **Red Flags**: Poor architecture, lifecycle issues, inefficient
+
+### Problem-Solving Approach
+
+1. **Privacy & Security**
+   - On-device processing
+   - Privacy indicators
+   - Secure boot
+   - **Red Flags**: No privacy, insecure, poor UX
+
+2. **Edge Cases**
+   - Thermal throttling
+   - Connectivity drops
+   - Permission issues
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Power vs performance
+   - Privacy vs features
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Capture service
+   - ML service
+   - Display service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Connectivity Design**
+   - BLE for control
+   - WiFi for media
+   - Offline support
+   - **Red Flags**: Poor connectivity, no offline, inefficient
+
+3. **Cloud Integration**
+   - Media upload
+   - Sync strategy
+   - Conflict resolution
+   - **Red Flags**: No cloud, poor sync, conflicts
+
+### Communication Skills
+
+1. **Embedded Systems Explanation**
+   - Can explain hardware integration
+   - Understands power management
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Android Architecture Explanation**
+   - Can explain NDK/HAL
+   - Understands system services
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Embedded Systems Expertise**
+   - Hardware knowledge
+   - Power optimization
+   - **Key**: Show embedded systems expertise
+
+2. **Privacy-First Design**
+   - On-device processing
+   - User control
+   - **Key**: Demonstrate privacy focus

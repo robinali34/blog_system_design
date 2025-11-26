@@ -1275,6 +1275,123 @@ class PriceHistoryManager:
 - Store aggregated data
 - Reduce query time
 
+## What Interviewers Look For
+
+### Web Scraping Skills
+
+1. **Amazon-Specific Scraping**
+   - ASIN-based tracking
+   - Multi-condition tracking (new/used/refurbished)
+   - Rate limit respect
+   - **Red Flags**: No ASIN, single condition, rate violations
+
+2. **Anti-Scraping Measures**
+   - Proxy rotation
+   - CAPTCHA handling
+   - User-agent rotation
+   - **Red Flags**: No rotation, frequent blocking, no handling
+
+3. **Scraping Reliability**
+   - Retry logic
+   - Failure recovery
+   - **Red Flags**: No retry, no recovery, data loss
+
+### Time-Series Data Skills
+
+1. **Historical Price Storage**
+   - Time-series database
+   - Efficient queries
+   - 5+ years retention
+   - **Red Flags**: Relational DB, inefficient queries, short retention
+
+2. **Price Chart Generation**
+   - Data aggregation
+   - Multiple time ranges
+   - **Red Flags**: No aggregation, slow queries, single range
+
+3. **Data Compression**
+   - Old data compression
+   - Columnar storage
+   - **Red Flags**: No compression, high storage costs
+
+### Distributed Systems Skills
+
+1. **Price Monitoring Pipeline**
+   - Continuous monitoring
+   - Dynamic frequency
+   - **Red Flags**: Fixed frequency, inefficient, poor scheduling
+
+2. **Scalability Design**
+   - Horizontal scaling
+   - Database sharding
+   - **Red Flags**: Vertical scaling, no sharding, bottlenecks
+
+3. **Browser Extension Integration**
+   - Fast product lookup
+   - Seamless tracking
+   - **Red Flags**: Slow lookup, poor UX, no integration
+
+### Problem-Solving Approach
+
+1. **Amazon Rate Limiting**
+   - Strict enforcement
+   - Proxy rotation
+   - Intelligent scheduling
+   - **Red Flags**: No rate limiting, violations, blocking
+
+2. **Edge Cases**
+   - Product unavailable
+   - Price format changes
+   - ASIN changes
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Frequency vs accuracy
+   - Storage vs retention
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Scraper service
+   - Chart service
+   - Alert service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Email Alert System**
+   - Reliable delivery
+   - Price drop detection
+   - **Red Flags**: Unreliable, missed drops, no retry
+
+3. **Data Storage**
+   - Time-series DB
+   - Proper indexing
+   - **Red Flags**: Wrong DB, missing indexes, poor queries
+
+### Communication Skills
+
+1. **Scraping Strategy Explanation**
+   - Can explain ASIN tracking
+   - Understands rate limiting
+   - **Red Flags**: No understanding, vague
+
+2. **Time-Series Explanation**
+   - Can explain data storage
+   - Understands aggregation
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Web Scraping Expertise**
+   - Amazon-specific knowledge
+   - Anti-scraping handling
+   - **Key**: Show scraping expertise
+
+2. **Time-Series Data Expertise**
+   - Efficient storage
+   - Query optimization
+   - **Key**: Demonstrate data expertise
+
 ## Summary
 
 Designing CamelCamelCamel requires careful consideration of:

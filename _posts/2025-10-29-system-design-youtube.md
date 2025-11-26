@@ -105,3 +105,107 @@ POST /v1/live/start { stream_key }
 
 - Region transcoder loss → drain queues to others; degrade ladder; user messaging for quality.
 - CDN cache miss surge → pre‑warm top manifests; tighten CDN TTL for manifests only.
+
+## What Interviewers Look For
+
+### Video Streaming Skills
+
+1. **Video Processing Pipeline**
+   - Transcoding ladder
+   - Multiple codecs/formats
+   - Async processing
+   - **Red Flags**: Single format, synchronous processing, slow
+
+2. **CDN Delivery**
+   - Multi-CDN strategy
+   - Origin shield
+   - Signed URLs
+   - **Red Flags**: Single CDN, no origin shield, insecure
+
+3. **Adaptive Streaming**
+   - HLS/DASH packaging
+   - Bitrate switching
+   - Quality optimization
+   - **Red Flags**: No adaptive streaming, poor quality, buffering
+
+### Distributed Systems Skills
+
+1. **Storage Design**
+   - Object storage for masters
+   - Lifecycle policies
+   - Cost optimization
+   - **Red Flags**: No lifecycle, high costs, inefficient storage
+
+2. **Recommendation System**
+   - Candidate generation
+   - Ranking models
+   - A/B testing
+   - **Red Flags**: No recommendations, poor ranking, no testing
+
+3. **Live Streaming**
+   - Low-latency pipeline
+   - RTMP ingest
+   - DVR support
+   - **Red Flags**: High latency, no live support, poor UX
+
+### Problem-Solving Approach
+
+1. **Cost Optimization**
+   - Storage tiers
+   - Transcoding efficiency
+   - CDN costs
+   - **Red Flags**: No optimization, high costs, inefficient
+
+2. **Edge Cases**
+   - Transcoder failures
+   - CDN outages
+   - Quality degradation
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Quality vs cost
+   - Latency vs quality
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Upload service
+   - Transcoding service
+   - CDN service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Moderation System**
+   - Content ID
+   - ML classifiers
+   - Geo-blocking
+   - **Red Flags**: No moderation, security issues, compliance problems
+
+3. **Search & Metadata**
+   - Search indexing
+   - Metadata management
+   - **Red Flags**: Slow search, poor metadata, no indexing
+
+### Communication Skills
+
+1. **Video Pipeline Explanation**
+   - Can explain transcoding
+   - Understands CDN delivery
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Scale Explanation**
+   - Can explain scaling strategies
+   - Understands bottlenecks
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Media Systems Expertise**
+   - Video processing knowledge
+   - CDN expertise
+   - **Key**: Show media systems expertise
+
+2. **Cost & Quality Balance**
+   - Cost optimization
+   - Quality maintenance
+   - **Key**: Demonstrate cost/quality balance

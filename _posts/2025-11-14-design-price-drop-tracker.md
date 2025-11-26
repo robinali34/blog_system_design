@@ -1230,6 +1230,109 @@ def should_send_notification(tracking, new_price, previous_price):
 - Rotate proxies proactively
 - Use multiple proxy providers
 
+## What Interviewers Look For
+
+### Web Scraping Skills
+
+1. **Scraping Architecture**
+   - Platform-specific scrapers
+   - Proxy rotation
+   - Rate limiting respect
+   - **Red Flags**: No proxy rotation, rate limit violations, blocking
+
+2. **Stealth Mechanisms**
+   - User-agent rotation
+   - Request patterns
+   - Avoid detection
+   - **Red Flags**: No stealth, easy detection, frequent blocking
+
+3. **Error Handling**
+   - Retry logic
+   - Failure recovery
+   - **Red Flags**: No retry, no recovery, data loss
+
+### Distributed Systems Skills
+
+1. **Price Monitoring Pipeline**
+   - Continuous monitoring
+   - Dynamic frequency
+   - Efficient scheduling
+   - **Red Flags**: Fixed frequency, inefficient, poor scheduling
+
+2. **Price Drop Detection**
+   - Accurate detection
+   - Threshold checking
+   - Change tracking
+   - **Red Flags**: Inaccurate detection, no threshold, missed drops
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Message queue
+   - Database sharding
+   - **Red Flags**: Vertical scaling, no queue, no sharding
+
+### Problem-Solving Approach
+
+1. **Rate Limiting Handling**
+   - Respect platform limits
+   - Proxy rotation
+   - Intelligent scheduling
+   - **Red Flags**: No rate limiting, violations, blocking
+
+2. **Edge Cases**
+   - Product unavailable
+   - Price format changes
+   - Platform changes
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Frequency vs accuracy
+   - Cost vs coverage
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Scraper service
+   - Monitoring service
+   - Notification service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Notification System**
+   - Multi-channel delivery
+   - Reliable delivery
+   - **Red Flags**: Single channel, unreliable, no retry
+
+3. **Data Storage**
+   - Price history
+   - User preferences
+   - Proper indexing
+   - **Red Flags**: No history, missing indexes, poor queries
+
+### Communication Skills
+
+1. **Scraping Strategy Explanation**
+   - Can explain proxy rotation
+   - Understands rate limiting
+   - **Red Flags**: No understanding, vague
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Data Pipeline Expertise**
+   - Web scraping knowledge
+   - Pipeline design
+   - **Key**: Show pipeline expertise
+
+2. **Reliability Focus**
+   - Accurate price tracking
+   - Reliable notifications
+   - **Key**: Demonstrate reliability focus
+
 ## Summary
 
 Designing a price drop tracker system at scale requires careful consideration of:

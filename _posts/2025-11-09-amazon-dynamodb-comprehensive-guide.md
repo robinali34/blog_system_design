@@ -1531,6 +1531,86 @@ aws dynamodb describe-table \
 
 ---
 
+## What Interviewers Look For
+
+### DynamoDB Knowledge & Application
+
+1. **Data Modeling Skills**
+   - Partition key design
+   - Sort key design
+   - GSI/LSI usage
+   - **Red Flags**: Poor key design, hot partitions, inefficient queries
+
+2. **Access Pattern Understanding**
+   - Query vs scan
+   - Index selection
+   - **Red Flags**: Wrong access patterns, scans everywhere, poor performance
+
+3. **Consistency Model**
+   - Strong vs eventual consistency
+   - When to use each
+   - **Red Flags**: Wrong consistency, no understanding
+
+### System Design Skills
+
+1. **When to Use DynamoDB**
+   - High-scale applications
+   - Simple access patterns
+   - Cloud-native apps
+   - **Red Flags**: Wrong use case, complex queries, can't justify
+
+2. **Scalability Design**
+   - Automatic scaling
+   - Partition key design
+   - **Red Flags**: Manual scaling, hot partitions, bottlenecks
+
+3. **Cost Optimization**
+   - On-demand vs provisioned
+   - Index optimization
+   - **Red Flags**: No optimization, high costs, inefficient
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Cost vs performance
+   - Consistency vs availability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Hot partitions
+   - Throttling
+   - Item size limits
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Data Modeling**
+   - Denormalization
+   - Query-first design
+   - **Red Flags**: Normalized design, query issues, poor modeling
+
+### Communication Skills
+
+1. **DynamoDB Explanation**
+   - Can explain DynamoDB features
+   - Understands data modeling
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why DynamoDB
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **NoSQL Expertise**
+   - Deep DynamoDB knowledge
+   - Data modeling skills
+   - **Key**: Show NoSQL expertise
+
+2. **Cloud-Native Design**
+   - Managed services understanding
+   - Serverless architecture
+   - **Key**: Demonstrate cloud-native thinking
+
 ## Conclusion
 
 Amazon DynamoDB is a powerful, fully managed NoSQL database that provides predictable performance at any scale. Its serverless architecture, automatic scaling, and built-in features make it ideal for modern cloud-native applications.

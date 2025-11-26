@@ -2170,6 +2170,89 @@ def should_retry(self, job, execution, error):
 3. Resume from database when queue recovers
 4. Idempotent job processing
 
+## What Interviewers Look For
+
+### Distributed Systems Skills
+
+1. **Job Scheduling Architecture**
+   - Scheduler design
+   - Worker node management
+   - Resource allocation
+   - **Red Flags**: Single scheduler, no worker management, poor allocation
+
+2. **Reliability & Guarantees**
+   - At-least-once vs exactly-once
+   - Job persistence
+   - Failure handling
+   - **Red Flags**: No guarantees, job loss, no persistence
+
+3. **Consistency Models**
+   - Strong consistency for job state
+   - Eventual consistency for metrics
+   - **Red Flags**: Wrong consistency model, no understanding
+
+### Problem-Solving Approach
+
+1. **SLA Handling**
+   - SLA monitoring
+   - Violation detection
+   - Timeout mechanisms
+   - **Red Flags**: No SLA handling, no monitoring, no timeouts
+
+2. **Edge Cases**
+   - Long-running jobs
+   - Job dependencies
+   - Resource exhaustion
+   - **Red Flags**: Ignoring edge cases, no dependency handling
+
+3. **Trade-off Analysis**
+   - Consistency vs availability
+   - Performance vs reliability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Scheduler service
+   - Worker nodes
+   - Job store
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Message Queue Usage**
+   - Kafka/queue for job distribution
+   - Event-driven architecture
+   - **Red Flags**: No queue, synchronous processing
+
+3. **Database Design**
+   - Job persistence
+   - State management
+   - Proper indexing
+   - **Red Flags**: No persistence, poor state management
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear scheduler design
+   - Job lifecycle understanding
+   - **Red Flags**: Unclear design, no lifecycle
+
+2. **Guarantee Explanation**
+   - Can explain at-least-once/exactly-once
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague explanations
+
+### Meta-Specific Focus
+
+1. **Reliability Engineering**
+   - Strong guarantees understanding
+   - Fault tolerance design
+   - **Key**: Show reliability expertise
+
+2. **Distributed Systems Mastery**
+   - Consistency models
+   - Failure handling
+   - **Key**: Demonstrate distributed systems knowledge
+
 ## Conclusion
 
 Designing a distributed job scheduler system that supports defining and running jobs on a schedule requires addressing all six core requirements:

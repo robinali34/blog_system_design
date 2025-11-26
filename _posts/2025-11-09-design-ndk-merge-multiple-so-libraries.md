@@ -923,6 +923,107 @@ class MergeCache:
 
 ---
 
+## What Interviewers Look For
+
+### NDK/Native Build Skills
+
+1. **Library Analysis**
+   - Symbol extraction
+   - Dependency analysis
+   - Conflict detection
+   - **Red Flags**: No analysis, missed conflicts, poor detection
+
+2. **Link-Time Operations**
+   - Library merging
+   - Symbol resolution
+   - Dead code elimination
+   - **Red Flags**: No merging, symbol conflicts, dead code
+
+3. **Build System Integration**
+   - Gradle/CMake plugins
+   - Build optimization
+   - **Red Flags**: No integration, manual steps, poor build
+
+### Native Code Skills
+
+1. **Symbol Management**
+   - Symbol renaming
+   - Namespace handling
+   - Conflict resolution
+   - **Red Flags**: Symbol conflicts, no resolution, crashes
+
+2. **Dependency Resolution**
+   - Topological sort
+   - Version conflicts
+   - ABI alignment
+   - **Red Flags**: Dependency issues, version conflicts, ABI mismatches
+
+3. **Optimization**
+   - LTO (Link-Time Optimization)
+   - Dead code elimination
+   - Size optimization
+   - **Red Flags**: No optimization, large size, poor performance
+
+### Problem-Solving Approach
+
+1. **APK Size Optimization**
+   - Library consolidation
+   - Dead code removal
+   - **Red Flags**: Large APK, no optimization, inefficient
+
+2. **Edge Cases**
+   - Symbol conflicts
+   - Version incompatibilities
+   - ABI mismatches
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Size vs functionality
+   - Build time vs optimization
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Analyzer
+   - Resolver
+   - Merger
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Build Integration**
+   - Plugin design
+   - Incremental builds
+   - **Red Flags**: No integration, slow builds, manual steps
+
+3. **Testing Strategy**
+   - Merged library testing
+   - Functionality verification
+   - **Red Flags**: No testing, broken functionality, crashes
+
+### Communication Skills
+
+1. **Build System Explanation**
+   - Can explain NDK build process
+   - Understands linking
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Optimization Explanation**
+   - Can explain optimization strategies
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Android Build Systems Expertise**
+   - NDK knowledge
+   - Build optimization
+   - **Key**: Show Android build systems expertise
+
+2. **Performance & Size Balance**
+   - APK size optimization
+   - Performance maintenance
+   - **Key**: Demonstrate performance/size balance
+
 ## Conclusion
 
 Designing an NDK system to merge multiple .so libraries requires:

@@ -1166,6 +1166,105 @@ def cleanup_expired_reservations():
 - Reduce bandwidth usage
 - Improve performance
 
+## What Interviewers Look For
+
+### Concurrency Control Skills
+
+1. **Double-Booking Prevention**
+   - Distributed locks for seat reservation
+   - Database transactions with row locking
+   - Atomic seat reservation operations
+   - **Red Flags**: No locking, race conditions, overselling possible
+
+2. **Seat Reservation Logic**
+   - Time-limited reservations
+   - Automatic cleanup of expired reservations
+   - **Red Flags**: No expiration, permanent reservations, no cleanup
+
+3. **Transaction Design**
+   - ACID properties for bookings
+   - Rollback on failures
+   - **Red Flags**: Non-atomic operations, partial updates
+
+### Distributed Systems Skills
+
+1. **Queue System Design**
+   - Virtual queue for high-demand events
+   - Fair access mechanism
+   - **Red Flags**: No queue, first-come-first-served only, unfair access
+
+2. **Real-Time Updates**
+   - WebSocket for seat status
+   - Efficient broadcasting
+   - **Red Flags**: Polling, high latency, no real-time
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Database sharding
+   - Caching strategy
+   - **Red Flags**: Vertical scaling, no sharding, no caching
+
+### Problem-Solving Approach
+
+1. **High-Demand Events**
+   - Queue system design
+   - Load distribution
+   - **Red Flags**: No special handling, system overload
+
+2. **Edge Cases**
+   - Concurrent bookings
+   - Payment failures
+   - Reservation expiration
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs availability
+   - Performance vs accuracy
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Seat reservation service
+   - Payment service
+   - Queue service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Payment Processing**
+   - Idempotency
+   - Retry logic
+   - Failure handling
+   - **Red Flags**: No idempotency, no retry, payment loss
+
+3. **Database Design**
+   - Proper indexing
+   - Sharding strategy
+   - **Red Flags**: Missing indexes, no sharding
+
+### Communication Skills
+
+1. **Concurrency Explanation**
+   - Can explain locking mechanisms
+   - Understands transactions
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Concurrency Mastery**
+   - Deep understanding of locking
+   - Transaction design
+   - **Key**: Show concurrency expertise
+
+2. **Correctness Over Scale**
+   - Emphasis on correctness
+   - No overselling guarantee
+   - **Key**: Demonstrate reliability focus
+
 ## Summary
 
 Designing Ticketmaster at scale requires careful consideration of:

@@ -1348,6 +1348,103 @@ class ModelManager:
 - Reduce wait time
 - Improve UX
 
+## What Interviewers Look For
+
+### Hybrid Architecture Skills
+
+1. **Mode Switching**
+   - Seamless local/remote switching
+   - Network detection
+   - Automatic fallback
+   - **Red Flags**: Manual switching, no detection, no fallback
+
+2. **Local Model Management**
+   - Efficient model storage
+   - Model updates
+   - **Red Flags**: No local models, inefficient storage, no updates
+
+3. **Offline Support**
+   - Full offline functionality
+   - Local translation
+   - **Red Flags**: No offline, network required, poor UX
+
+### Distributed Systems Skills
+
+1. **Network Detection**
+   - Fast detection
+   - Accurate status
+   - **Red Flags**: Slow detection, inaccurate, no detection
+
+2. **Caching Strategy**
+   - Multi-level caching
+   - High cache hit rate
+   - **Red Flags**: No caching, low hit rate, poor performance
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Load balancing
+   - **Red Flags**: Vertical scaling, no load balancing, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Performance Optimization**
+   - Sub-500ms local translation
+   - Sub-2s remote translation
+   - **Red Flags**: High latency, no optimization, poor UX
+
+2. **Edge Cases**
+   - Network failures
+   - Model updates
+   - Large texts
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Local vs remote
+   - Accuracy vs speed
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Translation service
+   - Model management service
+   - Network detection service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Fallback Strategy**
+   - Graceful degradation
+   - Error handling
+   - **Red Flags**: No fallback, errors, poor UX
+
+3. **Model Updates**
+   - Efficient updates
+   - Version management
+   - **Red Flags**: No updates, inefficient, version conflicts
+
+### Communication Skills
+
+1. **Hybrid Architecture Explanation**
+   - Can explain mode switching
+   - Understands local/remote trade-offs
+   - **Red Flags**: No understanding, vague
+
+2. **Performance Explanation**
+   - Can explain optimization strategies
+   - Understands caching
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Hybrid Systems Expertise**
+   - Local/remote architecture
+   - Offline-first design
+   - **Key**: Show hybrid systems knowledge
+
+2. **User Experience Focus**
+   - Transparent switching
+   - Seamless operation
+   - **Key**: Demonstrate UX thinking
+
 ## Summary
 
 Designing a global translation service with hybrid mode requires careful consideration of:

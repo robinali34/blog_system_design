@@ -1062,6 +1062,86 @@ JVM_OPTS="$JVM_OPTS -XX:+UseG1GC"
 
 ---
 
+## What Interviewers Look For
+
+### Cassandra Knowledge & Application
+
+1. **Data Modeling Skills**
+   - Partition key design
+   - Clustering columns
+   - Denormalization strategies
+   - **Red Flags**: Poor key design, hot partitions, inefficient queries
+
+2. **Consistency Understanding**
+   - Tunable consistency
+   - QUORUM, ALL, ONE
+   - **Red Flags**: Wrong consistency, no understanding
+
+3. **Replication Strategy**
+   - Replication factor
+   - Multi-datacenter
+   - **Red Flags**: No replication, single region, data loss
+
+### System Design Skills
+
+1. **When to Use Cassandra**
+   - High write throughput
+   - Time-series data
+   - Multi-region
+   - **Red Flags**: Wrong use case, low writes, can't justify
+
+2. **Scalability Design**
+   - Horizontal scaling
+   - Partition strategy
+   - **Red Flags**: Vertical scaling, hot partitions, bottlenecks
+
+3. **Query Design**
+   - Query-first modeling
+   - Denormalization
+   - **Red Flags**: Normalized design, query issues, poor modeling
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Consistency vs availability
+   - Write vs read optimization
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Hot partitions
+   - Compaction issues
+   - Node failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Data Modeling**
+   - Denormalization
+   - Materialized views
+   - **Red Flags**: Normalized design, query issues, poor modeling
+
+### Communication Skills
+
+1. **Cassandra Explanation**
+   - Can explain Cassandra architecture
+   - Understands data modeling
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why Cassandra
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Distributed Database Expertise**
+   - Deep Cassandra knowledge
+   - Data modeling skills
+   - **Key**: Show distributed database expertise
+
+2. **High-Throughput Design**
+   - Write optimization
+   - Scale thinking
+   - **Key**: Demonstrate high-throughput expertise
+
 ## Conclusion
 
 Apache Cassandra is a powerful distributed database designed for:

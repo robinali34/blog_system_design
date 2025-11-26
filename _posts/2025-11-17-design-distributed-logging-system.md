@@ -1101,6 +1101,107 @@ where user_id = "user_123" and message contains "payment failed"
    - **Optimization**: Eventual consistency for queries
    - **Alternative**: Strong consistency (slower writes)
 
+## What Interviewers Look For
+
+### Stream Processing Skills
+
+1. **Real-Time Processing**
+   - Apache Flink for stream processing
+   - Windowed aggregations
+   - Exactly-once semantics
+   - **Red Flags**: Batch-only, no real-time, no fault tolerance
+
+2. **Top-K Exception Tracking**
+   - Efficient top-K algorithms
+   - Multiple time windows
+   - Real-time updates
+   - **Red Flags**: No real-time, single window, inefficient algorithm
+
+3. **Fault Tolerance**
+   - Flink checkpoints
+   - Exactly-once processing
+   - **Red Flags**: No fault tolerance, at-least-once, data loss
+
+### Distributed Systems Skills
+
+1. **Scalable Ingestion**
+   - Kafka for message queue
+   - Horizontal scaling
+   - **Red Flags**: No queue, vertical scaling, bottlenecks
+
+2. **Storage Design**
+   - Time-series storage (Cassandra)
+   - Search index (Elasticsearch)
+   - Proper partitioning
+   - **Red Flags**: Single storage, no partitioning, poor queries
+
+3. **Query Optimization**
+   - Multi-field queries
+   - Time-range queries
+   - Proper indexing
+   - **Red Flags**: Slow queries, missing indexes, no optimization
+
+### Problem-Solving Approach
+
+1. **PII Protection**
+   - Automatic detection
+   - Masking at ingestion
+   - **Red Flags**: No PII handling, post-processing, privacy issues
+
+2. **Edge Cases**
+   - High volume spikes
+   - Query performance
+   - Storage costs
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs availability
+   - Real-time vs accuracy
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Log ingestion service
+   - Stream processing service
+   - Query service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Data Pipeline**
+   - Kafka → Flink → Storage
+   - Clear data flow
+   - **Red Flags**: No pipeline, unclear flow
+
+3. **Cost Optimization**
+   - Compression
+   - Retention policies
+   - Cold storage
+   - **Red Flags**: No optimization, high costs
+
+### Communication Skills
+
+1. **Stream Processing Explanation**
+   - Can explain Flink architecture
+   - Understands windowing
+   - **Red Flags**: No understanding, vague
+
+2. **Query Design Explanation**
+   - Can explain query patterns
+   - Understands indexing
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Stream Processing Expertise**
+   - Flink knowledge
+   - Real-time systems
+   - **Key**: Show stream processing expertise
+
+2. **Privacy-First Design**
+   - PII protection
+   - Data privacy
+   - **Key**: Demonstrate privacy awareness
+
 ## Summary
 
 This distributed logging system design provides:

@@ -1162,6 +1162,120 @@ class ConflictResolver:
 - Reduce initial load time
 - Improve startup performance
 
+## What Interviewers Look For
+
+### Real-Time Collaboration Skills
+
+1. **Operational Transformation**
+   - Conflict resolution
+   - Concurrent editing
+   - State synchronization
+   - **Red Flags**: No conflict resolution, data loss, overwrites
+
+2. **Event Sourcing**
+   - Collaboration history
+   - Replay capability
+   - **Red Flags**: No history, no replay, data loss
+
+3. **WebSocket Architecture**
+   - Real-time updates
+   - Bidirectional communication
+   - **Red Flags**: Polling, high latency, no real-time
+
+### IDE/Developer Tools Skills
+
+1. **Modular Architecture**
+   - Plugin system
+   - Extensibility
+   - **Red Flags**: Monolithic, no plugins, not extensible
+
+2. **Version Control**
+   - Project history
+   - Branching/merging
+   - **Red Flags**: No version control, no history, data loss
+
+3. **Offline Support**
+   - Work offline
+   - Sync when online
+   - **Red Flags**: No offline, network required, poor UX
+
+### Distributed Systems Skills
+
+1. **State Management**
+   - Project state sync
+   - Conflict resolution
+   - **Red Flags**: No sync, conflicts, data loss
+
+2. **Scalability Design**
+   - Horizontal scaling
+   - Database sharding
+   - **Red Flags**: Vertical scaling, no sharding, bottlenecks
+
+3. **Asset Management**
+   - Efficient storage
+   - CDN distribution
+   - **Red Flags**: Inefficient storage, slow delivery, no CDN
+
+### Problem-Solving Approach
+
+1. **Conflict Resolution**
+   - Automatic strategies
+   - Manual fallback
+   - **Red Flags**: No resolution, data loss, overwrites
+
+2. **Edge Cases**
+   - Concurrent edits
+   - Network failures
+   - Plugin failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs latency
+   - Strong vs eventual
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Collaboration service
+   - Asset service
+   - Plugin service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Security Design**
+   - Plugin sandbox
+   - Access control
+   - **Red Flags**: No sandbox, insecure, vulnerabilities
+
+3. **Performance Optimization**
+   - Delta compression
+   - Lazy loading
+   - **Red Flags**: No optimization, slow, poor UX
+
+### Communication Skills
+
+1. **Collaboration Algorithm Explanation**
+   - Can explain OT
+   - Understands conflict resolution
+   - **Red Flags**: No understanding, vague
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Real-Time Collaboration Expertise**
+   - OT knowledge
+   - Conflict resolution
+   - **Key**: Show collaboration expertise
+
+2. **Developer Tools Expertise**
+   - IDE architecture
+   - Plugin systems
+   - **Key**: Demonstrate tools expertise
+
 ## Summary
 
 Designing Roblox Studio requires careful consideration of:

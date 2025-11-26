@@ -1248,6 +1248,87 @@ recovery_target_time = '2024-01-01 12:00:00'
 
 ---
 
+## What Interviewers Look For
+
+### SQL Database Knowledge & Application
+
+1. **ACID Understanding**
+   - Transaction isolation
+   - Consistency guarantees
+   - **Red Flags**: No ACID understanding, wrong isolation, consistency issues
+
+2. **Query Optimization**
+   - Index design
+   - Query planning
+   - EXPLAIN usage
+   - **Red Flags**: No indexes, slow queries, poor optimization
+
+3. **Advanced Features**
+   - JSON/JSONB support
+   - Full-text search
+   - Geospatial
+   - **Red Flags**: Not using features, inefficient, poor choice
+
+### System Design Skills
+
+1. **When to Use PostgreSQL**
+   - Relational data
+   - Complex queries
+   - ACID requirements
+   - **Red Flags**: Wrong use case, simple key-value, can't justify
+
+2. **Scalability Design**
+   - Read replicas
+   - Sharding strategies
+   - **Red Flags**: No scaling, single instance, bottlenecks
+
+3. **Performance Optimization**
+   - Connection pooling
+   - Query optimization
+   - **Red Flags**: No pooling, slow queries, poor performance
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Consistency vs performance
+   - Features vs complexity
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Connection limits
+   - Lock contention
+   - Query performance
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Schema Design**
+   - Normalization
+   - Index strategy
+   - **Red Flags**: Poor schema, missing indexes, query issues
+
+### Communication Skills
+
+1. **PostgreSQL Explanation**
+   - Can explain PostgreSQL features
+   - Understands ACID
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why PostgreSQL
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **SQL Database Expertise**
+   - Deep PostgreSQL knowledge
+   - ACID understanding
+   - **Key**: Show SQL database expertise
+
+2. **Complex Query Design**
+   - Query optimization
+   - Index design
+   - **Key**: Demonstrate query optimization skills
+
 ## Conclusion
 
 PostgreSQL is a powerful, feature-rich relational database that excels at:

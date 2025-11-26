@@ -1193,6 +1193,88 @@ class EncryptionService:
 - Reduce storage and bandwidth
 - Improve cache efficiency
 
+## What Interviewers Look For
+
+### Caching Skills
+
+1. **LRU Cache Implementation**
+   - Hash map + doubly linked list
+   - O(1) operations
+   - Proper eviction logic
+   - **Red Flags**: Inefficient implementation, wrong complexity
+
+2. **Cache Strategy Understanding**
+   - Cache-aside pattern
+   - Write-through vs write-back
+   - Cache invalidation strategies
+   - **Red Flags**: No cache strategy, poor invalidation
+
+3. **Cache Performance**
+   - High hit rate design
+   - Low latency operations
+   - Memory efficiency
+   - **Red Flags**: Low hit rate, high latency
+
+### System Design Skills
+
+1. **Change Propagation**
+   - Event-driven architecture
+   - Pub/sub patterns
+   - Real-time updates
+   - **Red Flags**: Polling, no real-time updates
+
+2. **Multi-Service Support**
+   - Service isolation
+   - Configuration namespacing
+   - **Red Flags**: No isolation, conflicts
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Load distribution
+   - **Red Flags**: Vertical scaling only, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Cache size vs memory
+   - Consistency vs latency
+   - **Red Flags**: No trade-off discussion
+
+2. **Edge Cases**
+   - Cache misses
+   - Configuration conflicts
+   - Service failures
+   - **Red Flags**: Ignoring edge cases
+
+3. **Performance Optimization**
+   - Cache warming
+   - Batch operations
+   - **Red Flags**: No optimization, poor performance
+
+### Code Quality
+
+1. **Implementation Correctness**
+   - Correct LRU logic
+   - Proper cache management
+   - **Red Flags**: Bugs, incorrect logic
+
+2. **Thread Safety**
+   - Safe concurrent access
+   - Proper synchronization
+   - **Red Flags**: Race conditions, no synchronization
+
+### Meta-Specific Focus
+
+1. **Caching Expertise**
+   - Deep understanding of caching
+   - Performance optimization
+   - **Key**: Show caching knowledge
+
+2. **Distributed Systems**
+   - Change propagation
+   - Multi-service architecture
+   - **Key**: Demonstrate distributed systems understanding
+
 ## Summary
 
 Designing a configuration service with LRU cache requires careful consideration of:

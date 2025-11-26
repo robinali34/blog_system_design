@@ -1158,6 +1158,111 @@ Java_JNIBridge_processValueThreadSafe(JNIEnv *env, jobject thiz, jint value) {
 
 **Solution**: Use global references for cross-boundary access
 
+## What Interviewers Look For
+
+### JNI/Android Systems Skills
+
+1. **JNI Fundamentals**
+   - Method/field ID caching
+   - Reference management
+   - Exception handling
+   - **Red Flags**: No caching, memory leaks, exception issues
+
+2. **Memory Management**
+   - Local vs global references
+   - Direct buffers
+   - RAII patterns
+   - **Red Flags**: Memory leaks, wrong references, no management
+
+3. **Performance Optimization**
+   - Minimize JNI calls
+   - Batch operations
+   - Critical sections
+   - **Red Flags**: Too many calls, no optimization, poor performance
+
+### Native Code Skills
+
+1. **C/C++ Integration**
+   - Native code design
+   - Memory safety
+   - Thread safety
+   - **Red Flags**: Unsafe code, memory issues, race conditions
+
+2. **Data Transfer Efficiency**
+   - Direct buffers
+   - Zero-copy techniques
+   - Batch operations
+   - **Red Flags**: Inefficient transfer, excessive copying, slow
+
+3. **Error Handling**
+   - Exception checking
+   - Error propagation
+   - Graceful degradation
+   - **Red Flags**: No error handling, crashes, poor recovery
+
+### Problem-Solving Approach
+
+1. **Performance Optimization**
+   - Cache IDs
+   - Minimize overhead
+   - Optimize hot paths
+   - **Red Flags**: No optimization, high overhead, slow
+
+2. **Edge Cases**
+   - Thread attachment
+   - Exception propagation
+   - Memory pressure
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Safety vs performance
+   - Simplicity vs optimization
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Clear JNI interface
+   - Native implementation
+   - Java wrapper
+   - **Red Flags**: Unclear interface, poor design, tight coupling
+
+2. **Thread Safety**
+   - Proper JNIEnv usage
+   - Synchronization
+   - Thread-local storage
+   - **Red Flags**: Thread safety issues, race conditions, crashes
+
+3. **Best Practices**
+   - RAII patterns
+   - Reference tracking
+   - Error checking
+   - **Red Flags**: No best practices, memory leaks, crashes
+
+### Communication Skills
+
+1. **JNI Explanation**
+   - Can explain JNI internals
+   - Understands performance implications
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Memory Management Explanation**
+   - Can explain reference types
+   - Understands memory lifecycle
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Android Framework Expertise**
+   - Deep JNI knowledge
+   - Performance optimization
+   - **Key**: Show Android framework expertise
+
+2. **Memory Safety Focus**
+   - Proper memory management
+   - No leaks
+   - **Key**: Demonstrate memory safety focus
+
 ## Conclusion
 
 Designing a robust JNI bridge requires careful attention to:

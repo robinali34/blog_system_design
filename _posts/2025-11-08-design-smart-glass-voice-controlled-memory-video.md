@@ -10,7 +10,12 @@ excerpt: "A comprehensive system design for smart glasses that enables voice-con
 
 Smart glasses represent the next frontier in wearable technology, combining augmented reality, computer vision, and voice control to create immersive experiences. One of the most compelling use cases is automatic memory creation—users can simply say "Create a memory video of my wife and me in Paris" and the system intelligently finds, trims, and merges relevant video clips.
 
-This post designs a scalable system architecture for smart glasses that handles voice-controlled media capture and intelligent memory video generation, with a focus on managing read-heavy search queries and write-heavy video ingestion/processing workloads.
+This post designs a scalable **hybrid system architecture** for smart glasses that integrates with a companion phone app and cloud services. The system supports:
+- **Smart Glasses**: Primary device for voice-controlled capture and AR display
+- **Phone App**: Companion app for management, viewing, and offline sync
+- **Cloud Services**: Backend processing, storage, and AI services
+
+The architecture handles voice-controlled media capture and intelligent memory video generation, with a focus on managing read-heavy search queries and write-heavy video ingestion/processing workloads, while supporting seamless offline/online operation.
 
 ## Table of Contents
 
@@ -45,40 +50,62 @@ This post designs a scalable system architecture for smart glasses that handles 
 
 ### Functional Requirements
 
-1. **Voice-Controlled Media Capture**
+1. **Voice-Controlled Media Capture (Smart Glasses)**
    - Users can take pictures/videos using voice commands
    - "Take a picture"
    - "Record a video"
    - "Stop recording"
+   - Works offline with local storage
 
-2. **Natural Language Memory Creation**
+2. **Phone App Integration**
+   - Companion app for iOS/Android
+   - View and manage captured media
+   - Create memory videos via app interface
+   - Offline viewing of cached content
+   - Sync with cloud when online
+   - Push notifications for completed memory videos
+
+3. **Natural Language Memory Creation**
    - Users can request memory videos using natural language
    - Example: "Create a memory video of my wife and me in Paris"
+   - Available on both smart glasses (voice) and phone app (text/voice)
    - System finds related video clips from user's albums
    - Automatically trims and merges clips into 2-minute video
-   - Returns result quickly (< 2-5 seconds)
+   - Returns result quickly (< 2-5 seconds for cached, < 30s for new)
 
-3. **Intelligent Video Search**
+4. **Intelligent Video Search**
    - Search by location, people, objects, time
    - Semantic search using natural language
    - Face recognition and person identification
    - Object and scene detection
+   - Works across smart glasses and phone app
 
-4. **Video Processing**
+5. **Hybrid Cloud/Offline Operation**
+   - Smart glasses can operate offline
+   - Phone app syncs with cloud when online
+   - Automatic background sync
+   - Conflict resolution for offline edits
+   - Cloud processing for AI features
+
+6. **Video Processing**
    - Automatic video trimming
    - Clip merging and transitions
    - Video enhancement and optimization
    - Thumbnail generation
+   - Cloud-based processing with phone app preview
 
 ### Non-Functional Requirements
 
 - **High Read Concurrency**: Many users searching simultaneously
 - **High Write Throughput**: Videos being uploaded and processed continuously
 - **Scalability**: Handle millions of users and billions of video clips
-- **Low Latency**: Memory video creation in 2-5 seconds
+- **Low Latency**: Memory video creation in 2-5 seconds (cached), < 30s (new)
+- **Offline Support**: Smart glasses and phone app work offline
+- **Sync Reliability**: Reliable sync between devices and cloud
 - **Durability**: Videos and metadata never lost
-- **Availability**: 99.9% uptime
+- **Availability**: 99.9% uptime for cloud services
 - **Cost Efficiency**: Optimize storage and processing costs
+- **Battery Efficiency**: Optimize for smart glasses battery life
 
 ---
 
@@ -185,7 +212,7 @@ This post designs a scalable system architecture for smart glasses that handles 
 
 ## API
 
-### Upload Video
+### Upload Video (Smart Glasses / Phone App)
 ```http
 POST /api/v1/videos/upload
 Authorization: Bearer {token}
@@ -193,17 +220,48 @@ Content-Type: multipart/form-data
 
 {
   "video": <binary>,
+  "device_type": "smart_glass|phone_app",
+  "device_id": "device_uuid",
   "metadata": {
     "duration": 30,
-    "location": {...}
-  }
+    "location": {...},
+    "captured_at": "2025-11-08T10:00:00Z"
+  },
+  "sync_token": "optional_sync_token_for_offline_uploads"
 }
 
 Response: 202 Accepted
 {
   "video_id": "uuid",
   "status": "uploading",
-  "upload_url": "https://s3.example.com/upload/..."
+  "upload_url": "https://s3.example.com/upload/...",
+  "sync_token": "sync_token_for_tracking"
+}
+```
+
+### Sync Status (Phone App)
+```http
+GET /api/v1/sync/status
+Authorization: Bearer {token}
+
+Response: 200 OK
+{
+  "pending_uploads": 5,
+  "pending_downloads": 2,
+  "last_sync": "2025-11-08T10:00:00Z",
+  "sync_in_progress": false
+}
+```
+
+### Trigger Sync (Phone App)
+```http
+POST /api/v1/sync/trigger
+Authorization: Bearer {token}
+
+Response: 200 OK
+{
+  "status": "sync_started",
+  "estimated_completion": "2025-11-08T10:05:00Z"
 }
 ```
 
@@ -270,9 +328,11 @@ Response: 200 OK
 
 ## Data Flow
 
-### Video Upload Flow
-1. Smart Glass captures video → Device
-2. Device → Upload Service (chunked upload)
+### Video Upload Flow (Hybrid)
+
+**Smart Glasses (Online):**
+1. Smart Glass captures video → Local storage (temporary)
+2. Device → Upload Service (chunked upload) via Bluetooth/WiFi
 3. Upload Service → Blob Storage (S3) - direct upload with signed URL
 4. Upload Service → Message Queue (Kafka) - publish video-upload event
 5. Message Queue → Metadata Extraction Service
@@ -283,7 +343,29 @@ Response: 200 OK
    - Extract location/time
 7. Metadata Extraction Service → Metadata Database (store metadata)
 8. Metadata Extraction Service → Vector Database (store embeddings)
-9. Response returned to device
+9. Response returned to smart glasses
+10. Smart glasses → Phone App (via Bluetooth) - notification of upload
+
+**Smart Glasses (Offline):**
+1. Smart Glass captures video → Local storage (persistent)
+2. Video queued for upload with sync token
+3. When online → Resume upload flow above
+4. Phone App syncs when connected
+
+**Phone App Upload:**
+1. User selects video in phone app
+2. Phone App → Upload Service (chunked upload)
+3. Upload Service → Blob Storage (S3)
+4. Rest of flow same as smart glasses
+5. Phone App receives notification when processing complete
+
+### Sync Flow (Phone App ↔ Cloud)
+1. Phone App checks sync status
+2. Upload pending videos from phone
+3. Download new videos/metadata from cloud
+4. Resolve conflicts (last-write-wins or merge)
+5. Update local cache
+6. Notify user of sync completion
 
 ### Memory Video Creation Flow
 1. User speaks command → Device
@@ -375,46 +457,81 @@ CREATE TABLE video_clips (
 
 ## High-Level Design
 
-### High-Level Architecture
+### High-Level Architecture (Hybrid)
 
 ```
-┌─────────────────────────────────────────┐
-│      Smart Glasses / Mobile App         │
-│  (Voice Control, Media Capture)        │
-└──────────────┬──────────────────────────┘
-               │
-               │ HTTPS / WebSocket
-               │
-┌──────────────▼──────────────────────────┐
-│         API Gateway / Load Balancer     │
-└──────────────┬──────────────────────────┘
-               │
-       ┌───────┴───────┐
-       │               │
-┌──────▼──────┐  ┌─────▼──────┐
-│  Read Path  │  │ Write Path │
-│  (Search)   │  │ (Ingestion)│
-└─────────────┘  └────────────┘
-       │               │
-       │               │
-┌──────▼──────┐  ┌─────▼──────┐
-│   Cache     │  │   Queue    │
-│  (Redis)    │  │  (Kafka)   │
-└─────────────┘  └────────────┘
-       │               │
-┌──────▼──────┐  ┌─────▼──────┐
-│  Read DB    │  │  Write DB  │
-│(Elasticsearch│  │ (Cassandra)│
-│  Vector DB) │  │            │
-└─────────────┘  └────────────┘
-       │               │
-       └───────┬───────┘
-               │
-       ┌───────▼───────┐
-       │ Blob Storage  │
-       │ (S3/Azure Blob)│
-       └───────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Client Layer                              │
+│  ┌──────────────────┐         ┌──────────────────┐        │
+│  │  Smart Glasses   │◄──BT───►│   Phone App       │        │
+│  │  - Voice Control │         │  - Management     │        │
+│  │  - AR Display    │         │  - Viewing        │        │
+│  │  - Local Storage │         │  - Offline Cache  │        │
+│  └────────┬─────────┘         └────────┬─────────┘        │
+└───────────┼─────────────────────────────┼───────────────────┘
+            │                             │
+            │ HTTPS / WebSocket            │ HTTPS / WebSocket
+            │ (WiFi/Cellular)              │ (WiFi/Cellular)
+            │                             │
+┌───────────▼─────────────────────────────▼───────────────────┐
+│              API Gateway / Load Balancer                      │
+│         (Authentication, Rate Limiting, Routing)            │
+└───────────┬─────────────────────────────────────────────────┘
+            │
+    ┌───────┴───────┐
+    │               │
+┌───▼──────┐  ┌─────▼──────┐
+│ Read Path│  │ Write Path │
+│ (Search) │  │ (Ingestion)│
+└──────────┘  └────────────┘
+    │               │
+    │               │
+┌───▼──────┐  ┌─────▼──────┐
+│  Cache   │  │   Queue    │
+│ (Redis)  │  │  (Kafka)    │
+└──────────┘  └────────────┘
+    │               │
+┌───▼──────┐  ┌─────▼──────┐
+│ Read DB  │  │ Write DB   │
+│(Elastic- │  │ (Cassandra)│
+│ search/  │  │            │
+│Vector DB)│  │            │
+└──────────┘  └────────────┘
+    │               │
+    └───────┬───────┘
+            │
+    ┌───────▼───────┐
+    │ Blob Storage  │
+    │ (S3/Azure Blob)│
+    └───────────────┘
+            │
+    ┌───────▼───────┐
+    │  Sync Service │
+    │  (Phone App)  │
+    └───────────────┘
 ```
+
+### Hybrid Architecture Components
+
+1. **Smart Glasses**
+   - Primary capture device
+   - Voice control interface
+   - AR display
+   - Local storage for offline operation
+   - Bluetooth connection to phone app
+
+2. **Phone App**
+   - Companion management app
+   - Media viewing and management
+   - Offline cache
+   - Cloud sync coordinator
+   - Push notifications
+
+3. **Cloud Services**
+   - Backend processing
+   - AI/ML services
+   - Storage and metadata
+   - Sync coordination
 
 ### Architecture Principles
 
@@ -430,25 +547,70 @@ CREATE TABLE video_clips (
 
 ### Component Design
 
-#### 1. Smart Glasses / Mobile App
+#### 1. Smart Glasses
 
 **Responsibilities:**
 - Voice command capture and processing
 - Media capture (photos/videos)
-- Upload to cloud
-- Display memory videos
-- Offline mode support
+- AR display of memories
+- Local storage for offline operation
+- Bluetooth communication with phone app
 
 **Key Features:**
-- Voice recognition (on-device or cloud)
+- Voice recognition (on-device for basic commands, cloud for complex)
 - Real-time video preview
-- Background upload
-- Local caching for offline access
+- Background upload when online
+- Local storage (up to 10GB for offline videos)
+- Low-power operation
+- Bluetooth Low Energy (BLE) for phone app connection
 
 **Technology:**
-- Native mobile apps (iOS/Android)
-- WebRTC for real-time video
+- Embedded OS (custom or Android-based)
+- On-device ML models (lightweight)
 - Local SQLite for metadata cache
+- BLE stack for phone connectivity
+
+**Offline Operation:**
+- Store videos locally when offline
+- Queue uploads with sync tokens
+- Resume uploads when online
+- Basic voice commands work offline
+
+#### 1.1 Phone App (Companion App)
+
+**Responsibilities:**
+- Media viewing and management
+- Memory video creation (text/voice input)
+- Cloud sync coordination
+- Offline cache management
+- Push notification handling
+
+**Key Features:**
+- Full media library browsing
+- Create memory videos via app
+- Offline viewing of cached content
+- Background sync with cloud
+- Conflict resolution for offline edits
+- Push notifications for completed processing
+
+**Technology:**
+- Native apps (iOS Swift, Android Kotlin)
+- Local SQLite for offline cache
+- Background sync service
+- Push notification service (FCM/APNS)
+
+**Offline Support:**
+- Cache recent videos (up to 5GB)
+- Cache metadata for offline search
+- Queue operations for sync
+- View cached content offline
+
+**Sync Strategy:**
+- Incremental sync (only changed data)
+- Conflict resolution (last-write-wins)
+- Background sync every 15 minutes
+- Manual sync trigger
+- Sync status indicators
 
 ---
 
@@ -474,7 +636,44 @@ CREATE TABLE video_clips (
 
 ---
 
-#### 3. Write Path (Write-Heavy)
+#### 3. Sync Service (Phone App ↔ Cloud)
+
+**Responsibilities:**
+- Coordinate sync between phone app and cloud
+- Handle offline uploads
+- Resolve conflicts
+- Manage sync tokens
+- Track sync status
+
+**Sync Flow:**
+```
+Phone App (Offline) → Queue Operations → 
+When Online → Sync Service → 
+Upload Pending Videos → 
+Download New Content → 
+Resolve Conflicts → 
+Update Local Cache
+```
+
+**Conflict Resolution:**
+- Last-write-wins for metadata
+- Merge for tags/annotations
+- User notification for conflicts
+- Manual resolution option
+
+**Sync Tokens:**
+- Track sync state per device
+- Incremental sync (only changes)
+- Resume interrupted syncs
+- Handle concurrent syncs
+
+**Technology:**
+- REST API for sync operations
+- WebSocket for real-time updates
+- Sync queue in phone app
+- Background sync service
+
+#### 4. Write Path (Write-Heavy)
 
 #### 3.1 Video Upload Service
 
@@ -630,7 +829,7 @@ Video Clip → Decode → Trim/Merge → Encode → Upload → Update Metadata
 
 ---
 
-#### 4. Read Path (Read-Heavy)
+#### 5. Read Path (Read-Heavy)
 
 #### 4.1 Query Processing Service
 
@@ -818,7 +1017,7 @@ Processing:
 
 ---
 
-#### 5. Memory Video Creation Service
+#### 6. Memory Video Creation Service
 
 **Workflow:**
 
@@ -884,7 +1083,7 @@ Trim & Merge → Generate Video → Store → Return URL
 
 ---
 
-#### 6. Blob Storage
+#### 7. Blob Storage
 
 **Storage Choice: S3 / Azure Blob Storage**
 
@@ -923,12 +1122,13 @@ s3://smart-glass-videos/
 
 ### Detailed Design
 
-#### Video Upload Flow
+#### Video Upload Flow (Hybrid)
 
+**Smart Glasses (Online):**
 ```
-1. Smart Glass captures video
+1. Smart Glass captures video → Local temp storage
    ↓
-2. Upload Service receives chunked upload
+2. Upload Service receives chunked upload (via WiFi/Cellular)
    ↓
 3. Store in S3 (direct upload with signed URL)
    ↓
@@ -947,6 +1147,49 @@ s3://smart-glass-videos/
 8. Cache metadata in Redis
    ↓
 9. Trigger video processing (trimming, encoding)
+   ↓
+10. Notify phone app via push notification
+```
+
+**Smart Glasses (Offline):**
+```
+1. Smart Glass captures video → Local persistent storage
+   ↓
+2. Store with sync token in local queue
+   ↓
+3. When online → Resume upload flow above
+   ↓
+4. Phone app syncs when connected
+```
+
+**Phone App Upload:**
+```
+1. User selects video in phone app
+   ↓
+2. Phone App → Upload Service (chunked upload)
+   ↓
+3. Rest of flow same as smart glasses
+   ↓
+4. Phone App receives push notification when complete
+```
+
+#### Sync Flow (Phone App ↔ Cloud)
+
+```
+1. Phone App checks sync status
+   ↓
+2. Upload pending videos (from offline queue)
+   ↓
+3. Download new videos/metadata from cloud
+   ↓
+4. Resolve conflicts:
+   - Last-write-wins for metadata
+   - Merge for tags
+   - User notification for conflicts
+   ↓
+5. Update local cache
+   ↓
+6. Notify user of sync completion
 ```
 
 #### Memory Video Creation Flow
@@ -1235,6 +1478,116 @@ s3://smart-glass-videos/
    - Memory collections
 
 ---
+
+## What Interviewers Look For
+
+### CQRS Architecture Skills
+
+1. **Read/Write Separation**
+   - Separate read and write paths
+   - Appropriate database choices
+   - **Red Flags**: Single database, no separation, poor performance
+
+2. **Write Path Design**
+   - High write throughput
+   - Cassandra for writes
+   - Kafka for async processing
+   - **Red Flags**: Wrong database, synchronous processing, bottlenecks
+
+3. **Read Path Design**
+   - Fast search queries
+   - Elasticsearch for reads
+   - Redis caching
+   - **Red Flags**: Wrong database, no caching, slow queries
+
+### Video Processing Skills
+
+1. **Async Processing**
+   - Message queue for video operations
+   - Worker pool design
+   - **Red Flags**: Synchronous processing, blocking, poor UX
+
+2. **Video Storage**
+   - S3 for object storage
+   - Lifecycle policies
+   - **Red Flags**: Wrong storage, no lifecycle, high costs
+
+3. **GPU Acceleration**
+   - Video processing optimization
+   - Cost-effective processing
+   - **Red Flags**: No optimization, slow processing, high costs
+
+### NLP/Voice Processing Skills
+
+1. **Voice Command Processing**
+   - Speech-to-text
+   - Natural language understanding
+   - **Red Flags**: No NLP, poor accuracy, slow processing
+
+2. **Query Understanding**
+   - Intent extraction
+   - Entity recognition
+   - **Red Flags**: No understanding, poor queries, no accuracy
+
+### Problem-Solving Approach
+
+1. **Workload Analysis**
+   - Read-heavy vs. write-heavy
+   - Appropriate architecture
+   - **Red Flags**: No analysis, wrong architecture, poor performance
+
+2. **Edge Cases**
+   - Video processing failures
+   - Search failures
+   - Network issues
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs. performance
+   - Cost vs. features
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Video service
+   - Search service
+   - NLP service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - Multi-layer caching
+   - CDN for videos
+   - **Red Flags**: No caching, poor strategy, slow delivery
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Independent scaling
+   - **Red Flags**: Vertical scaling, bottlenecks, no scaling
+
+### Communication Skills
+
+1. **CQRS Explanation**
+   - Can explain read/write separation
+   - Understands benefits
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **CQRS Expertise**
+   - Deep understanding of CQRS
+   - Appropriate use cases
+   - **Key**: Show CQRS expertise
+
+2. **Workload-Aware Design**
+   - Understanding of read/write patterns
+   - Appropriate architecture
+   - **Key**: Demonstrate workload analysis skills
 
 ## Conclusion
 

@@ -1688,6 +1688,93 @@ class MediaService:
 - **Database Replicas**: More replicas = better read performance but higher cost
 - **Trade-off**: Optimize for cost while meeting performance requirements
 
+## What Interviewers Look For
+
+### Distributed Systems Skills
+
+1. **Feed Generation Strategy**
+   - Deep understanding of push/pull/hybrid
+   - Timeline caching design
+   - Celebrity user handling
+   - **Red Flags**: Only one approach, no caching, poor celebrity handling
+
+2. **Real-Time Systems**
+   - WebSocket/SSE architecture
+   - Pub/sub patterns
+   - Low-latency delivery
+   - **Red Flags**: Polling, high latency, no real-time
+
+3. **Counter Aggregation**
+   - Distributed counters
+   - Eventual consistency
+   - Batch synchronization
+   - **Red Flags**: Strong consistency everywhere, no batching
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Billions of tweets
+   - Trillions of feed views
+   - Millions of QPS
+   - **Red Flags**: Small-scale design, no scale thinking
+
+2. **Trade-off Analysis**
+   - Push vs pull trade-offs
+   - Consistency vs latency
+   - Cache freshness vs performance
+   - **Red Flags**: No trade-offs, wrong choices
+
+3. **Edge Cases**
+   - Celebrity users (millions of followers)
+   - Viral tweets
+   - High-traffic events
+   - **Red Flags**: Ignoring edge cases, one-size-fits-all
+
+### System Design Skills
+
+1. **Component Design**
+   - Microservices architecture
+   - Clear service boundaries
+   - API design
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - Multi-level caching
+   - Timeline pre-computation
+   - Cache invalidation
+   - **Red Flags**: No caching, poor strategy, cache stampede
+
+3. **Database Design**
+   - Sharding strategy
+   - Read replicas
+   - Proper indexing
+   - **Red Flags**: No sharding, missing indexes, no read scaling
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear feed generation explanation
+   - Ranking algorithm understanding
+   - **Red Flags**: Unclear explanations, no algorithm knowledge
+
+2. **Capacity Estimation**
+   - Realistic estimates
+   - Proper calculations
+   - Resource planning
+   - **Red Flags**: Unrealistic estimates, no calculations
+
+### Meta-Specific Focus
+
+1. **Feed Generation Mastery**
+   - Deep understanding of Meta's patterns
+   - Hybrid approach expertise
+   - **Key**: Show Meta-specific knowledge
+
+2. **Scale-First Thinking**
+   - Design for billions
+   - Global distribution
+   - **Key**: Demonstrate scale awareness
+
 ## Summary
 
 ### Key Takeaways

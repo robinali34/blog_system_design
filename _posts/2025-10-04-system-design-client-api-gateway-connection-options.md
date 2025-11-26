@@ -383,6 +383,86 @@ Implement proper authentication and encryption for all protocols.
 ### 5. **Monitoring Gaps**
 Ensure you can monitor and debug all protocols in production.
 
+## What Interviewers Look For
+
+### Protocol Selection Skills
+
+1. **Understanding Protocol Trade-offs**
+   - REST vs WebSocket vs gRPC
+   - When to use each protocol
+   - **Red Flags**: Wrong protocol choice, no justification, can't explain differences
+
+2. **Use Case Analysis**
+   - Real-time requirements
+   - Latency requirements
+   - Data volume considerations
+   - **Red Flags**: No analysis, wrong choice, ignoring requirements
+
+3. **Hybrid Approach**
+   - Using multiple protocols
+   - Appropriate protocol per use case
+   - **Red Flags**: Single protocol for all, no hybrid thinking, poor choices
+
+### System Design Skills
+
+1. **Performance Considerations**
+   - Latency requirements
+   - Throughput needs
+   - Overhead understanding
+   - **Red Flags**: Ignoring performance, wrong optimization, no understanding
+
+2. **Scalability Design**
+   - Connection management
+   - Resource usage
+   - **Red Flags**: No scalability thinking, connection limits, poor design
+
+3. **Security Awareness**
+   - Authentication/authorization
+   - Encryption requirements
+   - **Red Flags**: No security, insecure, no encryption
+
+### Problem-Solving Approach
+
+1. **Requirements Analysis**
+   - Identifies protocol needs
+   - Considers constraints
+   - **Red Flags**: No analysis, assumptions, wrong requirements
+
+2. **Trade-off Analysis**
+   - Protocol trade-offs
+   - Performance vs complexity
+   - **Red Flags**: No trade-offs, dogmatic choices, no justification
+
+3. **Edge Cases**
+   - Browser compatibility
+   - Network issues
+   - Connection failures
+   - **Red Flags**: Ignoring edge cases, no handling, incomplete
+
+### Communication Skills
+
+1. **Protocol Explanation**
+   - Can explain each protocol
+   - Understands use cases
+   - **Red Flags**: No understanding, vague explanations, can't explain
+
+2. **Decision Justification**
+   - Explains protocol choices
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives, can't defend choices
+
+### Meta-Specific Focus
+
+1. **Protocol Expertise**
+   - Deep protocol knowledge
+   - Appropriate selection
+   - **Key**: Show protocol expertise
+
+2. **Practical Knowledge**
+   - Real-world experience
+   - Understanding of limitations
+   - **Key**: Demonstrate practical knowledge
+
 ## Conclusion
 
 The choice of communication protocol between clients and API gateways is crucial for system performance and user experience. Consider your specific requirements for latency, real-time needs, data volume, and browser compatibility when making this decision. Often, a hybrid approach using multiple protocols for different use cases provides the best solution.

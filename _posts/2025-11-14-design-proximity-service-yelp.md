@@ -1165,6 +1165,105 @@ def get_recommendations(user_id, latitude, longitude, limit=10):
 - Reduce bandwidth usage
 - Improve performance
 
+## What Interviewers Look For
+
+### Geospatial Systems Skills
+
+1. **Geospatial Query Design**
+   - PostGIS/geospatial database usage
+   - Efficient distance calculations
+   - Spatial indexing
+   - **Red Flags**: No geospatial database, inefficient queries, no indexing
+
+2. **Location-Based Algorithms**
+   - Haversine formula understanding
+   - Geohashing
+   - Spatial partitioning
+   - **Red Flags**: Wrong distance calculation, no optimization
+
+3. **Search Integration**
+   - Full-text search (Elasticsearch)
+   - Geospatial + text search
+   - **Red Flags**: Database-only search, no text search
+
+### Distributed Systems Skills
+
+1. **Geographic Sharding**
+   - Location-based sharding
+   - Even distribution
+   - **Red Flags**: No sharding, poor distribution
+
+2. **Caching Strategy**
+   - Location-based caching
+   - Popular queries caching
+   - **Red Flags**: No caching, poor strategy
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Load balancing
+   - **Red Flags**: Vertical scaling, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Billions of queries
+   - Millions of businesses
+   - Global distribution
+   - **Red Flags**: Small-scale design, no global thinking
+
+2. **Trade-off Analysis**
+   - Accuracy vs performance
+   - Freshness vs caching
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+3. **Edge Cases**
+   - Boundary conditions
+   - Dense urban areas
+   - Sparse rural areas
+   - **Red Flags**: Ignoring edge cases, one-size-fits-all
+
+### System Design Skills
+
+1. **Component Design**
+   - Search service
+   - Recommendation service
+   - Clear boundaries
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Database Design**
+   - Geospatial indexes
+   - Proper sharding
+   - **Red Flags**: Missing indexes, no sharding
+
+3. **API Design**
+   - Efficient query interface
+   - Filtering support
+   - **Red Flags**: Inefficient API, no filtering
+
+### Communication Skills
+
+1. **Algorithm Explanation**
+   - Can explain geospatial algorithms
+   - Understands trade-offs
+   - **Red Flags**: No algorithm understanding, vague
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Geospatial Expertise**
+   - Location-based systems knowledge
+   - Efficient algorithms
+   - **Key**: Show geospatial systems knowledge
+
+2. **Search Systems**
+   - Full-text search understanding
+   - Ranking algorithms
+   - **Key**: Demonstrate search expertise
+
 ## Summary
 
 Designing a proximity service like Yelp at scale requires careful consideration of:

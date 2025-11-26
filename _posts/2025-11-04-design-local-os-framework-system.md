@@ -1166,6 +1166,108 @@ public void testMemoryManagement() {
 }
 ```
 
+## What Interviewers Look For
+
+### OS Framework Skills
+
+1. **On-Device Architecture**
+   - No cloud dependencies
+   - Local processing only
+   - System service design
+   - **Red Flags**: Cloud dependencies, network required, not local
+
+2. **Android Framework Knowledge**
+   - System services
+   - AIDL/Binder IPC
+   - HAL integration
+   - **Red Flags**: No framework knowledge, poor architecture, inefficient
+
+3. **Native Code Integration**
+   - JNI bridge design
+   - Memory management
+   - Thread safety
+   - **Red Flags**: No native integration, memory leaks, thread issues
+
+### Resource Management Skills
+
+1. **Memory Management**
+   - Object pooling
+   - Memory tracking
+   - Leak prevention
+   - **Red Flags**: Memory leaks, no tracking, poor management
+
+2. **Battery Optimization**
+   - Power-aware operations
+   - Adaptive behavior
+   - Background task management
+   - **Red Flags**: Poor battery life, no optimization, high drain
+
+3. **CPU Optimization**
+   - Efficient algorithms
+   - Minimal overhead
+   - Background processing
+   - **Red Flags**: High CPU usage, inefficient, poor performance
+
+### Problem-Solving Approach
+
+1. **Local-First Design**
+   - All processing on-device
+   - No network dependency
+   - **Red Flags**: Cloud dependency, network required, not local
+
+2. **Edge Cases**
+   - Resource exhaustion
+   - Thread failures
+   - Memory pressure
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Performance vs memory
+   - Battery vs features
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - System service
+   - Native layer
+   - Java framework
+   - **Red Flags**: Monolithic, unclear boundaries, poor design
+
+2. **Thread Safety**
+   - Proper synchronization
+   - Lock-free where possible
+   - **Red Flags**: Race conditions, deadlocks, no synchronization
+
+3. **Error Handling**
+   - Robust error recovery
+   - Graceful degradation
+   - **Red Flags**: No error handling, crashes, poor recovery
+
+### Communication Skills
+
+1. **Framework Explanation**
+   - Can explain Android framework
+   - Understands system services
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Resource Management Explanation**
+   - Can explain optimization strategies
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **OS Framework Expertise**
+   - Deep Android knowledge
+   - System-level understanding
+   - **Key**: Show OS framework expertise
+
+2. **Resource-Conscious Design**
+   - Memory efficiency
+   - Battery optimization
+   - **Key**: Demonstrate resource-conscious design
+
 ## Conclusion
 
 Designing a local OS framework system requires:

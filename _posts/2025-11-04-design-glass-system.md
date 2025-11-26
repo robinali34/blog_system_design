@@ -928,6 +928,127 @@ class PowerManager:
 3. Prompt user to sync to cloud
 4. Clear temporary files
 
+## What Interviewers Look For
+
+### Edge Computing Skills
+
+1. **On-Device Processing**
+   - Real-time ML inference
+   - Power-efficient processing
+   - Hardware acceleration
+   - **Red Flags**: Cloud-only, high power, no acceleration
+
+2. **Power Management**
+   - Battery optimization
+   - Thermal management
+   - Adaptive quality
+   - **Red Flags**: Poor battery life, thermal issues, no optimization
+
+3. **Offline Functionality**
+   - Core features offline
+   - Local storage
+   - Sync when online
+   - **Red Flags**: No offline, network required, poor UX
+
+### AR/Smart Glass Skills
+
+1. **Media Capture**
+   - High-quality capture
+   - Real-time preview
+   - Low-latency processing
+   - **Red Flags**: Poor quality, high latency, slow capture
+
+2. **AI/ML Integration**
+   - Voice commands
+   - Object recognition
+   - Live translation
+   - **Red Flags**: No AI/ML, slow inference, poor accuracy
+
+3. **Display & UI**
+   - AR overlays
+   - Minimal UI
+   - Privacy indicators
+   - **Red Flags**: Poor UI, no privacy, intrusive
+
+### Distributed Systems Skills
+
+1. **Cloud Integration**
+   - Heavy processing in cloud
+   - Storage and sync
+   - **Red Flags**: No cloud, poor sync, inefficient
+
+2. **Hybrid Processing**
+   - Edge + cloud
+   - Adaptive routing
+   - **Red Flags**: Single approach, no adaptation, poor balance
+
+3. **Scalability Design**
+   - Millions of devices
+   - Horizontal scaling
+   - **Red Flags**: No scale consideration, bottlenecks, poor scaling
+
+### Problem-Solving Approach
+
+1. **Constraint Handling**
+   - Battery life
+   - Connectivity
+   - Storage
+   - **Red Flags**: Ignoring constraints, poor handling
+
+2. **Edge Cases**
+   - Network failures
+   - Storage full
+   - Battery low
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Power vs performance
+   - Privacy vs features
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Capture service
+   - Processing service
+   - Sync service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Privacy & Security**
+   - Data protection
+   - Privacy by design
+   - Secure communication
+   - **Red Flags**: No privacy, insecure, data leaks
+
+3. **Real-Time Processing**
+   - Low-latency ML
+   - Streaming support
+   - **Red Flags**: High latency, no streaming, slow processing
+
+### Communication Skills
+
+1. **Edge Computing Explanation**
+   - Can explain on-device processing
+   - Understands power constraints
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Edge Computing Expertise**
+   - On-device processing knowledge
+   - Power optimization
+   - **Key**: Show edge computing expertise
+
+2. **Privacy-First Design**
+   - Privacy by design
+   - User control
+   - **Key**: Demonstrate privacy focus
+
 ## Conclusion
 
 Designing a Meta Glass system requires:

@@ -902,6 +902,86 @@ s3.put_bucket_notification_configuration(
 - Review lifecycle policies
 - Monitor version count
 
+## What Interviewers Look For
+
+### Object Storage Knowledge & Application
+
+1. **Storage Class Selection**
+   - Standard, IA, Glacier
+   - When to use each
+   - **Red Flags**: Wrong storage class, high costs, can't justify
+
+2. **Lifecycle Policies**
+   - Automatic transitions
+   - Cost optimization
+   - **Red Flags**: No lifecycle, high costs, inefficient
+
+3. **Access Control**
+   - IAM policies
+   - Bucket policies
+   - **Red Flags**: No access control, insecure, data leaks
+
+### System Design Skills
+
+1. **When to Use S3**
+   - Object storage
+   - Static assets
+   - Data lakes
+   - **Red Flags**: Wrong use case, over-engineering, can't justify
+
+2. **Scalability Design**
+   - Unlimited scale
+   - CDN integration
+   - **Red Flags**: No scale consideration, bottlenecks, poor delivery
+
+3. **Cost Optimization**
+   - Storage classes
+   - Lifecycle policies
+   - Compression
+   - **Red Flags**: No optimization, high costs, inefficient
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Cost vs performance
+   - Storage vs retrieval speed
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Storage limits
+   - Access failures
+   - Versioning issues
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Security Design**
+   - Encryption
+   - Access control
+   - **Red Flags**: No security, insecure, data leaks
+
+### Communication Skills
+
+1. **S3 Explanation**
+   - Can explain S3 features
+   - Understands use cases
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why S3
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Storage Systems Expertise**
+   - S3 knowledge
+   - Object storage patterns
+   - **Key**: Show storage systems expertise
+
+2. **Cost & Performance Balance**
+   - Cost optimization
+   - Performance maintenance
+   - **Key**: Demonstrate cost/performance balance
+
 ## Conclusion
 
 Amazon S3 is a powerful and flexible storage service that can handle virtually any storage use case. Key takeaways:

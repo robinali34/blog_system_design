@@ -739,6 +739,72 @@ Meta commonly uses:
 
 ---
 
+## What Interviewers Look For
+
+### Meta-Specific Product Knowledge
+
+1. **Product Understanding**
+   - Deep understanding of Meta products
+   - Can discuss product features
+   - **Red Flags**: No product knowledge, vague understanding, wrong features
+
+2. **Scale Thinking**
+   - Thinks at Meta scale (billions)
+   - Understands global distribution
+   - **Red Flags**: Small scale thinking, no global awareness, wrong scale
+
+3. **Meta-Specific Patterns**
+   - Understands Meta's patterns
+   - Can apply Meta approaches
+   - **Red Flags**: Generic solutions, no Meta patterns, wrong approach
+
+### System Design Skills
+
+1. **Distributed Systems Expertise**
+   - Scalability patterns
+   - Consistency models
+   - Reliability design
+   - **Red Flags**: No scalability, wrong consistency, no reliability
+
+2. **Problem-Solving Approach**
+   - Structured approach
+   - Asks clarifying questions
+   - **Red Flags**: Unstructured, no questions, jumps to solution
+
+3. **Technical Depth**
+   - Dives into details
+   - Discusses trade-offs
+   - **Red Flags**: Surface level, no details, no trade-offs
+
+### Communication Skills
+
+1. **Clear Articulation**
+   - Explains clearly
+   - Uses diagrams effectively
+   - **Red Flags**: Unclear, poor diagrams, confusing
+
+2. **Thought Process**
+   - Shows reasoning
+   - Explains decisions
+   - **Red Flags**: No reasoning, no decisions, unclear
+
+3. **Trade-off Discussion**
+   - Discusses alternatives
+   - Justifies choices
+   - **Red Flags**: No alternatives, no justification, dogmatic
+
+### Meta-Specific Focus
+
+1. **Meta Product Expertise**
+   - Deep Meta product knowledge
+   - Scale understanding
+   - **Key**: Demonstrate Meta product expertise
+
+2. **Distributed Systems Mastery**
+   - Strong distributed systems knowledge
+   - Meta-scale thinking
+   - **Key**: Show distributed systems mastery
+
 ## Conclusion
 
 This list provides a comprehensive overview of common Meta Senior Software Engineer system design interview questions. Remember:

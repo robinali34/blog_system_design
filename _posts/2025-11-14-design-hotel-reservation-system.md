@@ -1281,6 +1281,104 @@ def search_hotels(location, check_in, check_out, guests, filters):
 - Reduce bandwidth usage
 - Improve performance
 
+## What Interviewers Look For
+
+### Concurrency Control Skills
+
+1. **Double-Booking Prevention**
+   - Database transactions
+   - Row-level locking
+   - Distributed locks
+   - **Red Flags**: No locking, race conditions, double-booking possible
+
+2. **Atomic Operations**
+   - Transaction design
+   - All-or-nothing semantics
+   - **Red Flags**: Non-atomic operations, partial updates
+
+3. **Date Range Queries**
+   - Efficient availability checks
+   - Overlapping date handling
+   - **Red Flags**: Inefficient queries, incorrect availability
+
+### Distributed Systems Skills
+
+1. **Consistency Requirements**
+   - Strong consistency for bookings
+   - Eventual consistency for search
+   - **Red Flags**: Wrong consistency model, no understanding
+
+2. **Database Design**
+   - Proper indexing
+   - Sharding strategy
+   - Read replicas
+   - **Red Flags**: Missing indexes, no sharding, no read scaling
+
+3. **Search System**
+   - Elasticsearch usage
+   - Location-based search
+   - **Red Flags**: Database-only search, no location search
+
+### Problem-Solving Approach
+
+1. **Overbooking Prevention**
+   - Lock-based approach
+   - Transaction design
+   - **Red Flags**: No prevention, race conditions
+
+2. **Edge Cases**
+   - Concurrent bookings
+   - Cancellations
+   - Date range overlaps
+   - **Red Flags**: Ignoring edge cases, incorrect handling
+
+3. **Trade-off Analysis**
+   - Consistency vs availability
+   - Performance vs accuracy
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Reservation service
+   - Search service
+   - Payment service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - Availability caching
+   - Search result caching
+   - **Red Flags**: No caching, poor strategy
+
+3. **API Design**
+   - Efficient query interface
+   - Filtering support
+   - **Red Flags**: Inefficient API, no filtering
+
+### Communication Skills
+
+1. **Concurrency Explanation**
+   - Can explain locking mechanisms
+   - Understands transactions
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Concurrency Mastery**
+   - Deep understanding of locking
+   - Transaction design
+   - **Key**: Show concurrency expertise
+
+2. **Correctness Over Scale**
+   - Emphasis on correctness
+   - No overbooking guarantee
+   - **Key**: Demonstrate reliability focus
+
 ## Summary
 
 Designing a hotel reservation system at scale requires careful consideration of:

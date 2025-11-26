@@ -99,3 +99,108 @@ event: chunk  data: { role, delta, usage? }
 ## Testing & eval
 
 - Load gen with mixed prompts/tools; TTFT SLO monitors; shadow deploys for new model versions with guardrails.
+
+## What Interviewers Look For
+
+### LLM/AI Systems Skills
+
+1. **Inference Optimization**
+   - GPU/TPU utilization
+   - Batching strategies
+   - KV cache management
+   - **Red Flags**: Poor GPU utilization, no batching, inefficient caching
+
+2. **Latency Optimization**
+   - Time-to-first-token (TTFT) < 200ms
+   - Streaming architecture
+   - Paged attention
+   - **Red Flags**: High latency, no streaming, poor TTFT
+
+3. **Model Serving**
+   - Multi-model routing
+   - Fallback strategies
+   - Auto-scaling
+   - **Red Flags**: Single model, no fallback, poor scaling
+
+### Distributed Systems Skills
+
+1. **Caching Strategy**
+   - Prompt/result caching
+   - KV cache tiers
+   - Cache eviction policies
+   - **Red Flags**: No caching, poor strategy, cache misses
+
+2. **RAG Architecture**
+   - Vector search
+   - Embedding generation
+   - Context management
+   - **Red Flags**: No RAG, inefficient search, context overflow
+
+3. **Safety & Policy**
+   - Pre/post filters
+   - Content moderation
+   - Audit logging
+   - **Red Flags**: No safety, no moderation, no audit
+
+### Problem-Solving Approach
+
+1. **Cost Optimization**
+   - GPU cost management
+   - Cache efficiency
+   - Model selection
+   - **Red Flags**: High costs, no optimization, inefficient
+
+2. **Edge Cases**
+   - GPU failures
+   - RAG backend slow
+   - Cache misses
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs cost
+   - Quality vs speed
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Orchestrator
+   - Inference fleet
+   - Safety filters
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Observability**
+   - Token-level metrics
+   - SLO monitoring
+   - Circuit breakers
+   - **Red Flags**: No metrics, no monitoring, no observability
+
+3. **Reliability**
+   - Auto-scaling
+   - Brownout mode
+   - Graceful degradation
+   - **Red Flags**: No scaling, no degradation, poor reliability
+
+### Communication Skills
+
+1. **LLM Architecture Explanation**
+   - Can explain inference serving
+   - Understands caching strategies
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Performance Explanation**
+   - Can explain latency optimization
+   - Understands cost trade-offs
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **AI/ML Systems Expertise**
+   - Deep LLM knowledge
+   - Inference optimization
+   - **Key**: Show AI/ML systems expertise
+
+2. **Performance & Cost Balance**
+   - Latency optimization
+   - Cost efficiency
+   - **Key**: Demonstrate performance/cost balance

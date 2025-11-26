@@ -976,6 +976,88 @@ def get_redis_stats():
     }
 ```
 
+## What Interviewers Look For
+
+### Redis Knowledge & Application
+
+1. **Data Structure Selection**
+   - Appropriate data structure for use case
+   - Strings, Sets, Sorted Sets, Hashes
+   - **Red Flags**: Wrong data structure, inefficient operations, poor choice
+
+2. **Caching Strategy**
+   - Cache-aside pattern
+   - TTL management
+   - Eviction policies
+   - **Red Flags**: No caching strategy, wrong pattern, cache stampedes
+
+3. **Performance Optimization**
+   - Connection pooling
+   - Pipelining
+   - Memory management
+   - **Red Flags**: No pooling, no pipelining, memory issues
+
+### System Design Skills
+
+1. **When to Use Redis**
+   - Caching use cases
+   - Session storage
+   - Real-time features
+   - **Red Flags**: Wrong use case, over-engineering, can't justify
+
+2. **Scalability Design**
+   - Redis Cluster
+   - Replication
+   - Sharding strategy
+   - **Red Flags**: Single instance, no scaling, bottlenecks
+
+3. **Reliability Design**
+   - Persistence (RDB/AOF)
+   - Failover strategies
+   - **Red Flags**: No persistence, no failover, data loss
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Memory vs performance
+   - Consistency vs availability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Cache misses
+   - Memory limits
+   - Failover scenarios
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Cost Consideration**
+   - Memory costs
+   - Instance sizing
+   - **Red Flags**: Ignoring costs, over-provisioning
+
+### Communication Skills
+
+1. **Redis Explanation**
+   - Can explain Redis features
+   - Understands use cases
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why Redis
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Caching Expertise**
+   - Deep Redis knowledge
+   - Appropriate usage
+   - **Key**: Show caching expertise
+
+2. **Performance Focus**
+   - Low-latency design
+   - High-throughput
+   - **Key**: Demonstrate performance focus
+
 ## Conclusion
 
 Redis is a powerful in-memory data structure store that enables high-performance applications. Key takeaways:

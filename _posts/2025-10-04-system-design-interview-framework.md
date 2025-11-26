@@ -555,6 +555,88 @@ The system can handle 100M URLs/day and 1B reads/day with <200ms latency."
 
 ---
 
+## What Interviewers Look For
+
+### Framework Application Skills
+
+1. **Structured Approach**
+   - Follows a clear framework
+   - Systematic problem-solving
+   - **Red Flags**: Jumping to solutions, no structure, random approach
+
+2. **Requirements Clarification**
+   - Asks clarifying questions
+   - Understands scope
+   - **Red Flags**: No questions, assumptions, wrong scope
+
+3. **High-Level Design First**
+   - Starts with architecture
+   - Then dives into details
+   - **Red Flags**: Too detailed too early, no high-level view, missing big picture
+
+### System Design Skills
+
+1. **Component Design**
+   - Clear component boundaries
+   - Appropriate abstractions
+   - **Red Flags**: Monolithic, unclear boundaries, poor abstractions
+
+2. **Scalability Awareness**
+   - Identifies bottlenecks
+   - Addresses scaling issues
+   - **Red Flags**: No scalability thinking, bottlenecks, no optimization
+
+3. **Trade-off Analysis**
+   - Discusses trade-offs
+   - Justifies decisions
+   - **Red Flags**: No trade-offs, no justification, dogmatic choices
+
+### Problem-Solving Approach
+
+1. **Time Management**
+   - Appropriate depth for time
+   - Prioritizes important aspects
+   - **Red Flags**: Poor time management, too detailed, too shallow
+
+2. **Iterative Refinement**
+   - Starts simple
+   - Adds complexity as needed
+   - **Red Flags**: Over-engineering, too complex, no iteration
+
+3. **Edge Case Handling**
+   - Considers edge cases
+   - Handles failures
+   - **Red Flags**: Ignoring edge cases, no failure handling, incomplete
+
+### Communication Skills
+
+1. **Clear Explanations**
+   - Explains thinking process
+   - Uses diagrams effectively
+   - **Red Flags**: Unclear, no diagrams, confusing
+
+2. **Active Engagement**
+   - Engages with interviewer
+   - Responds to feedback
+   - **Red Flags**: No engagement, ignores feedback, defensive
+
+3. **Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives, can't defend choices
+
+### Meta-Specific Focus
+
+1. **Systematic Thinking**
+   - Structured approach
+   - Clear methodology
+   - **Key**: Show systematic problem-solving
+
+2. **Practical Experience**
+   - Real-world considerations
+   - Practical trade-offs
+   - **Key**: Demonstrate practical knowledge
+
 ## Conclusion
 
 System design interviews test your ability to think architecturally and solve complex problems. By following this structured framework, you can:

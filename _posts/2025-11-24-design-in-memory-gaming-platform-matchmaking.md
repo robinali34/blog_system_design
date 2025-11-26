@@ -858,6 +858,76 @@ platform.join_queue("player2", "team_deathmatch")
 platform.join_queue("player3", "capture_the_flag")
 ```
 
+## What Interviewers Look For
+
+### Data Structure Skills
+
+1. **Efficient Data Structure Choice**
+   - Deque for O(1) queue operations
+   - HashMap for O(1) lookups
+   - Set for O(1) membership checks
+   - **Red Flags**: Inefficient structures, wrong choices
+
+2. **Algorithm Efficiency**
+   - O(1) operations where possible
+   - Efficient matchmaking algorithm
+   - **Red Flags**: O(n) operations, inefficient algorithms
+
+### Concurrency Skills
+
+1. **Thread Safety**
+   - Proper lock usage
+   - Deadlock prevention
+   - Race condition handling
+   - **Red Flags**: Race conditions, deadlocks, no synchronization
+
+2. **Atomic Operations**
+   - Atomic game creation
+   - Thread-safe queue operations
+   - **Red Flags**: Non-atomic operations, race conditions
+
+### Problem-Solving Approach
+
+1. **Edge Case Handling**
+   - Player leaves during matchmaking
+   - Concurrent joins/leaves
+   - Queue size changes
+   - **Red Flags**: Ignoring edge cases, incorrect handling
+
+2. **Queue Management**
+   - Efficient player removal
+   - Level-based matching
+   - **Red Flags**: Inefficient removal, no level matching
+
+3. **Performance Optimization**
+   - Minimize lock contention
+   - Batch operations
+   - **Red Flags**: High contention, no optimization
+
+### Code Quality
+
+1. **Implementation Correctness**
+   - Correct queue logic
+   - Proper state management
+   - **Red Flags**: Bugs, incorrect logic
+
+2. **Error Handling**
+   - Input validation
+   - Edge case handling
+   - **Red Flags**: No validation, crashes
+
+### Meta-Specific Focus
+
+1. **Data Structures Mastery**
+   - Understanding of efficient structures
+   - Trade-off analysis
+   - **Key**: Show CS fundamentals
+
+2. **Concurrency Skills**
+   - Thread-safe design
+   - Proper synchronization
+   - **Key**: Demonstrate concurrency understanding
+
 ## Summary
 
 ### Key Takeaways

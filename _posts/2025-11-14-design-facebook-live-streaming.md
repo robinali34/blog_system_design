@@ -1081,6 +1081,106 @@ def generate_low_latency_hls(stream_id, video_segments):
 - Reduce bandwidth usage
 - Improve performance
 
+## What Interviewers Look For
+
+### Real-Time Systems Skills
+
+1. **Live Video Streaming**
+   - RTMP for ingestion
+   - HLS for delivery
+   - Low-latency streaming
+   - **Red Flags**: High latency, no streaming protocol, poor quality
+
+2. **Real-Time Comments**
+   - WebSocket architecture
+   - Pub/Sub for distribution
+   - Sub-500ms latency
+   - **Red Flags**: Polling, high latency, no real-time
+
+3. **Connection Management**
+   - Millions of WebSocket connections
+   - Efficient connection handling
+   - **Red Flags**: Connection limits, poor scaling, bottlenecks
+
+### Distributed Systems Skills
+
+1. **Comment Broadcasting**
+   - Efficient distribution to millions
+   - Redis Pub/Sub
+   - Message queue
+   - **Red Flags**: Inefficient broadcasting, no pub/sub, bottlenecks
+
+2. **Viewer Tracking**
+   - Accurate viewer count
+   - Real-time updates
+   - **Red Flags**: Inaccurate count, delayed updates, no tracking
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Load balancing
+   - CDN distribution
+   - **Red Flags**: Vertical scaling, no CDN, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Millions of concurrent viewers
+   - Thousands of comments per second
+   - **Red Flags**: Small-scale design, no scale consideration
+
+2. **Edge Cases**
+   - Connection failures
+   - Network issues
+   - High traffic spikes
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs quality
+   - Consistency vs availability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Streaming service
+   - Comment service
+   - Moderation service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Content Moderation**
+   - Real-time moderation
+   - Automated filtering
+   - **Red Flags**: No moderation, post-processing, slow
+
+3. **Video Processing**
+   - Transcoding pipeline
+   - Multiple quality levels
+   - **Red Flags**: No transcoding, single quality, poor UX
+
+### Communication Skills
+
+1. **Streaming Protocol Explanation**
+   - Can explain RTMP/HLS
+   - Understands streaming architecture
+   - **Red Flags**: No understanding, vague
+
+2. **Real-Time Architecture Explanation**
+   - Can explain WebSocket/pub-sub
+   - Understands distribution
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - WebSocket knowledge
+   - Low-latency design
+   - **Key**: Show real-time systems knowledge
+
+2. **Scale Thinking**
+   - Millions of users
+   - High throughput
+   - **Key**: Demonstrate scale expertise
+
 ## Summary
 
 Designing Facebook Live streaming with real-time comments requires careful consideration of:

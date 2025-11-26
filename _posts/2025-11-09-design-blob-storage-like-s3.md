@@ -1240,6 +1240,108 @@ Delete (after 1 year)
 
 ---
 
+## What Interviewers Look For
+
+### Storage Systems Skills
+
+1. **Object Storage Architecture**
+   - Metadata vs. data separation
+   - Consistent hashing
+   - Multi-copy replication
+   - **Red Flags**: No separation, poor distribution, single copy
+
+2. **Durability Design**
+   - 11 9's durability target
+   - Erasure coding
+   - Multi-region replication
+   - **Red Flags**: No durability strategy, single region, no redundancy
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Partitioning strategy
+   - Load distribution
+   - **Red Flags**: Vertical scaling, bottlenecks, poor distribution
+
+### Distributed Systems Skills
+
+1. **Consistency Models**
+   - Eventual consistency (default)
+   - Strong consistency (optional)
+   - **Red Flags**: Wrong consistency model, no understanding
+
+2. **Replication Strategy**
+   - Multi-copy for hot data
+   - Erasure coding for cold data
+   - **Red Flags**: Single strategy, no optimization, high costs
+
+3. **Metadata Management**
+   - High write throughput
+   - Efficient queries
+   - **Red Flags**: Wrong database, slow queries, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Cost Optimization**
+   - Storage tiers
+   - Erasure coding
+   - Compression
+   - **Red Flags**: No optimization, high costs, single tier
+
+2. **Edge Cases**
+   - Node failures
+   - Network partitions
+   - Data corruption
+   - **Red Flags**: Ignoring failures, no recovery, data loss
+
+3. **Trade-off Analysis**
+   - Durability vs. cost
+   - Consistency vs. performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Metadata service
+   - Storage service
+   - API gateway
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Performance Optimization**
+   - Multi-layer caching
+   - CDN integration
+   - Parallel operations
+   - **Red Flags**: No caching, slow operations, no optimization
+
+3. **Security Design**
+   - Encryption at rest
+   - Encryption in transit
+   - Access control
+   - **Red Flags**: No encryption, insecure, no access control
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Can explain metadata/data separation
+   - Understands durability strategies
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Trade-off Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Storage Systems Expertise**
+   - Deep understanding of object storage
+   - Durability and consistency
+   - **Key**: Show storage systems expertise
+
+2. **Scale Thinking**
+   - Exabytes of data
+   - Billions of objects
+   - **Key**: Demonstrate scale expertise
+
 ## Conclusion
 
 Designing a blob storage system like S3 requires careful consideration of:

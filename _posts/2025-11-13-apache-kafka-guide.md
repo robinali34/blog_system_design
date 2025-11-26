@@ -872,6 +872,88 @@ aws kafka create-cluster \
 - Schema registry included
 - Connectors ecosystem
 
+## What Interviewers Look For
+
+### Kafka Knowledge & Application
+
+1. **Core Concepts Understanding**
+   - Topics, partitions, consumers
+   - Consumer groups
+   - Replication
+   - **Red Flags**: Vague understanding, wrong concepts, can't explain
+
+2. **Partitioning Strategy**
+   - Appropriate partitioning
+   - Key-based partitioning
+   - Parallelism
+   - **Red Flags**: No partitioning strategy, poor distribution, bottlenecks
+
+3. **Consumer Group Design**
+   - Parallel processing
+   - Load balancing
+   - **Red Flags**: No consumer groups, poor parallelism, bottlenecks
+
+### System Design Skills
+
+1. **When to Use Kafka**
+   - Event-driven architecture
+   - High-throughput streaming
+   - Real-time processing
+   - **Red Flags**: Wrong use case, over-engineering, can't justify
+
+2. **Scalability Design**
+   - Horizontal scaling
+   - Partition strategy
+   - **Red Flags**: Vertical scaling, no scaling, bottlenecks
+
+3. **Reliability Design**
+   - Replication factor
+   - Exactly-once semantics
+   - Durability
+   - **Red Flags**: No replication, message loss, no durability
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Throughput vs latency
+   - Consistency vs availability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Consumer lag
+   - Partition failures
+   - Message ordering
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Performance Optimization**
+   - Compression
+   - Batching
+   - **Red Flags**: No optimization, poor performance
+
+### Communication Skills
+
+1. **Kafka Explanation**
+   - Can explain Kafka architecture
+   - Understands concepts
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why Kafka
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Event-Driven Systems Expertise**
+   - Kafka knowledge
+   - Streaming architecture
+   - **Key**: Show event-driven systems expertise
+
+2. **High-Throughput Design**
+   - Scalability focus
+   - Performance optimization
+   - **Key**: Demonstrate high-throughput expertise
+
 ## Conclusion
 
 Apache Kafka is a powerful distributed streaming platform for building real-time data pipelines and event-driven applications. Key takeaways:

@@ -939,6 +939,104 @@ def get_trending_items(k=10, time_window='hour'):
 - Reduce query latency
 - Improve cache hit rate
 
+## What Interviewers Look For
+
+### Algorithm Knowledge
+
+1. **Probabilistic Data Structures**
+   - Count-Min Sketch understanding
+   - Space-Saving algorithm
+   - Trade-offs between approaches
+   - **Red Flags**: No understanding, wrong choice, no trade-offs
+
+2. **Algorithm Efficiency**
+   - O(1) update operations
+   - Bounded memory usage
+   - Accuracy vs memory trade-offs
+   - **Red Flags**: Inefficient algorithms, unbounded memory
+
+3. **Time Window Handling**
+   - Multiple time windows
+   - Efficient window management
+   - **Red Flags**: Single window, inefficient management
+
+### Distributed Systems Skills
+
+1. **Distributed Counting**
+   - Consistent hashing
+   - Count aggregation
+   - Merge strategies
+   - **Red Flags**: No distribution, poor aggregation
+
+2. **Real-Time Processing**
+   - Stream processing
+   - Low-latency updates
+   - **Red Flags**: Batch-only, high latency
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Load distribution
+   - **Red Flags**: Vertical scaling, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Memory Efficiency**
+   - Bounded memory design
+   - Fixed-size data structures
+   - **Red Flags**: Unbounded memory, growing structures
+
+2. **Accuracy Trade-offs**
+   - Approximate vs exact
+   - Error bounds understanding
+   - **Red Flags**: No accuracy consideration, wrong approach
+
+3. **Edge Cases**
+   - Ties in counts
+   - Very high frequency items
+   - Sparse data
+   - **Red Flags**: Ignoring edge cases, no handling
+
+### System Design Skills
+
+1. **Data Structure Choice**
+   - Count-Min Sketch vs Space-Saving
+   - Hybrid approach
+   - **Red Flags**: Wrong structure, no hybrid
+
+2. **Caching Strategy**
+   - Top K result caching
+   - Cache invalidation
+   - **Red Flags**: No caching, poor invalidation
+
+3. **Query Optimization**
+   - Fast top K retrieval
+   - Efficient queries
+   - **Red Flags**: Slow queries, no optimization
+
+### Communication Skills
+
+1. **Algorithm Explanation**
+   - Can explain probabilistic structures
+   - Understands error bounds
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Trade-off Analysis**
+   - Accuracy vs memory
+   - Exact vs approximate
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### Meta-Specific Focus
+
+1. **Algorithmic Thinking**
+   - Strong CS fundamentals
+   - Probabilistic structures knowledge
+   - **Key**: Show algorithmic expertise
+
+2. **Stream Processing**
+   - Real-time processing understanding
+   - Low-latency design
+   - **Key**: Demonstrate stream processing knowledge
+
 ## Summary
 
 Designing a Top K Heavy Hitter system at scale requires careful consideration of:

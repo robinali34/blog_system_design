@@ -1263,6 +1263,110 @@ def filter_content_by_country(content_list, country_code):
 - Reduce latency
 - Improve streaming quality
 
+## What Interviewers Look For
+
+### Video Streaming Systems Skills
+
+1. **CDN Architecture**
+   - Global CDN distribution
+   - Edge server placement
+   - Content replication strategy
+   - **Red Flags**: No CDN, single server, poor distribution
+
+2. **Adaptive Streaming**
+   - HLS/DASH understanding
+   - Bitrate selection algorithms
+   - Quality adaptation
+   - **Red Flags**: Single quality, no adaptation, poor algorithm
+
+3. **Content Delivery**
+   - Efficient video encoding
+   - Multi-quality support
+   - Bandwidth optimization
+   - **Red Flags**: Single encoding, no optimization
+
+### Distributed Systems Skills
+
+1. **Content Management**
+   - Object storage design
+   - Metadata management
+   - Content distribution
+   - **Red Flags**: Database for video, poor metadata, no distribution
+
+2. **Recommendation System**
+   - Collaborative filtering
+   - Content-based filtering
+   - Hybrid approaches
+   - **Red Flags**: No recommendations, simple approach, no personalization
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Geographic distribution
+   - Load balancing
+   - **Red Flags**: Vertical scaling, single region, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Millions of concurrent streams
+   - Petabytes of content
+   - Global distribution
+   - **Red Flags**: Small-scale design, no global thinking
+
+2. **Trade-off Analysis**
+   - Quality vs bandwidth
+   - Storage vs delivery cost
+   - Latency vs quality
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+3. **Edge Cases**
+   - Network failures
+   - Bandwidth variations
+   - Regional content restrictions
+   - **Red Flags**: Ignoring edge cases, no handling
+
+### System Design Skills
+
+1. **Component Design**
+   - Clear service boundaries
+   - Video service, recommendation service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - CDN caching
+   - Recommendation caching
+   - **Red Flags**: No caching, poor strategy
+
+3. **Database Design**
+   - Content metadata storage
+   - User data storage
+   - Proper sharding
+   - **Red Flags**: No sharding, poor design
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear CDN explanation
+   - Streaming protocol understanding
+   - **Red Flags**: Unclear explanations, no protocol knowledge
+
+2. **Capacity Estimation**
+   - Bandwidth calculations
+   - Storage estimates
+   - **Red Flags**: Unrealistic estimates, no calculations
+
+### Meta-Specific Focus
+
+1. **Media Systems Expertise**
+   - Video streaming knowledge
+   - CDN understanding
+   - **Key**: Show media systems knowledge
+
+2. **Scale-First Design**
+   - Global distribution
+   - Millions of users
+   - **Key**: Demonstrate scale awareness
+
 ## Summary
 
 Designing Netflix at scale requires careful consideration of:

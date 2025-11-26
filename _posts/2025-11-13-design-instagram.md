@@ -664,6 +664,94 @@ TTL: 1 hour
    - Cache aside pattern
    - Write-through for critical data
 
+## What Interviewers Look For
+
+### Distributed Systems Skills
+
+1. **Scalability Design**
+   - Horizontal scaling strategies
+   - Sharding and partitioning
+   - Load balancing approaches
+   - **Red Flags**: Vertical scaling only, no sharding strategy, single points of failure
+
+2. **Media Storage Architecture**
+   - Object storage design (S3-like)
+   - CDN integration
+   - Efficient media delivery
+   - **Red Flags**: Database storage for media, no CDN, inefficient delivery
+
+3. **Feed Generation Strategy**
+   - Push vs pull trade-offs
+   - Hybrid approach understanding
+   - Timeline caching
+   - **Red Flags**: Only push or only pull, no hybrid, no caching
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Billions of users consideration
+   - Petabytes of storage
+   - Millions of requests per second
+   - **Red Flags**: Designing for small scale, ignoring scale challenges
+
+2. **Trade-off Analysis**
+   - Consistency vs availability
+   - Latency vs freshness
+   - Storage cost vs performance
+   - **Red Flags**: No trade-off discussion, dogmatic choices
+
+3. **Edge Cases**
+   - Celebrity users (millions of followers)
+   - Viral content
+   - Storage failures
+   - **Red Flags**: Ignoring edge cases, no failure handling
+
+### System Design Skills
+
+1. **Component Design**
+   - Clear service boundaries
+   - Proper API design
+   - Data flow understanding
+   - **Red Flags**: Monolithic design, unclear boundaries
+
+2. **Caching Strategy**
+   - Multi-level caching
+   - Cache invalidation
+   - Cache warming
+   - **Red Flags**: No caching, poor invalidation, cache stampede
+
+3. **Database Design**
+   - Proper sharding strategy
+   - Index design
+   - Read replicas
+   - **Red Flags**: No sharding, missing indexes, no read scaling
+
+### Communication Skills
+
+1. **Clear Architecture Explanation**
+   - Can explain design clearly
+   - Justifies decisions
+   - Discusses alternatives
+   - **Red Flags**: Unclear explanations, no justification
+
+2. **Capacity Estimation**
+   - Realistic estimates
+   - Proper calculations
+   - Resource planning
+   - **Red Flags**: Unrealistic estimates, no calculations
+
+### Meta-Specific Focus
+
+1. **Feed Generation Patterns**
+   - Understanding of push/pull/hybrid
+   - Timeline caching knowledge
+   - **Key**: Show understanding of Meta's patterns
+
+2. **Scale-First Thinking**
+   - Design for billions from start
+   - Global distribution
+   - **Key**: Demonstrate scale awareness
+
 ## Summary
 
 Designing Instagram requires handling:

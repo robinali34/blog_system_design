@@ -62,3 +62,101 @@ CREATE TABLE urls (
 ## Failure drills
 
 - DB hot partition → rehash codes; add read replicas; protect with rate limit per IP.
+
+## What Interviewers Look For
+
+### URL Shortener Skills
+
+1. **Code Generation**
+   - Base62 encoding
+   - Collision handling
+   - Custom aliases
+   - **Red Flags**: Collisions, no custom aliases, inefficient encoding
+
+2. **Caching Strategy**
+   - Cache-aside pattern
+   - Negative caching
+   - TTL management
+   - **Red Flags**: No caching, cache stampedes, poor hit rate
+
+3. **High Read/Write Ratio**
+   - Read-heavy optimization
+   - Cache hit rate > 95%
+   - **Red Flags**: Poor read performance, low cache hit rate, slow resolves
+
+### Distributed Systems Skills
+
+1. **Scalability Design**
+   - Sharding by code prefix
+   - Horizontal scaling
+   - **Red Flags**: No sharding, vertical scaling, bottlenecks
+
+2. **Consistency Models**
+   - Strong consistency for creates
+   - Eventual for analytics
+   - **Red Flags**: Wrong consistency, no understanding
+
+3. **Idempotency**
+   - Unique code constraint
+   - Safe retries
+   - **Red Flags**: No idempotency, duplicate codes, race conditions
+
+### Problem-Solving Approach
+
+1. **Cache Stampede Prevention**
+   - Single-flight locks
+   - Warmup strategies
+   - **Red Flags**: Cache stampedes, no protection, poor performance
+
+2. **Edge Cases**
+   - Hot partitions
+   - Cache misses
+   - Expired URLs
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs performance
+   - Storage vs cost
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Shorten service
+   - Resolve service
+   - Analytics service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Database Design**
+   - Proper indexing
+   - Sharding strategy
+   - **Red Flags**: Missing indexes, no sharding, poor queries
+
+3. **Analytics Design**
+   - Click tracking
+   - Stream processing
+   - **Red Flags**: No analytics, synchronous processing, bottlenecks
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Can explain code generation
+   - Understands caching strategy
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Scale Explanation**
+   - Can explain scaling strategies
+   - Understands bottlenecks
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **High-Throughput Systems Expertise**
+   - Read-heavy optimization
+   - Caching expertise
+   - **Key**: Show high-throughput systems expertise
+
+2. **Simple but Scalable Design**
+   - Clean architecture
+   - Efficient operations
+   - **Key**: Demonstrate simple but scalable design

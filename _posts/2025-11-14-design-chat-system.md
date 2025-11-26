@@ -932,6 +932,109 @@ def deliver_group_message(message):
 - Reduce bandwidth usage
 - Improve performance
 
+## What Interviewers Look For
+
+### Real-Time Systems Skills
+
+1. **WebSocket Architecture**
+   - Connection management
+   - Message routing
+   - Connection pooling
+   - **Red Flags**: HTTP polling, poor connection management, no routing
+
+2. **Message Ordering**
+   - Sequence number design
+   - Ordering guarantees
+   - Handling out-of-order messages
+   - **Red Flags**: No ordering, race conditions, incorrect ordering
+
+3. **Presence Management**
+   - Online/offline tracking
+   - Typing indicators
+   - Efficient broadcasting
+   - **Red Flags**: No presence, inefficient updates, high overhead
+
+### Distributed Systems Skills
+
+1. **Message Queue Design**
+   - Kafka/Message queue usage
+   - Topic partitioning
+   - Consumer groups
+   - **Red Flags**: No message queue, poor partitioning, no consumer groups
+
+2. **Database Sharding**
+   - Sharding strategy
+   - Message distribution
+   - Cross-shard queries
+   - **Red Flags**: No sharding, poor strategy, inefficient queries
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Load balancing
+   - Service decomposition
+   - **Red Flags**: Vertical scaling only, bottlenecks, monolithic design
+
+### Problem-Solving Approach
+
+1. **Message Delivery Guarantees**
+   - At-least-once vs exactly-once
+   - Delivery confirmation
+   - Retry mechanisms
+   - **Red Flags**: No guarantees, message loss, no retry
+
+2. **Edge Cases**
+   - Offline users
+   - Group messaging
+   - Message failures
+   - **Red Flags**: Ignoring edge cases, no offline handling
+
+3. **Trade-off Analysis**
+   - Consistency vs latency
+   - Storage vs performance
+   - **Red Flags**: No trade-off discussion
+
+### System Design Skills
+
+1. **Component Design**
+   - Message service
+   - Presence service
+   - Notification service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - Recent messages cache
+   - Presence cache
+   - **Red Flags**: No caching, poor strategy
+
+3. **Media Handling**
+   - Object storage
+   - CDN integration
+   - **Red Flags**: Database storage, no CDN
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear component design
+   - Data flow understanding
+   - **Red Flags**: Unclear design, no data flow
+
+2. **Scale Considerations**
+   - Billions of messages
+   - Millions of concurrent connections
+   - **Red Flags**: No scale thinking, small-scale design
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - WebSocket mastery
+   - Low-latency design
+   - **Key**: Show real-time systems knowledge
+
+2. **Message Systems**
+   - Message queue understanding
+   - Delivery guarantees
+   - **Key**: Demonstrate messaging expertise
+
 ## Summary
 
 Designing a chat system at scale requires careful consideration of:

@@ -47,3 +47,104 @@ POST /v1/receipts { conv_id, msg_id, type=delivered|read }
 ## Test plan
 
 - WS longevity under mobile networks; presence convergence; ordered delivery under partition.
+
+## What Interviewers Look For
+
+### Real-Time Messaging Skills
+
+1. **WebSocket Architecture**
+   - Connection management
+   - Message fanout
+   - Pub/Sub integration
+   - **Red Flags**: Polling, high latency, no real-time
+
+2. **Message Ordering**
+   - Per-conversation ordering
+   - Monotonic IDs
+   - Client-side resolution
+   - **Red Flags**: No ordering, out-of-order messages, poor UX
+
+3. **Delivery Guarantees**
+   - At-least-once delivery
+   - Read receipts
+   - Delivery receipts
+   - **Red Flags**: Message loss, no receipts, unreliable
+
+### Distributed Systems Skills
+
+1. **Presence System**
+   - Online/offline status
+   - Convergence time < 2s
+   - **Red Flags**: Slow presence, inaccurate status, poor UX
+
+2. **Message Storage**
+   - Cassandra for messages
+   - Search indexing
+   - Retention policies
+   - **Red Flags**: No storage, slow search, no retention
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Sharding strategy
+   - **Red Flags**: Vertical scaling, no sharding, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Hot Group Handling**
+   - Shard splitting
+   - Partial fanout
+   - **Red Flags**: No hot group handling, bottlenecks, poor performance
+
+2. **Edge Cases**
+   - Network partitions
+   - Connection failures
+   - Message duplicates
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs latency
+   - Ordering vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Message service
+   - Presence service
+   - Search service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Security Design**
+   - E2E encryption (optional)
+   - Authentication
+   - Authorization
+   - **Red Flags**: No security, insecure, vulnerabilities
+
+3. **Attachments Handling**
+   - S3 storage
+   - CDN delivery
+   - **Red Flags**: No attachments, slow delivery, high costs
+
+### Communication Skills
+
+1. **Messaging Architecture Explanation**
+   - Can explain WebSocket design
+   - Understands ordering
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Scale Explanation**
+   - Can explain scaling strategies
+   - Understands bottlenecks
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - WebSocket knowledge
+   - Low-latency design
+   - **Key**: Show real-time systems expertise
+
+2. **Reliability Focus**
+   - Message delivery guarantees
+   - Presence accuracy
+   - **Key**: Demonstrate reliability focus

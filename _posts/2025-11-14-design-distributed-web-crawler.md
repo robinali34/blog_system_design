@@ -972,6 +972,107 @@ def assign_url_with_lock(url):
 - Cache content hashes
 - Reduce database load
 
+## What Interviewers Look For
+
+### Distributed Systems Skills
+
+1. **Command & Control Architecture**
+   - Centralized C2 server
+   - Efficient coordination
+   - Work distribution
+   - **Red Flags**: No C2, inefficient coordination, poor distribution
+
+2. **Fault Tolerance**
+   - Node failure handling
+   - Work reassignment
+   - Heartbeat monitoring
+   - **Red Flags**: No fault tolerance, work loss, no monitoring
+
+3. **Work Distribution**
+   - Load balancing
+   - Domain distribution
+   - Pull model
+   - **Red Flags**: Push model, poor balancing, bottlenecks
+
+### Web Crawling Skills
+
+1. **Deduplication**
+   - Content hash deduplication
+   - Prevent duplicate work
+   - **Red Flags**: No deduplication, duplicate work, wasted resources
+
+2. **Stealth Mechanisms**
+   - Avoid detection
+   - User-agent rotation
+   - Rate limiting
+   - **Red Flags**: No stealth, easy detection, blocking
+
+3. **Politeness**
+   - Respect robots.txt
+   - Rate limiting
+   - **Red Flags**: No politeness, violations, blocking
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - 10,000 nodes
+   - Billions of pages
+   - Efficient coordination
+   - **Red Flags**: Small-scale design, no scale consideration
+
+2. **Edge Cases**
+   - Node failures
+   - Network issues
+   - C2 failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Pull vs push model
+   - Centralized vs decentralized
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - C2 server
+   - Crawler nodes
+   - Result aggregator
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Result Aggregation**
+   - Efficient collection
+   - Batch processing
+   - **Red Flags**: Inefficient, no batching, high overhead
+
+3. **Monitoring**
+   - Node health
+   - Work progress
+   - **Red Flags**: No monitoring, no visibility
+
+### Communication Skills
+
+1. **Distributed Architecture Explanation**
+   - Can explain C2 design
+   - Understands work distribution
+   - **Red Flags**: No understanding, vague
+
+2. **Fault Tolerance Explanation**
+   - Can explain failure handling
+   - Understands recovery
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Distributed Systems Expertise**
+   - C2 architecture knowledge
+   - Fault tolerance
+   - **Key**: Show distributed systems expertise
+
+2. **Scale Thinking**
+   - 10,000 nodes
+   - Billions of pages
+   - **Key**: Demonstrate scale expertise
+
 ## Summary
 
 Designing a distributed web crawler using 10,000 nodes requires careful consideration of:

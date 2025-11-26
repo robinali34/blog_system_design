@@ -1852,6 +1852,109 @@ private:
 - Test on legacy browsers
 - Test with different network conditions
 
+## What Interviewers Look For
+
+### Client-Side Architecture Skills
+
+1. **Lightweight SDK Design**
+   - Minimal bundle size
+   - Fast load time
+   - Non-blocking integration
+   - **Red Flags**: Large bundle, slow load, blocks page
+
+2. **Event Tracking**
+   - Efficient batching
+   - Queue management
+   - Offline support
+   - **Red Flags**: Inefficient tracking, no batching, no offline
+
+3. **Widget Embedding**
+   - Easy integration
+   - Cross-platform support
+   - **Red Flags**: Complex integration, single platform, poor UX
+
+### Browser/Web Skills
+
+1. **Browser APIs**
+   - LocalStorage/IndexedDB
+   - WebSocket/SSE
+   - Performance APIs
+   - **Red Flags**: Wrong APIs, poor compatibility, inefficient
+
+2. **Cross-Browser Compatibility**
+   - Browser differences
+   - Polyfills
+   - Feature detection
+   - **Red Flags**: Single browser, no compatibility, broken features
+
+3. **Performance Optimization**
+   - Minimal impact
+   - Lazy loading
+   - Code splitting
+   - **Red Flags**: High impact, slow, poor performance
+
+### Problem-Solving Approach
+
+1. **Privacy Compliance**
+   - GDPR/CCPA support
+   - Consent management
+   - Data minimization
+   - **Red Flags**: No privacy, compliance issues, data leaks
+
+2. **Edge Cases**
+   - Network failures
+   - Storage limits
+   - Browser differences
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Features vs size
+   - Privacy vs functionality
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - SDK design
+   - Widget system
+   - Event pipeline
+   - **Red Flags**: Monolithic, unclear boundaries, poor design
+
+2. **Real-Time Updates**
+   - WebSocket/SSE
+   - Connection management
+   - **Red Flags**: Polling, high latency, no real-time
+
+3. **Offline Support**
+   - Local storage
+   - Queue management
+   - Sync when online
+   - **Red Flags**: No offline, network required, data loss
+
+### Communication Skills
+
+1. **Client-Side Architecture Explanation**
+   - Can explain SDK design
+   - Understands browser constraints
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Performance Explanation**
+   - Can explain optimization strategies
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Client-Side Expertise**
+   - Browser knowledge
+   - Performance optimization
+   - **Key**: Show client-side expertise
+
+2. **Privacy-First Design**
+   - Privacy compliance
+   - User control
+   - **Key**: Demonstrate privacy focus
+
 ## Conclusion
 
 Designing a client-side embedded report events system requires:

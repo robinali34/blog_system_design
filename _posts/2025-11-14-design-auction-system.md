@@ -1140,6 +1140,105 @@ def get_bid_increment(current_bid):
 - Pre-compute proxy bid outcomes
 - Reduce computation at bid time
 
+## What Interviewers Look For
+
+### Concurrency Control Skills
+
+1. **Bid Concurrency**
+   - Distributed locks
+   - Atomic bid processing
+   - Race condition prevention
+   - **Red Flags**: No locking, race conditions, incorrect bids
+
+2. **Winner Determination**
+   - Accurate determination
+   - Handle concurrent bids
+   - **Red Flags**: Incorrect winners, race conditions
+
+3. **Proxy Bidding**
+   - Automatic bidding logic
+   - Maximum bid handling
+   - **Red Flags**: No proxy bidding, incorrect logic
+
+### Real-Time Systems Skills
+
+1. **Real-Time Updates**
+   - WebSocket/SSE architecture
+   - Redis Pub/Sub
+   - Low-latency delivery
+   - **Red Flags**: Polling, high latency, no real-time
+
+2. **Event-Driven Architecture**
+   - Message queue usage
+   - Event distribution
+   - **Red Flags**: Synchronous processing, no events
+
+3. **Bid Processing**
+   - Fast bid validation
+   - Sub-100ms latency
+   - **Red Flags**: Slow processing, high latency
+
+### Problem-Solving Approach
+
+1. **Fairness Guarantees**
+   - Prevent bid manipulation
+   - Fair auction rules
+   - **Red Flags**: No fairness, manipulation possible
+
+2. **Edge Cases**
+   - Last-second bids
+   - Tied bids
+   - Auction extensions
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs accuracy
+   - Consistency vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Bidding service
+   - Auction service
+   - Notification service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Database Design**
+   - Bid storage
+   - Auction metadata
+   - Proper indexing
+   - **Red Flags**: Missing indexes, poor design
+
+3. **Scheduling**
+   - Auction end scheduling
+   - Automatic ending
+   - **Red Flags**: Manual ending, no scheduling
+
+### Communication Skills
+
+1. **Algorithm Explanation**
+   - Can explain proxy bidding
+   - Understands winner determination
+   - **Red Flags**: No understanding, vague
+
+2. **Concurrency Explanation**
+   - Can explain locking mechanisms
+   - Understands race conditions
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - WebSocket knowledge
+   - Low-latency design
+   - **Key**: Show real-time systems knowledge
+
+2. **Concurrency Mastery**
+   - Deep understanding of locking
+   - Atomic operations
+   - **Key**: Demonstrate concurrency expertise
+
 ## Summary
 
 Designing an auction system at scale requires careful consideration of:

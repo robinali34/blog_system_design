@@ -763,6 +763,91 @@ TTL: 1 hour
    - Connection pooling
    - Query optimization
 
+## What Interviewers Look For
+
+### Distributed Systems Skills
+
+1. **Feed Generation Strategy**
+   - Deep understanding of push/pull/hybrid
+   - When to use each approach
+   - Trade-offs and optimizations
+   - **Red Flags**: Only one approach, no understanding of trade-offs
+
+2. **Ranking Algorithm Design**
+   - Relevance scoring
+   - Personalization
+   - Real-time ranking
+   - **Red Flags**: Simple chronological only, no ranking, poor algorithm
+
+3. **Real-Time Updates**
+   - WebSocket/SSE usage
+   - Pub/sub architecture
+   - Low-latency delivery
+   - **Red Flags**: Polling, high latency, no real-time
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Billions of users
+   - Trillions of feed views
+   - High read:write ratio (200:1)
+   - **Red Flags**: Designing for small scale, ignoring read-heavy nature
+
+2. **Trade-off Analysis**
+   - Push vs pull trade-offs
+   - Consistency vs freshness
+   - Latency vs accuracy
+   - **Red Flags**: No trade-off discussion, wrong choices
+
+3. **Edge Cases**
+   - Celebrity users
+   - Viral posts
+   - Inactive users
+   - **Red Flags**: Ignoring edge cases, one-size-fits-all
+
+### System Design Skills
+
+1. **Caching Strategy**
+   - Multi-level caching
+   - Feed pre-computation
+   - Cache invalidation
+   - **Red Flags**: No caching, poor strategy, cache stampede
+
+2. **Database Design**
+   - Efficient querying
+   - Read replicas
+   - Proper indexing
+   - **Red Flags**: No read scaling, missing indexes
+
+3. **Message Queue Usage**
+   - Async processing
+   - Event-driven updates
+   - **Red Flags**: Synchronous processing, blocking operations
+
+### Communication Skills
+
+1. **Algorithm Explanation**
+   - Can explain ranking algorithm
+   - Discusses personalization
+   - **Red Flags**: No algorithm understanding, vague explanations
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives considered
+
+### Meta-Specific Focus
+
+1. **Feed Generation Mastery**
+   - Deep understanding of Meta's patterns
+   - Hybrid approach knowledge
+   - **Key**: Show Meta-specific knowledge
+
+2. **Ranking Expertise**
+   - Understanding of relevance ranking
+   - Personalization concepts
+   - **Key**: Demonstrate algorithmic thinking
+
 ## Summary
 
 Designing a news feed system requires handling:

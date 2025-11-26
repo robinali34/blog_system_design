@@ -1996,6 +1996,109 @@ Sync result back to phone/Smart Glass
 
 ---
 
+## What Interviewers Look For
+
+### Hybrid Architecture Skills
+
+1. **Phone-Cloud Hybrid Design**
+   - Phone-based processing (primary)
+   - Cloud fallback
+   - WiFi Direct for local transfer
+   - **Red Flags**: Cloud-only, no fallback, poor local processing
+
+2. **Local-First Processing**
+   - Privacy-preserving
+   - Performance optimization
+   - Offline support
+   - **Red Flags**: No local processing, always cloud, privacy issues
+
+3. **Device Coordination**
+   - Smart Glass ↔ Phone communication
+   - WiFi Direct setup
+   - Sync strategies
+   - **Red Flags**: Poor coordination, no sync, connection issues
+
+### Video Processing Skills
+
+1. **Video Search & Selection**
+   - Semantic search
+   - Clip selection algorithm
+   - Relevance ranking
+   - **Red Flags**: No search, poor selection, irrelevant clips
+
+2. **Video Processing Pipeline**
+   - FFmpeg processing
+   - Hardware acceleration
+   - Phone resource management
+   - **Red Flags**: Slow processing, no acceleration, resource issues
+
+3. **Memory Video Generation**
+   - Clip trimming
+   - Merging with transitions
+   - 2-minute target duration
+   - **Red Flags**: Poor quality, wrong duration, no transitions
+
+### Problem-Solving Approach
+
+1. **Privacy & Performance Balance**
+   - Local processing for privacy
+   - Performance optimization
+   - **Red Flags**: No privacy consideration, poor performance
+
+2. **Edge Cases**
+   - Phone unavailable
+   - WiFi Direct failures
+   - Processing failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Phone resources vs performance
+   - Local vs cloud
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Voice recognition service
+   - Video search service
+   - Processing service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Connectivity Design**
+   - WiFi Direct setup
+   - Fallback mechanisms
+   - **Red Flags**: Poor connectivity, no fallback, unreliable
+
+3. **Resource Management**
+   - Phone CPU/GPU usage
+   - Battery optimization
+   - Storage management
+   - **Red Flags**: High resource usage, poor battery, storage issues
+
+### Communication Skills
+
+1. **Hybrid Architecture Explanation**
+   - Can explain phone-cloud hybrid
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Processing Pipeline Explanation**
+   - Can explain video processing
+   - Understands optimization
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Hybrid Systems Expertise**
+   - Local-cloud architecture
+   - Privacy-first design
+   - **Key**: Show hybrid systems expertise
+
+2. **Edge Computing Knowledge**
+   - Phone processing
+   - Resource optimization
+   - **Key**: Demonstrate edge computing knowledge
+
 ## Conclusion
 
 This hybrid mode system design enables Smart Glass users to generate personalized memory videos through natural language voice commands, with processing primarily happening on the user's phone via WiFi Direct connection.

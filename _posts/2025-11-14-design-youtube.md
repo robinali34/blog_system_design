@@ -1187,6 +1187,111 @@ def aggregate_views():
 - Reduce storage by 30-50%
 - Trade-off: Processing time
 
+## What Interviewers Look For
+
+### Video Streaming Systems Skills
+
+1. **Video Processing Pipeline**
+   - Transcoding architecture
+   - Multi-quality encoding
+   - Processing queue design
+   - **Red Flags**: No transcoding, single quality, blocking processing
+
+2. **Adaptive Streaming**
+   - HLS/DASH understanding
+   - Bitrate selection
+   - Quality adaptation
+   - **Red Flags**: Single quality, no adaptation, poor algorithm
+
+3. **CDN Architecture**
+   - Global distribution
+   - Edge caching
+   - Content replication
+   - **Red Flags**: No CDN, single server, poor distribution
+
+### Distributed Systems Skills
+
+1. **Storage Design**
+   - Object storage (S3-like)
+   - Deduplication strategies
+   - Efficient video storage
+   - **Red Flags**: Database for video, no deduplication, inefficient
+
+2. **Search System**
+   - Full-text search (Elasticsearch)
+   - Indexing strategy
+   - Query optimization
+   - **Red Flags**: Database search, no indexing, slow queries
+
+3. **Recommendation System**
+   - Collaborative filtering
+   - Content-based filtering
+   - Hybrid approaches
+   - **Red Flags**: No recommendations, simple approach
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - 500 hours/minute uploads
+   - Billions of views
+   - Petabytes of storage
+   - **Red Flags**: Small-scale design, no scale thinking
+
+2. **Trade-off Analysis**
+   - Quality vs storage
+   - Latency vs quality
+   - Processing time vs quality
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+3. **Edge Cases**
+   - Viral videos
+   - Large file uploads
+   - Network failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+### System Design Skills
+
+1. **Component Design**
+   - Upload service
+   - Processing service
+   - Streaming service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - CDN caching
+   - Popular video caching
+   - **Red Flags**: No caching, poor strategy
+
+3. **Database Design**
+   - Video metadata
+   - User data
+   - Proper sharding
+   - **Red Flags**: No sharding, poor design
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear video pipeline
+   - Streaming protocol understanding
+   - **Red Flags**: Unclear explanations, no protocol knowledge
+
+2. **Capacity Estimation**
+   - Storage calculations
+   - Bandwidth estimates
+   - **Red Flags**: Unrealistic estimates, no calculations
+
+### Meta-Specific Focus
+
+1. **Media Systems Expertise**
+   - Video processing knowledge
+   - Streaming protocols
+   - **Key**: Show media systems knowledge
+
+2. **Scale-First Design**
+   - Global distribution
+   - Massive scale
+   - **Key**: Demonstrate scale awareness
+
 ## Summary
 
 Designing YouTube at scale requires careful consideration of:

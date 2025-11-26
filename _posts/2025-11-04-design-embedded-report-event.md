@@ -1084,6 +1084,108 @@ class TenantContext:
 3. Cache serving stale data temporarily
 4. Graceful degradation
 
+## What Interviewers Look For
+
+### Event-Driven Architecture Skills
+
+1. **Event Collection**
+   - Scalable ingestion
+   - Event validation
+   - Multi-tenant support
+   - **Red Flags**: Low throughput, no validation, tenant mixing
+
+2. **Event Processing**
+   - Real-time processing
+   - Batch processing
+   - Stream processing
+   - **Red Flags**: No real-time, slow processing, bottlenecks
+
+3. **Report Generation**
+   - Efficient queries
+   - Caching strategy
+   - Incremental updates
+   - **Red Flags**: Slow queries, no caching, full recompute
+
+### Distributed Systems Skills
+
+1. **Time-Series Data**
+   - Efficient storage
+   - Time-based partitioning
+   - Retention policies
+   - **Red Flags**: Wrong storage, no partitioning, high costs
+
+2. **Multi-Tenancy**
+   - Data isolation
+   - Security
+   - Resource quotas
+   - **Red Flags**: No isolation, security issues, no quotas
+
+3. **Real-Time Updates**
+   - WebSocket/SSE
+   - Pub/Sub architecture
+   - **Red Flags**: Polling, high latency, no real-time
+
+### Problem-Solving Approach
+
+1. **Scale Challenges**
+   - High event volume
+   - Many tenants
+   - Real-time requirements
+   - **Red Flags**: No scale consideration, bottlenecks, poor performance
+
+2. **Edge Cases**
+   - Event loss
+   - Processing failures
+   - Database failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Real-time vs batch
+   - Consistency vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Collection service
+   - Processing service
+   - Reporting service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - Multi-level caching
+   - Cache invalidation
+   - **Red Flags**: No caching, poor strategy, stale data
+
+3. **Data Partitioning**
+   - Tenant-based
+   - Time-based
+   - **Red Flags**: No partitioning, poor queries, bottlenecks
+
+### Communication Skills
+
+1. **Event Architecture Explanation**
+   - Can explain event flow
+   - Understands processing
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Scale Explanation**
+   - Can explain scaling strategies
+   - Understands bottlenecks
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Event-Driven Systems Expertise**
+   - Event architecture knowledge
+   - Real-time processing
+   - **Key**: Show event-driven systems expertise
+
+2. **Multi-Tenant Design**
+   - Data isolation
+   - Security focus
+   - **Key**: Demonstrate multi-tenant expertise
+
 ## Conclusion
 
 Designing an embedded report event system requires:

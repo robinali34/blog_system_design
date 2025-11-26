@@ -778,6 +778,91 @@ def crawl_url(url):
 - Complex problem-solving
 - Strategic thinking
 
+## What Interviewers Look For
+
+### Distributed Systems Skills
+
+1. **Queue Management**
+   - High-throughput queue design
+   - Kafka/message queue usage
+   - Priority queues
+   - **Red Flags**: Simple queue, no prioritization, bottlenecks
+
+2. **Deduplication Strategy**
+   - Bloom filter usage
+   - Hash-based deduplication
+   - Efficient duplicate detection
+   - **Red Flags**: No deduplication, inefficient approach, memory issues
+
+3. **Politeness & Rate Limiting**
+   - Robots.txt handling
+   - Domain-based rate limiting
+   - Respectful crawling
+   - **Red Flags**: No politeness, aggressive crawling, no rate limits
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Billions of pages
+   - Efficient storage
+   - Distributed crawling
+   - **Red Flags**: Single-threaded, small-scale, no distribution
+
+2. **Fault Tolerance**
+   - Handle failures gracefully
+   - Retry mechanisms
+   - Checkpointing
+   - **Red Flags**: No failure handling, no retry, data loss
+
+3. **Edge Cases**
+   - Infinite loops
+   - Malformed URLs
+   - Dynamic content
+   - **Red Flags**: Ignoring edge cases, crashes
+
+### System Design Skills
+
+1. **Storage Design**
+   - Efficient URL storage
+   - Content storage (S3)
+   - Metadata management
+   - **Red Flags**: Database for content, inefficient storage
+
+2. **Worker Design**
+   - Distributed workers
+   - Load balancing
+   - Resource management
+   - **Red Flags**: Single worker, no distribution
+
+3. **DNS Optimization**
+   - DNS caching
+   - Efficient resolution
+   - **Red Flags**: No caching, slow DNS
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear component design
+   - Data flow understanding
+   - **Red Flags**: Unclear design, no flow
+
+2. **Trade-off Analysis**
+   - Storage vs speed
+   - Freshness vs efficiency
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### Meta-Specific Focus
+
+1. **Distributed Systems Expertise**
+   - Queue management
+   - Worker coordination
+   - **Key**: Show distributed systems knowledge
+
+2. **Efficiency Optimization**
+   - Deduplication strategies
+   - Performance optimization
+   - **Key**: Demonstrate optimization skills
+
 ## Conclusion
 
 Designing a web crawler requires careful consideration of:

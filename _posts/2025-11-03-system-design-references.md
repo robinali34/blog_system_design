@@ -345,6 +345,66 @@ Communication is a key part of the interview.
 
 For a more in-depth discussion on these common mistakes from an interviewer's perspective, refer to the detailed discussion on 1Point3Acres: [Common Mistakes in System Design Interviews](https://www.1point3acres.com/bbs/thread-1119305-1-1.html).
 
+## What Interviewers Look For
+
+### Resource Utilization & Knowledge Application
+
+1. **Understanding Depth**
+   - Deep understanding vs surface knowledge
+   - Can apply concepts from resources
+   - **Red Flags**: Memorized solutions, can't explain concepts, no understanding
+
+2. **Practical Application**
+   - Can apply patterns from resources
+   - Understands trade-offs
+   - **Red Flags**: Can't apply knowledge, no trade-off understanding, theoretical only
+
+3. **Critical Thinking**
+   - Can evaluate different approaches
+   - Understands when to use what
+   - **Red Flags**: Dogmatic approach, no critical thinking, one-size-fits-all
+
+### System Design Skills
+
+1. **Pattern Recognition**
+   - Recognizes common patterns
+   - Applies appropriate patterns
+   - **Red Flags**: Wrong patterns, can't recognize, poor application
+
+2. **Trade-off Analysis**
+   - Understands trade-offs from resources
+   - Can discuss alternatives
+   - **Red Flags**: No trade-offs, dogmatic choices, can't discuss alternatives
+
+3. **Real-World Application**
+   - Can adapt resources to problems
+   - Understands real-world constraints
+   - **Red Flags**: Can't adapt, ignores constraints, theoretical only
+
+### Communication Skills
+
+1. **Knowledge Explanation**
+   - Can explain concepts clearly
+   - Understands fundamentals
+   - **Red Flags**: Vague explanations, no understanding, can't explain
+
+2. **Resource Integration**
+   - Integrates knowledge from multiple sources
+   - Shows comprehensive understanding
+   - **Red Flags**: Fragmented knowledge, can't integrate, surface level
+
+### Meta-Specific Focus
+
+1. **Comprehensive Preparation**
+   - Uses multiple resources effectively
+   - Shows depth and breadth
+   - **Key**: Demonstrate comprehensive preparation
+
+2. **Practical Application**
+   - Can apply learned concepts
+   - Shows real-world thinking
+   - **Key**: Show practical application skills
+
 ## Conclusion
 
 These resources provide a comprehensive foundation for learning system design and preparing for interviews. Each resource has its strengths:

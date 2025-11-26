@@ -783,6 +783,104 @@ Composite B: 1000.0000000008103714
    - Reduce storage costs
    - Faster retrieval
 
+## What Interviewers Look For
+
+### Data Structure Skills
+
+1. **Sorted Set Usage**
+   - Redis Sorted Sets
+   - O(log N) operations
+   - Efficient ranking
+   - **Red Flags**: Inefficient data structure, O(N) operations, poor performance
+
+2. **Ranking Algorithm**
+   - Accurate ranking
+   - Tie-breaking logic
+   - Composite scores
+   - **Red Flags**: Incorrect ranking, no tie-breaking, simple scores only
+
+3. **Score Updates**
+   - Atomic updates
+   - Efficient operations
+   - **Red Flags**: Non-atomic, inefficient, race conditions
+
+### Real-Time Systems Skills
+
+1. **Low Latency Reads**
+   - < 50ms query latency
+   - Multi-level caching
+   - **Red Flags**: High latency, no caching, slow queries
+
+2. **High Write Throughput**
+   - 100K+ writes/second
+   - Async processing
+   - **Red Flags**: Synchronous processing, low throughput, bottlenecks
+
+3. **Real-Time Updates**
+   - Updates within seconds
+   - Efficient propagation
+   - **Red Flags**: Delayed updates, no real-time, polling
+
+### Problem-Solving Approach
+
+1. **Multiple Leaderboard Types**
+   - Global, friends, weekly
+   - Efficient filtering
+   - **Red Flags**: Single type, inefficient filtering, no variety
+
+2. **Edge Cases**
+   - Concurrent score updates
+   - Large player base
+   - Tie situations
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs accuracy
+   - Consistency vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Ranking service
+   - Query service
+   - Update service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Sharding Strategy**
+   - Horizontal scaling
+   - Efficient distribution
+   - **Red Flags**: No sharding, vertical scaling, bottlenecks
+
+3. **Caching Strategy**
+   - Multi-level caching
+   - Cache invalidation
+   - **Red Flags**: No caching, poor strategy, stale data
+
+### Communication Skills
+
+1. **Data Structure Explanation**
+   - Can explain sorted sets
+   - Understands complexity
+   - **Red Flags**: No understanding, vague
+
+2. **Algorithm Explanation**
+   - Can explain ranking algorithm
+   - Understands tie-breaking
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Data Structures Expertise**
+   - Deep understanding of sorted sets
+   - Algorithm knowledge
+   - **Key**: Show data structures expertise
+
+2. **Performance Optimization**
+   - Low latency design
+   - High throughput
+   - **Key**: Demonstrate performance focus
+
 ## Summary
 
 Designing a real-time game leaderboard system requires handling:

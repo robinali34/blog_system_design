@@ -1128,6 +1128,105 @@ def get_events_since_token(user_id, sync_token):
 - Reduce storage by 30-50%
 - Trade-off: CPU usage
 
+## What Interviewers Look For
+
+### Storage Optimization Skills
+
+1. **Chunking and Deduplication**
+   - Chunk-based storage
+   - Chunk-level deduplication
+   - Storage efficiency
+   - **Red Flags**: File-level storage, no deduplication, inefficient
+
+2. **Delta Sync**
+   - Only sync changed chunks
+   - Bandwidth optimization
+   - **Red Flags**: Full file sync, no delta, high bandwidth
+
+3. **Versioning**
+   - Chunk-based versioning
+   - Efficient history tracking
+   - **Red Flags**: File-level versioning, inefficient, high storage
+
+### Distributed Systems Skills
+
+1. **Conflict Resolution**
+   - Simultaneous edit handling
+   - Merge strategies
+   - **Red Flags**: No conflict handling, data loss, overwrites
+
+2. **Sync Mechanism**
+   - Event-based sync
+   - Incremental updates
+   - Token-based sync
+   - **Red Flags**: Polling, full sync, no incremental
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Database sharding
+   - Object storage
+   - **Red Flags**: Vertical scaling, no sharding, file system storage
+
+### Problem-Solving Approach
+
+1. **Storage Efficiency**
+   - 30-50% storage savings
+   - Deduplication strategy
+   - **Red Flags**: No optimization, high storage costs
+
+2. **Edge Cases**
+   - Concurrent edits
+   - Network failures
+   - Large files
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Storage vs computation
+   - Latency vs bandwidth
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Sync service
+   - Storage service
+   - Conflict resolution service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Database Design**
+   - Proper indexing
+   - Sharding strategy
+   - **Red Flags**: Missing indexes, no sharding
+
+3. **CDN Integration**
+   - Popular file caching
+   - Efficient delivery
+   - **Red Flags**: No CDN, slow delivery
+
+### Communication Skills
+
+1. **Deduplication Explanation**
+   - Can explain chunking
+   - Understands deduplication
+   - **Red Flags**: No understanding, vague
+
+2. **Sync Algorithm Explanation**
+   - Can explain delta sync
+   - Understands versioning
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Storage Optimization Expertise**
+   - Deduplication knowledge
+   - Efficient storage design
+   - **Key**: Show storage expertise
+
+2. **Correctness Focus**
+   - Conflict resolution
+   - Data integrity
+   - **Key**: Demonstrate reliability focus
+
 ## Summary
 
 Designing a file storage and sync system at scale requires careful consideration of:

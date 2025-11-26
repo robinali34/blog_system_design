@@ -1076,6 +1076,105 @@ appendfsync everysec  # fsync every second
 - Reduce initial load time
 - Improve startup performance
 
+## What Interviewers Look For
+
+### Caching Skills
+
+1. **Local Cache Architecture**
+   - Embedded Redis instance
+   - Sub-millisecond access
+   - Local socket communication
+   - **Red Flags**: Remote cache, high latency, network dependency
+
+2. **Eviction Policies**
+   - LRU/LFU/TTL-based
+   - Memory management
+   - High hit rate
+   - **Red Flags**: No eviction, memory issues, low hit rate
+
+3. **Cache Synchronization**
+   - Event-driven invalidation
+   - Tag-based invalidation
+   - Cross-instance sync
+   - **Red Flags**: No sync, stale data, inconsistent cache
+
+### Distributed Systems Skills
+
+1. **Cache Invalidation**
+   - Efficient invalidation
+   - Event-driven updates
+   - **Red Flags**: No invalidation, stale data, manual updates
+
+2. **Fault Tolerance**
+   - Graceful degradation
+   - Fallback to database
+   - **Red Flags**: No fallback, system failure, poor UX
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Per-server cache
+   - **Red Flags**: Shared cache, bottlenecks, poor scaling
+
+### Problem-Solving Approach
+
+1. **Performance Optimization**
+   - Sub-millisecond access
+   - High hit rate (> 90%)
+   - **Red Flags**: High latency, low hit rate, poor performance
+
+2. **Edge Cases**
+   - Cache misses
+   - Redis failures
+   - Memory limits
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Memory vs performance
+   - Consistency vs availability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Cache service
+   - Invalidation service
+   - Monitoring service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Cache Warming**
+   - Pre-load data
+   - Improve hit rate
+   - **Red Flags**: No warming, cold starts, poor performance
+
+3. **Persistence**
+   - Optional RDB/AOF
+   - Data recovery
+   - **Red Flags**: No persistence, data loss, no recovery
+
+### Communication Skills
+
+1. **Cache Strategy Explanation**
+   - Can explain eviction policies
+   - Understands synchronization
+   - **Red Flags**: No understanding, vague
+
+2. **Performance Explanation**
+   - Can explain optimization strategies
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Caching Expertise**
+   - Deep caching knowledge
+   - Performance optimization
+   - **Key**: Show caching expertise
+
+2. **Low-Latency Design**
+   - Sub-millisecond access
+   - Local cache
+   - **Key**: Demonstrate performance focus
+
 ## Summary
 
 Designing an embedded local Redis cache system requires careful consideration of:

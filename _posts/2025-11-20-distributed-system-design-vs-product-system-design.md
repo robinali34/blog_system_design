@@ -910,6 +910,85 @@ Many system design questions combine both approaches:
    - Consider multiple perspectives
    - Balance detail and scope
 
+## What Interviewers Look For
+
+### Understanding Interview Types
+
+1. **Distributed System Design Recognition**
+   - Can identify infrastructure-focused questions
+   - Understands technical depth requirements
+   - **Red Flags**: Treating all questions the same, no differentiation, wrong approach
+
+2. **Product System Design Recognition**
+   - Can identify product/feature questions
+   - Understands user experience focus
+   - **Red Flags**: Over-engineering, ignoring UX, no product thinking
+
+3. **Hybrid Approach**
+   - Can blend both approaches
+   - Knows when to switch focus
+   - **Red Flags**: Sticking to one approach, no flexibility
+
+### System Design Skills
+
+1. **Distributed Systems Expertise**
+   - Scalability patterns
+   - Consistency models
+   - Fault tolerance
+   - **Red Flags**: No scalability thinking, wrong consistency, no fault tolerance
+
+2. **Product Design Skills**
+   - User experience focus
+   - Feature completeness
+   - API design
+   - **Red Flags**: No UX consideration, incomplete features, poor API design
+
+3. **Balanced Approach**
+   - Can switch between perspectives
+   - Appropriate depth for context
+   - **Red Flags**: Always too technical, always too shallow, no balance
+
+### Problem-Solving Approach
+
+1. **Question Analysis**
+   - Identifies question type
+   - Chooses appropriate approach
+   - **Red Flags**: Wrong approach, no analysis, assumptions
+
+2. **Adaptability**
+   - Adjusts based on feedback
+   - Switches focus when needed
+   - **Red Flags**: Rigid approach, no adaptation, ignoring feedback
+
+3. **Trade-off Analysis**
+   - Makes trade-offs explicit
+   - Justifies decisions
+   - **Red Flags**: No trade-offs, no justification, dogmatic choices
+
+### Communication Skills
+
+1. **Clarity**
+   - Clear explanations
+   - Appropriate level of detail
+   - **Red Flags**: Unclear, too detailed, too shallow
+
+2. **Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives, can't defend choices
+
+### Meta-Specific Focus
+
+1. **Question Type Recognition**
+   - Knows when to use each approach
+   - Understands Meta's evaluation
+   - **Key**: Show understanding of interview types
+
+2. **Flexibility**
+   - Can adapt approach
+   - Balances both perspectives
+   - **Key**: Demonstrate flexibility and adaptability
+
 ## Summary
 
 ### Key Takeaways

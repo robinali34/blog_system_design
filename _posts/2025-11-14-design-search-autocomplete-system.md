@@ -920,6 +920,107 @@ def rebuild_trie_periodic():
 - Reuse Redis connections
 - Reduce connection overhead
 
+## What Interviewers Look For
+
+### Data Structures Knowledge
+
+1. **Trie Implementation**
+   - Trie vs compressed Trie (Patricia Trie)
+   - Memory efficiency
+   - Prefix matching algorithm
+   - **Red Flags**: No Trie knowledge, inefficient structure, wrong choice
+
+2. **Algorithm Efficiency**
+   - O(m) prefix search where m = prefix length
+   - Efficient updates
+   - Memory optimization
+   - **Red Flags**: Inefficient search, slow updates, high memory
+
+3. **Ranking Algorithm**
+   - Multi-factor ranking
+   - Frequency, recency, CTR
+   - Personalization
+   - **Red Flags**: Simple ranking, no personalization, poor algorithm
+
+### Distributed Systems Skills
+
+1. **Caching Strategy**
+   - Multi-level caching (L1, L2)
+   - Cache warming
+   - High hit rate design
+   - **Red Flags**: No caching, low hit rate, poor strategy
+
+2. **Real-Time Updates**
+   - Incremental Trie updates
+   - Periodic rebuilds
+   - **Red Flags**: Full rebuild only, no incremental, slow updates
+
+3. **Scalability Design**
+   - Trie replication
+   - Horizontal scaling
+   - **Red Flags**: Single instance, no scaling, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Latency Optimization**
+   - Sub-100ms target
+   - Caching strategy
+   - Precomputation
+   - **Red Flags**: High latency, no optimization, slow queries
+
+2. **Memory Efficiency**
+   - Compressed Trie
+   - Bounded memory
+   - **Red Flags**: High memory usage, no compression
+
+3. **Edge Cases**
+   - Long prefixes
+   - Rare queries
+   - Cache misses
+   - **Red Flags**: Ignoring edge cases, no handling
+
+### System Design Skills
+
+1. **Component Design**
+   - Autocomplete service
+   - Ranking service
+   - Clear boundaries
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Update Strategy**
+   - Incremental updates
+   - Batch processing
+   - **Red Flags**: Full rebuild, no batching
+
+3. **Personalization**
+   - User history tracking
+   - Personalized ranking
+   - **Red Flags**: No personalization, one-size-fits-all
+
+### Communication Skills
+
+1. **Algorithm Explanation**
+   - Can explain Trie operations
+   - Understands ranking
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Trade-off Analysis**
+   - Memory vs speed
+   - Accuracy vs latency
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### Meta-Specific Focus
+
+1. **Data Structures Mastery**
+   - Deep Trie understanding
+   - Algorithm optimization
+   - **Key**: Show CS fundamentals
+
+2. **Search Systems Expertise**
+   - Autocomplete knowledge
+   - Ranking algorithms
+   - **Key**: Demonstrate search expertise
+
 ## Summary
 
 Designing a search autocomplete system at scale requires careful consideration of:

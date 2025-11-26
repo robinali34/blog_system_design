@@ -1244,6 +1244,103 @@ New Rating = Old Rating + ELO Change
 - Reduce database writes
 - Improve throughput
 
+## What Interviewers Look For
+
+### State Management Skills
+
+1. **Game State Representation**
+   - FEN notation
+   - Efficient board state storage
+   - **Red Flags**: Inefficient representation, high storage, slow operations
+
+2. **Unlimited Undo**
+   - Complete move history
+   - Efficient state reconstruction
+   - **Red Flags**: Limited undo, inefficient reconstruction, no history
+
+3. **Move Validation**
+   - Fast validation
+   - Accurate rules
+   - **Red Flags**: Slow validation, incorrect rules, no validation
+
+### Algorithm Skills
+
+1. **ELO Calculation**
+   - Standard ELO formula
+   - Proper K-factors
+   - Accurate rating updates
+   - **Red Flags**: Incorrect formula, wrong K-factor, inaccurate ratings
+
+2. **State Reconstruction**
+   - Efficient undo/redo
+   - Fast state recovery
+   - **Red Flags**: Slow reconstruction, inefficient, no optimization
+
+3. **Move History Management**
+   - Complete history storage
+   - Efficient retrieval
+   - **Red Flags**: Incomplete history, slow retrieval, no history
+
+### Problem-Solving Approach
+
+1. **Unlimited Undo Design**
+   - Complete move history
+   - Efficient storage
+   - **Red Flags**: Limited undo, inefficient storage, no history
+
+2. **Edge Cases**
+   - Concurrent moves
+   - Invalid moves
+   - Game end conditions
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Storage vs performance
+   - Accuracy vs speed
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Game service
+   - Move validation service
+   - ELO service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Real-Time Updates**
+   - WebSocket architecture
+   - Low-latency delivery
+   - **Red Flags**: Polling, high latency, no real-time
+
+3. **Database Design**
+   - Proper indexing
+   - Sharding strategy
+   - **Red Flags**: Missing indexes, no sharding
+
+### Communication Skills
+
+1. **State Management Explanation**
+   - Can explain FEN notation
+   - Understands state reconstruction
+   - **Red Flags**: No understanding, vague
+
+2. **Algorithm Explanation**
+   - Can explain ELO calculation
+   - Understands undo/redo
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **State Management Expertise**
+   - Deep understanding of state
+   - Efficient algorithms
+   - **Key**: Show state management expertise
+
+2. **Correctness Focus**
+   - Accurate game rules
+   - Data integrity
+   - **Key**: Demonstrate reliability focus
+
 ## Summary
 
 Designing a chess game system with unlimited undo and ELO rating requires careful consideration of:

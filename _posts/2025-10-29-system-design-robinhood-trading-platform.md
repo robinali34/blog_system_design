@@ -212,3 +212,106 @@ CREATE TABLE orders (
 ## Test plan
 
 - Simulated market opens; PDT rule edge cases; ledger reconciliation fuzzing; venue connector chaos tests.
+
+## What Interviewers Look For
+
+### Fintech/Trading Systems Skills
+
+1. **Order Management System (OMS)**
+   - Order state machine
+   - Idempotency
+   - Risk checks
+   - **Red Flags**: No state machine, no idempotency, race conditions
+
+2. **Market Data Processing**
+   - Real-time quote ingestion
+   - Low-latency delivery
+   - Quote fanout
+   - **Red Flags**: High latency, no real-time, poor delivery
+
+3. **Risk & Compliance**
+   - Pattern Day Trader checks
+   - Margin calculations
+   - Regulatory compliance
+   - **Red Flags**: No risk checks, compliance issues, regulatory violations
+
+### Distributed Systems Skills
+
+1. **Low Latency Design**
+   - Order ACK < 200ms
+   - Quote delivery < 300ms
+   - Fill notification < 1s
+   - **Red Flags**: High latency, slow operations, poor UX
+
+2. **Consistency Models**
+   - Strong consistency for orders
+   - Eventual for analytics
+   - **Red Flags**: Wrong consistency, no understanding
+
+3. **Event-Driven Architecture**
+   - Kafka for events
+   - Stream processing
+   - **Red Flags**: No events, synchronous processing, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Regulatory Compliance**
+   - Reg-NMS/Best-ex
+   - Audit trails
+   - Data retention
+   - **Red Flags**: No compliance, no audit, regulatory issues
+
+2. **Edge Cases**
+   - Venue outages
+   - Partial fills
+   - Clock skew
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs consistency
+   - Cost vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - OMS
+   - Market data service
+   - Risk engine
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Security Design**
+   - Authentication/authorization
+   - PII encryption
+   - PCI DSS compliance
+   - **Red Flags**: No security, insecure, compliance issues
+
+3. **Reliability Design**
+   - Graceful degradation
+   - Circuit breakers
+   - Regional redundancy
+   - **Red Flags**: No redundancy, no degradation, poor reliability
+
+### Communication Skills
+
+1. **Trading System Explanation**
+   - Can explain order flow
+   - Understands risk/compliance
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Latency Explanation**
+   - Can explain optimization strategies
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Fintech Expertise**
+   - Trading systems knowledge
+   - Regulatory understanding
+   - **Key**: Show fintech expertise
+
+2. **Low-Latency Systems**
+   - Real-time processing
+   - Performance optimization
+   - **Key**: Demonstrate low-latency expertise

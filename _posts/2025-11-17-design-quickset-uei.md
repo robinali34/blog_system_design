@@ -1164,6 +1164,122 @@ CREATE TABLE firmware_updates (
 - Asynchronous for scenes and automations
 - Background processing for firmware updates
 
+## What Interviewers Look For
+
+### IoT Systems Skills
+
+1. **Device Communication**
+   - Hybrid local/cloud architecture
+   - MQTT protocol
+   - Low-latency local control
+   - **Red Flags**: Cloud-only, high latency, no offline support
+
+2. **Device Discovery**
+   - mDNS/Bonjour for local discovery
+   - Cloud-based fallback
+   - **Red Flags**: No discovery, manual setup, poor UX
+
+3. **Offline Support**
+   - Local gateway functionality
+   - Offline command execution
+   - **Red Flags**: No offline, network required, poor UX
+
+### Real-Time Systems Skills
+
+1. **WebSocket Architecture**
+   - Real-time app updates
+   - Bidirectional communication
+   - **Red Flags**: Polling, high latency, no real-time
+
+2. **Command Processing**
+   - Low-latency local commands
+   - Reliable delivery
+   - **Red Flags**: High latency, unreliable, no retry
+
+3. **State Synchronization**
+   - Device state consistency
+   - Real-time updates
+   - **Red Flags**: Stale state, inconsistent, no sync
+
+### Distributed Systems Skills
+
+1. **Microservices Architecture**
+   - Service decomposition
+   - Clear boundaries
+   - **Red Flags**: Monolithic, unclear boundaries, tight coupling
+
+2. **Scalability Design**
+   - Horizontal scaling
+   - Database sharding
+   - Message queues
+   - **Red Flags**: Vertical scaling, no sharding, bottlenecks
+
+3. **Fault Tolerance**
+   - Device failure handling
+   - Graceful degradation
+   - **Red Flags**: No fault tolerance, system failure, poor UX
+
+### Problem-Solving Approach
+
+1. **Hybrid Architecture**
+   - Local for performance
+   - Cloud for accessibility
+   - **Red Flags**: Single approach, no optimization, poor trade-offs
+
+2. **Edge Cases**
+   - Network failures
+   - Device offline
+   - Command failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs consistency
+   - Local vs cloud
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - API Gateway
+   - Device service
+   - Automation service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Security Design**
+   - End-to-end encryption
+   - Device authentication
+   - Secure pairing
+   - **Red Flags**: No encryption, insecure, no auth
+
+3. **Automation System**
+   - Rule engine
+   - Event-based triggers
+   - **Red Flags**: No automation, manual only, poor UX
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Can explain hybrid architecture
+   - Understands local/cloud trade-offs
+   - **Red Flags**: No understanding, vague
+
+2. **Protocol Explanation**
+   - Can explain MQTT/WebSocket
+   - Understands device communication
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - WebSocket knowledge
+   - Low-latency design
+   - **Key**: Show real-time systems knowledge
+
+2. **Hybrid Architecture Expertise**
+   - Local/cloud optimization
+   - Offline-first design
+   - **Key**: Demonstrate architecture expertise
+
 ## Summary
 
 **Key Takeaways:**

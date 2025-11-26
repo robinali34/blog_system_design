@@ -714,6 +714,87 @@ Web/Mobile → PHP/Hack Services → MySQL/TAO
    - Explain why you chose your approach
    - Show understanding of trade-offs
 
+## What Interviewers Look For
+
+### Meta-Specific Knowledge
+
+1. **Meta Patterns Understanding**
+   - Fan-out pattern
+   - Timeline caching
+   - Social graph (TAO)
+   - **Red Flags**: Generic patterns only, no Meta-specific knowledge, can't reference Meta tech
+
+2. **Meta Technologies**
+   - TAO (social graph)
+   - Haystack (photo storage)
+   - RocksDB
+   - Thrift
+   - **Red Flags**: No Meta tech knowledge, generic solutions only, can't explain Meta choices
+
+3. **Meta Scale Understanding**
+   - Billions of users
+   - Petabytes of data
+   - Millions of requests/second
+   - **Red Flags**: Small-scale thinking, no scale awareness, unrealistic assumptions
+
+### System Design Skills
+
+1. **Pattern Application**
+   - Can apply Meta patterns
+   - Understands when to use each
+   - **Red Flags**: Wrong patterns, no pattern knowledge, generic solutions
+
+2. **Scale Thinking**
+   - Designs for Meta scale
+   - Appropriate optimizations
+   - **Red Flags**: Small-scale design, no optimization, bottlenecks
+
+3. **Trade-off Analysis**
+   - Understands Meta trade-offs
+   - Justifies decisions
+   - **Red Flags**: No trade-offs, no justification, dogmatic choices
+
+### Problem-Solving Approach
+
+1. **Meta Context**
+   - Understands Meta's challenges
+   - Applies Meta solutions
+   - **Red Flags**: Generic solutions, no Meta context, ignoring Meta scale
+
+2. **Pattern Recognition**
+   - Recognizes when to use patterns
+   - Applies appropriately
+   - **Red Flags**: Wrong pattern, no recognition, over-engineering
+
+3. **Reference Meta Work**
+   - Can reference Meta papers
+   - Understands Meta architecture
+   - **Red Flags**: No Meta knowledge, generic references, can't explain Meta choices
+
+### Communication Skills
+
+1. **Meta Terminology**
+   - Uses Meta terminology correctly
+   - References Meta technologies
+   - **Red Flags**: Wrong terminology, no Meta references, generic language
+
+2. **Pattern Explanation**
+   - Can explain Meta patterns
+   - Understands trade-offs
+   - **Red Flags**: No understanding, vague explanations, can't explain
+
+### Meta-Specific Focus
+
+1. **Meta-Specific Expertise**
+   - Deep Meta knowledge
+   - Pattern understanding
+   - **Key**: Show Meta-specific expertise
+
+2. **Scale Expertise**
+   - Meta-scale thinking
+   - Appropriate solutions
+   - **Key**: Demonstrate Meta-scale expertise
+
 ## Summary
 
 ### Key Takeaways

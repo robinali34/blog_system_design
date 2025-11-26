@@ -556,6 +556,88 @@ Unlike coding problems which have clear solutions, system design problems are op
 - Asking clarifying questions
 - Drawing diagrams quickly
 
+## What Interviewers Look For
+
+### Practice & Preparation Skills
+
+1. **Pattern Recognition**
+   - Recognizing common patterns
+   - Applying patterns appropriately
+   - **Red Flags**: No pattern recognition, wrong patterns, can't apply
+
+2. **Problem-Solving Approach**
+   - Structured thinking
+   - Clear methodology
+   - **Red Flags**: Random approach, no structure, disorganized
+
+3. **Time Management**
+   - Appropriate depth for time
+   - Prioritization
+   - **Red Flags**: Poor time management, too detailed, too shallow
+
+### Communication Skills
+
+1. **Clear Explanations**
+   - Explains thinking process
+   - Uses diagrams effectively
+   - **Red Flags**: Unclear, no diagrams, confusing
+
+2. **Active Engagement**
+   - Asks clarifying questions
+   - Responds to feedback
+   - **Red Flags**: No questions, ignores feedback, defensive
+
+3. **Trade-off Discussion**
+   - Discusses alternatives
+   - Justifies decisions
+   - **Red Flags**: No alternatives, no justification, can't defend
+
+### System Design Skills
+
+1. **Fundamental Knowledge**
+   - Core concepts understanding
+   - Technology knowledge
+   - **Red Flags**: Missing fundamentals, wrong knowledge, gaps
+
+2. **Scale Thinking**
+   - Millions/billions of users
+   - Appropriate optimizations
+   - **Red Flags**: Small-scale thinking, no optimization, bottlenecks
+
+3. **Practical Experience**
+   - Real-world considerations
+   - Production awareness
+   - **Red Flags**: Theoretical only, no practical knowledge, unrealistic
+
+### Problem-Solving Approach
+
+1. **Requirements Clarification**
+   - Asks right questions
+   - Understands scope
+   - **Red Flags**: No questions, assumptions, wrong scope
+
+2. **Iterative Refinement**
+   - Starts simple
+   - Adds complexity as needed
+   - **Red Flags**: Over-engineering, too complex, no iteration
+
+3. **Edge Case Handling**
+   - Considers edge cases
+   - Handles failures
+   - **Red Flags**: Ignoring edge cases, no handling, incomplete
+
+### Meta-Specific Focus
+
+1. **Systematic Practice**
+   - Regular practice
+   - Pattern mastery
+   - **Key**: Show systematic preparation
+
+2. **Communication Excellence**
+   - Clear explanations
+   - Active engagement
+   - **Key**: Demonstrate communication skills
+
 ## Summary
 
 **Key Takeaways:**

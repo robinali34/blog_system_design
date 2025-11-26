@@ -1378,6 +1378,104 @@ class MonetizationService:
 - Reduce latency
 - Improve user experience
 
+## What Interviewers Look For
+
+### Real-Time Multiplayer Skills
+
+1. **Game Server Architecture**
+   - Low-latency game servers
+   - State synchronization
+   - Delta compression
+   - **Red Flags**: High latency, no compression, poor sync
+
+2. **State Synchronization**
+   - Efficient state updates
+   - Client prediction
+   - **Red Flags**: No prediction, high latency, poor UX
+
+3. **Connection Management**
+   - Millions of concurrent connections
+   - Efficient handling
+   - **Red Flags**: Connection limits, poor scaling, bottlenecks
+
+### Distributed Systems Skills
+
+1. **Content Delivery**
+   - CDN distribution
+   - Asset streaming
+   - Efficient delivery
+   - **Red Flags**: No CDN, slow delivery, poor UX
+
+2. **User-Generated Content**
+   - Petabytes of content
+   - Efficient storage
+   - **Red Flags**: Inefficient storage, high costs, slow access
+
+3. **Scalability Design**
+   - Horizontal scaling
+   - Regional distribution
+   - **Red Flags**: Vertical scaling, single region, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Cross-Platform Support**
+   - PC, mobile, console
+   - Platform-specific optimizations
+   - **Red Flags**: Single platform, no optimization, poor UX
+
+2. **Edge Cases**
+   - Network failures
+   - High latency
+   - Content moderation
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Latency vs quality
+   - Consistency vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Game server cluster
+   - Content service
+   - Social service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Content Moderation**
+   - Automated moderation
+   - Manual review
+   - **Red Flags**: No moderation, post-processing, slow
+
+3. **Monetization System**
+   - Robux currency
+   - Secure transactions
+   - **Red Flags**: Insecure, no validation, fraud possible
+
+### Communication Skills
+
+1. **Real-Time Architecture Explanation**
+   - Can explain game server design
+   - Understands state sync
+   - **Red Flags**: No understanding, vague
+
+2. **Content Delivery Explanation**
+   - Can explain CDN strategy
+   - Understands streaming
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - Game server knowledge
+   - Low-latency design
+   - **Key**: Show real-time systems knowledge
+
+2. **Scale Thinking**
+   - Millions of users
+   - Petabytes of content
+   - **Key**: Demonstrate scale expertise
+
 ## Summary
 
 Designing Roblox requires careful consideration of:

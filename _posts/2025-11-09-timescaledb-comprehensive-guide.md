@@ -868,6 +868,86 @@ SELECT create_hypertable('stock_ticks', 'time');
 
 ---
 
+## What Interviewers Look For
+
+### Time-Series Database Knowledge & Application
+
+1. **Time-Series Understanding**
+   - Time-based partitioning
+   - Compression strategies
+   - Retention policies
+   - **Red Flags**: No time-series understanding, wrong storage, inefficient
+
+2. **Hypertable Design**
+   - Partition key selection
+   - Chunk sizing
+   - **Red Flags**: Poor partitioning, wrong chunk size, inefficient
+
+3. **Continuous Aggregates**
+   - Pre-computed aggregations
+   - Refresh strategies
+   - **Red Flags**: No aggregates, slow queries, poor performance
+
+### System Design Skills
+
+1. **When to Use TimescaleDB**
+   - Time-series data
+   - Need PostgreSQL compatibility
+   - High write volume
+   - **Red Flags**: Wrong use case, non-time-series, can't justify
+
+2. **Scalability Design**
+   - Automatic partitioning
+   - Compression
+   - **Red Flags**: No partitioning, no compression, high storage
+
+3. **Query Optimization**
+   - Time-based queries
+   - Aggregation optimization
+   - **Red Flags**: Slow queries, no optimization, poor performance
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Storage vs query speed
+   - Compression vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Large time ranges
+   - Compression issues
+   - Retention policies
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Data Retention**
+   - Retention policies
+   - Cost optimization
+   - **Red Flags**: No retention, high costs, inefficient
+
+### Communication Skills
+
+1. **TimescaleDB Explanation**
+   - Can explain time-series features
+   - Understands hypertables
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why TimescaleDB
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Time-Series Expertise**
+   - Deep TimescaleDB knowledge
+   - Time-series patterns
+   - **Key**: Show time-series expertise
+
+2. **PostgreSQL Integration**
+   - PostgreSQL compatibility
+   - Feature utilization
+   - **Key**: Demonstrate PostgreSQL knowledge
+
 ## Conclusion
 
 TimescaleDB is a powerful time-series database that extends PostgreSQL with time-series optimizations. It combines the reliability and SQL interface of PostgreSQL with the performance and scalability needed for time-series data.

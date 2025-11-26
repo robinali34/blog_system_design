@@ -1827,6 +1827,110 @@ def update_driver_ratings():
 - **Pricing**: Fixed pricing vs dynamic surge pricing
 - **Trade-off**: Start simple, add complexity as needed
 
+## What Interviewers Look For
+
+### Geospatial Systems Skills
+
+1. **Real-Time Matching**
+   - Geospatial index usage (Redis Geo, Elasticsearch)
+   - Efficient driver-rider matching
+   - Distance calculations
+   - **Red Flags**: No geospatial index, inefficient matching, slow queries
+
+2. **Location Tracking**
+   - Real-time location updates
+   - Time-series data storage
+   - Efficient location queries
+   - **Red Flags**: No real-time tracking, inefficient storage, slow queries
+
+3. **Dynamic Pricing**
+   - Surge pricing algorithm
+   - Demand/supply calculation
+   - Grid-based pricing
+   - **Red Flags**: Fixed pricing, no surge, poor algorithm
+
+### Distributed Systems Skills
+
+1. **State Management**
+   - Trip state machine
+   - State transitions
+   - Consistency guarantees
+   - **Red Flags**: No state machine, inconsistent states
+
+2. **Microservices Architecture**
+   - Service decomposition
+   - Clear boundaries
+   - Service communication
+   - **Red Flags**: Monolithic, unclear boundaries, tight coupling
+
+3. **Scalability Design**
+   - Geographic sharding
+   - Horizontal scaling
+   - Load balancing
+   - **Red Flags**: No sharding, vertical scaling, bottlenecks
+
+### Problem-Solving Approach
+
+1. **Scale Thinking**
+   - Millions of concurrent rides
+   - Real-time location updates
+   - Global distribution
+   - **Red Flags**: Small-scale design, no real-time, single region
+
+2. **Trade-off Analysis**
+   - Latency vs accuracy
+   - Consistency vs availability
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+3. **Edge Cases**
+   - No available drivers
+   - Driver cancellation
+   - Payment failures
+   - **Red Flags**: Ignoring edge cases, no handling
+
+### System Design Skills
+
+1. **Component Design**
+   - Matching service
+   - Location service
+   - Pricing service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Payment Processing**
+   - Idempotency
+   - Retry logic
+   - Failure handling
+   - **Red Flags**: No idempotency, no retry, payment loss
+
+3. **Real-Time Updates**
+   - WebSocket/SSE
+   - Pub/sub architecture
+   - **Red Flags**: Polling, high latency, no real-time
+
+### Communication Skills
+
+1. **Architecture Explanation**
+   - Clear service design
+   - Data flow understanding
+   - **Red Flags**: Unclear design, no flow
+
+2. **Algorithm Explanation**
+   - Can explain matching algorithm
+   - Understands pricing
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Real-Time Systems Expertise**
+   - Geospatial systems knowledge
+   - Low-latency design
+   - **Key**: Show real-time systems knowledge
+
+2. **Product System Design**
+   - End-to-end thinking
+   - User experience consideration
+   - **Key**: Demonstrate product thinking
+
 ## Summary
 
 ### Key Takeaways

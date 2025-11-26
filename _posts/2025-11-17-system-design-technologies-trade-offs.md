@@ -1625,6 +1625,92 @@ This comprehensive guide covers all major technologies used in system design int
 
 ---
 
+## What Interviewers Look For
+
+### Technology Selection Skills
+
+1. **Understanding Trade-offs**
+   - Consistency vs. availability
+   - Latency vs. throughput
+   - Performance vs. cost
+   - **Red Flags**: No trade-off awareness, dogmatic choices, ignoring constraints
+
+2. **Technology Knowledge**
+   - When to use SQL vs. NoSQL
+   - When to use Redis vs. Memcached
+   - When to use Kafka vs. RabbitMQ
+   - **Red Flags**: Wrong technology choice, no justification, can't explain differences
+
+3. **Decision-Making Framework**
+   - Requirements analysis
+   - Constraint identification
+   - Trade-off evaluation
+   - **Red Flags**: No framework, random choices, no analysis
+
+### System Design Skills
+
+1. **Database Selection**
+   - SQL for ACID transactions
+   - NoSQL for scale and flexibility
+   - Time-series for metrics
+   - **Red Flags**: Wrong database choice, no justification, ignoring requirements
+
+2. **Caching Strategy**
+   - Redis for rich features
+   - Memcached for simplicity
+   - CDN for static content
+   - **Red Flags**: No caching, wrong cache choice, no strategy
+
+3. **Message Queue Selection**
+   - Kafka for high throughput
+   - RabbitMQ for traditional messaging
+   - SQS for managed service
+   - **Red Flags**: Wrong queue choice, no justification, ignoring scale
+
+### Problem-Solving Approach
+
+1. **Requirements Analysis**
+   - Scale requirements
+   - Consistency requirements
+   - Latency requirements
+   - **Red Flags**: No requirements analysis, assumptions, ignoring constraints
+
+2. **Cost Consideration**
+   - Cost optimization
+   - Budget constraints
+   - Operational costs
+   - **Red Flags**: Ignoring costs, no optimization, expensive choices
+
+3. **Operational Complexity**
+   - Team expertise
+   - Maintenance overhead
+   - Managed vs. self-hosted
+   - **Red Flags**: Ignoring complexity, no operational consideration
+
+### Communication Skills
+
+1. **Technology Justification**
+   - Can explain why each technology
+   - Understands trade-offs
+   - **Red Flags**: No justification, vague explanations, can't defend choices
+
+2. **Alternative Discussion**
+   - Considers alternatives
+   - Explains why not chosen
+   - **Red Flags**: No alternatives, single solution, no comparison
+
+### Meta-Specific Focus
+
+1. **Judgment in Technology Selection**
+   - Right tool for the job
+   - Understanding of trade-offs
+   - **Key**: Show good judgment in technology selection
+
+2. **Practical Knowledge**
+   - Real-world experience
+   - Understanding of limitations
+   - **Key**: Demonstrate practical knowledge, not just theory
+
 ## Summary
 
 ### Key Decision Factors

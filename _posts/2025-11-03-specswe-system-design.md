@@ -617,6 +617,80 @@ Meta evaluates candidates across four key focus areas:
 6. **Think About Failure**: Consider failure scenarios and how to handle them
 7. **Communicate Clearly**: Use the whiteboard effectively and explain your ideas clearly
 
+## What Interviewers Look For
+
+### SpecSWE Interview Evaluation
+
+1. **Problem Navigation**
+   - Organizes problem space effectively
+   - Asks clarifying questions
+   - Identifies key requirements
+   - **Red Flags**: No questions, jumps to solution, misses requirements
+
+2. **Solution Design**
+   - Designs working solutions
+   - Considers big picture
+   - Addresses problem end-to-end
+   - **Red Flags**: Incomplete solutions, misses big picture, doesn't work
+
+3. **Technical Excellence**
+   - Dives into technical details
+   - Identifies dependencies
+   - Discusses trade-offs
+   - **Red Flags**: Surface level, no details, no trade-offs
+
+4. **Technical Communication**
+   - Articulates vision clearly
+   - Responds to feedback
+   - Uses whiteboard effectively
+   - **Red Flags**: Poor communication, doesn't respond, unclear
+
+### Specialized Domain Skills
+
+1. **Domain Expertise**
+   - Applies domain knowledge
+   - Shows specialized understanding
+   - **Red Flags**: Generic solutions, no domain knowledge, wrong approach
+
+2. **Problem-Solving Approach**
+   - Structured problem-solving
+   - Can handle unfamiliar topics
+   - **Red Flags**: Unstructured, panics, can't adapt
+
+3. **Architecture Thinking**
+   - System-level thinking
+   - Component design
+   - **Red Flags**: No architecture thinking, component-level only
+
+### Communication Skills
+
+1. **Driving Conversation**
+   - Takes initiative
+   - Proposes solutions
+   - **Red Flags**: Passive, waits for guidance, no initiative
+
+2. **Thought Process**
+   - Explains reasoning
+   - Shows thinking
+   - **Red Flags**: No reasoning, just solution, unclear thinking
+
+3. **Trade-off Discussion**
+   - Discusses alternatives
+   - Justifies decisions
+   - **Red Flags**: No alternatives, no justification, dogmatic
+
+### Meta-Specific Focus
+
+1. **Problem Navigation Excellence**
+   - Strong problem organization
+   - Effective questioning
+   - **Key**: Demonstrate problem navigation skills
+
+2. **Technical Depth**
+   - Deep technical understanding
+   - Comprehensive solutions
+   - **Key**: Show technical excellence
+
 ## Conclusion
 
 Meta's SpecSWE System Design and Product Architecture interview assesses your ability to solve complex engineering design problems across four key areas:

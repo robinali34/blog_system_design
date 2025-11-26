@@ -1239,6 +1239,84 @@ Use multiple databases for different use cases:
 
 ---
 
+## What Interviewers Look For
+
+### Technology Selection Skills
+
+1. **Understanding Trade-offs**
+   - Pros/cons of each technology
+   - When to use what
+   - **Red Flags**: Wrong technology choice, no justification, can't explain differences
+
+2. **Technology Knowledge**
+   - Deep understanding of technologies
+   - Real-world experience
+   - **Red Flags**: Surface knowledge, no experience, wrong understanding
+
+3. **Decision-Making Framework**
+   - Requirements analysis
+   - Constraint identification
+   - Trade-off evaluation
+   - **Red Flags**: No framework, random choices, no analysis
+
+### System Design Skills
+
+1. **Appropriate Technology Choice**
+   - Right tool for the job
+   - Justified decisions
+   - **Red Flags**: Wrong choices, no justification, dogmatic
+
+2. **Technology Comparison**
+   - Can compare alternatives
+   - Understands differences
+   - **Red Flags**: Can't compare, no understanding, vague
+
+3. **Integration Understanding**
+   - How technologies work together
+   - System-level thinking
+   - **Red Flags**: Isolated thinking, no integration, poor system view
+
+### Problem-Solving Approach
+
+1. **Requirements Analysis**
+   - Identifies technology needs
+   - Considers constraints
+   - **Red Flags**: No analysis, assumptions, wrong requirements
+
+2. **Trade-off Analysis**
+   - Technology trade-offs
+   - Cost vs performance
+   - **Red Flags**: No trade-offs, dogmatic choices, no justification
+
+3. **Alternative Consideration**
+   - Considers alternatives
+   - Explains why not chosen
+   - **Red Flags**: No alternatives, single solution, no comparison
+
+### Communication Skills
+
+1. **Technology Explanation**
+   - Can explain each technology
+   - Understands use cases
+   - **Red Flags**: No understanding, vague explanations, can't explain
+
+2. **Decision Justification**
+   - Explains technology choices
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives, can't defend
+
+### Meta-Specific Focus
+
+1. **Technology Expertise**
+   - Deep technology knowledge
+   - Practical understanding
+   - **Key**: Show technology expertise
+
+2. **Judgment in Selection**
+   - Right tool for the job
+   - Understanding of trade-offs
+   - **Key**: Demonstrate good judgment
+
 ## Conclusion
 
 Understanding common technologies and their trade-offs is essential for system design interviews. This guide covers:

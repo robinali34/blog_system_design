@@ -1192,6 +1192,86 @@ def send_request(request_data):
 - Additional requests: $0.40 per million requests
 - Data transfer: Standard AWS data transfer pricing
 
+## What Interviewers Look For
+
+### Message Queue Knowledge & Application
+
+1. **Queue Type Selection**
+   - Standard vs FIFO queues
+   - When to use each
+   - **Red Flags**: Wrong queue type, no justification, can't explain
+
+2. **Message Processing**
+   - Visibility timeout
+   - Long polling
+   - Batch operations
+   - **Red Flags**: Poor processing, no optimization, inefficient
+
+3. **Dead Letter Queue**
+   - DLQ configuration
+   - Error handling
+   - **Red Flags**: No DLQ, no error handling, message loss
+
+### System Design Skills
+
+1. **When to Use SQS**
+   - Decoupling services
+   - Async processing
+   - Task queues
+   - **Red Flags**: Wrong use case, over-engineering, can't justify
+
+2. **Scalability Design**
+   - Horizontal scaling
+   - Queue depth management
+   - **Red Flags**: No scaling, bottlenecks, poor management
+
+3. **Reliability Design**
+   - Message durability
+   - Retry strategies
+   - **Red Flags**: No durability, no retry, message loss
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Standard vs FIFO
+   - Cost vs features
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+2. **Edge Cases**
+   - Message duplicates
+   - Processing failures
+   - Queue overflow
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Cost Optimization**
+   - Long polling
+   - Batch operations
+   - **Red Flags**: No optimization, high costs
+
+### Communication Skills
+
+1. **SQS Explanation**
+   - Can explain SQS features
+   - Understands use cases
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Decision Justification**
+   - Explains why SQS
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives
+
+### Meta-Specific Focus
+
+1. **Message Queue Expertise**
+   - SQS knowledge
+   - Queue patterns
+   - **Key**: Show message queue expertise
+
+2. **Decoupling & Reliability**
+   - Service decoupling
+   - Message reliability
+   - **Key**: Demonstrate decoupling expertise
+
 ## Conclusion
 
 Amazon SQS is a powerful message queuing service that enables you to build scalable, decoupled, and reliable applications. Key takeaways:

@@ -1488,6 +1488,92 @@ metadata:
 - Consider VPA for right-sizing
 - Multi-zone deployment for HA
 
+## What Interviewers Look For
+
+### Kubernetes Knowledge
+
+1. **Core Concepts Understanding**
+   - Pods, Deployments, StatefulSets
+   - Services and Ingress
+   - ConfigMaps and Secrets
+   - **Red Flags**: Vague understanding, can't explain components, no hands-on experience
+
+2. **Scaling Strategies**
+   - HPA (Horizontal Pod Autoscaler)
+   - VPA (Vertical Pod Autoscaler)
+   - Cluster Autoscaler
+   - **Red Flags**: Only manual scaling, no auto-scaling knowledge, can't explain metrics
+
+3. **Deployment Patterns**
+   - Rolling updates
+   - Blue-green deployments
+   - Canary deployments
+   - **Red Flags**: No deployment strategy, downtime during updates, no rollback plan
+
+### System Design Skills
+
+1. **When to Use Kubernetes**
+   - Microservices architecture
+   - Auto-scaling requirements
+   - Multi-cloud deployments
+   - **Red Flags**: Suggesting K8s for simple apps, over-engineering, no justification
+
+2. **When NOT to Use Kubernetes**
+   - Simple single-server apps
+   - Small scale (< 10 servers)
+   - Cost-sensitive projects
+   - **Red Flags**: Always suggesting K8s, no trade-off analysis, ignoring complexity
+
+3. **Architecture Decisions**
+   - Service discovery
+   - Load balancing
+   - Configuration management
+   - **Red Flags**: No service discovery, manual load balancing, hardcoded configs
+
+### Problem-Solving Approach
+
+1. **Trade-off Analysis**
+   - Complexity vs. benefits
+   - Cost vs. features
+   - Operational overhead
+   - **Red Flags**: No trade-offs, dogmatic choices, ignoring costs
+
+2. **Edge Cases**
+   - Pod failures
+   - Node failures
+   - Network partitions
+   - **Red Flags**: Ignoring failures, no fault tolerance, no recovery plan
+
+3. **Best Practices**
+   - Health checks
+   - Resource limits
+   - RBAC
+   - **Red Flags**: No health checks, no resource limits, no security
+
+### Communication Skills
+
+1. **Kubernetes Explanation**
+   - Can explain core concepts clearly
+   - Understands when to use it
+   - **Red Flags**: Vague explanations, can't justify decisions
+
+2. **Architecture Justification**
+   - Explains design decisions
+   - Discusses alternatives
+   - **Red Flags**: No justification, no alternatives considered
+
+### Meta-Specific Focus
+
+1. **Practical Kubernetes Knowledge**
+   - Real-world experience
+   - Understanding of complexity
+   - **Key**: Show practical knowledge, not just theory
+
+2. **Judgment in Technology Choice**
+   - Knows when K8s is appropriate
+   - Can explain trade-offs
+   - **Key**: Demonstrate good judgment in technology selection
+
 ## Summary
 
 ### Key Takeaways

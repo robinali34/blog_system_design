@@ -776,6 +776,101 @@ def analyze_dlq_messages(dlq_messages):
 - Monitor consumer lag
 - Check for processing errors
 
+## What Interviewers Look For
+
+### Error Handling & Resilience Skills
+
+1. **DLQ Configuration**
+   - Max receive count
+   - DLQ setup
+   - Error routing
+   - **Red Flags**: No DLQ, wrong configuration, message loss
+
+2. **Retry Strategies**
+   - Exponential backoff
+   - Retry limits
+   - **Red Flags**: No retry, infinite retries, poor strategy
+
+3. **Error Analysis**
+   - Message enrichment
+   - Debugging support
+   - **Red Flags**: No analysis, poor debugging, can't recover
+
+### System Design Skills
+
+1. **When to Use DLQ**
+   - Failed message handling
+   - Error recovery
+   - **Red Flags**: No DLQ, message loss, no recovery
+
+2. **Reliability Design**
+   - Message durability
+   - Error handling
+   - **Red Flags**: No durability, no handling, system failures
+
+3. **Monitoring & Alerting**
+   - DLQ depth monitoring
+   - Alert configuration
+   - **Red Flags**: No monitoring, no alerts, no visibility
+
+### Problem-Solving Approach
+
+1. **Failure Handling**
+   - Transient vs permanent failures
+   - Appropriate retry strategies
+   - **Red Flags**: No failure handling, poor strategies
+
+2. **Edge Cases**
+   - DLQ overflow
+   - Processing errors
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Retry count vs DLQ size
+   - Processing time vs cost
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - DLQ consumer
+   - Error processor
+   - **Red Flags**: No DLQ processing, no recovery, poor design
+
+2. **Message Enrichment**
+   - Context addition
+   - Debugging information
+   - **Red Flags**: No enrichment, poor debugging, can't analyze
+
+3. **Recovery Mechanisms**
+   - Manual reprocessing
+   - Automatic recovery
+   - **Red Flags**: No recovery, manual only, poor mechanisms
+
+### Communication Skills
+
+1. **DLQ Explanation**
+   - Can explain DLQ purpose
+   - Understands error handling
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Error Handling Explanation**
+   - Can explain retry strategies
+   - Understands failure types
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Reliability Expertise**
+   - Error handling knowledge
+   - Resilience patterns
+   - **Key**: Show reliability expertise
+
+2. **Production-Ready Design**
+   - Error recovery
+   - Monitoring focus
+   - **Key**: Demonstrate production-ready thinking
+
 ## Conclusion
 
 Dead Letter Queues are essential for building resilient distributed systems. Key takeaways:

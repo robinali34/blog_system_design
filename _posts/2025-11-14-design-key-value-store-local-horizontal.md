@@ -1071,6 +1071,91 @@ class CompactionManager:
 - Prefetch data for range queries
 - Improve sequential read performance
 
+## What Interviewers Look For
+
+### Storage Systems Knowledge
+
+1. **Storage Architecture Understanding**
+   - SSTable format design
+   - Write buffer (memtable) usage
+   - Compaction strategies
+   - **Red Flags**: No understanding of storage formats, poor design
+
+2. **Indexing Strategies**
+   - Sparse index design
+   - Bloom filter usage
+   - Efficient key lookup
+   - **Red Flags**: Inefficient indexing, no optimization
+
+3. **Memory Management**
+   - Efficient memory usage
+   - Write buffer management
+   - Cache strategies
+   - **Red Flags**: Memory leaks, inefficient usage
+
+### Distributed Systems Skills
+
+1. **Sharding Design**
+   - Consistent hashing understanding
+   - Virtual nodes usage
+   - Rebalancing strategies
+   - **Red Flags**: Poor sharding, no rebalancing
+
+2. **Replication**
+   - Primary-replica design
+   - Consistency models
+   - Failure handling
+   - **Red Flags**: No replication strategy, poor consistency
+
+3. **Consistency Trade-offs**
+   - Strong vs eventual consistency
+   - Quorum-based reads/writes
+   - CAP theorem understanding
+   - **Red Flags**: No consistency understanding, wrong choices
+
+### Problem-Solving Approach
+
+1. **Scalability Thinking**
+   - Horizontal scaling design
+   - Bottleneck identification
+   - Performance optimization
+   - **Red Flags**: No scalability thinking, vertical scaling only
+
+2. **Edge Cases**
+   - Node failures
+   - Network partitions
+   - Data rebalancing
+   - **Red Flags**: Ignoring failures, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs availability
+   - Performance vs durability
+   - **Red Flags**: No trade-off discussion, dogmatic choices
+
+### Code Quality
+
+1. **Implementation Correctness**
+   - Correct storage logic
+   - Proper compaction
+   - **Red Flags**: Bugs, incorrect logic
+
+2. **Error Handling**
+   - Failure scenarios
+   - Recovery mechanisms
+   - **Red Flags**: No error handling, no recovery
+
+### Meta-Specific Focus
+
+1. **Storage Systems Expertise**
+   - Deep understanding of storage
+   - Database internals knowledge
+   - **Key**: Show systems expertise
+
+2. **Distributed Systems Knowledge**
+   - Sharding and replication
+   - Consistency models
+   - **Key**: Demonstrate distributed systems understanding
+
 ## Summary
 
 Designing a key-value store for a local system and scaling it horizontally requires careful consideration of:

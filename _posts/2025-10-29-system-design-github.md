@@ -83,3 +83,108 @@ POST /repos/{o}/{r}/actions/workflows/{id}/dispatches { ref, inputs }
 
 - Packfile corruption → quarantine repo, rebuild from replicas; notify owners.
 - Actions runner shortage → queue backoff, burst to cloud pool, reduce concurrency groups.
+
+## What Interviewers Look For
+
+### Git/Version Control Skills
+
+1. **Git Storage Architecture**
+   - Packfile storage
+   - Object deduplication
+   - Delta compression
+   - **Red Flags**: Inefficient storage, no deduplication, poor compression
+
+2. **Git Operations**
+   - Smart HTTP/SSH
+   - Partial clones
+   - Sparse checkout
+   - **Red Flags**: Inefficient operations, no optimization, poor performance
+
+3. **Repository Management**
+   - Sharding strategy
+   - Replication
+   - GC/maintenance
+   - **Red Flags**: No sharding, single point of failure, no maintenance
+
+### Developer Tools Skills
+
+1. **Code Search & Navigation**
+   - Indexing pipeline
+   - Symbol extraction
+   - LSIF support
+   - **Red Flags**: No search, slow indexing, poor navigation
+
+2. **Pull Request System**
+   - Diff generation
+   - Merge strategies
+   - Conflict detection
+   - **Red Flags**: Slow diffs, no merge strategies, poor conflict handling
+
+3. **CI/CD Pipeline**
+   - Workflow engine
+   - Runner management
+   - Job isolation
+   - **Red Flags**: No CI/CD, poor isolation, security issues
+
+### Problem-Solving Approach
+
+1. **Scale Challenges**
+   - Large monorepos
+   - High push rates
+   - Many concurrent clones
+   - **Red Flags**: No scale consideration, bottlenecks, poor performance
+
+2. **Edge Cases**
+   - Packfile corruption
+   - Runner abuse
+   - DDoS attacks
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs availability
+   - Performance vs cost
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Git storage service
+   - Metadata service
+   - CI/CD service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Security Design**
+   - Permissions matrix
+   - Branch protection
+   - Runner sandboxing
+   - **Red Flags**: No security, insecure, vulnerabilities
+
+3. **Reliability Design**
+   - Read replicas
+   - Job isolation
+   - Abuse protection
+   - **Red Flags**: No redundancy, poor isolation, no protection
+
+### Communication Skills
+
+1. **Git Architecture Explanation**
+   - Can explain packfile storage
+   - Understands git internals
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Scale Explanation**
+   - Can explain scaling strategies
+   - Understands bottlenecks
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Developer Tools Expertise**
+   - Deep git knowledge
+   - CI/CD understanding
+   - **Key**: Show developer tools expertise
+
+2. **Scale & Performance**
+   - Large-scale git hosting
+   - Performance optimization
+   - **Key**: Demonstrate scale expertise

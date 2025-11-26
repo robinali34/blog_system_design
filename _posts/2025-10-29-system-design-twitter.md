@@ -153,3 +153,106 @@ CREATE TABLE timeline_items (
 ## Testing plan
 
 - Load tests with mixed read/write and super‑user spikes; chaos on fanout queue; cache stampede simulations.
+
+## What Interviewers Look For
+
+### Social Media Feed Skills
+
+1. **Timeline Generation**
+   - Fan-out vs pull strategy
+   - Hybrid approach for super-users
+   - Cache optimization
+   - **Red Flags**: Push-only, no pull strategy, cache stampedes
+
+2. **Hot Key Handling**
+   - Super-user strategies
+   - Request coalescing
+   - Cache pinning
+   - **Red Flags**: No hot key handling, cache stampedes, poor performance
+
+3. **Counter Management**
+   - Likes/retweets counters
+   - CRDT for multi-region
+   - Periodic flush to DB
+   - **Red Flags**: Inconsistent counters, no CRDT, race conditions
+
+### Distributed Systems Skills
+
+1. **Read/Write Optimization**
+   - Read-heavy optimization
+   - Write path efficiency
+   - **Red Flags**: Poor read performance, slow writes, bottlenecks
+
+2. **Multi-Region Design**
+   - Active-active reads
+   - CRDT counters
+   - Geo-proximal reads
+   - **Red Flags**: Single region, no replication, high latency
+
+3. **Search & Trends**
+   - Real-time indexing
+   - Streaming aggregations
+   - **Red Flags**: Slow indexing, no trends, poor search
+
+### Problem-Solving Approach
+
+1. **Scale Challenges**
+   - Super-user fanout
+   - Hot key protection
+   - Cache optimization
+   - **Red Flags**: No scale consideration, bottlenecks, poor performance
+
+2. **Edge Cases**
+   - Fanout backlog
+   - Cache stampedes
+   - Search lag
+   - **Red Flags**: Ignoring edge cases, no handling
+
+3. **Trade-off Analysis**
+   - Consistency vs latency
+   - Push vs pull
+   - **Red Flags**: No trade-offs, dogmatic choices
+
+### System Design Skills
+
+1. **Component Design**
+   - Tweet service
+   - Fanout service
+   - Timeline service
+   - **Red Flags**: Monolithic, unclear boundaries
+
+2. **Caching Strategy**
+   - Timeline caching
+   - Counter caching
+   - Cache stampede protection
+   - **Red Flags**: No caching, poor strategy, stampedes
+
+3. **Moderation & Abuse**
+   - ML classifiers
+   - Rate limiting
+   - Human review
+   - **Red Flags**: No moderation, abuse issues, no safety
+
+### Communication Skills
+
+1. **Feed Architecture Explanation**
+   - Can explain fan-out strategy
+   - Understands hot key handling
+   - **Red Flags**: No understanding, vague explanations
+
+2. **Scale Explanation**
+   - Can explain scaling strategies
+   - Understands bottlenecks
+   - **Red Flags**: No understanding, vague
+
+### Meta-Specific Focus
+
+1. **Social Media Expertise**
+   - Feed generation knowledge
+   - Scale understanding
+   - **Key**: Show social media expertise
+
+2. **Performance & Scale Balance**
+   - Low latency design
+   - High throughput
+   - **Key**: Demonstrate performance/scale balance
