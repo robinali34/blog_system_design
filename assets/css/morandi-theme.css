@@ -360,7 +360,7 @@ hr {
 
 .post-header .site-title {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.8rem; /* Larger for desktop */
 }
 
 .post-header .site-title a {
@@ -410,7 +410,7 @@ hr {
 .post-title-in-nav {
   color: var(--morandi-text-dark);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.2rem; /* Larger for desktop */
   padding: 0.5rem 1rem;
   margin-right: 0.5rem;
   border-right: 1px solid var(--morandi-border-light);
@@ -443,10 +443,43 @@ hr {
   grid-auto-rows: min-content;
 }
 
+/* Large view - Extra large screens (1400px and above) */
+@media (min-width: 1400px) {
+  .post-header .site-title {
+    font-size: 2rem; /* Even larger for very large screens */
+  }
+  
+  .post-title-in-nav {
+    font-size: 1.4rem; /* Larger for very large screens */
+  }
+}
+
+/* Medium-large view - Large tablets and small desktops (769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .post-header .site-title {
+    font-size: 1.6rem; /* Slightly smaller for medium screens */
+  }
+  
+  .post-title-in-nav {
+    font-size: 1.1rem; /* Slightly smaller for medium screens */
+  }
+}
+
 @media (max-width: 1200px) {
   .post-wrapper {
     grid-template-columns: 220px 1fr;
     gap: 1.5rem;
+  }
+}
+
+/* Medium-large view - Large tablets and small desktops */
+@media (max-width: 1024px) and (min-width: 769px) {
+  .post-header .site-title {
+    font-size: 1.6rem; /* Slightly smaller for medium screens */
+  }
+  
+  .post-title-in-nav {
+    font-size: 1.1rem; /* Slightly smaller for medium screens */
   }
 }
 
