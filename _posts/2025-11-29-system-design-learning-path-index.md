@@ -3,7 +3,7 @@ layout: post
 title: "System Design Learning Path & Technology Index"
 date: 2025-11-29 23:59:00 -0800
 categories: [System Design, Learning Path, Tutorial, Reference]
-permalink: /2025/12/29/system-design-learning-path-index/
+permalink: /2025/11/29/system-design-learning-path-index/
 excerpt: "A comprehensive learning path and technology index for system design interviews. Navigate from fundamentals to advanced topics with organized guides, technology trees, and sample designs."
 ---
 
@@ -115,7 +115,7 @@ This guide provides a structured learning path for system design interviews, org
 - [Design a Distributed Job Scheduler](/blog_system_design/2025/11/03/design-distributed-job-scheduler/)
 - [Design a Distributed Logging System](/blog_system_design/2025/11/17/design-distributed-logging-system/)
 - [System Design: Metrics & Logging Pipeline](/blog_system_design/2025/10/29/system-design-metrics-logging-pipeline/)
-- [Design a Change Data Capture (CDC) System](/blog_system_design/2025/12/29/design-change-data-capture-cdc/)
+- [Design a Change Data Capture (CDC) System](/blog_system_design/2025/11/29/design-change-data-capture-cdc/)
 - [Design QuickSet UEI (IoT/Smart Home)](/blog_system_design/2025/11/17/design-quickset-uei/)
 
 #### AR/Glass Systems
@@ -138,103 +138,103 @@ This guide provides a structured learning path for system design interviews, org
 #### Databases
 
 **Relational Databases:**
-- [MySQL Comprehensive Guide](/blog_system_design/2025/12/29/mysql-comprehensive-guide/)
-- [PostgreSQL Comprehensive Guide](/blog_system_design/2025/12/29/postgresql-comprehensive-guide/)
+- [MySQL Comprehensive Guide](/blog_system_design/2025/11/29/mysql-comprehensive-guide/)
+- [PostgreSQL Comprehensive Guide](/blog_system_design/2025/11/29/postgresql-comprehensive-guide/)
 
 **NoSQL Databases:**
-- [MongoDB Comprehensive Guide](/blog_system_design/2025/12/29/mongodb-comprehensive-guide/)
-- [Amazon DynamoDB Comprehensive Guide](/blog_system_design/2025/12/29/amazon-dynamodb-comprehensive-guide/)
-- [Apache Cassandra Comprehensive Guide](/blog_system_design/2025/12/29/apache-cassandra-comprehensive-guide/)
-- [Apache HBase Comprehensive Guide](/blog_system_design/2025/12/29/hbase-comprehensive-guide/)
+- [MongoDB Comprehensive Guide](/blog_system_design/2025/11/29/mongodb-comprehensive-guide/)
+- [Amazon DynamoDB Comprehensive Guide](/blog_system_design/2025/11/29/amazon-dynamodb-comprehensive-guide/)
+- [Apache Cassandra Comprehensive Guide](/blog_system_design/2025/11/29/apache-cassandra-comprehensive-guide/)
+- [Apache HBase Comprehensive Guide](/blog_system_design/2025/11/29/hbase-comprehensive-guide/)
 
 **Specialized Databases:**
-- [TimescaleDB Comprehensive Guide](/blog_system_design/2025/12/29/timescaledb-comprehensive-guide/)
-- [InfluxDB Comprehensive Guide](/blog_system_design/2025/12/29/influxdb-comprehensive-guide/)
-- [Neo4j Comprehensive Guide](/blog_system_design/2025/12/29/neo4j-comprehensive-guide/)
-- [Apache Druid Comprehensive Guide](/blog_system_design/2025/12/29/apache-druid-comprehensive-guide/)
-- [ClickHouse Comprehensive Guide](/blog_system_design/2025/12/29/clickhouse-comprehensive-guide/)
-- [Apache Pinot Comprehensive Guide](/blog_system_design/2025/12/29/apache-pinot-comprehensive-guide/)
-- [Apache Phoenix Comprehensive Guide](/blog_system_design/2025/12/29/apache-phoenix-comprehensive-guide/)
+- [TimescaleDB Comprehensive Guide](/blog_system_design/2025/11/29/timescaledb-comprehensive-guide/)
+- [InfluxDB Comprehensive Guide](/blog_system_design/2025/11/29/influxdb-comprehensive-guide/)
+- [Neo4j Comprehensive Guide](/blog_system_design/2025/11/29/neo4j-comprehensive-guide/)
+- [Apache Druid Comprehensive Guide](/blog_system_design/2025/11/29/apache-druid-comprehensive-guide/)
+- [ClickHouse Comprehensive Guide](/blog_system_design/2025/11/29/clickhouse-comprehensive-guide/)
+- [Apache Pinot Comprehensive Guide](/blog_system_design/2025/11/29/apache-pinot-comprehensive-guide/)
+- [Apache Phoenix Comprehensive Guide](/blog_system_design/2025/11/29/apache-phoenix-comprehensive-guide/)
 
 **Data Warehouses:**
-- [Apache Hive Comprehensive Guide](/blog_system_design/2025/12/29/apache-hive-comprehensive-guide/)
+- [Apache Hive Comprehensive Guide](/blog_system_design/2025/11/29/apache-hive-comprehensive-guide/)
 
 #### Caching & In-Memory
 
-- [Redis Comprehensive Guide](/blog_system_design/2025/12/29/redis-comprehensive-guide/)
-- [Memcached Comprehensive Guide](/blog_system_design/2025/12/29/memcached-comprehensive-guide/)
-- [Apache Ignite Comprehensive Guide](/blog_system_design/2025/12/29/apache-ignite-comprehensive-guide/)
+- [Redis Comprehensive Guide](/blog_system_design/2025/11/29/redis-comprehensive-guide/)
+- [Memcached Comprehensive Guide](/blog_system_design/2025/11/29/memcached-comprehensive-guide/)
+- [Apache Ignite Comprehensive Guide](/blog_system_design/2025/11/29/apache-ignite-comprehensive-guide/)
 
 #### Message Queues & Streaming
 
 **Message Queues:**
-- [Amazon SQS Guide](/blog_system_design/2025/12/29/amazon-sqs-guide/)
-- [RabbitMQ Comprehensive Guide](/blog_system_design/2025/12/29/rabbitmq-comprehensive-guide/)
-- [Dead Letter Queue Guide](/blog_system_design/2025/12/29/dead-letter-queue-guide/)
+- [Amazon SQS Guide](/blog_system_design/2025/11/29/amazon-sqs-guide/)
+- [RabbitMQ Comprehensive Guide](/blog_system_design/2025/11/29/rabbitmq-comprehensive-guide/)
+- [Dead Letter Queue Guide](/blog_system_design/2025/11/29/dead-letter-queue-guide/)
 
 **Streaming:**
-- [Apache Kafka Guide](/blog_system_design/2025/12/29/apache-kafka-guide/)
-- [Apache Flink Guide](/blog_system_design/2025/12/29/apache-flink-guide/)
-- [Apache Pulsar Comprehensive Guide](/blog_system_design/2025/12/29/apache-pulsar-comprehensive-guide/)
-- [Apache Storm Comprehensive Guide](/blog_system_design/2025/12/29/apache-storm-comprehensive-guide/)
-- [Apache Samza Comprehensive Guide](/blog_system_design/2025/12/29/apache-samza-comprehensive-guide/)
-- [Apache Beam Comprehensive Guide](/blog_system_design/2025/12/29/apache-beam-comprehensive-guide/)
+- [Apache Kafka Guide](/blog_system_design/2025/11/29/apache-kafka-guide/)
+- [Apache Flink Guide](/blog_system_design/2025/11/29/apache-flink-guide/)
+- [Apache Pulsar Comprehensive Guide](/blog_system_design/2025/11/29/apache-pulsar-comprehensive-guide/)
+- [Apache Storm Comprehensive Guide](/blog_system_design/2025/11/29/apache-storm-comprehensive-guide/)
+- [Apache Samza Comprehensive Guide](/blog_system_design/2025/11/29/apache-samza-comprehensive-guide/)
+- [Apache Beam Comprehensive Guide](/blog_system_design/2025/11/29/apache-beam-comprehensive-guide/)
 
 #### Cloud Storage
 
-- [Amazon S3 Storage Guide](/blog_system_design/2025/12/29/amazon-s3-storage-guide/)
-- [CDN Content Delivery Network Guide](/blog_system_design/2025/12/29/cdn-content-delivery-network-guide/)
+- [Amazon S3 Storage Guide](/blog_system_design/2025/11/29/amazon-s3-storage-guide/)
+- [CDN Content Delivery Network Guide](/blog_system_design/2025/11/29/cdn-content-delivery-network-guide/)
 
 #### Search & Analytics
 
-- [Elasticsearch Guide](/blog_system_design/2025/12/29/elasticsearch-guide/)
-- [Apache Spark Comprehensive Guide](/blog_system_design/2025/12/29/apache-spark-comprehensive-guide/)
+- [Elasticsearch Guide](/blog_system_design/2025/11/29/elasticsearch-guide/)
+- [Apache Spark Comprehensive Guide](/blog_system_design/2025/11/29/apache-spark-comprehensive-guide/)
 
 #### Coordination & Consensus
 
-- [Apache Zookeeper Guide](/blog_system_design/2025/12/29/apache-zookeeper-guide/)
-- [Consul Comprehensive Guide](/blog_system_design/2025/12/29/consul-comprehensive-guide/)
-- [etcd Comprehensive Guide](/blog_system_design/2025/12/29/etcd-comprehensive-guide/)
+- [Apache Zookeeper Guide](/blog_system_design/2025/11/29/apache-zookeeper-guide/)
+- [Consul Comprehensive Guide](/blog_system_design/2025/11/29/consul-comprehensive-guide/)
+- [etcd Comprehensive Guide](/blog_system_design/2025/11/29/etcd-comprehensive-guide/)
 
 #### APIs & Communication
 
-- [GraphQL Comprehensive Guide](/blog_system_design/2025/12/29/graphql-comprehensive-guide/)
-- [gRPC Comprehensive Guide](/blog_system_design/2025/12/29/grpc-comprehensive-guide/)
-- [WebSocket Comprehensive Guide](/blog_system_design/2025/12/29/websocket-comprehensive-guide/)
-- [Apache Thrift Comprehensive Guide](/blog_system_design/2025/12/29/apache-thrift-comprehensive-guide/)
+- [GraphQL Comprehensive Guide](/blog_system_design/2025/11/29/graphql-comprehensive-guide/)
+- [gRPC Comprehensive Guide](/blog_system_design/2025/11/29/grpc-comprehensive-guide/)
+- [WebSocket Comprehensive Guide](/blog_system_design/2025/11/29/websocket-comprehensive-guide/)
+- [Apache Thrift Comprehensive Guide](/blog_system_design/2025/11/29/apache-thrift-comprehensive-guide/)
 
 #### Infrastructure & DevOps
 
 **Containerization:**
-- [Docker Comprehensive Guide](/blog_system_design/2025/12/29/docker-comprehensive-guide/)
-- [Kubernetes Comprehensive Guide](/blog_system_design/2025/12/29/kubernetes-comprehensive-guide/)
+- [Docker Comprehensive Guide](/blog_system_design/2025/11/29/docker-comprehensive-guide/)
+- [Kubernetes Comprehensive Guide](/blog_system_design/2025/11/29/kubernetes-comprehensive-guide/)
 
 **Infrastructure as Code:**
-- [Terraform Comprehensive Guide](/blog_system_design/2025/12/29/terraform-comprehensive-guide/)
+- [Terraform Comprehensive Guide](/blog_system_design/2025/11/29/terraform-comprehensive-guide/)
 
 **Load Balancing:**
-- [Load Balancer Comprehensive Guide](/blog_system_design/2025/12/29/load-balancer-comprehensive-guide/)
-- [NGINX Comprehensive Guide](/blog_system_design/2025/12/29/nginx-comprehensive-guide/)
+- [Load Balancer Comprehensive Guide](/blog_system_design/2025/11/29/load-balancer-comprehensive-guide/)
+- [NGINX Comprehensive Guide](/blog_system_design/2025/11/29/nginx-comprehensive-guide/)
 
 **Workflow Orchestration:**
-- [Apache Airflow Comprehensive Guide](/blog_system_design/2025/12/29/apache-airflow-comprehensive-guide/)
+- [Apache Airflow Comprehensive Guide](/blog_system_design/2025/11/29/apache-airflow-comprehensive-guide/)
 
 **Data Integration:**
-- [Apache NiFi Comprehensive Guide](/blog_system_design/2025/12/29/apache-nifi-comprehensive-guide/)
+- [Apache NiFi Comprehensive Guide](/blog_system_design/2025/11/29/apache-nifi-comprehensive-guide/)
 
 #### Monitoring & Observability
 
-- [Prometheus Comprehensive Guide](/blog_system_design/2025/12/29/prometheus-comprehensive-guide/)
+- [Prometheus Comprehensive Guide](/blog_system_design/2025/11/29/prometheus-comprehensive-guide/)
 
 #### Data Formats
 
-- [Apache Parquet Comprehensive Guide](/blog_system_design/2025/12/29/apache-parquet-comprehensive-guide/)
-- [Apache Avro Comprehensive Guide](/blog_system_design/2025/12/29/apache-avro-comprehensive-guide/)
+- [Apache Parquet Comprehensive Guide](/blog_system_design/2025/11/29/apache-parquet-comprehensive-guide/)
+- [Apache Avro Comprehensive Guide](/blog_system_design/2025/11/29/apache-avro-comprehensive-guide/)
 
 #### Theory & Concepts
 
-- [CAP Theorem Guide](/blog_system_design/2025/12/29/cap-theorem-guide/)
-- [Technology List Quick Reference](/blog_system_design/2025/12/29/technology-list-quick-reference/)
+- [CAP Theorem Guide](/blog_system_design/2025/11/29/cap-theorem-guide/)
+- [Technology List Quick Reference](/blog_system_design/2025/11/29/technology-list-quick-reference/)
 
 ## Sample System Designs by Category
 
@@ -348,7 +348,7 @@ This guide provides a structured learning path for system design interviews, org
    - [System Design: Metrics & Logging Pipeline](/blog_system_design/2025/10/29/system-design-metrics-logging-pipeline/)
 
 3. **Data Engineering**
-   - [Design a Change Data Capture (CDC) System](/blog_system_design/2025/12/29/design-change-data-capture-cdc/)
+   - [Design a Change Data Capture (CDC) System](/blog_system_design/2025/11/29/design-change-data-capture-cdc/)
 
 ### AR/Glass Systems
 

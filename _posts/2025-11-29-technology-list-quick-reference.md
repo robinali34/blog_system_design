@@ -89,7 +89,7 @@ Use this as a quick lookup during interview preparation or as a checklist to ens
 - **Type**: Stream Processing Framework
 - **Characteristics**: Low latency, event time processing, exactly-once semantics
 - **Use Cases**: Real-time analytics, event-driven apps, data pipelines
-- **Guide**: [Apache Flink Guide](/blog_system_design/2025/12/29/apache-flink-guide/)
+- **Guide**: [Apache Flink Guide](/blog_system_design/2025/11/29/apache-flink-guide/)
 
 ---
 
@@ -99,7 +99,7 @@ Use this as a quick lookup during interview preparation or as a checklist to ens
 - **Type**: Distributed Search and Analytics Engine
 - **Characteristics**: Full-text search, real-time, aggregations, horizontal scaling
 - **Use Cases**: Search engines, log analytics (ELK), real-time analytics
-- **Guide**: [Elasticsearch Guide](/blog_system_design/2025/12/29/elasticsearch-guide/)
+- **Guide**: [Elasticsearch Guide](/blog_system_design/2025/11/29/elasticsearch-guide/)
 
 ---
 
@@ -124,7 +124,7 @@ Use this as a quick lookup during interview preparation or as a checklist to ens
 - **Type**: Distributed Coordination Service
 - **Characteristics**: Distributed locks, leader election, configuration management
 - **Use Cases**: Coordination, service discovery, distributed locks
-- **Guide**: [Apache Zookeeper Guide](/blog_system_design/2025/12/29/apache-zookeeper-guide/)
+- **Guide**: [Apache Zookeeper Guide](/blog_system_design/2025/11/29/apache-zookeeper-guide/)
 
 ---
 
@@ -134,7 +134,7 @@ Use this as a quick lookup during interview preparation or as a checklist to ens
 - **Type**: Distributed Systems Theory
 - **Characteristics**: Consistency, Availability, Partition Tolerance trade-offs
 - **Use Cases**: Understanding distributed system trade-offs, system design decisions
-- **Guide**: [CAP Theorem Guide](/blog_system_design/2025/12/29/cap-theorem-guide/)
+- **Guide**: [CAP Theorem Guide](/blog_system_design/2025/11/29/cap-theorem-guide/)
 
 ---
 
