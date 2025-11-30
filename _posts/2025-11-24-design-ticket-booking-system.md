@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Ticket Booking System (Cinema/Events) - Meta System Design Interview"
+title: "Design a Ticket Booking System (Cinema/Events) - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Class Design, State Management, Atomicity]
-excerpt: "A comprehensive guide to designing a ticket booking system focusing on class design, state management, handling atomicity locally (like seat reservation), and booking logic. Meta interview question emphasizing consistency and correctness without distributed coordination."
+categories: [System Design, Interview Example, Class Design, State Management, Atomicity]
+excerpt: "A comprehensive guide to designing a ticket booking system focusing on class design, state management, handling atomicity locally (like seat reservation), and booking logic. Interview question emphasizing consistency and correctness without distributed coordination."
 ---
 
 ## Introduction
 
-Designing a ticket booking system is a Meta interview question that tests your ability to model real-world booking scenarios, handle state management, and ensure atomicity in seat reservations. This question focuses on:
+Designing a ticket booking system is a system design interview question that tests your ability to model real-world booking scenarios, handle state management, and ensure atomicity in seat reservations. This question focuses on:
 
 - **Class design**: Shows, seats, bookings, users
 - **State management**: Seat states, booking states
@@ -485,7 +485,7 @@ class TicketBookingSystem:
    - Accurate availability
    - **Red Flags**: Double booking possible, wrong counts
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Local Consistency**
    - Emphasis on correctness

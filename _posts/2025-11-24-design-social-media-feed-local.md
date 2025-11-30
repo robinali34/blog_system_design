@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Social Media Feed (Local / Single-User) - Meta System Design Interview"
+title: "Design a Social Media Feed (Local / Single-User) - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Data Modeling, Sorting, Local Caching]
-excerpt: "A comprehensive guide to designing a local social media feed focusing on data modeling, sorting/filtering, and local caching. Meta interview question emphasizing basic feed generation without distributed concerns like sharding."
+categories: [System Design, Interview Example, Data Modeling, Sorting, Local Caching]
+excerpt: "A comprehensive guide to designing a local social media feed focusing on data modeling, sorting/filtering, and local caching. Interview question emphasizing basic feed generation without distributed concerns like sharding."
 ---
 
 ## Introduction
 
-Designing a social media feed is a Meta interview question that tests your ability to model social media entities, implement feed generation algorithms, and handle local data efficiently. This question focuses on:
+Designing a social media feed is a system design interview question that tests your ability to model social media entities, implement feed generation algorithms, and handle local data efficiently. This question focuses on:
 
 - **Data modeling**: Posts, comments, likes, users
 - **Feed generation**: Sorting, filtering, pagination
@@ -519,7 +519,7 @@ feed_system.add_comment(post1.post_id, user1.user_id, "Nice post!")
    - Consistent state
    - **Red Flags**: Wrong counts, inconsistent data
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Data Modeling**
    - Strong database design skills

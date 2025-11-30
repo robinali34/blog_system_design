@@ -130,7 +130,7 @@ These questions focus on bridging between Java and native code, and kernel-level
 - Performance optimization
 - Thread safety considerations
 
-**See Also**: [Detailed JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)
+**See Also**: [Detailed JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge/)
 
 **Critical Topics:**
 - Reference management (local, global, weak)
@@ -538,7 +538,7 @@ For each question, practice:
 
 - **[Meta OS Frameworks Interview Preparation Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Detailed preparation guide
 - **[Meta OS Frameworks System Design Guide](/blog_system_design/2025/11/03/meta-os-frameworks-system-design/)**: Comprehensive interview guide
-- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)**: Detailed JNI bridge design walkthrough
+- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge/)**: Detailed JNI bridge design walkthrough
 
 ---
 

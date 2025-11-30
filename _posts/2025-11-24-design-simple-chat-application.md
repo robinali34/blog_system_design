@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Simple Chat Application - Meta System Design Interview"
+title: "Design a Simple Chat Application - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Object-Oriented Modeling, Message Queues, Persistence]
-excerpt: "A comprehensive guide to designing a simple chat application focusing on object-oriented modeling, message queues (local), persistence, and read/unread state. Meta interview question emphasizing data structures and correct modeling of user interactions, not on multi-server messaging."
+categories: [System Design, Interview Example, Object-Oriented Modeling, Message Queues, Persistence]
+excerpt: "A comprehensive guide to designing a simple chat application focusing on object-oriented modeling, message queues (local), persistence, and read/unread state. Interview question emphasizing data structures and correct modeling of user interactions, not on multi-server messaging."
 ---
 
 ## Introduction
 
-Designing a simple chat application is a Meta interview question that tests your ability to model messaging systems, handle message persistence, and manage conversation state. This question focuses on:
+Designing a simple chat application is a system design interview question that tests your ability to model messaging systems, handle message persistence, and manage conversation state. This question focuses on:
 
 - **Object-oriented modeling**: Users, Messages, Conversations
 - **Message queues**: Local message handling
@@ -532,7 +532,7 @@ unread = chat_app.get_unread_count(user1.user_id)
    - Meaningful errors
    - **Red Flags**: No validation, unclear errors
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Local System Design**
    - No distributed messaging

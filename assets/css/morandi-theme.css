@@ -317,6 +317,8 @@ hr {
   max-width: 1600px;
   margin: 0 auto;
   align-items: start;
+  /* Ensure sticky positioning works within this container */
+  position: relative;
 }
 
 @media (max-width: 1200px) {
@@ -491,6 +493,8 @@ hr {
   flex-direction: column;
   align-items: stretch;
   z-index: 10;
+  /* Ensure sticky works properly */
+  will-change: transform;
 }
 
 .sidebar-section {
@@ -654,10 +658,11 @@ hr {
   max-height: calc(100vh - 40px);
   height: fit-content;
   min-height: 300px;
-  /* Parent .post-sidebar-left is sticky, so this doesn't need to be */
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  /* Ensure the TOC section itself can scroll if content is too long */
+  overflow: hidden;
 }
 
 .post-sidebar-left .toc-section .sidebar-title {

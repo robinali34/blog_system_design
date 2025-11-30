@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Text Editor - Meta System Design Interview"
+title: "Design a Text Editor - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Data Structures, Algorithms, Memory Efficiency]
-excerpt: "A comprehensive guide to designing a text editor focusing on data structures (rope, gap buffer), command handling, undo/redo logic, and memory-efficient design. Meta interview question emphasizing algorithmic and memory-efficient design, not distributed syncing."
+categories: [System Design, Interview Example, Data Structures, Algorithms, Memory Efficiency]
+excerpt: "A comprehensive guide to designing a text editor focusing on data structures (rope, gap buffer), command handling, undo/redo logic, and memory-efficient design. Interview question emphasizing algorithmic and memory-efficient design, not distributed syncing."
 ---
 
 ## Introduction
 
-Designing a text editor is a Meta interview question that tests your understanding of efficient data structures for text manipulation, command patterns, and memory management. This question focuses on:
+Designing a text editor is a system design interview question that tests your understanding of efficient data structures for text manipulation, command patterns, and memory management. This question focuses on:
 
 - **Data structures**: Rope, gap buffer, piece table
 - **Command handling**: Insert, delete, undo/redo
@@ -494,7 +494,7 @@ print(editor.get_text())  # "Hello World"
    - No memory leaks
    - **Red Flags**: High memory usage, leaks
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Data Structures Mastery**
    - Deep understanding of structures

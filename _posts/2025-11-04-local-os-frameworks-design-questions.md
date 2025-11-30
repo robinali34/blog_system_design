@@ -597,7 +597,7 @@ For each question, practice:
 ## Related Resources
 
 - **[Local OS Framework System Design](/blog_system_design/2025/11/04/design-local-os-framework-system/)**: Detailed design walkthrough
-- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge-meta/)**: JNI bridge implementation
+- **[JNI Bridge Design Guide](/blog_system_design/2025/11/03/design-jni-bridge/)**: JNI bridge implementation
 - **[Meta OS Frameworks Interview Checklist](/blog_system_design/2025/11/03/meta-os-frameworks-interview-checklist/)**: Comprehensive preparation guide
 - **[Meta OS Frameworks Common Questions](/blog_system_design/2025/11/03/meta-os-frameworks-common-questions/)**: General OS Frameworks questions
 

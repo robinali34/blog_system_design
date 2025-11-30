@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Library Management System - Meta System Design Interview"
+title: "Design a Library Management System - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Relational Modeling, Object-Oriented Design, Inventory Management]
-excerpt: "A comprehensive guide to designing a library management system focusing on relational modeling, object-oriented design, and inventory management. Meta interview question checking ability to design CRUD-heavy systems with realistic constraints."
+categories: [System Design, Interview Example, Relational Modeling, Object-Oriented Design, Inventory Management]
+excerpt: "A comprehensive guide to designing a library management system focusing on relational modeling, object-oriented design, and inventory management. Interview question checking ability to design CRUD-heavy systems with realistic constraints."
 ---
 
 ## Introduction
 
-Designing a library management system is a Meta interview question that tests your ability to model complex relationships, handle inventory management, and design CRUD operations. This question focuses on:
+Designing a library management system is a system design interview question that tests your ability to model complex relationships, handle inventory management, and design CRUD operations. This question focuses on:
 
 - **Relational modeling**: Books, members, loans, reservations
 - **Object-oriented design**: Class hierarchy and relationships
@@ -598,7 +598,7 @@ def check_overdue_loans(self):
    - Meaningful errors
    - **Red Flags**: No validation, unclear errors
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **CRUD Operations Mastery**
    - Complete CRUD implementation

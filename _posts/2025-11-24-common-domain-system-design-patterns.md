@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Meta Common Domain System Design Patterns - Interview Preparation Guide"
+title: "Common Domain System Design Patterns - Interview Preparation Guide"
 date: 2025-11-24
-categories: [System Design, Interview Preparation, Meta, Domain Design, System Architecture, Design Patterns]
-excerpt: "A comprehensive guide to Meta's common domain system design patterns, covering Meta's engineering culture, technology stack, design principles, common patterns, scale considerations, and interview approaches. Essential reading for Meta system design interviews."
+categories: [System Design, Interview Preparation, Domain Design, System Architecture, Design Patterns]
+excerpt: "A comprehensive guide to common domain system design patterns, covering engineering culture, technology stack, design principles, common patterns, scale considerations, and interview approaches. Essential reading for system design interviews."
 ---
 
 ## Introduction
 
-Meta (formerly Facebook) has developed unique patterns and approaches to system design over the years, driven by the need to scale to billions of users, handle petabytes of data, and maintain high availability across global infrastructure. Understanding Meta's common patterns and design philosophies is crucial for success in Meta system design interviews.
+Large-scale technology companies have developed unique patterns and approaches to system design over the years, driven by the need to scale to billions of users, handle petabytes of data, and maintain high availability across global infrastructure. Understanding common patterns and design philosophies is crucial for success in system design interviews.
 
-This guide covers Meta's engineering culture, technology stack, common design patterns, scale considerations, and how these patterns manifest in domain-specific system design interviews.
+This guide covers engineering culture, technology stack, common design patterns, scale considerations, and how these patterns manifest in domain-specific system design interviews.
 
 ## Table of Contents
 
@@ -25,11 +25,11 @@ This guide covers Meta's engineering culture, technology stack, common design pa
 9. [Interview Approach](#interview-approach)
 10. [Summary](#summary)
 
-## Meta Engineering Culture
+## Engineering Culture
 
 ### Move Fast and Build Things
 
-Meta's engineering culture emphasizes:
+Engineering culture at large-scale companies emphasizes:
 - **Rapid iteration**: Ship quickly, iterate based on data
 - **Data-driven decisions**: A/B testing, metrics-driven development
 - **Code ownership**: Engineers own their code end-to-end
@@ -38,7 +38,7 @@ Meta's engineering culture emphasizes:
 
 ### Scale-First Thinking
 
-Meta engineers think about scale from day one:
+Engineers at scale think about scale from day one:
 - **Billions of users**: Every design must handle billions
 - **Petabytes of data**: Storage and processing at massive scale
 - **Global distribution**: Multi-region, low-latency requirements
@@ -46,7 +46,7 @@ Meta engineers think about scale from day one:
 
 ### Infrastructure as Product
 
-Meta treats infrastructure as a product:
+Large-scale companies treat infrastructure as a product:
 - **TAO**: Distributed graph database
 - **RocksDB**: Embedded key-value store
 - **Haystack**: Photo storage system

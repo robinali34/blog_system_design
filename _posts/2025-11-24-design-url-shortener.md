@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Design a URL Shortener - Meta System Design Interview"
+title: "Design a URL Shortener - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Data Modeling, Hashing, Algorithms]
-excerpt: "A comprehensive guide to designing a URL shortener focusing on data modeling, storage choice, hashing/encoding, uniqueness constraints, caching, and API design. Meta interview question emphasizing data structures and algorithms rather than network-level scalability."
+categories: [System Design, Interview Example, Data Modeling, Hashing, Algorithms]
+excerpt: "A comprehensive guide to designing a URL shortener focusing on data modeling, storage choice, hashing/encoding, uniqueness constraints, caching, and API design. Interview question emphasizing data structures and algorithms rather than network-level scalability."
 ---
 
 ## Introduction
@@ -693,7 +693,7 @@ def cleanup_expired_urls(self):
    - Proper error handling
    - **Red Flags**: Sloppy code, no error handling
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Data Structures & Algorithms**
    - Emphasis on efficient algorithms

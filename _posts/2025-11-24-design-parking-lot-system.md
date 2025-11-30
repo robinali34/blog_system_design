@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Design a Parking Lot System - Meta System Design Interview"
+title: "Design a Parking Lot System - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Object-Oriented Design, State Management]
-excerpt: "A comprehensive guide to designing a parking lot system focusing on object-oriented design, class hierarchy, state management, and edge case handling. Meta interview question emphasizing modeling real-world entities and managing rules rather than scalability."
+categories: [System Design, Interview Example, Object-Oriented Design, State Management]
+excerpt: "A comprehensive guide to designing a parking lot system focusing on object-oriented design, class hierarchy, state management, and edge case handling. Interview question emphasizing modeling real-world entities and managing rules rather than scalability."
 ---
 
 ## Introduction
@@ -660,7 +660,7 @@ print(result)  # {'success': True, 'fee': 5.0, ...}
    - Meaningful error messages
    - **Red Flags**: No validation, unclear errors
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **OOP Principles**
    - SOLID principles application

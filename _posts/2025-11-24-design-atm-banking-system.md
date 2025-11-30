@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design an ATM Machine / Banking System - Meta System Design Interview"
+title: "Design an ATM Machine / Banking System - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, State Management, Transactions, Concurrency]
-excerpt: "A comprehensive guide to designing an ATM machine and banking system focusing on state management, transactions, handling concurrency locally, and error handling. Meta interview question emphasizing correct modeling and ensuring data consistency."
+categories: [System Design, Interview Example, State Management, Transactions, Concurrency]
+excerpt: "A comprehensive guide to designing an ATM machine and banking system focusing on state management, transactions, handling concurrency locally, and error handling. Interview question emphasizing correct modeling and ensuring data consistency."
 ---
 
 ## Introduction
 
-Designing an ATM machine and banking system is a Meta interview question that tests your ability to model financial transactions, handle state management, ensure data consistency, and manage concurrency. This question focuses on:
+Designing an ATM machine and banking system is a system design interview question that tests your ability to model financial transactions, handle state management, ensure data consistency, and manage concurrency. This question focuses on:
 
 - **State management**: Account states, transaction states
 - **Transactions**: Atomic operations, rollback
@@ -656,7 +656,7 @@ for transaction in history:
    - No data loss
    - **Red Flags**: Data loss scenarios, no recovery
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Correctness Over Scale**
    - Emphasis on correctness

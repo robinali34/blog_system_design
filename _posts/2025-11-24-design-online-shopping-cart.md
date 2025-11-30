@@ -1,14 +1,14 @@
 ---
 layout: post
-title: "Design a Basic Online Shopping Cart - Meta System Design Interview"
+title: "Design a Basic Online Shopping Cart - System Design Interview"
 date: 2025-11-24
-categories: [System Design, Interview Example, Meta, Object-Oriented Design, Entity Relationships, Session Management]
-excerpt: "A comprehensive guide to designing an online shopping cart focusing on object-oriented design, entity relationships, session management, and state handling. Meta interview question emphasizing handling state, operations, and edge cases rather than scaling to millions of users."
+categories: [System Design, Interview Example, Object-Oriented Design, Entity Relationships, Session Management]
+excerpt: "A comprehensive guide to designing an online shopping cart focusing on object-oriented design, entity relationships, session management, and state handling. Interview question emphasizing handling state, operations, and edge cases rather than scaling to millions of users."
 ---
 
 ## Introduction
 
-Designing an online shopping cart is a Meta interview question that tests your ability to model e-commerce entities, manage state, and handle complex operations. This question focuses on:
+Designing an online shopping cart is a system design interview question that tests your ability to model e-commerce entities, manage state, and handle complex operations. This question focuses on:
 
 - **Object-oriented design**: Cart, Product, Inventory entities
 - **Entity relationships**: Cart-Item-Product relationships
@@ -565,7 +565,7 @@ class ShoppingCartSystem:
    - Meaningful errors
    - **Red Flags**: No validation, unclear errors
 
-### Meta-Specific Focus
+### Interview Focus
 
 1. **Entity Modeling**
    - Strong OOP skills
