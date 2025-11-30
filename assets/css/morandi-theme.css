@@ -332,6 +332,10 @@ hr {
   /* Ensure sticky positioning works - no overflow restrictions */
   position: relative;
   overflow: visible;
+  /* Critical: ensure grid allows sticky to work - grid must be tall enough */
+  min-height: 100vh;
+  /* Ensure grid items can stick properly */
+  grid-auto-rows: min-content;
 }
 
 @media (max-width: 1200px) {
