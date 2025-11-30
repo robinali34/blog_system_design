@@ -180,7 +180,12 @@ layout: default
     const tocSection = document.querySelector('.toc-section');
     
     if (headings.length === 0) {
-      if (tocSection) tocSection.style.display = 'none';
+      if (tocSection) {
+        // Only hide on desktop, keep visible on mobile for layout consistency
+        if (window.innerWidth > 768) {
+          tocSection.style.display = 'none';
+        }
+      }
       return;
     }
     
