@@ -257,14 +257,15 @@ hr {
 
 /* Post Layout Styles */
 .post-container {
-  max-width: 1400px;
+  max-width: 1600px; /* Match post-wrapper max-width */
   margin: 0 auto;
   padding: 0 20px;
   background-color: var(--morandi-bg-primary);
   min-height: 100vh;
-  /* Ensure no overflow that breaks sticky */
-  overflow-x: hidden;
-  overflow-y: visible;
+  /* CRITICAL: Must be visible for sticky to work */
+  overflow: visible;
+  /* Ensure container allows sticky children */
+  position: relative;
 }
 
 .post-header {
@@ -329,12 +330,12 @@ hr {
   max-width: 1600px;
   margin: 0 auto;
   align-items: start;
-  /* Ensure sticky positioning works - no overflow restrictions */
-  position: relative;
+  /* CRITICAL: No position or overflow restrictions that break sticky */
+  position: static; /* Changed from relative - sticky needs static parent */
   overflow: visible;
-  /* Critical: ensure grid allows sticky to work - grid must be tall enough */
+  /* Ensure grid is tall enough for sticky to activate */
   min-height: 100vh;
-  /* Ensure grid items can stick properly */
+  /* Grid rows configuration */
   grid-auto-rows: min-content;
 }
 
@@ -490,8 +491,7 @@ hr {
 }
 
 /* Sidebar Styles */
-.post-sidebar,
-.post-sidebar-left {
+.post-sidebar {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -499,20 +499,28 @@ hr {
 }
 
 .post-sidebar-left {
+  /* CRITICAL: Sticky positioning for TOC sidebar */
   position: -webkit-sticky; /* Safari support */
   position: sticky;
   top: 20px;
-  height: fit-content;
-  max-height: calc(100vh - 40px);
   align-self: start;
-  width: 100%;
-  max-width: 240px;
-  overflow: visible;
+  
+  /* Layout */
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
   align-items: stretch;
+  
+  /* Sizing */
+  width: 100%;
+  max-width: 240px;
+  min-width: 0; /* Prevent overflow */
+  height: fit-content;
+  max-height: calc(100vh - 40px);
+  
+  /* Overflow and positioning - CRITICAL for sticky to work */
+  overflow: visible;
   z-index: 10;
-  /* Ensure sticky works properly */
   will-change: transform;
 }
 
@@ -668,7 +676,8 @@ hr {
   width: 100%;
   max-width: 240px;
   box-sizing: border-box;
-  overflow: hidden;
+  /* CRITICAL: Must be visible for sticky to work */
+  overflow: visible;
   display: flex;
   flex-direction: column;
 }
@@ -680,8 +689,8 @@ hr {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  /* Ensure the TOC section itself can scroll if content is too long */
-  overflow: hidden;
+  /* CRITICAL: Must be visible for sticky to work */
+  overflow: visible;
   /* Make sure TOC section works within sticky sidebar */
   position: relative;
 }
