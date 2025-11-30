@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "System Design Learning Path & Technology Index"
-date: 2025-12-29
+date: 2025-12-29 23:59:00 -0800
 categories: [System Design, Learning Path, Tutorial, Reference]
 permalink: /2025/12/29/system-design-learning-path-index/
 excerpt: "A comprehensive learning path and technology index for system design interviews. Navigate from fundamentals to advanced topics with organized guides, technology trees, and sample designs."

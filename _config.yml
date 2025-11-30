@@ -9,6 +9,7 @@ markdown: kramdown
 highlighter: rouge
 theme: minima
 show_excerpts: true
+future: true  # Show future-dated posts
 
 # Permalinks for posts (baseurl is automatically prepended)
 permalink: /:year/:month/:day/:title/
