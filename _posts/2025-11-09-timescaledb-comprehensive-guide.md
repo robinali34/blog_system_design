@@ -2,7 +2,7 @@
 layout: post
 title: "TimescaleDB: Comprehensive Guide to Time-Series Database"
 date: 2025-11-09
-categories: [TimescaleDB, Database, Time-Series, PostgreSQL, System Design, IoT, Analytics]
+categories: [TimescaleDB, Database, Time-Series, PostgreSQL, System Design, IoT, Analytics, Technology]
 excerpt: "A comprehensive guide to TimescaleDB, covering architecture, hypertables, continuous aggregates, compression, data retention, use cases, and best practices for building scalable time-series applications."
 ---
 

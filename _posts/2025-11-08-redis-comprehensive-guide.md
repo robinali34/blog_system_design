@@ -2,7 +2,7 @@
 layout: post
 title: "Redis: Comprehensive Guide to In-Memory Data Structure Store"
 date: 2025-11-08
-categories: [Redis, Database, Caching, System Design, In-Memory, NoSQL]
+categories: [Redis, Database, Caching, System Design, In-Memory, NoSQL, Technology]
 excerpt: "A comprehensive guide to Redis, covering architecture, data structures, features, use cases, performance characteristics, configuration, and best practices for building scalable systems."
 ---
 

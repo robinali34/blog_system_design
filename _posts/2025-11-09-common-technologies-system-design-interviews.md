@@ -2,7 +2,7 @@
 layout: post
 title: "Common Technologies in System Design Interviews - Complete Comparison Guide"
 date: 2025-11-09
-categories: [System Design, Interview Preparation, Technology Comparison, Architecture]
+categories: [System Design, Interview Preparation, Technology Comparison, Architecture, Technology]
 excerpt: "Comprehensive guide to common technologies used in system design interviews, including detailed pros/cons comparisons for databases, caching, message queues, load balancers, CDNs, search engines, and more."
 ---
 

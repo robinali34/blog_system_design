@@ -2,7 +2,7 @@
 layout: post
 title: "PostgreSQL: Comprehensive Guide to Advanced Relational Database"
 date: 2025-11-09
-categories: [PostgreSQL, Database, SQL, Relational Database, System Design, ACID]
+categories: [PostgreSQL, Database, SQL, Relational Database, System Design, ACID, Technology]
 excerpt: "A comprehensive guide to PostgreSQL, covering architecture, advanced features, data types, performance optimization, replication, use cases, and best practices for building robust relational database systems."
 ---
 

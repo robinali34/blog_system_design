@@ -2,7 +2,7 @@
 layout: post
 title: "Redis: Practical Guide with Use Cases and Deployment"
 date: 2025-11-13
-categories: [Redis, Caching, Database, Tutorial, Use Cases, Deployment, In-Memory]
+categories: [Redis, Caching, Database, Tutorial, Use Cases, Deployment, In-Memory, Technology]
 excerpt: "A practical guide to Redis, covering use cases, deployment strategies, best practices, and code examples for building high-performance applications with caching, sessions, and real-time features."
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: "Amazon S3 Storage: Comprehensive Guide with Use Cases and Deployment"
 date: 2025-11-13
-categories: [AWS, Cloud Storage, S3, Tutorial, Use Cases, Deployment]
+categories: [AWS, Cloud Storage, S3, Tutorial, Use Cases, Deployment, Technology]
 excerpt: "A comprehensive guide to Amazon S3 storage, covering use cases, deployment strategies, best practices, and practical examples for building scalable applications."
 ---
 

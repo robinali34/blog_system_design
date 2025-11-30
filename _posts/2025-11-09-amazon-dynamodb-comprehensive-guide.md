@@ -2,7 +2,7 @@
 layout: post
 title: "Amazon DynamoDB: Comprehensive Guide to Managed NoSQL Database"
 date: 2025-11-09
-categories: [DynamoDB, AWS, Database, NoSQL, Distributed Systems, System Design, Cloud]
+categories: [DynamoDB, AWS, Database, NoSQL, Distributed Systems, System Design, Cloud, Technology]
 excerpt: "A comprehensive guide to Amazon DynamoDB, covering architecture, data modeling, partition keys, indexes, consistency, performance, use cases, and best practices for building highly scalable cloud-native applications."
 ---
 
