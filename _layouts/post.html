@@ -10,6 +10,7 @@ layout: default
         <a href="{{ '/' | relative_url }}">{{ site.title | default: "C++ & Systems Blog" }}</a>
       </h1>
       <nav class="site-nav">
+        <span class="post-title-in-nav">{{ page.title | escape }}</span>
         <a href="{{ '/posts' | relative_url }}">All Posts</a>
         {%- for page_path in site.header_pages -%}
           {%- assign page_obj = site.pages | where: "path", page_path | first -%}
@@ -20,13 +21,6 @@ layout: default
       </nav>
     </div>
   </header>
-
-  <!-- Post Title Header (Sticky) -->
-  <div class="post-title-header">
-    <div class="post-title-wrapper">
-      <h1 class="post-title-main">{{ page.title | escape }}</h1>
-    </div>
-  </div>
 
   <div class="post-wrapper">
     <!-- Left Sidebar - Table of Contents -->
@@ -303,28 +297,5 @@ layout: default
     generateTOC();
   }
 
-  // Make title header compact when scrolling
-  function handleTitleHeaderScroll() {
-    const titleHeader = document.querySelector('.post-title-header');
-    if (!titleHeader) return;
-
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        titleHeader.classList.add('scrolled');
-      } else {
-        titleHeader.classList.remove('scrolled');
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial state
-  }
-
-  // Run when DOM is ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', handleTitleHeaderScroll);
-  } else {
-    handleTitleHeaderScroll();
-  }
 })();
 </script>
