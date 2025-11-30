@@ -284,11 +284,28 @@ hr {
 
 /* Post Title Header - Top of Page */
 .post-title-header {
-  background-color: var(--morandi-bg-card);
+  position: -webkit-sticky; /* Safari support */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.95);
   border-bottom: 2px solid var(--morandi-border-medium);
   padding: 2rem 0;
   margin-bottom: 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: padding 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Compact title when scrolling (optional enhancement) */
+.post-title-header.scrolled {
+  padding: 1rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.post-title-header.scrolled .post-title-main {
+  font-size: 2rem;
 }
 
 .post-title-wrapper {
@@ -299,7 +316,7 @@ hr {
 
 .post-title-main {
   font-size: 2.75rem;
-  margin: 0 0 1rem 0;
+  margin: 0;
   color: var(--morandi-text-dark);
   line-height: 1.2;
   font-weight: 600;
@@ -310,6 +327,9 @@ hr {
   flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--morandi-border-light);
 }
 
 .header-content {

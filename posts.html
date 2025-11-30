@@ -6,9 +6,25 @@ permalink: /posts/
 
 <div class="posts">
   <header class="post-header">
+    <div class="header-content">
+      <h1 class="site-title">
+        <a href="{{ '/' | relative_url }}">{{ site.title | default: "C++ & Systems Blog" }}</a>
+      </h1>
+      <nav class="site-nav">
+        <a href="{{ '/posts' | relative_url }}">All Posts</a>
+        {%- for page_path in site.header_pages -%}
+          {%- assign page_obj = site.pages | where: "path", page_path | first -%}
+          {%- if page_obj -%}
+            <a href="{{ page_obj.url | relative_url }}">{{ page_obj.title | escape }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </nav>
+    </div>
+  </header>
+  
+  <div class="posts-content">
     <h1 class="post-title">All Posts</h1>
     <p class="post-description">Browse all posts by category or search by title</p>
-  </header>
 
   {%- if site.posts.size > 0 -%}
     <!-- Category Filter Menu -->
@@ -130,9 +146,10 @@ permalink: /posts/
             <button class="filter-btn" data-category="client systems" data-level="1" data-parent="others">Client Systems</button>
             <button class="filter-btn" data-category="low-level design" data-level="1" data-parent="others">Low-Level Design</button>
             <button class="filter-btn" data-category="game engine" data-level="1" data-parent="others">Game Engine</button>
-          </div>
-        </div>
-      </div>
+    </div>
+  </div>
+  </div>
+</div>
       
       <div class="search-results-info" id="results-info"></div>
     </div>
@@ -163,6 +180,7 @@ permalink: /posts/
       {%- endfor -%}
     </ul>
   {%- endif -%}
+  </div>
 </div>
 
 <script>

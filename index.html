@@ -10,6 +10,7 @@ layout: default
         <a href="{{ '/' | relative_url }}">{{ site.title | default: "Robina Li" }}</a>
       </h1>
       <nav class="site-nav">
+        <a href="{{ '/posts' | relative_url }}">All Posts</a>
         {%- for page_path in site.header_pages -%}
           {%- assign page_obj = site.pages | where: "path", page_path | first -%}
           {%- if page_obj -%}
