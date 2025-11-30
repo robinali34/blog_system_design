@@ -489,6 +489,7 @@ hr {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  z-index: 10;
 }
 
 .sidebar-section {
@@ -650,8 +651,11 @@ hr {
 
 .post-sidebar-left .toc-section {
   max-height: calc(100vh - 40px);
-  height: calc(100vh - 40px);
+  height: fit-content;
   min-height: 300px;
+  position: sticky;
+  top: 20px;
+  align-self: start;
 }
 
 .post-sidebar-left .toc-section .sidebar-title {
@@ -1121,6 +1125,113 @@ hr {
   .category-link {
     padding: 0.3rem 0.5rem;
     font-size: 0.8rem;
+  }
+}
+
+/* Learning Path Section */
+.learning-path-section {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 20px;
+}
+
+.learning-path-content {
+  background-color: var(--morandi-bg-card);
+  border: 1px solid var(--morandi-border-light);
+  border-radius: 12px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.learning-path-description {
+  color: var(--morandi-text-medium);
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.learning-path-card {
+  background-color: var(--morandi-bg-secondary);
+  border: 2px solid var(--morandi-border-medium);
+  border-radius: 8px;
+  padding: 2rem;
+  transition: all 0.3s ease;
+}
+
+.learning-path-card:hover {
+  border-color: var(--morandi-gray-medium);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.learning-path-title {
+  margin: 0 0 1rem 0;
+  font-size: 1.75rem;
+}
+
+.learning-path-link {
+  color: var(--morandi-text-dark);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.learning-path-link:hover {
+  color: var(--morandi-link-hover);
+  text-decoration: underline;
+}
+
+.learning-path-excerpt {
+  color: var(--morandi-text-medium);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.learning-path-btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--morandi-text-dark);
+  color: var(--morandi-bg-card);
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.learning-path-btn:hover {
+  background-color: var(--morandi-link-hover);
+  color: var(--morandi-bg-card);
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.section-title {
+  font-size: 2rem;
+  margin: 0 0 1rem 0;
+  color: var(--morandi-text-dark);
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .learning-path-content {
+    padding: 1.5rem;
+  }
+  
+  .learning-path-card {
+    padding: 1.5rem;
+  }
+  
+  .learning-path-title {
+    font-size: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
   }
 }
 
