@@ -373,6 +373,10 @@ hr {
   border: none;
   background: none;
   padding: 0;
+  align-items: center;
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: none;
 }
 
 .post-header .site-nav a {
@@ -395,11 +399,14 @@ hr {
   padding: 0.5rem 1rem;
   margin-right: 0.5rem;
   border-right: 1px solid var(--morandi-border-light);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 400px;
-  display: inline-block;
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  flex: 1 1 0%;
+  min-width: 0;
+  max-width: none;
+  display: block;
+  line-height: 1.4;
 }
 
 .post-wrapper {
