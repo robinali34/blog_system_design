@@ -20,6 +20,25 @@ layout: default
     </div>
   </header>
 
+  <!-- Post Title Header -->
+  <div class="post-title-header">
+    <div class="post-title-wrapper">
+      <h1 class="post-title-main">{{ page.title | escape }}</h1>
+      <div class="post-meta-header">
+        <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
+          {{ page.date | date: "%B %-d, %Y" }}
+        </time>
+        {%- if page.categories.size > 0 -%}
+          <div class="post-categories">
+            {%- for category in page.categories -%}
+              <span class="category-tag">{{ category }}</span>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+
   <div class="post-wrapper">
     <!-- Left Sidebar - Table of Contents -->
     <aside class="post-sidebar-left">
@@ -36,29 +55,6 @@ layout: default
     <!-- Main Content -->
     <main class="post-main">
       <article class="post">
-        <header class="post-header-content">
-          <h1 class="post-title">{{ page.title | escape }}</h1>
-          <div class="post-meta-info">
-            <time class="post-date" datetime="{{ page.date | date_to_xmlschema }}">
-              {{ page.date | date: "%B %-d, %Y" }}
-            </time>
-            {%- if page.categories.size > 0 -%}
-              <div class="post-categories">
-                {%- for category in page.categories -%}
-                  <span class="category-tag">{{ category }}</span>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
-            {%- if page.tags.size > 0 -%}
-              <div class="post-tags">
-                {%- for tag in page.tags -%}
-                  <span class="tag">{{ tag }}</span>
-                {%- endfor -%}
-              </div>
-            {%- endif -%}
-          </div>
-        </header>
-
         <div class="post-content">
           {{ content }}
         </div>
