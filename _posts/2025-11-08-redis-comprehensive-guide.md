@@ -49,6 +49,37 @@ Redis is a **key-value store** where keys are mapped to values, but unlike simpl
 
 ### Core Architecture
 
+```
+┌─────────────────────────────────────────────────────────┐
+│              Redis Server                                 │
+│                                                           │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │         Client Connections                       │    │
+│  │  (TCP/IP, Unix Sockets)                          │    │
+│  └──────────────────────────────────────────────────┘    │
+│                          │                                │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │         Event Loop (Single-Threaded)             │    │
+│  │  (epoll/kqueue, Non-blocking I/O)                 │    │
+│  └──────────────────────────────────────────────────┘    │
+│                          │                                │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │         Command Processor                        │    │
+│  │  (Parsing, Execution, Response)                   │    │
+│  └──────────────────────────────────────────────────┘    │
+│                          │                                │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │         In-Memory Data Store                      │    │
+│  │  (Strings, Lists, Sets, Hashes, etc.)             │    │
+│  └──────────────────────────────────────────────────┘    │
+│                          │                                │
+│  ┌──────────────────────────────────────────────────┐    │
+│  │         Persistence Layer                         │    │
+│  │  (RDB Snapshots, AOF Logs)                        │    │
+│  └──────────────────────────────────────────────────┘    │
+└───────────────────────────────────────────────────────────┘
+```
+
 **Single-Threaded Event Loop:**
 - Redis uses a **single-threaded event loop** model
 - All commands execute sequentially (no race conditions)

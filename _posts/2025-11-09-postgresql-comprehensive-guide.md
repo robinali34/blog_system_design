@@ -41,6 +41,56 @@ PostgreSQL is an **ACID-compliant relational database** that extends SQL with:
 
 ## Architecture
 
+### High-Level Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│              Client Applications                        │
+│  (psql, JDBC, ODBC, Python, etc.)                      │
+└────────────────────┬────────────────────────────────────┘
+                     │
+                     │ Network Connection
+                     │
+┌────────────────────▼────────────────────────────────────┐
+│              PostgreSQL Server                          │
+│                                                          │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │         Postmaster Process                       │   │
+│  │  (Connection Manager, Process Forker)             │   │
+│  └──────────────────────────────────────────────────┘   │
+│                          │                               │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │         Backend Processes                        │   │
+│  │  (One per client connection)                      │   │
+│  │  - Query Parser                                   │   │
+│  │  - Query Optimizer                                │   │
+│  │  - Query Executor                                 │   │
+│  └──────────────────────────────────────────────────┘   │
+│                          │                               │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │         Background Processes                      │   │
+│  │  - Writer (WAL Writer)                            │   │
+│  │  - Checkpointer                                   │   │
+│  │  - Autovacuum                                      │   │
+│  │  - Archiver                                        │   │
+│  └──────────────────────────────────────────────────┘   │
+│                          │                               │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │         Shared Memory                            │   │
+│  │  - Shared Buffers                                 │   │
+│  │  - WAL Buffers                                    │   │
+│  │  - Lock Tables                                    │   │
+│  └──────────────────────────────────────────────────┘   │
+│                          │                               │
+│  ┌──────────────────────────────────────────────────┐   │
+│  │         Storage Layer                             │   │
+│  │  - Tablespaces                                    │   │
+│  │  - Data Files                                     │   │
+│  │  - WAL Files                                      │   │
+│  └──────────────────────────────────────────────────┘   │
+└──────────────────────────────────────────────────────────┘
+```
+
 ### Process Model
 
 **PostgreSQL Architecture:**

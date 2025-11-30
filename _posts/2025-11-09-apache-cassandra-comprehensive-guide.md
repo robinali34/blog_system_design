@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Apache Cassandra: Comprehensive Guide to Distributed NoSQL Database"
-date: 2025-12-29 23:59:00 -0800
+date: 2025-11-09
 categories: [Cassandra, Database, NoSQL, Distributed Systems, System Design, Big Data, Technology]
 excerpt: "A comprehensive guide to Apache Cassandra, covering architecture, data modeling, replication, consistency, performance, use cases, and best practices for building highly scalable distributed systems."
 ---
@@ -40,6 +40,126 @@ Cassandra is a **wide-column store** NoSQL database that provides:
 ---
 
 ## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                         Client Applications                       │
+│  (Web Apps, Mobile Apps, Microservices, Data Pipelines)          │
+└────────────────────────────┬──────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                      Cassandra Cluster                           │
+│                                                                   │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │                    Datacenter 1 (US-East)                 │  │
+│  │                                                             │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │  │
+│  │  │   Node 1     │  │   Node 2     │  │   Node 3     │    │  │
+│  │  │  (Broker)    │  │  (Broker)    │  │  (Broker)    │    │  │
+│  │  │              │  │              │  │              │    │  │
+│  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │    │  │
+│  │  │  │ Memtable│  │  │  │ Memtable│  │  │  │ Memtable│  │    │  │
+│  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │    │  │
+│  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │    │  │
+│  │  │  │CommitLog│  │  │  │CommitLog│  │  │  │CommitLog│  │    │  │
+│  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │    │  │
+│  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │    │  │
+│  │  │  │SSTables│  │  │  │SSTables│  │  │  │SSTables│  │    │  │
+│  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │    │  │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘    │  │
+│  │                                                             │  │
+│  │  Rack 1              Rack 2              Rack 3            │  │
+│  └───────────────────────────────────────────────────────────┘  │
+│                             │                                     │
+│                             │ Replication                         │
+│                             │                                     │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │                    Datacenter 2 (EU-West)                 │  │
+│  │                                                             │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │  │
+│  │  │   Node 4     │  │   Node 5     │  │   Node 6     │    │  │
+│  │  │  (Broker)    │  │  (Broker)    │  │  (Broker)    │    │  │
+│  │  │              │  │              │  │              │    │  │
+│  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │    │  │
+│  │  │  │ Memtable│  │  │  │ Memtable│  │  │  │ Memtable│  │    │  │
+│  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │    │  │
+│  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │    │  │
+│  │  │  │CommitLog│  │  │  │CommitLog│  │  │  │CommitLog│  │    │  │
+│  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │    │  │
+│  │  │  ┌────────┐  │  │  ┌────────┐  │  │  ┌────────┐  │    │  │
+│  │  │  │SSTables│  │  │  │SSTables│  │  │  │SSTables│  │    │  │
+│  │  │  └────────┘  │  │  └────────┘  │  │  └────────┘  │    │  │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘    │  │
+│  │                                                             │  │
+│  │  Rack 1              Rack 2              Rack 3            │  │
+│  └───────────────────────────────────────────────────────────┘  │
+│                                                                   │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │                    Token Ring (Consistent Hashing)         │  │
+│  │                                                             │  │
+│  │      Node1 ──► Node2 ──► Node3 ──► Node4 ──► Node5         │  │
+│  │        ▲                                    │              │  │
+│  │        └────────────────────────────────────┘              │  │
+│  │                                                             │  │
+│  │  Partition Key Hash → Determines Node Location             │  │
+│  └───────────────────────────────────────────────────────────┘  │
+│                                                                   │
+│  ┌───────────────────────────────────────────────────────────┐  │
+│  │                    Topics/Keyspaces                        │  │
+│  │                                                             │  │
+│  │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐    │  │
+│  │  │   Topic A    │  │   Topic B    │  │   Topic C    │    │  │
+│  │  │              │  │              │  │              │    │  │
+│  │  │ Partition 0  │  │ Partition 0  │  │ Partition 0  │    │  │
+│  │  │ Partition 1  │  │ Partition 1  │  │ Partition 1  │    │  │
+│  │  │ Partition 2  │  │ Partition 2  │  │ Partition 2  │    │  │
+│  │  │              │  │              │  │              │    │  │
+│  │  │ RF=3         │  │ RF=3         │  │ RF=3         │    │  │
+│  │  └──────────────┘  └──────────────┘  └──────────────┘    │  │
+│  └───────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
+                             │
+                             │ Gossip Protocol (Node Communication)
+                             │
+┌─────────────────────────────────────────────────────────────────┐
+│                    Cluster Management                            │
+│  - Gossip Protocol: Node discovery and health monitoring        │
+│  - Snitch: Network topology awareness                            │
+│  - Partitioner: Data distribution (Murmur3Partitioner)          │
+│  - Compaction: SSTable merging and cleanup                       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+**Key Components:**
+
+1. **Client Applications**: Connect to any node in the cluster
+2. **Cassandra Nodes**: Peer-to-peer architecture, no master node
+3. **Datacenters**: Logical grouping of nodes (often by geographic location)
+4. **Racks**: Physical grouping within datacenter (for fault tolerance)
+5. **Token Ring**: Consistent hashing for data distribution
+6. **Replication**: Data replicated across multiple nodes/datacenters
+7. **Gossip Protocol**: Nodes communicate to discover cluster state
+
+**Data Flow:**
+
+1. **Write Path:**
+   - Client sends write to coordinator node
+   - Coordinator determines replica nodes (based on partition key)
+   - Write to commit log (durability)
+   - Write to memtable (in-memory)
+   - Replicate to other replicas (based on consistency level)
+   - Return success to client
+   - Memtable flushed to SSTable (when full)
+
+2. **Read Path:**
+   - Client sends read to coordinator node
+   - Coordinator determines replica nodes (based on consistency level)
+   - Read from replicas (may read from multiple)
+   - Merge results (if different versions)
+   - Return result to client
 
 ### Distributed Architecture
 
