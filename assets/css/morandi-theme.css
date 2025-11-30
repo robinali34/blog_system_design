@@ -40,10 +40,15 @@
 }
 
 /* Global Styles */
+html, body {
+  /* CRITICAL: Must be visible for sticky to work - overflow-x: hidden breaks sticky */
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
 html {
-  /* Ensure html doesn't break sticky */
-  overflow-x: hidden;
-  overflow-y: scroll;
+  /* Keep default scroll behavior */
+  height: 100%;
 }
 
 body {
@@ -51,9 +56,10 @@ body {
   color: var(--morandi-text-dark);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
   line-height: 1.6;
-  /* Ensure body doesn't break sticky */
-  overflow-x: hidden;
-  overflow-y: visible;
+  /* Prevent horizontal overflow without breaking sticky */
+  width: 100%;
+  max-width: 100vw;
+  min-height: 100%;
 }
 
 /* Headers */
@@ -522,6 +528,9 @@ hr {
   overflow: visible;
   z-index: 10;
   will-change: transform;
+  
+  /* TEST: Remove this after confirming sticky works */
+  /* background: rgba(255, 0, 0, 0.1); */
 }
 
 .sidebar-section {
