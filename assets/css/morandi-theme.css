@@ -349,6 +349,8 @@ hr {
   .post-sidebar-left {
     order: 1;
     width: 100%;
+    position: static; /* Disable sticky on mobile */
+    max-height: none;
   }
   
   .post-main {
@@ -676,6 +678,8 @@ hr {
   flex: 1 1 auto;
   /* Ensure the TOC section itself can scroll if content is too long */
   overflow: hidden;
+  /* Make sure TOC section works within sticky sidebar */
+  position: relative;
 }
 
 .post-sidebar-left .toc-section .sidebar-title {
