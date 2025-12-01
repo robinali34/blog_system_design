@@ -40,7 +40,51 @@ GraphQL is a query language for APIs that:
 
 **Type**: Definition of data structure
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│  (Web App)  │     │  (Mobile)   │     │  (API)      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ HTTP POST /graphql
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   GraphQL Server        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Query   │           │
+              │  │ Parser   │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Resolvers│           │
+              │  │(Business)│           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Database   │           │  External    │
+│             │           │  Services    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Clients**: Applications that send GraphQL queries and mutations (e.g., web apps, mobile apps, API clients).
+- **GraphQL Server**: Server that receives GraphQL queries, parses them, validates against schema, and executes resolvers.
+- **Query Parser**: Parses incoming GraphQL queries and validates them against the schema.
+- **Resolvers**: Functions that resolve each field in the query by fetching data from data sources.
+- **Data Sources**: Databases, APIs, or other services that provide the actual data.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

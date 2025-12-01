@@ -46,7 +46,58 @@ Apache Flink is a distributed stream processing framework that offers:
 
 **Watermark**: Mechanism for handling event time and late data
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Data      │────▶│   Data      │────▶│   Data      │
+│   Source    │     │   Source    │     │   Source    │
+│  (Kafka)    │     │  (Kinesis)  │     │  (Files)    │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Apache Flink Cluster  │
+              │                         │
+              │  ┌──────────┐           │
+              │  │   Job    │           │
+              │  │ Manager  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │   Task   │           │
+              │  │ Managers │           │
+              │  │ (Workers)│           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Stream Processing│  │
+              │  │  (Operators)      │  │
+              │  └───────────────────┘  │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Data      │           │   Data      │
+│   Sink      │           │   Sink      │
+│ (Database)  │           │  (Kafka)    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Data Sources**: Systems that produce streaming data (e.g., Kafka, Kinesis, file systems, databases).
+- **Apache Flink Cluster**: A collection of Flink nodes that process streaming data in real-time.
+- **Job Manager**: Coordinates job execution, manages checkpoints, and handles failures.
+- **Task Managers (Workers)**: Execute tasks and process data streams. They run operators and maintain state.
+- **Stream Processing (Operators)**: Data transformations like map, filter, aggregate, window operations.
+- **Data Sinks**: Systems that consume processed data (e.g., databases, message queues, file systems).
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

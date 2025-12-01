@@ -40,7 +40,52 @@ gRPC is an RPC framework that:
 
 **Server**: Implements service methods
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ HTTP/2
+                            │ Protocol Buffers
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   gRPC Server           │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Service  │           │
+              │  │ Methods  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Business │           │
+              │  │  Logic   │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Database   │           │  External    │
+│             │           │  Services    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that make gRPC calls to services (e.g., microservices, mobile apps, web backends).
+- **gRPC Server**: Server that implements service methods defined in Protocol Buffer service definitions.
+- **Service Methods**: Remote procedure calls (RPCs) defined in .proto files that clients can invoke.
+- **Business Logic**: Application code that implements the service methods and processes requests.
+- **Data Sources**: Databases or external services that provide data for the business logic.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

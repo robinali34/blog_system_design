@@ -40,7 +40,50 @@ Neo4j is a graph database that:
 
 **Traversal**: Navigating the graph
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Cypher Query / HTTP API
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Neo4j Database        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Cypher  │           │
+              │  │  Query   │           │
+              │  │  Engine  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Graph   │           │
+              │  │  Engine  │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Native Graph     │  │
+              │  │  Storage          │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that query and manipulate graph data (e.g., social networks, recommendation systems, fraud detection).
+- **Neo4j Database**: Graph database that stores data as nodes and relationships, optimized for graph traversals.
+- **Cypher Query Engine**: Parses and executes Cypher queries (graph query language) to retrieve and manipulate graph data.
+- **Graph Engine**: Manages graph operations like traversals, pattern matching, and relationship navigation.
+- **Native Graph Storage**: Storage layer optimized for graph data structures, storing nodes and relationships efficiently.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -278,6 +321,33 @@ MATCH (p:Person)
 WHERE p.name = "John"
 RETURN p
 ```
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node:**
+- **Max Write Throughput**: **10K-50K writes/sec** (creates/updates nodes and relationships)
+- **Max Read Throughput**: **5K-25K queries/sec** (depends on query complexity and graph size)
+
+**Cluster (Causal Clustering):**
+- **Max Write Throughput**: **10K-50K writes/sec per core** (limited by single write core)
+- **Max Read Throughput**: **5K-25K queries/sec per read replica** (linear scaling with read replicas)
+- **Example**: 1 core + 5 read replicas can handle **10K-50K writes/sec** and **25K-125K queries/sec** total
+
+**Factors Affecting Throughput:**
+- Graph size (larger graphs = slower queries)
+- Query complexity (simple traversals = faster)
+- Index usage (indexed properties = faster)
+- Relationship density
+- Page cache hit rate
+- Memory allocation
+- Transaction size (smaller transactions = higher throughput)
+- Number of read replicas
+
+**Optimized Configuration:**
+- **Max Write Throughput**: **50K-100K writes/sec** (with optimized transactions and indexing)
+- **Max Read Throughput**: **25K-50K queries/sec per read replica** (with proper indexing and caching)
 
 ## Performance Optimization
 

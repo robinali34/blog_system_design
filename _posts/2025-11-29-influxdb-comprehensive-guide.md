@@ -40,7 +40,58 @@ InfluxDB is a time-series database that:
 
 **Series**: Unique combination of measurement, tags, and field
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ HTTP API / Line Protocol
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   InfluxDB Server       │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Write   │           │
+              │  │   API    │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Time-    │           │
+              │  │ Series   │           │
+              │  │ Engine   │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Storage          │  │
+              │  │  (TSM Files)      │  │
+              │  └───────────────────┘  │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Query     │           │   Query      │
+│  (InfluxQL) │           │  (Flux)      │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that write time-series data to InfluxDB (e.g., IoT devices, monitoring systems, analytics platforms).
+- **InfluxDB Server**: Time-series database that stores and queries time-stamped data efficiently.
+- **Write API**: HTTP API that accepts time-series data in Line Protocol format.
+- **Time-Series Engine**: Processes and indexes time-series data for fast writes and queries.
+- **Storage (TSM Files)**: Time-Structured Merge Tree files optimized for time-series data storage and compression.
+- **Query (InfluxQL/Flux)**: Query languages for retrieving and aggregating time-series data.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -328,6 +379,33 @@ cpu_usage,user_id=12345,request_id=abc123 value=75.5
 - user_id: 1, 2, 3, ..., 1000000
 - request_id: unique per request
 - timestamp: unique per point
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node:**
+- **Max Write Throughput**: **100K-500K points/sec** (time-series data points)
+- **Max Read Throughput**: **10K-50K queries/sec** (depends on query complexity and data volume)
+
+**Cluster (Horizontal Scaling):**
+- **Max Write Throughput**: **100K-500K points/sec per node** (linear scaling)
+- **Max Read Throughput**: **10K-50K queries/sec per node** (linear scaling)
+- **Example**: 10-node cluster can handle **1M-5M points/sec** and **100K-500K queries/sec** total
+
+**Factors Affecting Throughput:**
+- Batch size (larger batches = higher throughput)
+- Series cardinality (lower cardinality = higher throughput)
+- Retention policy and downsampling
+- Index usage
+- Compression settings
+- Disk I/O speed (SSD recommended)
+- Memory for cache
+- Query complexity (simple queries = higher throughput)
+
+**Optimized Configuration:**
+- **Max Write Throughput**: **500K-1M points/sec per node** (with optimized batch size and low cardinality)
+- **Max Read Throughput**: **50K-100K queries/sec per node** (with proper indexing and caching)
 
 ## Performance Optimization
 

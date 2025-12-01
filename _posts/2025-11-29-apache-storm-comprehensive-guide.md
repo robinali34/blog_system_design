@@ -40,7 +40,59 @@ Apache Storm is a stream processing framework that:
 
 **Stream Grouping**: How tuples are distributed to bolts
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Data      │────▶│   Data      │────▶│   Data      │
+│   Source    │     │   Source    │     │   Source    │
+│  (Kafka)    │     │  (Kinesis)  │     │  (Files)    │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Storm Nimbus          │
+              │   (Master/Coordinator)  │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Supervisor Nodes      │
+              │   (Workers)             │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Spouts   │           │
+              │  │ (Input)  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Bolts   │           │
+              │  │(Process) │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Data      │           │   Data       │
+│   Sink      │           │   Sink       │
+│ (Database)  │           │  (Kafka)     │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Data Sources**: Systems that produce streaming data (e.g., Kafka, Kinesis, file systems, databases).
+- **Storm Nimbus**: Master node that coordinates the cluster, submits topologies, and monitors execution.
+- **Supervisor Nodes**: Worker nodes that execute tasks. Each supervisor runs worker processes that execute spouts and bolts.
+- **Spouts**: Sources of data streams that read from external systems and emit tuples.
+- **Bolts**: Processing units that consume tuples, perform transformations, and emit new tuples.
+- **Data Sinks**: Systems that consume processed data (e.g., databases, message queues, file systems).
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

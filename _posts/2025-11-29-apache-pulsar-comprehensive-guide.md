@@ -40,7 +40,47 @@ Apache Pulsar is a messaging and streaming platform that:
 
 **Tenant**: Top-level namespace isolation
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Producer   │────▶│  Producer   │────▶│  Producer   │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Publish Messages
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Pulsar Brokers        │
+              │   (Message Routing)     │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   BookKeeper            │
+              │   (Persistent Storage)  │
+              └─────────────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Consumer   │           │  Consumer    │
+│   Group 1   │           │   Group 2    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Producers**: Applications that publish messages to Pulsar topics (e.g., microservices, data pipelines, event sources).
+- **Pulsar Brokers**: Stateless servers that handle message routing, load balancing, and coordinate with BookKeeper for persistence.
+- **BookKeeper**: Distributed write-ahead log that provides persistent message storage and replication.
+- **Consumers**: Applications that consume messages from Pulsar topics. Multiple consumer groups can independently consume from the same topic.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

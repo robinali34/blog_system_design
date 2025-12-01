@@ -40,7 +40,55 @@ Consul is a service mesh solution that:
 
 **Datacenter**: Logical grouping of Consul agents
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Service   │────▶│   Service   │────▶│   Service   │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       │  ┌─────────────────┴─────────────────┐ │
+       │  │      Consul Clients               │ │
+       │  │  (Service Registration)            │ │
+       │  └──────────────┬─────────────────────┘ │
+       │                 │                        │
+       └─────────────────┴────────────────────────┘
+                         │
+                         ▼
+              ┌─────────────────────────┐
+              │   Consul Server        │
+              │      Cluster            │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Leader  │           │
+              │  │  Server  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Follower  │           │
+              │  │  Servers  │           │
+              │  └───────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │ Service Catalog   │  │
+              │  │ KV Store          │  │
+              │  │ Health Checks     │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Services**: Microservices or applications that register themselves with Consul for service discovery.
+- **Consul Clients**: Agents running alongside services that register services and perform health checks.
+- **Consul Server Cluster**: A collection of Consul servers (typically 3-5) that maintain the service catalog and provide consensus.
+- **Leader Server**: One server in the cluster that coordinates writes and maintains consistency.
+- **Follower Servers**: Other servers that replicate data and participate in consensus.
+- **Service Catalog**: Registry of all services, their health status, and metadata.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

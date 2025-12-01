@@ -38,7 +38,62 @@ Apache Parquet is a columnar storage format that:
 
 **Schema**: Data structure definition
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Data      │────▶│   Data      │────▶│   Data      │
+│   Source    │     │   Source    │     │   Source    │
+│  (Database) │     │  (Files)    │     │  (Stream)   │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Write Data
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Parquet Writer        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Schema   │           │
+              │  │ Definition│           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Columnar │           │
+              │  │ Encoding │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Parquet File     │  │
+              │  │  (Storage)        │  │
+              │  └───────────────────┘  │
+              └──────┬──────────────────┘
+                     │
+                     │ Read Data
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Analytics │           │   Data       │
+│   Engine    │           │   Warehouse  │
+│  (Spark)    │           │  (S3/HDFS)   │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Data Sources**: Systems that produce data (e.g., databases, file systems, data streams).
+- **Parquet Writer**: Converts data into Parquet columnar format with schema definition and columnar encoding.
+- **Schema Definition**: Defines the structure of data (columns, types, nested structures).
+- **Columnar Encoding**: Stores data column-by-column for efficient compression and querying.
+- **Parquet File (Storage)**: Binary file format stored on disk or object storage (S3, HDFS).
+- **Analytics Engine**: Systems that read Parquet files for analytics (e.g., Spark, Presto, Hive).
+- **Data Warehouse**: Storage systems that store Parquet files (e.g., S3, HDFS, data lakes).
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

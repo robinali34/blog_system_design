@@ -40,6 +40,48 @@ A Load Balancer is a device or software that:
 
 **Failover**: Switching to backup when primary fails
 
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│  (Browser)  │     │  (Mobile)   │     │  (API)      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Load Balancer         │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Algorithm │           │
+              │  │ (Routing) │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Health   │           │
+              │  │ Checks   │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Backend    │           │  Backend     │
+│  Server 1   │           │  Server 2    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Clients**: Web browsers, mobile apps, or API clients that make requests to the application.
+- **Load Balancer**: Distributes incoming requests across multiple backend servers to improve performance and availability.
+- **Algorithm (Routing)**: Determines which backend server receives each request (e.g., round-robin, least connections, IP hash).
+- **Health Checks**: Monitors backend server health and removes unhealthy servers from the pool.
+- **Backend Servers**: Application servers that process requests and generate responses.
+
 ## Load Balancing Algorithms
 
 ### 1. Round Robin

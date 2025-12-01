@@ -38,7 +38,50 @@ Apache Ignite is an in-memory computing platform that:
 
 **Affinity**: Data co-location
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Ignite API
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Ignite Cluster        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Node 1  │           │
+              │  │ (Cache,  │           │
+              │  │ Compute) │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Node 2  │           │
+              │  │ (Cache,  │           │
+              │  │ Compute) │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Distributed      │  │
+              │  │  Cache           │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that use Ignite for in-memory caching, computing, and data processing (e.g., web applications, microservices, analytics platforms).
+- **Ignite Cluster**: A collection of Ignite nodes that work together to provide distributed in-memory computing capabilities.
+- **Nodes**: Individual Ignite servers that provide caching, computing, and service grid functionality.
+- **Distributed Cache**: In-memory data grid that distributes data across cluster nodes for high performance and scalability.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

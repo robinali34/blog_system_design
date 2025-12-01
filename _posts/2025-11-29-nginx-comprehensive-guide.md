@@ -38,7 +38,50 @@ NGINX is a web server and reverse proxy that:
 
 **Worker Process**: Process that handles requests
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│  (Browser)  │     │  (Browser)  │     │  (Mobile)   │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   NGINX Server          │
+              │   (Load Balancer)       │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Master  │           │
+              │  │ Process  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Workers  │           │
+              │  │(Process) │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Backend    │           │  Backend     │
+│  Server 1   │           │  Server 2    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Clients**: Web browsers, mobile apps, or other HTTP clients that make requests to the server.
+- **NGINX Server**: Web server and reverse proxy that receives client requests and forwards them to backend servers.
+- **Master Process**: Main process that manages worker processes and handles configuration reloading.
+- **Worker Processes**: Handle client requests. Each worker can handle thousands of concurrent connections using event-driven, non-blocking I/O.
+- **Backend Servers**: Application servers (e.g., Node.js, Python, Java) that process requests and generate responses.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

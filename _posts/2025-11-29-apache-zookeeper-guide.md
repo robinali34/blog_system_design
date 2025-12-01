@@ -43,7 +43,46 @@ Apache Zookeeper is a distributed coordination service that offers:
 
 **Observer**: Server that doesn't participate in voting (read-only)
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Zookeeper Cluster     │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Leader  │           │
+              │  └────┬─────┘           │
+              │       │                  │
+              │  ┌────┴─────┐           │
+              │  │ Followers │           │
+              │  │ (Quorum)  │           │
+              │  └───────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │   Data Tree        │  │
+              │  │   (Znodes)         │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Distributed applications that connect to Zookeeper for coordination services (locks, leader election, configuration).
+- **Zookeeper Cluster**: A collection of Zookeeper servers working together. Typically 3, 5, or 7 nodes for fault tolerance.
+- **Leader**: One server in the cluster that coordinates writes and ensures consistency.
+- **Followers**: Other servers in the cluster that replicate the leader's writes and participate in voting (quorum).
+- **Data Tree (Znodes)**: Hierarchical namespace similar to a file system, storing configuration, locks, and service information.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

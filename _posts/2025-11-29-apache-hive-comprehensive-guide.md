@@ -38,7 +38,55 @@ Apache Hive is a data warehouse system that:
 
 **Metastore**: Metadata storage (database schema)
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   User      │────▶│   User      │────▶│   User      │
+│  (Analyst)  │     │  (Data Eng) │     │  (BI Tool)  │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ HiveQL Queries
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Hive Server           │
+              │   (Query Compiler)      │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Metastore            │
+              │   (Schema/Metadata)     │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Hadoop Cluster        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  HDFS    │           │
+              │  │(Storage) │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ MapReduce│           │
+              │  │ / YARN   │           │
+              │  └──────────┘           │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Users**: Data analysts, data engineers, and BI tools that query data using SQL-like HiveQL queries.
+- **Hive Server**: Compiles HiveQL queries into MapReduce or Tez jobs and coordinates execution.
+- **Metastore**: Stores schema and metadata information (table definitions, partitions, columns).
+- **Hadoop Cluster**: Provides distributed storage (HDFS) and processing (MapReduce/YARN) for executing Hive queries.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

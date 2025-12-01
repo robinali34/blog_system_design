@@ -38,7 +38,49 @@ Apache Phoenix is a SQL layer over HBase that:
 
 **View**: Virtual table
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ SQL Queries (JDBC)
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Phoenix Server        │
+              │   (SQL Compiler)        │
+              └──────┬──────────────────┘
+                     │
+                     │ HBase API
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   HBase Cluster         │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ HMaster  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Region   │           │
+              │  │ Servers  │           │
+              │  └──────────┘           │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that use standard SQL and JDBC to query HBase data (e.g., BI tools, analytics platforms, web applications).
+- **Phoenix Server**: SQL layer on top of HBase that compiles SQL queries into HBase operations and provides JDBC interface.
+- **HBase Cluster**: Underlying NoSQL database that stores data. Phoenix translates SQL operations into HBase API calls.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

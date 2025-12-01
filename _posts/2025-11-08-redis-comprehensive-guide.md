@@ -47,6 +47,47 @@ Redis is a **key-value store** where keys are mapped to values, but unlike simpl
 
 ## Redis Architecture
 
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Redis Protocol
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Redis Server          │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Event    │           │
+              │  │ Loop     │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ In-Memory│           │
+              │  │ Data     │           │
+              │  │ Store    │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Persistence      │  │
+              │  │  (RDB/AOF)        │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that connect to Redis for caching, session storage, or real-time features (e.g., web servers, microservices, background jobs).
+- **Redis Server**: In-memory data structure store that serves as database, cache, and message broker.
+- **Event Loop**: Single-threaded event loop that processes all commands sequentially, ensuring atomicity.
+- **In-Memory Data Store**: All data stored in RAM for fast access. Supports strings, lists, sets, sorted sets, hashes, and more.
+- **Persistence (RDB/AOF)**: Optional persistence to disk using RDB snapshots or AOF (Append-Only File) logs for durability.
+
 ### Core Architecture
 
 ```
@@ -653,6 +694,31 @@ cluster-node-timeout 5000
 ---
 
 ## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node:**
+- **Max Read Throughput**: 
+  - Simple operations (GET, SET): **100K-200K ops/sec**
+  - Complex operations (SORT, ZUNIONSTORE): **50K-100K ops/sec**
+  - With pipelining: **1M+ ops/sec**
+- **Max Write Throughput**:
+  - Simple operations (SET, HSET): **100K-200K ops/sec**
+  - Complex operations (multi-key): **50K-100K ops/sec**
+  - With pipelining: **1M+ ops/sec**
+
+**Redis Cluster (Horizontal Scaling):**
+- **Max Read Throughput**: **100K-200K ops/sec per node** (linear scaling)
+- **Max Write Throughput**: **100K-200K ops/sec per node** (linear scaling)
+- **Example**: 10-node cluster can handle **1M-2M ops/sec** total
+
+**Factors Affecting Throughput:**
+- Command complexity
+- Data structure size
+- Network latency
+- Persistence settings (AOF sync mode)
+- Memory bandwidth
+- Number of nodes (for cluster)
 
 ### Throughput
 

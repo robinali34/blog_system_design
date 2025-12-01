@@ -540,6 +540,39 @@ LOCK TABLE accounts IN EXCLUSIVE MODE;
 
 ---
 
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node (Standard Configuration):**
+- **Max Read Throughput**: 
+  - Simple queries (indexed): **10K-50K queries/sec**
+  - Complex queries (joins, aggregations): **1K-10K queries/sec**
+  - With read replicas: **10K-50K queries/sec per replica** (linear scaling)
+- **Max Write Throughput**:
+  - Simple inserts: **5K-20K writes/sec**
+  - Updates with indexes: **2K-10K writes/sec**
+  - Batch inserts: **50K-200K rows/sec**
+
+**Factors Affecting Throughput:**
+- Hardware (CPU, RAM, disk I/O)
+- Query complexity
+- Index usage
+- Connection pooling
+- Write-Ahead Log (WAL) configuration
+- Checkpoint frequency
+- Number of connections
+- Replication lag (for read replicas)
+
+**Optimized Configuration:**
+- **Max Read Throughput**: **50K-100K queries/sec** (with proper indexing and connection pooling)
+- **Max Write Throughput**: **20K-50K writes/sec** (with optimized WAL and checkpoints)
+
+**Horizontal Scaling (Read Replicas):**
+- **Max Read Throughput**: **10K-50K queries/sec per replica**
+- **Example**: 5 read replicas can handle **50K-250K queries/sec** total
+- **Write Throughput**: Limited by primary (single write node)
+
 ## Performance Optimization
 
 ### Indexing

@@ -40,7 +40,41 @@ Memcached is a distributed memory caching system that:
 
 **Cluster**: Group of Memcached servers
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Memcached Protocol
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Memcached Client      │
+              │   (Hash Distribution)   │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Memcached  │           │  Memcached   │
+│  Server 1   │           │  Server 2    │
+│  (RAM)      │           │  (RAM)       │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that use Memcached for caching (e.g., web applications, APIs, databases).
+- **Memcached Client**: Client library that distributes keys across Memcached servers using consistent hashing.
+- **Memcached Servers**: In-memory key-value stores that cache data in RAM for fast access. Multiple servers form a distributed cache cluster.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -396,6 +430,46 @@ hit_rate = hits / (hits + misses) * 100
 - 80%+ hit rate
 - Monitor and optimize
 - Adjust TTL if needed
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node:**
+- **Max Read Throughput**: **200K-500K ops/sec** (GET operations)
+- **Max Write Throughput**: **200K-500K ops/sec** (SET operations)
+- **Typical Performance**: **100K-300K ops/sec** for mixed workloads
+
+**Distributed Cluster:**
+- **Max Read Throughput**: **200K-500K ops/sec per node** (linear scaling)
+- **Max Write Throughput**: **200K-500K ops/sec per node** (linear scaling)
+- **Example**: 10-node cluster can handle **2M-5M ops/sec** total
+
+**Factors Affecting Throughput:**
+- Network latency
+- Item size (larger items = lower throughput)
+- Memory bandwidth
+- CPU cores (multi-threaded)
+- Connection pooling
+- Key distribution across nodes
+
+**Performance Comparison:**
+- **Memcached**: Typically faster than Redis for simple GET/SET operations
+- **Redis**: More features but slightly slower for basic operations
+- **Memcached**: Optimized for maximum throughput on simple operations
+
+### Latency
+
+**Typical Latency:**
+- **Local Network**: < 0.5ms
+- **Same Data Center**: 0.5-2ms
+- **Cross-Region**: 5-50ms
+
+**Factors Affecting Latency:**
+- Network latency
+- Item size
+- Server load
+- Memory access speed
 
 ## Best Practices
 

@@ -47,7 +47,49 @@ Apache Kafka is a distributed streaming platform that offers:
 
 **Replication**: Copies of partitions stored on multiple brokers for fault tolerance.
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Producer   │────▶│   Producer  │────▶│  Producer   │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Kafka Cluster         │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Broker  │           │
+              │  │  Cluster │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Topics  │           │
+              │  │(Partitions)          │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Consumer   │           │  Consumer   │
+│   Group 1   │           │   Group 2   │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Producers**: Applications that publish messages to Kafka topics (e.g., web servers, microservices, data pipelines).
+- **Kafka Cluster**: A collection of Kafka brokers that store and serve messages. Brokers handle read/write requests and replication.
+- **Broker Cluster**: Multiple brokers working together to provide high availability and scalability.
+- **Topics (Partitions)**: Logical categories for messages. Topics are divided into partitions for parallel processing and scalability.
+- **Consumer Groups**: Groups of consumers that work together to consume messages from topics. Each message is delivered to only one consumer in a group.
+
+### Core Architecture
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐

@@ -40,7 +40,49 @@ Docker is a containerization platform that:
 
 **Network**: Container networking
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Developer  │────▶│   DevOps    │────▶│   CI/CD     │
+│             │     │  Engineer   │     │  Pipeline   │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ docker build/run
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Docker Host            │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Docker  │           │
+              │  │  Daemon  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Containers│          │
+              │  │ (Running) │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Images           │  │
+              │  │  (Templates)      │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Users**: Developers, DevOps engineers, and CI/CD pipelines that build and run containerized applications.
+- **Docker Host**: Machine (physical or virtual) that runs the Docker daemon and containers.
+- **Docker Daemon**: Background service that manages Docker objects (containers, images, networks, volumes).
+- **Containers**: Running instances of Docker images that execute applications in isolated environments.
+- **Images**: Read-only templates used to create containers. Images are built from Dockerfiles or pulled from registries.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

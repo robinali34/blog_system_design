@@ -40,7 +40,51 @@ Apache Druid is an analytics database that:
 
 **Indexing Service**: Service that creates segments
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ SQL Queries
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Druid Broker           │
+              │   (Query Router)         │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│ Historical  │           │  Real-Time   │
+│   Nodes     │           │   Nodes      │
+│ (Segments)  │           │ (Ingestion)  │
+└──────┬──────┘           └───────┬──────┘
+       │                           │
+       └──────────────┬────────────┘
+                      │
+                      ▼
+              ┌─────────────────────────┐
+              │   Deep Storage           │
+              │   (S3, HDFS)            │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that query Druid for real-time and historical analytics (e.g., dashboards, analytics platforms, monitoring systems).
+- **Druid Broker**: Routes queries to appropriate nodes (Historical or Real-Time) and merges results.
+- **Historical Nodes**: Store and serve historical data segments. Optimized for fast analytical queries on historical data.
+- **Real-Time Nodes**: Ingest and process real-time streaming data. Data is eventually moved to Historical nodes.
+- **Deep Storage**: Long-term storage for segments (e.g., S3, HDFS). Historical nodes load segments from deep storage.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

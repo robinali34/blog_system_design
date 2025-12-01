@@ -40,7 +40,47 @@ etcd is a distributed key-value store that:
 
 **Transaction**: Atomic multi-operation
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │     etcd Cluster        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Leader  │           │
+              │  │  Node    │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Followers │           │
+              │  │  (Raft)   │           │
+              │  └───────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Key-Value Store   │  │
+              │  │  (Distributed)     │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications (e.g., Kubernetes, distributed systems) that connect to etcd for distributed key-value storage and coordination.
+- **etcd Cluster**: A collection of etcd nodes working together. Typically 3, 5, or 7 nodes for fault tolerance.
+- **Leader Node**: One node in the cluster that coordinates writes using the Raft consensus algorithm.
+- **Follower Nodes**: Other nodes in the cluster that replicate the leader's writes and participate in consensus voting.
+- **Key-Value Store**: Distributed key-value storage that provides strong consistency and high availability.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

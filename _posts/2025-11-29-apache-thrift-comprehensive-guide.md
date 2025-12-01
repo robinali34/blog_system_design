@@ -40,7 +40,63 @@ Apache Thrift is an RPC framework that:
 
 **Protocol**: Serialization format
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ RPC Calls
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Thrift Client         │
+              │   (Generated Code)      │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Protocol │           │
+              │  │ (Binary) │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Transport │           │
+              │  │ (TCP/HTTP)│           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Thrift Server        │
+              │   (Generated Code)     │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Service  │           │
+              │  │ Methods  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Business │           │
+              │  │  Logic   │           │
+              │  └──────────┘           │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that make RPC calls to services using Thrift-generated client code (e.g., microservices, distributed systems).
+- **Thrift Client (Generated Code)**: Client-side code generated from Thrift IDL that handles serialization and communication.
+- **Protocol (Binary)**: Serialization format for data (binary, JSON, compact, etc.).
+- **Transport (TCP/HTTP)**: Network transport layer for sending data over the network.
+- **Thrift Server (Generated Code)**: Server-side code generated from Thrift IDL that handles deserialization and method invocation.
+- **Service Methods**: Remote procedure calls defined in Thrift IDL.
+- **Business Logic**: Application code that implements the service methods.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

@@ -38,7 +38,52 @@ Terraform is an infrastructure as code tool that:
 
 **Workspace**: Environment isolation
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Developer  │────▶│   DevOps    │────▶│   CI/CD     │
+│             │     │  Engineer   │     │  Pipeline   │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ terraform apply
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Terraform Core        │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Config  │           │
+              │  │  Files   │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Providers│           │
+              │  │(AWS/Azure│           │
+              │  │ /GCP)    │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   AWS       │           │   Azure      │
+│ Resources   │           │  Resources   │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Users**: Developers, DevOps engineers, and CI/CD pipelines that define and manage infrastructure using Terraform.
+- **Terraform Core**: The main engine that reads configuration files, creates execution plans, and manages infrastructure lifecycle.
+- **Config Files**: Infrastructure definitions written in HCL (HashiCorp Configuration Language) that describe desired infrastructure state.
+- **Providers**: Plugins that interact with cloud providers (AWS, Azure, GCP) or other services to create and manage resources.
+- **Cloud Resources**: Actual infrastructure resources (e.g., VMs, databases, networks) created and managed by Terraform.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

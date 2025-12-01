@@ -45,7 +45,54 @@ MongoDB is a NoSQL document database that:
 
 **Index**: Data structure for fast lookups
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   MongoDB Driver        │
+              │   (Connection Pool)    │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   MongoDB Cluster      │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Primary │           │
+              │  │  Node    │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Secondary│           │
+              │  │  Nodes   │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Replica Set      │  │
+              │  │  (Collections)    │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that connect to MongoDB to store and retrieve documents (e.g., web applications, microservices).
+- **MongoDB Driver**: Client library that manages connections, connection pooling, and query execution.
+- **MongoDB Cluster**: A collection of MongoDB nodes working together. Can be a standalone server, replica set, or sharded cluster.
+- **Primary Node**: The node in a replica set that handles all write operations.
+- **Secondary Nodes**: Nodes that replicate data from the primary and can handle read operations.
+- **Replica Set (Collections)**: Groups of documents stored in databases. Collections are distributed across nodes in a sharded cluster.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -555,6 +602,43 @@ try {
   children: [ObjectId("..."), ObjectId("...")]
 }
 ```
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node (Replica Set Primary):**
+- **Max Read Throughput**: 
+  - Simple queries (indexed): **10K-50K queries/sec**
+  - Complex queries (aggregations): **1K-10K queries/sec**
+  - With read replicas: **10K-50K queries/sec per replica** (linear scaling)
+- **Max Write Throughput**:
+  - Simple inserts: **5K-20K writes/sec**
+  - Updates: **3K-15K writes/sec**
+  - Bulk inserts: **50K-200K documents/sec**
+
+**Sharded Cluster:**
+- **Max Read Throughput**: **10K-50K queries/sec per shard** (linear scaling)
+- **Max Write Throughput**: **5K-20K writes/sec per shard** (linear scaling)
+- **Example**: 10-shard cluster can handle **50K-200K queries/sec** and **50K-200K writes/sec** total
+
+**Factors Affecting Throughput:**
+- Hardware (CPU, RAM, disk I/O, SSD vs HDD)
+- Document size (larger documents = lower throughput)
+- Index usage and complexity
+- Write concern level (w:1 vs w:majority)
+- Shard key distribution
+- Replication lag
+- Connection pooling
+- WiredTiger cache size
+
+**Optimized Configuration:**
+- **Max Read Throughput**: **50K-100K queries/sec** (with proper indexing, sharding, and read replicas)
+- **Max Write Throughput**: **20K-50K writes/sec** (with optimized sharding and write concern)
+
+**Horizontal Scaling:**
+- **Read Scaling**: Add read replicas or shards for linear read scaling
+- **Write Scaling**: Add shards for linear write scaling
 
 ## Performance Optimization
 

@@ -40,7 +40,46 @@ Kubernetes is a container orchestration platform that:
 
 **Cluster**: Group of nodes
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Developer │────▶│   DevOps    │────▶│   Operator  │
+│             │     │  Engineer   │     │             │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ kubectl / API
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │  Kubernetes Cluster     │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Master  │           │
+              │  │  Node    │           │
+              │  │(Control  │           │
+              │  │  Plane)  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Worker   │           │
+              │  │  Nodes    │           │
+              │  │  (Pods)   │           │
+              │  └──────────┘           │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Users**: Developers, DevOps engineers, and operators who deploy and manage applications on Kubernetes.
+- **Kubernetes Cluster**: A collection of nodes (machines) that run containerized applications.
+- **Master Node (Control Plane)**: Manages the cluster, schedules pods, maintains desired state, and handles API requests.
+- **Worker Nodes**: Machines that run application workloads. Each node runs pods (containers) and reports status to the master.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

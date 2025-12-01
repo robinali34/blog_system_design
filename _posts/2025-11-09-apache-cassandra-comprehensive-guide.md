@@ -44,6 +44,36 @@ Cassandra is a **wide-column store** NoSQL database that provides:
 ### High-Level Architecture
 
 ```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│  Load Balancer  │────▶│   Cassandra   │
+│ (Application)│     │             │     │    Cluster    │
+└──────┬──────┘     └──────┬──────┘     └──────┬───────┘
+       │                    │                    │
+       │                    ▼                    │
+       │             ┌───────────┐               │
+       │             │ Coordinator │               │
+       │             │    Node     │               │
+       │             └──────┬──────┘               │
+       │                    │                    │
+       │                    ▼                    │
+       │             ┌───────────┐               │
+       │             │  Replica    │               │
+       │             │    Nodes    │               │
+       │             └───────────┘               │
+       │                    │                    │
+       └───────────────────────────────────────────┘
+```
+
+**Explanation:**
+- **Client**: Your application (e.g., web server, microservice) that interacts with Cassandra.
+- **Load Balancer**: Distributes client requests across Cassandra nodes. Can be a dedicated load balancer or client-side load balancing in the Cassandra driver.
+- **Coordinator Node**: Any Cassandra node can act as a coordinator. It receives the client request, determines which replica nodes should be involved based on the partition key and replication strategy, and then forwards the request to them.
+- **Cassandra Cluster**: A collection of Cassandra nodes working together. Data is distributed across these nodes.
+- **Replica Nodes**: Nodes that store copies of the data. The number of replicas is determined by the replication factor.
+
+### Detailed Architecture
+
+```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         Client Applications                       │
 │  (Web Apps, Mobile Apps, Microservices, Data Pipelines)          │
@@ -750,6 +780,31 @@ PRIMARY KEY (date, post_id);
 ---
 
 ## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node:**
+- **Max Write Throughput**: **10K-50K writes/sec**
+- **Max Read Throughput**: **5K-25K reads/sec** (depends on consistency level and data locality)
+
+**Cluster (Horizontal Scaling):**
+- **Max Write Throughput**: **10K-50K writes/sec per node** (linear scaling)
+- **Max Read Throughput**: **5K-25K reads/sec per node** (linear scaling)
+- **Example**: 100-node cluster can handle **1M-5M writes/sec** and **500K-2.5M reads/sec** total
+
+**Factors Affecting Throughput:**
+- Commit log disk speed (SSD recommended)
+- Memtable size and flush frequency
+- Replication factor (higher RF = more writes)
+- Consistency level (QUORUM slower than ONE)
+- Data locality (local reads faster)
+- Compaction strategy
+- Network latency between nodes
+- Number of nodes in cluster
+
+**Optimized Configuration:**
+- **Max Write Throughput**: **50K-100K writes/sec per node** (with optimized settings)
+- **Max Read Throughput**: **25K-50K reads/sec per node** (with proper consistency level and data locality)
 
 ### Write Performance
 

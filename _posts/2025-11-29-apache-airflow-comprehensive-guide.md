@@ -40,7 +40,54 @@ Apache Airflow is a workflow orchestration platform that:
 
 **Executor**: Component that executes tasks
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   User      │────▶│   User      │────▶│   User      │
+│  (DevOps)   │     │  (Data Eng) │     │  (Analyst)  │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Airflow Web UI        │
+              │   (DAG Management)      │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Airflow Scheduler    │
+              │   (DAG Parsing,        │
+              │    Task Scheduling)     │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Executor              │
+              │   (Task Execution)      │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Worker    │           │   Worker     │
+│   Node 1    │           │   Node 2     │
+│  (Tasks)    │           │  (Tasks)     │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Users**: Data engineers, DevOps engineers, and analysts who create and manage workflows (DAGs).
+- **Airflow Web UI**: Web interface for monitoring DAGs, viewing task logs, and managing workflows.
+- **Airflow Scheduler**: Parses DAGs, schedules tasks based on dependencies and schedules, and manages task execution.
+- **Executor**: Component that determines how tasks are executed (e.g., LocalExecutor, CeleryExecutor, KubernetesExecutor).
+- **Worker Nodes**: Machines that execute tasks. Workers pull tasks from the queue and execute them.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

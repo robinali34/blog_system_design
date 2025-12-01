@@ -41,6 +41,49 @@ Amazon S3 is an object storage service that offers:
 
 **Storage Classes**: Different storage tiers optimized for different access patterns.
 
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ AWS SDK / API
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Amazon S3             │
+              │   (Object Storage)       │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Buckets │           │
+              │  │(Containers│           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Objects  │           │
+              │  │  (Files)  │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Storage Classes  │  │
+              │  │  (Tiers)          │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that store and retrieve objects from S3 (e.g., web applications, data pipelines, backup systems).
+- **Amazon S3**: Object storage service that stores data as objects in buckets. Fully managed, scalable, and highly available.
+- **Buckets (Containers)**: Top-level containers for objects. Each bucket has a globally unique name and can contain unlimited objects.
+- **Objects (Files)**: Data stored in S3. Each object consists of data, metadata, and a unique key.
+- **Storage Classes (Tiers)**: Different storage options optimized for various access patterns and cost requirements (Standard, IA, Glacier, etc.).
+
 ## S3 Storage Classes
 
 | Storage Class | Use Case | Durability | Availability | Cost |

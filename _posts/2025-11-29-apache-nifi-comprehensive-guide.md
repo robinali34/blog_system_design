@@ -38,7 +38,56 @@ Apache NiFi is a data flow management system that:
 
 **Controller Service**: Reusable service
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Data      │────▶│   Data      │────▶│   Data      │
+│   Source    │     │   Source    │     │   Source    │
+│  (Files)    │     │  (Database)│     │  (API)      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   NiFi Cluster          │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Node 1  │           │
+              │  │(Processors│           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Node 2  │           │
+              │  │(Processors│           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Data Flow        │  │
+              │  │  (FlowFiles)      │  │
+              │  └───────────────────┘  │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Data      │           │   Data      │
+│   Sink      │           │   Sink       │
+│ (Database)  │           │  (HDFS)      │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Data Sources**: Systems that produce data (e.g., file systems, databases, APIs, message queues).
+- **NiFi Cluster**: A collection of NiFi nodes that work together to process data flows in a distributed manner.
+- **Nodes**: Individual NiFi servers that execute processors and manage data flows.
+- **Data Flow (FlowFiles)**: Data packets (FlowFiles) that flow through the system, being processed by various processors.
+- **Data Sinks**: Systems that consume processed data (e.g., databases, file systems, message queues).
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

@@ -40,7 +40,51 @@ Apache Pinot is a real-time OLAP database that:
 
 **Star-Tree Index**: Pre-aggregated index for fast queries
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ SQL Queries
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Pinot Broker          │
+              │   (Query Router)        │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Server    │           │   Minion      │
+│   Nodes     │           │   (Ingestion) │
+│ (Segments)  │           │               │
+└──────┬──────┘           └───────┬──────┘
+       │                           │
+       └──────────────┬────────────┘
+                      │
+                      ▼
+              ┌─────────────────────────┐
+              │   Deep Storage           │
+              │   (S3, HDFS)            │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that query Pinot for real-time OLAP analytics (e.g., dashboards, analytics platforms, ad-hoc queries).
+- **Pinot Broker**: Routes queries to appropriate server nodes and merges results from multiple segments.
+- **Server Nodes**: Store and serve data segments. Execute queries on segments and return results to brokers.
+- **Minion**: Handles data ingestion, segment creation, and real-time data processing.
+- **Deep Storage**: Long-term storage for segments (e.g., S3, HDFS). Server nodes load segments from deep storage.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

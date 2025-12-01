@@ -42,7 +42,47 @@ Apache Spark is a distributed computing framework that:
 
 **Cluster Manager**: Manages cluster resources (YARN, Mesos, Kubernetes)
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Spark Driver          │
+              │   (SparkContext,        │
+              │    DAG Scheduler)       │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Cluster Manager       │
+              │   (YARN/K8s/Mesos)     │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Executor   │           │  Executor    │
+│   Node 1    │           │   Node 2     │
+│  (Tasks)    │           │  (Tasks)     │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that submit Spark jobs (e.g., data processing pipelines, analytics jobs, ETL workflows).
+- **Spark Driver**: The main process that creates SparkContext, converts user code into tasks, and coordinates execution.
+- **Cluster Manager**: Manages cluster resources and allocates them to Spark applications (YARN, Kubernetes, or Mesos).
+- **Executor Nodes**: Worker nodes that execute tasks. Each executor runs tasks in parallel and caches data in memory.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

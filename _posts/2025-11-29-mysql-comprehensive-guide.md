@@ -46,7 +46,40 @@ MySQL is an open-source relational database management system that:
 
 **Replication**: Copying data to multiple servers
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Connection Pool      │
+              │   (Load Balancer)      │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   MySQL     │           │   MySQL      │
+│   Master    │           │   Replica    │
+│   (Writes)  │           │   (Reads)    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that connect to MySQL to store and retrieve data (e.g., web applications, APIs, microservices).
+- **Connection Pool (Load Balancer)**: Manages database connections and can distribute read requests across replicas.
+- **MySQL Master**: The primary server that handles all write operations and replicates changes to replicas.
+- **MySQL Replica**: A copy of the master database that handles read operations and provides high availability.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -289,6 +322,39 @@ shard_mapping[user_id] = shard_id
 - Moving data between shards
 - Maintaining availability
 - Consistency
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node (InnoDB Engine):**
+- **Max Read Throughput**: 
+  - Simple queries (indexed): **10K-50K queries/sec**
+  - Complex queries (joins): **1K-10K queries/sec**
+  - With read replicas: **10K-50K queries/sec per replica** (linear scaling)
+- **Max Write Throughput**:
+  - Simple inserts: **5K-25K writes/sec**
+  - Updates with indexes: **2K-10K writes/sec**
+  - Batch inserts: **50K-200K rows/sec**
+
+**Factors Affecting Throughput:**
+- Storage engine (InnoDB vs MyISAM)
+- Hardware (CPU, RAM, disk I/O, SSD vs HDD)
+- Query complexity and indexing
+- Connection pooling
+- Binary log configuration
+- Buffer pool size
+- Number of connections
+- Replication lag (for read replicas)
+
+**Optimized Configuration:**
+- **Max Read Throughput**: **50K-100K queries/sec** (with proper indexing, connection pooling, and read replicas)
+- **Max Write Throughput**: **25K-50K writes/sec** (with optimized InnoDB settings and SSD storage)
+
+**Horizontal Scaling (Read Replicas):**
+- **Max Read Throughput**: **10K-50K queries/sec per replica**
+- **Example**: 5 read replicas can handle **50K-250K queries/sec** total
+- **Write Throughput**: Limited by master (single write node)
 
 ## Performance Optimization
 

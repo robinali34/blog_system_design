@@ -93,6 +93,49 @@ When a network partition occurs:
 - ✅ Distributed architecture
 - ❌ Must choose C or A during partitions
 
+## Architecture
+
+### CAP Theorem Trade-off Visualization
+
+```
+                    CAP Theorem
+                        │
+        ┌───────────────┼───────────────┐
+        │               │               │
+    Consistency    Availability   Partition
+        (C)            (A)        Tolerance
+                                        (P)
+        │               │               │
+        └───────┬───────┴───────┬───────┘
+                │               │
+        ┌───────▼───────┐ ┌──────▼───────┐
+        │   CP Systems  │ │   AP Systems │
+        │               │ │              │
+        │ - MongoDB     │ │ - Cassandra  │
+        │ - HBase       │ │ - DynamoDB   │
+        │ - PostgreSQL  │ │ - CouchDB    │
+        │   (Replica)   │ │ - Riak       │
+        └───────────────┘ └──────────────┘
+                │               │
+                └───────┬───────┘
+                        │
+                Network Partition
+                        │
+        ┌───────────────┴───────────────┐
+        │                               │
+┌───────▼───────┐           ┌──────────▼───────┐
+│ Choose C      │           │ Choose A          │
+│ (Reject Writes│           │ (Accept Writes   │
+│  - Unavailable│           │  - Inconsistent)│
+└───────────────┘           └──────────────────┘
+```
+
+**Explanation:**
+- **CAP Theorem**: States that in a distributed system, you can only guarantee two out of three properties: Consistency, Availability, and Partition Tolerance.
+- **CP Systems**: Prioritize Consistency and Partition Tolerance. During network partitions, they reject writes to maintain consistency (become unavailable).
+- **AP Systems**: Prioritize Availability and Partition Tolerance. During network partitions, they accept writes but may return inconsistent data.
+- **Network Partition**: When network communication between nodes fails, the system must choose between maintaining consistency (CP) or availability (AP).
+
 ## CAP Theorem Combinations
 
 ### CP Systems (Consistency + Partition Tolerance)

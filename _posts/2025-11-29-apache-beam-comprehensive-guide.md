@@ -40,7 +40,63 @@ Apache Beam is a unified data processing framework that:
 
 **Trigger**: When to emit window results
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Data      │────▶│   Data      │────▶│   Data      │
+│   Source    │     │   Source    │     │   Source    │
+│  (Files)    │     │  (Kafka)    │     │  (Pub/Sub)  │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Beam Pipeline         │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Source  │           │
+              │  │  (Read)  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │Transforms │           │
+              │  │(Process)  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Sink    │           │
+              │  │  (Write) │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   Runner                │
+              │   (Spark/Flink/Direct)  │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Data      │           │   Data      │
+│   Sink      │           │   Sink       │
+│ (Database)  │           │  (Files)     │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Data Sources**: Systems that produce data (e.g., file systems, Kafka, Pub/Sub, databases).
+- **Beam Pipeline**: Unified programming model for batch and stream processing. Defines data transformations.
+- **Source (Read)**: Components that read data from various sources.
+- **Transforms (Process)**: Data transformations like map, filter, group, aggregate, window operations.
+- **Sink (Write)**: Components that write processed data to various destinations.
+- **Runner**: Execution engine that runs the pipeline (e.g., Apache Spark, Apache Flink, Google Cloud Dataflow, Direct runner).
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

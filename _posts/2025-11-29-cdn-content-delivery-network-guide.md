@@ -44,7 +44,50 @@ A Content Delivery Network (CDN) is a geographically distributed network of serv
 
 **Origin Shield**: Additional caching layer between edge and origin
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   User      │────▶│   User      │────▶│   User      │
+│  (US East)  │     │  (Europe)   │     │  (Asia)     │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ HTTP/HTTPS Request
+                            │
+       ┌────────────────────┴────────────────────┐
+       │                                         │
+┌──────▼──────┐                         ┌───────▼──────┐
+│  Edge       │                         │  Edge        │
+│  Server     │                         │  Server      │
+│  (US)       │                         │  (Europe)    │
+│             │                         │              │
+│  ┌────────┐ │                         │  ┌────────┐ │
+│  │ Cache  │ │                         │  │ Cache  │ │
+│  └────────┘ │                         │  └────────┘ │
+└──────┬──────┘                         └───────┬──────┘
+       │                                         │
+       │ Cache Miss                              │ Cache Miss
+       │                                         │
+       └────────────────────┬────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Origin Server         │
+              │   (Content Source)      │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Users**: End users in different geographic locations requesting content (e.g., web pages, images, videos).
+- **Edge Servers**: CDN servers located close to users that cache and serve content. Reduces latency by serving content from nearby locations.
+- **Cache**: Local storage on edge servers that stores frequently accessed content to avoid fetching from origin.
+- **Origin Server**: The original source of content (e.g., web server, application server) that edge servers fetch from when cache misses occur.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

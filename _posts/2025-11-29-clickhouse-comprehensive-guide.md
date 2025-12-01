@@ -38,7 +38,48 @@ ClickHouse is a column-oriented database that:
 
 **Replica**: Copy of data for high availability
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ SQL Queries
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   ClickHouse Cluster     │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Server   │           │
+              │  │  Node 1  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Server   │           │
+              │  │  Node 2  │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Distributed      │  │
+              │  │  Tables           │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that query ClickHouse for analytical workloads (e.g., business intelligence tools, analytics platforms, reporting systems).
+- **ClickHouse Cluster**: A collection of ClickHouse server nodes that work together to store and query large volumes of data.
+- **Server Nodes**: Individual ClickHouse servers that store data and execute queries. Can be organized in clusters for scalability.
+- **Distributed Tables**: Logical tables that span multiple nodes, enabling parallel query execution and horizontal scaling.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -334,6 +375,39 @@ ENGINE = Distributed(
     user_id  -- Sharding key
 );
 ```
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node:**
+- **Max Write Throughput**: 
+  - Simple inserts: **10K-50K inserts/sec**
+  - Batch inserts: **100K-1M rows/sec**
+  - With MergeTree engine: **500K-2M rows/sec** (optimized for analytics)
+- **Max Read Throughput**:
+  - Simple queries (indexed): **1K-10K queries/sec**
+  - Complex queries (aggregations): **100-1K queries/sec**
+  - With materialized views: **5K-25K queries/sec** (pre-computed)
+
+**Distributed Cluster:**
+- **Max Write Throughput**: **100K-1M rows/sec per node** (linear scaling)
+- **Max Read Throughput**: **1K-10K queries/sec per node** (linear scaling)
+- **Example**: 10-node cluster can handle **1M-10M rows/sec** and **10K-100K queries/sec** total
+
+**Factors Affecting Throughput:**
+- Table engine (MergeTree optimized for writes)
+- Compression (compressed data = faster queries)
+- Materialized views (pre-computed = much faster queries)
+- Partitioning strategy
+- Primary key and index design
+- Hardware (CPU, RAM, disk I/O, SSD recommended)
+- Query complexity (simple queries = higher throughput)
+- Data volume (larger datasets = slower queries)
+
+**Optimized Configuration:**
+- **Max Write Throughput**: **2M-5M rows/sec per node** (with optimized MergeTree and batch inserts)
+- **Max Read Throughput**: **10K-50K queries/sec per node** (with materialized views and proper indexing)
 
 ## Performance Optimization
 

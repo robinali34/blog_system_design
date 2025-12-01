@@ -44,7 +44,47 @@ Elasticsearch is a distributed search and analytics engine that offers:
 
 **Cluster**: A collection of nodes working together
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │  Elasticsearch Cluster  │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Master  │           │
+              │  │  Node    │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Data     │           │
+              │  │ Nodes    │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Indices          │  │
+              │  │  (Shards)         │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that send search and indexing requests to Elasticsearch (e.g., web applications, log aggregators).
+- **Elasticsearch Cluster**: A collection of Elasticsearch nodes working together to store and search data.
+- **Master Node**: One node in the cluster that manages cluster state and coordinates operations (can also be a data node).
+- **Data Nodes**: Nodes that store data (indices and shards) and perform search operations.
+- **Indices (Shards)**: Logical partitions of data distributed across nodes for scalability and performance.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

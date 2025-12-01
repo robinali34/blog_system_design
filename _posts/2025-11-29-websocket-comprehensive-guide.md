@@ -38,7 +38,58 @@ WebSocket is a protocol that:
 
 **Close**: Graceful connection termination
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│  (Browser)  │     │  (Mobile)   │     │  (Desktop)  │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ WebSocket Connection
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Load Balancer        │
+              │   / API Gateway        │
+              └──────┬──────────────────┘
+                     │
+                     ▼
+              ┌─────────────────────────┐
+              │   WebSocket Server      │
+              │                         │
+              │  ┌──────────┐           │
+              │  │Connection│           │
+              │  │ Manager  │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Message  │           │
+              │  │ Handler  │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Backend    │           │  Pub/Sub     │
+│  Services   │           │  System      │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Clients**: Web browsers, mobile apps, or desktop applications that establish WebSocket connections for real-time bidirectional communication.
+- **Load Balancer / API Gateway**: Routes WebSocket connections and handles SSL termination.
+- **WebSocket Server**: Maintains persistent connections with clients and handles message routing.
+- **Connection Manager**: Manages WebSocket connections, handles connection lifecycle, and maintains connection pools.
+- **Message Handler**: Processes incoming messages, routes them to appropriate handlers, and manages message framing.
+- **Backend Services**: Business logic services and Pub/Sub systems that process messages and broadcast updates.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

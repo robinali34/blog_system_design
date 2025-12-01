@@ -37,6 +37,60 @@ A Dead Letter Queue (DLQ) is a queue that receives messages that:
 
 **Poison Messages**: Messages that consistently fail processing and should be moved to DLQ.
 
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Producer   │────▶│  Producer   │────▶│  Producer   │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Send Messages
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Main Queue            │
+              │   (Messages)            │
+              └──────┬──────────────────┘
+                     │
+                     │ Receive & Process
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Consumer   │           │  Consumer    │
+│      A      │           │      B       │
+└──────┬──────┘           └──────┬───────┘
+       │                         │
+       │ Processing Failed       │ Processing Failed
+       │ (Max Retries)           │ (Max Retries)
+       │                         │
+       └──────────────┬──────────┘
+                      │
+                      ▼
+              ┌─────────────────────────┐
+              │   Dead Letter Queue     │
+              │   (Failed Messages)     │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Failed   │           │
+              │  │ Messages │           │
+              │  │ (Analysis│           │
+              │  │  & Retry)│           │
+              │  └──────────┘           │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Producers**: Applications that send messages to the main queue (e.g., web servers, microservices, event sources).
+- **Main Queue**: Primary message queue where messages are initially sent and processed.
+- **Consumers**: Applications that receive and process messages from the main queue.
+- **Dead Letter Queue (DLQ)**: Queue for messages that failed processing after maximum retry attempts. Used for analysis, debugging, and manual reprocessing.
+
 ## Why Use Dead Letter Queues?
 
 ### Benefits

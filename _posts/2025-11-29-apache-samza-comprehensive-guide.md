@@ -40,7 +40,52 @@ Apache Samza is a stream processing framework that:
 
 **State Store**: Key-value store for state
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Kafka     │────▶│   Kafka     │────▶│   Kafka     │
+│   Topic     │     │   Topic     │     │   Topic     │
+│   (Input)   │     │   (Input)   │     │   (Input)   │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Samza Job             │
+              │   (Stream Processor)    │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Tasks   │           │
+              │  │(Process) │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  State   │           │
+              │  │  Store   │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│   Kafka     │           │   Kafka      │
+│   Topic     │           │   Topic      │
+│  (Output)   │           │  (Output)    │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Kafka Topics (Input)**: Kafka topics that serve as input streams for Samza jobs.
+- **Samza Job (Stream Processor)**: Stream processing job that consumes from Kafka, processes data, and maintains state.
+- **Tasks**: Parallel processing units that consume partitions from input topics and process them.
+- **State Store**: Local key-value store for maintaining state (e.g., aggregations, windowing) during stream processing.
+- **Kafka Topics (Output)**: Kafka topics where processed results are published.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐

@@ -44,6 +44,47 @@ TimescaleDB is a **time-series database extension** for PostgreSQL that provides
 
 ## Architecture
 
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ PostgreSQL Protocol
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   TimescaleDB           │
+              │   (PostgreSQL Extension) │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Hypertable│           │
+              │  │ Interface│           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Chunks  │           │
+              │  │(Partitions│           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  PostgreSQL       │  │
+              │  │  Storage          │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that connect to TimescaleDB using standard PostgreSQL clients and drivers (e.g., time-series applications, IoT platforms, monitoring systems).
+- **TimescaleDB**: PostgreSQL extension that adds time-series capabilities to PostgreSQL, making it optimized for time-series data.
+- **Hypertable Interface**: Logical table interface that looks like a regular PostgreSQL table but is automatically partitioned by time.
+- **Chunks (Partitions)**: Physical partitions of data organized by time ranges. Chunks are automatically created and managed.
+- **PostgreSQL Storage**: Underlying PostgreSQL storage engine that stores the actual data.
+
 ### Core Architecture
 
 **TimescaleDB Architecture:**
@@ -469,6 +510,38 @@ SELECT add_tiering_policy(
 - Transparent to queries
 
 ---
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single Node (Standard Configuration):**
+- **Max Write Throughput**: 
+  - Simple inserts: **10K-50K inserts/sec**
+  - Batch inserts: **100K-500K rows/sec**
+  - With hypertables: **50K-200K rows/sec** (optimized for time-series)
+- **Max Read Throughput**:
+  - Simple queries (indexed): **5K-25K queries/sec**
+  - Complex queries (aggregations): **1K-5K queries/sec**
+  - With continuous aggregates: **10K-50K queries/sec** (pre-computed)
+
+**Horizontal Scaling (Read Replicas):**
+- **Max Read Throughput**: **5K-25K queries/sec per replica** (linear scaling)
+- **Example**: 5 read replicas can handle **25K-125K queries/sec** total
+- **Write Throughput**: Limited by primary (single write node)
+
+**Factors Affecting Throughput:**
+- Chunk size (smaller chunks = better query performance)
+- Compression settings (compressed data = faster queries)
+- Continuous aggregates (pre-computed = much faster queries)
+- Index usage
+- Partitioning strategy (time + space partitioning)
+- Hardware (CPU, RAM, disk I/O, SSD recommended)
+- Connection pooling
+
+**Optimized Configuration:**
+- **Max Write Throughput**: **200K-500K rows/sec** (with optimized batch inserts and hypertable settings)
+- **Max Read Throughput**: **50K-100K queries/sec** (with continuous aggregates and proper indexing)
 
 ## Performance Optimization
 

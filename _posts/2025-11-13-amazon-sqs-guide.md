@@ -41,6 +41,53 @@ Amazon SQS is a message queuing service that offers:
 
 **Dead Letter Queue (DLQ)**: A queue for messages that couldn't be processed successfully.
 
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Producer   │────▶│  Producer   │────▶│  Producer   │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Send Message
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Amazon SQS            │
+              │   (Message Queue)       │
+              │                         │
+              │  ┌──────────┐           │
+              │  │  Queue   │           │
+              │  │(Messages)│           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Visibility│           │
+              │  │ Timeout   │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+                     │ Receive Message
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Consumer   │           │  Consumer    │
+│      A      │           │      B       │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Producers**: Applications that send messages to SQS queues (e.g., web servers, microservices, event sources).
+- **Amazon SQS**: Managed message queue service that decouples and scales microservices, distributed systems, and serverless applications.
+- **Queue (Messages)**: Container for messages. Messages are stored until they are processed and deleted by consumers.
+- **Visibility Timeout**: Duration that a message is hidden after being received, allowing time for processing before it becomes visible again.
+- **Consumers**: Applications that receive and process messages from SQS queues.
+
 ## Queue Types
 
 ### Standard Queue

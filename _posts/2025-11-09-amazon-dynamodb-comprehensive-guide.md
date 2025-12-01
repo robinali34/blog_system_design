@@ -45,6 +45,47 @@ DynamoDB is a **managed NoSQL database** that provides:
 
 ## Architecture
 
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ AWS SDK / API
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Amazon DynamoDB       │
+              │   (Managed Service)      │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Request  │           │
+              │  │ Router   │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Partitions│           │
+              │  │ (Shards)  │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │ Storage Nodes     │  │
+              │  │ (Multi-AZ)        │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that use DynamoDB to store and retrieve data (e.g., web applications, mobile backends, microservices).
+- **Amazon DynamoDB**: Fully managed NoSQL database service provided by AWS. No servers to manage.
+- **Request Router**: Routes requests to the appropriate partition based on the partition key.
+- **Partitions (Shards)**: Logical divisions of data. DynamoDB automatically partitions data across multiple partitions for scalability.
+- **Storage Nodes (Multi-AZ)**: Physical storage nodes distributed across multiple Availability Zones for high availability and durability.
+
 ### Core Architecture
 
 **DynamoDB Architecture:**
@@ -371,6 +412,38 @@ LSI:
 ---
 
 ## Performance and Scaling
+
+### Maximum Read & Write Throughput
+
+**Provisioned Capacity Mode:**
+- **Max Read Throughput**: 
+  - Per table: **40,000 RCU** (Read Capacity Units) = **40,000 strongly consistent reads/sec** (4 KB items) or **80,000 eventually consistent reads/sec**
+  - Can request limit increases (up to millions of RCU)
+  - With DAX: **Millions of reads/sec** (cached reads)
+- **Max Write Throughput**:
+  - Per table: **40,000 WCU** (Write Capacity Units) = **40,000 writes/sec** (1 KB items)
+  - Can request limit increases (up to millions of WCU)
+
+**On-Demand Capacity Mode:**
+- **Max Read Throughput**: **No predefined limits** (scales automatically)
+- **Max Write Throughput**: **No predefined limits** (scales automatically)
+- **Typical Performance**: Handles **thousands to millions of requests/sec** automatically
+
+**Global Tables (Multi-Region):**
+- **Max Read Throughput**: **40,000 RCU per region** (scales across regions)
+- **Max Write Throughput**: **40,000 WCU per region** (scales across regions)
+
+**Factors Affecting Throughput:**
+- Item size (larger items consume more capacity units)
+- Consistency level (strongly consistent = 2x RCU cost)
+- Partition key distribution (hot partitions limit throughput)
+- Network latency
+- DAX caching (for reads)
+- Auto-scaling configuration
+
+**Optimized Configuration:**
+- **Max Read Throughput**: **Millions of reads/sec** (with DAX and proper partition key design)
+- **Max Write Throughput**: **Hundreds of thousands of writes/sec** (with proper partition key design and limit increases)
 
 ### Capacity Modes
 

@@ -42,7 +42,49 @@ RabbitMQ is a message broker that:
 
 **Message**: Data sent between applications
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Producer   │────▶│  Producer   │────▶│  Producer   │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   RabbitMQ Broker       │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Exchange │           │
+              │  │ (Routes) │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │  Queues  │           │
+              │  │ (Stores) │           │
+              │  └──────────┘           │
+              └──────┬──────────────────┘
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Consumer   │           │  Consumer    │
+│      A      │           │      B       │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Producers**: Applications that publish messages to RabbitMQ (e.g., web servers, microservices, background jobs).
+- **RabbitMQ Broker**: Message broker that receives, routes, and delivers messages. Can be a single server or a cluster.
+- **Exchange**: Routes messages to queues based on routing rules and exchange type (direct, topic, fanout, headers).
+- **Queues**: Store messages until they are consumed by consumers. Messages are delivered to consumers based on queue bindings.
+- **Consumers**: Applications that consume messages from queues and process them.
+
+### Core Architecture
 
 ```
 ┌──────────────┐

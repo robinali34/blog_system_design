@@ -184,6 +184,264 @@ For detailed pros/cons comparisons of all technologies, see:
 
 ---
 
+## Technology Trade-off Pair Comparisons
+
+### Database Comparisons
+
+#### PostgreSQL vs MySQL
+
+| Aspect | PostgreSQL | MySQL |
+|--------|------------|-------|
+| **Complexity** | More features, steeper learning curve | Simpler, easier to start |
+| **Performance** | Better for complex queries, analytics | Better for simple read-heavy workloads |
+| **Features** | Advanced (JSON, arrays, full-text search) | Standard SQL features |
+| **ACID** | Strong ACID compliance | Strong ACID compliance |
+| **Use Case** | Complex applications, data warehousing | Web applications, standard requirements |
+| **Max Read** | 10K-50K queries/sec | 10K-50K queries/sec |
+| **Max Write** | 5K-20K writes/sec | 5K-25K writes/sec |
+
+**Choose PostgreSQL when:**
+- Need advanced features (JSON, arrays, custom types)
+- Complex queries and analytics
+- Data warehousing
+- Full-text search requirements
+
+**Choose MySQL when:**
+- Simple web applications
+- Standard SQL requirements
+- Better ecosystem support needed
+- Simpler setup and maintenance
+
+---
+
+#### Redis vs Memcached
+
+| Aspect | Redis | Memcached |
+|--------|-------|-----------|
+| **Data Types** | Rich (strings, lists, sets, sorted sets, hashes) | Simple key-value only |
+| **Persistence** | Optional (RDB, AOF) | No persistence |
+| **Performance** | 100K-200K ops/sec | 200K-500K ops/sec (faster for simple ops) |
+| **Features** | Pub/sub, transactions, Lua scripting | Simple caching only |
+| **Memory** | More memory per item (overhead) | Less memory per item |
+| **Use Case** | Caching + real-time features | Pure caching |
+| **Max Read** | 100K-200K ops/sec | 200K-500K ops/sec |
+| **Max Write** | 100K-200K ops/sec | 200K-500K ops/sec |
+
+**Choose Redis when:**
+- Need data structures (lists, sets, sorted sets)
+- Need persistence
+- Need pub/sub or real-time features
+- Need transactions or Lua scripting
+
+**Choose Memcached when:**
+- Simple key-value caching only
+- Maximum performance for GET/SET operations
+- No persistence needed
+- Minimal memory overhead
+
+---
+
+#### Cassandra vs MongoDB
+
+| Aspect | Cassandra | MongoDB |
+|--------|-----------|---------|
+| **Data Model** | Column-family (wide rows) | Document (JSON-like) |
+| **Consistency** | Tunable (eventual to strong) | Tunable (eventual to strong) |
+| **Write Performance** | Optimized for writes (10K-50K/sec/node) | Good writes (5K-20K/sec/node) |
+| **Read Performance** | Good reads (5K-25K/sec/node) | Good reads (10K-50K/sec/node) |
+| **Query Language** | CQL (SQL-like) | MongoDB Query Language |
+| **Schema** | Schema required | Schema flexible |
+| **Use Case** | Time-series, high writes, global distribution | Content management, flexible schemas |
+| **Scaling** | Linear horizontal scaling | Horizontal scaling with sharding |
+
+**Choose Cassandra when:**
+- High write throughput needed
+- Time-series data
+- Global distribution with low latency
+- Predictable query patterns
+- Need tunable consistency
+
+**Choose MongoDB when:**
+- Flexible schema needed
+- Document-based data model
+- Rich query capabilities
+- Rapid development
+- JSON-like data structure
+
+---
+
+#### DynamoDB vs Cassandra
+
+| Aspect | DynamoDB | Cassandra |
+|--------|----------|-----------|
+| **Management** | Fully managed (AWS) | Self-managed |
+| **Setup** | No setup, auto-scaling | Requires cluster setup |
+| **Cost** | Pay per request (on-demand) | Infrastructure costs |
+| **Scaling** | Automatic scaling | Manual scaling |
+| **Consistency** | Eventually consistent (default) | Tunable consistency |
+| **Max Read** | 40K RCU (can increase) | 5K-25K reads/sec/node |
+| **Max Write** | 40K WCU (can increase) | 10K-50K writes/sec/node |
+| **Use Case** | AWS-native, serverless | Self-hosted, high control |
+
+**Choose DynamoDB when:**
+- AWS ecosystem
+- Serverless applications
+- No infrastructure management
+- Variable workloads
+- Need automatic scaling
+
+**Choose Cassandra when:**
+- Self-hosted infrastructure
+- Need full control
+- Predictable high throughput
+- Multi-cloud or on-premises
+- Cost optimization at scale
+
+---
+
+### Message Queue Comparisons
+
+#### Kafka vs RabbitMQ
+
+| Aspect | Kafka | RabbitMQ |
+|--------|-------|----------|
+| **Throughput** | Very high (millions/sec) | High (tens of thousands/sec) |
+| **Latency** | Low (milliseconds) | Very low (sub-millisecond) |
+| **Durability** | High (disk-based) | Configurable (memory/disk) |
+| **Message Ordering** | Per-partition ordering | Per-queue ordering |
+| **Message Retention** | Configurable (days/weeks) | Until consumed |
+| **Use Case** | Event streaming, data pipelines | Task queues, RPC |
+| **Complexity** | More complex setup | Simpler setup |
+
+**Choose Kafka when:**
+- High throughput event streaming
+- Event sourcing
+- Data pipelines
+- Long message retention
+- Multiple consumers per topic
+
+**Choose RabbitMQ when:**
+- Task queues
+- RPC patterns
+- Complex routing (exchanges, bindings)
+- Lower latency requirements
+- Simpler setup needed
+
+---
+
+#### Kafka vs Amazon SQS
+
+| Aspect | Kafka | Amazon SQS |
+|--------|-------|------------|
+| **Management** | Self-managed | Fully managed (AWS) |
+| **Throughput** | Very high (millions/sec) | High (unlimited standard, 3K/sec FIFO) |
+| **Ordering** | Per-partition | FIFO queues only |
+| **Retention** | Configurable (days) | 14 days max |
+| **Features** | Event streaming, replay | Simple message queue |
+| **Use Case** | Event streaming, data pipelines | Decoupled services, AWS-native |
+
+**Choose Kafka when:**
+- Event streaming architecture
+- Need message replay
+- High throughput requirements
+- Multiple consumer groups
+- Self-managed infrastructure
+
+**Choose SQS when:**
+- AWS ecosystem
+- Simple message queuing
+- Serverless applications
+- No infrastructure management
+- Standard queue patterns
+
+---
+
+### Search & Analytics Comparisons
+
+#### Elasticsearch vs PostgreSQL Full-Text Search
+
+| Aspect | Elasticsearch | PostgreSQL Full-Text |
+|--------|---------------|---------------------|
+| **Search Features** | Advanced (fuzzy, aggregations) | Basic full-text search |
+| **Performance** | Optimized for search | Good for simple searches |
+| **Scalability** | Horizontal scaling | Vertical scaling |
+| **Complexity** | More complex setup | Built-in, simpler |
+| **Use Case** | Search engines, log analytics | Simple search in SQL apps |
+
+**Choose Elasticsearch when:**
+- Advanced search features needed
+- Log analytics (ELK stack)
+- Large-scale search
+- Real-time search
+- Complex aggregations
+
+**Choose PostgreSQL Full-Text when:**
+- Simple search requirements
+- Already using PostgreSQL
+- Don't want additional infrastructure
+- Basic full-text search sufficient
+
+---
+
+### Storage Comparisons
+
+#### Amazon S3 vs HDFS
+
+| Aspect | Amazon S3 | HDFS |
+|--------|-----------|------|
+| **Management** | Fully managed | Self-managed |
+| **Access** | REST API, object storage | File system interface |
+| **Durability** | 99.999999999% (11 nines) | High (with replication) |
+| **Cost** | Pay per storage/request | Infrastructure costs |
+| **Use Case** | Cloud-native, backups | Hadoop ecosystem, on-premises |
+
+**Choose S3 when:**
+- AWS ecosystem
+- Cloud-native applications
+- Backup and archival
+- No infrastructure management
+- REST API access
+
+**Choose HDFS when:**
+- Hadoop ecosystem
+- On-premises infrastructure
+- File system interface needed
+- Cost optimization at scale
+- Full control required
+
+---
+
+### Coordination Comparisons
+
+#### Zookeeper vs etcd vs Consul
+
+| Aspect | Zookeeper | etcd | Consul |
+|--------|-----------|------|--------|
+| **Consensus** | ZAB protocol | Raft | Raft |
+| **API** | Custom protocol | REST/gRPC | REST/gRPC |
+| **Service Discovery** | Manual | Manual | Built-in |
+| **Health Checks** | Manual | Manual | Built-in |
+| **Use Case** | Kafka, Hadoop | Kubernetes, distributed systems | Service mesh, microservices |
+
+**Choose Zookeeper when:**
+- Kafka or Hadoop ecosystem
+- Established coordination needs
+- Custom protocol acceptable
+
+**Choose etcd when:**
+- Kubernetes ecosystem
+- Need REST/gRPC API
+- Simple key-value store
+- Distributed systems coordination
+
+**Choose Consul when:**
+- Service discovery needed
+- Health checks required
+- Service mesh integration
+- Microservices architecture
+
+---
+
 ## Technology Selection Guide
 
 ### Choose Based on Requirements
@@ -225,6 +483,7 @@ This quick reference provides an overview of essential technologies for system d
 - **Streaming**: Flink for real-time stream processing
 - **Coordination**: Zookeeper for distributed coordination
 - **Theory**: CAP Theorem for understanding trade-offs
+- **Trade-offs**: Every technology has strengths and weaknesses - choose based on your specific requirements
 
 For detailed information on each technology, refer to the comprehensive guides linked above.
 

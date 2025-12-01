@@ -42,7 +42,49 @@ Apache HBase is a NoSQL database that:
 
 **RegionServer**: Server that manages regions
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   Client    │────▶│   Client    │
+│ Application │     │ Application │     │ Application │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ HBase API
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   HBase Cluster         │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ HMaster  │           │
+              │  │(Metadata)│           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Region   │           │
+              │  │ Servers  │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  HDFS             │  │
+              │  │  (Storage)        │  │
+              │  └───────────────────┘  │
+              └─────────────────────────┘
+```
+
+**Explanation:**
+- **Client Applications**: Applications that use HBase to store and retrieve large-scale structured data (e.g., big data applications, analytics platforms).
+- **HBase Cluster**: Distributed NoSQL database built on top of Hadoop HDFS for storing large amounts of sparse data.
+- **HMaster**: Manages metadata, coordinates region assignments, and handles cluster administration.
+- **Region Servers**: Serve data for a set of regions. Each region server handles read/write requests for the regions it serves.
+- **HDFS (Storage)**: Hadoop Distributed File System that provides the underlying storage layer for HBase data.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -229,6 +271,33 @@ byte[][] splits = new byte[][]{
 
 admin.createTable(tableDescriptor, splits);
 ```
+
+## Performance Characteristics
+
+### Maximum Read & Write Throughput
+
+**Single RegionServer:**
+- **Max Write Throughput**: **10K-50K writes/sec** (depends on row size and column families)
+- **Max Read Throughput**: **5K-25K reads/sec** (depends on data locality and caching)
+
+**Cluster (Horizontal Scaling):**
+- **Max Write Throughput**: **10K-50K writes/sec per RegionServer** (linear scaling)
+- **Max Read Throughput**: **5K-25K reads/sec per RegionServer** (linear scaling)
+- **Example**: 100 RegionServer cluster can handle **1M-5M writes/sec** and **500K-2.5M reads/sec** total
+
+**Factors Affecting Throughput:**
+- Row key design (hotspotting reduces throughput)
+- Region distribution (even distribution = better throughput)
+- MemStore size and flush frequency
+- Block cache hit rate (higher cache hits = faster reads)
+- HDFS replication factor
+- Compaction strategy
+- Network latency
+- Number of RegionServers
+
+**Optimized Configuration:**
+- **Max Write Throughput**: **50K-100K writes/sec per RegionServer** (with optimized row keys and memstore settings)
+- **Max Read Throughput**: **25K-50K reads/sec per RegionServer** (with high block cache hit rate and proper row key design)
 
 ## Performance Optimization
 

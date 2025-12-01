@@ -38,7 +38,59 @@ Apache Avro is a data serialization framework that:
 
 **Array/Map**: Collection types
 
-## Core Architecture
+## Architecture
+
+### High-Level Architecture
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Producer  │────▶│   Producer  │────▶│   Producer  │
+│      A      │     │      B      │     │      C      │
+└──────┬──────┘     └──────┬──────┘     └──────┬──────┘
+       │                    │                    │
+       └────────────────────┴────────────────────┘
+                            │
+                            │ Serialize Data
+                            │
+                            ▼
+              ┌─────────────────────────┐
+              │   Avro Serializer       │
+              │                         │
+              │  ┌──────────┐           │
+              │  │ Schema   │           │
+              │  │ Registry │           │
+              │  └────┬─────┘           │
+              │       │                 │
+              │  ┌────┴─────┐           │
+              │  │ Binary    │           │
+              │  │ Encoding  │           │
+              │  └──────────┘           │
+              │                         │
+              │  ┌───────────────────┐  │
+              │  │  Message Queue   │  │
+              │  │  (Kafka/Pulsar)  │  │
+              │  └───────────────────┘  │
+              └──────┬──────────────────┘
+                     │
+                     │ Deserialize Data
+                     │
+       ┌─────────────┴─────────────┐
+       │                           │
+┌──────▼──────┐           ┌───────▼──────┐
+│  Consumer   │           │  Consumer    │
+│      A      │           │      B       │
+└─────────────┘           └─────────────┘
+```
+
+**Explanation:**
+- **Producers**: Applications that serialize data using Avro before sending to message queues (e.g., microservices, data pipelines).
+- **Avro Serializer**: Converts data objects into compact binary format using Avro schemas.
+- **Schema Registry**: Centralized repository for Avro schemas that enables schema evolution and versioning.
+- **Binary Encoding**: Compact binary representation of data that includes schema information.
+- **Message Queue**: Systems that store serialized messages (e.g., Kafka, Pulsar, RabbitMQ).
+- **Consumers**: Applications that deserialize Avro messages using schemas from the registry.
+
+### Core Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
