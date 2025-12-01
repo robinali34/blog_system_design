@@ -442,6 +442,515 @@ For detailed pros/cons comparisons of all technologies, see:
 
 ---
 
+### Time-Series Database Comparisons
+
+#### InfluxDB vs TimescaleDB
+
+| Aspect | InfluxDB | TimescaleDB |
+|--------|----------|-------------|
+| **Base** | Standalone time-series DB | PostgreSQL extension |
+| **Query Language** | InfluxQL, Flux | SQL (PostgreSQL) |
+| **Write Performance** | 100K-500K points/sec | 10K-50K inserts/sec |
+| **Read Performance** | 10K-50K queries/sec | 5K-25K queries/sec |
+| **SQL Support** | Limited (InfluxQL) | Full SQL support |
+| **Ecosystem** | Time-series focused | PostgreSQL ecosystem |
+| **Use Case** | Pure time-series, IoT | Time-series with SQL needs |
+
+**Choose InfluxDB when:**
+- Pure time-series workloads
+- High write throughput needed
+- Time-series specific features
+- Don't need SQL
+
+**Choose TimescaleDB when:**
+- Need SQL interface
+- Already using PostgreSQL
+- Want PostgreSQL ecosystem
+- Need relational queries with time-series
+
+---
+
+### Stream Processing Comparisons
+
+#### Apache Flink vs Apache Spark
+
+| Aspect | Apache Flink | Apache Spark |
+|--------|--------------|--------------|
+| **Processing Model** | True stream processing | Micro-batch processing |
+| **Latency** | Low (milliseconds) | Higher (seconds) |
+| **Throughput** | High | Very high |
+| **State Management** | Built-in stateful processing | External state stores |
+| **Use Case** | Real-time stream processing | Batch + stream processing |
+| **Complexity** | More complex | Moderate |
+
+**Choose Flink when:**
+- True real-time processing needed
+- Low latency requirements
+- Event time processing
+- Stateful stream processing
+
+**Choose Spark when:**
+- Batch + stream processing
+- Higher throughput needed
+- Existing Spark ecosystem
+- Micro-batch acceptable
+
+---
+
+#### Apache Kafka vs Apache Pulsar
+
+| Aspect | Kafka | Pulsar |
+|--------|-------|--------|
+| **Architecture** | Partition-based | Topic-based with segments |
+| **Multi-tenancy** | Limited | Built-in |
+| **Geo-replication** | Manual setup | Built-in |
+| **Message Model** | Consumer groups | Subscriptions (exclusive, shared, failover) |
+| **Storage** | Local disk | BookKeeper (separate storage) |
+| **Use Case** | Event streaming, data pipelines | Multi-tenant, geo-distributed |
+
+**Choose Kafka when:**
+- Event streaming
+- Established ecosystem
+- Simple deployment
+- Standard use cases
+
+**Choose Pulsar when:**
+- Multi-tenant architecture
+- Geo-replication needed
+- Need multiple subscription types
+- Separate compute and storage
+
+---
+
+### API/Communication Comparisons
+
+#### REST vs GraphQL vs gRPC
+
+| Aspect | REST | GraphQL | gRPC |
+|--------|------|---------|------|
+| **Protocol** | HTTP/HTTPS | HTTP/HTTPS | HTTP/2 |
+| **Data Format** | JSON, XML | JSON | Protocol Buffers |
+| **Query Flexibility** | Fixed endpoints | Flexible queries | Fixed methods |
+| **Performance** | Good | Good | Excellent (binary) |
+| **Caching** | Easy (HTTP caching) | Limited | Limited |
+| **Use Case** | Standard APIs | Flexible data fetching | Microservices, high performance |
+
+**Choose REST when:**
+- Standard web APIs
+- Need HTTP caching
+- Simple integration
+- Browser clients
+
+**Choose GraphQL when:**
+- Flexible data fetching
+- Mobile apps with limited bandwidth
+- Multiple data sources
+- Over-fetching is a problem
+
+**Choose gRPC when:**
+- Microservices communication
+- High performance needed
+- Strong typing required
+- Internal services
+
+---
+
+#### WebSocket vs Server-Sent Events (SSE) vs Long Polling
+
+| Aspect | WebSocket | SSE | Long Polling |
+|--------|-----------|-----|--------------|
+| **Direction** | Bidirectional | Server → Client | Bidirectional (via requests) |
+| **Protocol** | WebSocket | HTTP | HTTP |
+| **Overhead** | Low (persistent) | Low | High (repeated connections) |
+| **Browser Support** | Good | Good | Universal |
+| **Use Case** | Real-time chat, gaming | Live updates, notifications | Simple real-time needs |
+
+**Choose WebSocket when:**
+- Bidirectional communication needed
+- Real-time chat, gaming
+- Low latency required
+- Frequent message exchange
+
+**Choose SSE when:**
+- Server-to-client only
+- Live updates, notifications
+- Simpler than WebSocket
+- One-way data flow
+
+**Choose Long Polling when:**
+- Simple real-time needs
+- Limited browser support acceptable
+- Infrequent updates
+- Fallback option
+
+---
+
+### Load Balancer Comparisons
+
+#### NGINX vs HAProxy vs AWS ELB
+
+| Aspect | NGINX | HAProxy | AWS ELB |
+|--------|-------|---------|---------|
+| **Type** | Web server + reverse proxy | Load balancer | Managed load balancer |
+| **Management** | Self-managed | Self-managed | Fully managed (AWS) |
+| **Features** | Web server, caching, SSL | Advanced load balancing | Auto-scaling, health checks |
+| **Performance** | Very high | Very high | High (managed) |
+| **Use Case** | Web server + load balancing | Advanced load balancing | AWS-native, managed service |
+
+**Choose NGINX when:**
+- Need web server + load balancer
+- Static file serving
+- Reverse proxy with caching
+- Self-managed infrastructure
+
+**Choose HAProxy when:**
+- Advanced load balancing features
+- TCP/HTTP load balancing
+- High performance requirements
+- Complex routing rules
+
+**Choose AWS ELB when:**
+- AWS ecosystem
+- Managed service needed
+- Auto-scaling required
+- No infrastructure management
+
+---
+
+### Container & Orchestration Comparisons
+
+#### Docker vs Containerd vs Podman
+
+| Aspect | Docker | Containerd | Podman |
+|--------|--------|------------|--------|
+| **Daemon** | Docker daemon | Containerd daemon | No daemon (rootless) |
+| **Orchestration** | Docker Swarm | Kubernetes runtime | Kubernetes compatible |
+| **Rootless** | Limited | Yes | Yes (default) |
+| **Ecosystem** | Largest | Growing | Growing |
+| **Use Case** | Development, simple deployments | Kubernetes runtime | Rootless containers |
+
+**Choose Docker when:**
+- Development environment
+- Simple containerization
+- Largest ecosystem
+- Standard tooling
+
+**Choose Containerd when:**
+- Kubernetes runtime
+- Lightweight runtime
+- Production Kubernetes
+
+**Choose Podman when:**
+- Rootless containers needed
+- No daemon required
+- Security-focused
+
+---
+
+#### Kubernetes vs Docker Swarm
+
+| Aspect | Kubernetes | Docker Swarm |
+|--------|------------|-------------|
+| **Complexity** | High | Low |
+| **Features** | Extensive | Basic |
+| **Scalability** | Very high | High |
+| **Ecosystem** | Largest | Limited |
+| **Learning Curve** | Steep | Gentle |
+| **Use Case** | Production, complex apps | Simple orchestration |
+
+**Choose Kubernetes when:**
+- Production workloads
+- Complex applications
+- Need extensive features
+- Large scale deployments
+
+**Choose Docker Swarm when:**
+- Simple orchestration
+- Docker-native
+- Quick setup
+- Small to medium scale
+
+---
+
+### Monitoring & Observability Comparisons
+
+#### Prometheus vs Grafana vs Datadog
+
+| Aspect | Prometheus | Grafana | Datadog |
+|--------|------------|---------|---------|
+| **Type** | Metrics collection | Visualization | Full observability platform |
+| **Cost** | Open source | Open source | Commercial (SaaS) |
+| **Setup** | Self-managed | Self-managed | Managed service |
+| **Features** | Metrics, alerting | Dashboards, visualization | Metrics, logs, traces, APM |
+| **Use Case** | Metrics collection | Visualization | Full observability |
+
+**Choose Prometheus when:**
+- Metrics collection
+- Self-managed solution
+- Open source needed
+- Time-series metrics
+
+**Choose Grafana when:**
+- Visualization needed
+- Multiple data sources
+- Dashboard creation
+- Works with Prometheus
+
+**Choose Datadog when:**
+- Full observability platform
+- Managed service needed
+- Metrics + logs + traces
+- Commercial support
+
+---
+
+### Search Engine Comparisons
+
+#### Elasticsearch vs Apache Solr
+
+| Aspect | Elasticsearch | Apache Solr |
+|--------|---------------|-------------|
+| **Architecture** | Distributed by default | Can be standalone or distributed |
+| **Setup** | Simpler | More configuration |
+| **JSON API** | Native | REST API |
+| **Real-time** | Near real-time | Near real-time |
+| **Ecosystem** | ELK stack | SolrCloud |
+| **Use Case** | Log analytics, search | Enterprise search |
+
+**Choose Elasticsearch when:**
+- ELK stack (Elasticsearch, Logstash, Kibana)
+- Log analytics
+- Real-time search
+- Simpler setup
+
+**Choose Solr when:**
+- Enterprise search
+- More configuration control
+- Existing Solr infrastructure
+- Advanced search features
+
+---
+
+### Database Sharding Comparisons
+
+#### Horizontal Sharding vs Vertical Sharding
+
+| Aspect | Horizontal Sharding | Vertical Sharding |
+|--------|---------------------|-------------------|
+| **Method** | Split by rows (partition key) | Split by columns (tables) |
+| **Scalability** | Linear scaling | Limited by single table size |
+| **Complexity** | High (cross-shard queries) | Lower (same database) |
+| **Use Case** | Large tables, high throughput | Different access patterns |
+| **Joins** | Difficult across shards | Easier (same database) |
+
+**Choose Horizontal Sharding when:**
+- Large tables
+- High write throughput
+- Can partition by key
+- Linear scaling needed
+
+**Choose Vertical Sharding when:**
+- Different access patterns
+- Different tables for different features
+- Easier joins needed
+- Simpler architecture
+
+---
+
+### Caching Strategy Comparisons
+
+#### Cache-Aside vs Write-Through vs Write-Back
+
+| Aspect | Cache-Aside | Write-Through | Write-Back |
+|--------|-------------|---------------|------------|
+| **Write Path** | Write to DB, invalidate cache | Write to cache + DB | Write to cache, async to DB |
+| **Read Path** | Check cache, fallback to DB | Read from cache | Read from cache |
+| **Consistency** | Eventual (until invalidation) | Strong (always consistent) | Eventual (async writes) |
+| **Performance** | Good | Slower writes | Fastest writes |
+| **Data Loss Risk** | Low | Low | Higher (cache failure) |
+| **Use Case** | General purpose | Critical data | High write throughput |
+
+**Choose Cache-Aside when:**
+- General purpose caching
+- Read-heavy workloads
+- Simple implementation
+- Can tolerate eventual consistency
+
+**Choose Write-Through when:**
+- Strong consistency needed
+- Critical data
+- Write performance acceptable
+- Cache must match database
+
+**Choose Write-Back when:**
+- High write throughput needed
+- Can tolerate data loss risk
+- Async writes acceptable
+- Performance critical
+
+---
+
+### Database Replication Comparisons
+
+#### Master-Slave vs Master-Master vs Multi-Master
+
+| Aspect | Master-Slave | Master-Master | Multi-Master |
+|--------|--------------|---------------|--------------|
+| **Write Nodes** | 1 (master) | 2 (both masters) | Multiple |
+| **Read Scaling** | Linear (with slaves) | Linear (both masters) | Linear (all nodes) |
+| **Write Scaling** | Limited (single master) | Limited (2 masters) | Linear (all nodes) |
+| **Conflict Resolution** | None needed | Manual | Automatic/manual |
+| **Complexity** | Low | Medium | High |
+| **Use Case** | Read scaling | Geographic distribution | High availability |
+
+**Choose Master-Slave when:**
+- Read scaling needed
+- Simple setup
+- Single write location
+- Standard replication
+
+**Choose Master-Master when:**
+- Geographic distribution
+- Two write locations
+- Manual conflict resolution
+- Active-active setup
+
+**Choose Multi-Master when:**
+- High availability critical
+- Multiple write locations
+- Automatic conflict resolution
+- Complex distributed system
+
+---
+
+### Consistency Model Comparisons
+
+#### Strong Consistency vs Eventual Consistency vs Causal Consistency
+
+| Aspect | Strong Consistency | Eventual Consistency | Causal Consistency |
+|--------|-------------------|---------------------|-------------------|
+| **Read Guarantee** | Always latest | May be stale | Causally related reads consistent |
+| **Latency** | Higher (wait for replication) | Lower | Medium |
+| **Availability** | Lower (may reject writes) | Higher | Higher |
+| **Use Case** | Financial systems, critical data | Social media, CDNs | Distributed systems, chat |
+| **Complexity** | Lower | Lower | Higher |
+
+**Choose Strong Consistency when:**
+- Financial transactions
+- Critical data integrity
+- ACID requirements
+- Can tolerate higher latency
+
+**Choose Eventual Consistency when:**
+- High availability needed
+- Can tolerate stale reads
+- Global distribution
+- High throughput
+
+**Choose Causal Consistency when:**
+- Need causal ordering
+- Distributed systems
+- Chat applications
+- More than eventual, less than strong
+
+---
+
+### Data Partitioning Comparisons
+
+#### Range Partitioning vs Hash Partitioning vs Directory Partitioning
+
+| Aspect | Range Partitioning | Hash Partitioning | Directory Partitioning |
+|--------|-------------------|-------------------|------------------------|
+| **Method** | Partition by value ranges | Hash function on key | Lookup table |
+| **Hotspots** | Possible (uneven distribution) | Even distribution | Configurable |
+| **Query Performance** | Good for range queries | Poor for range queries | Good for all queries |
+| **Rebalancing** | Complex | Automatic | Manual |
+| **Use Case** | Time-series, ordered data | Even distribution | Custom partitioning |
+
+**Choose Range Partitioning when:**
+- Time-series data
+- Range queries common
+- Ordered data
+- Can manage hotspots
+
+**Choose Hash Partitioning when:**
+- Even distribution needed
+- No range queries
+- Automatic rebalancing
+- Simple implementation
+
+**Choose Directory Partitioning when:**
+- Custom partitioning logic
+- Need flexibility
+- Can manage lookup table
+- Complex requirements
+
+---
+
+### Index Strategy Comparisons
+
+#### B-Tree Index vs Hash Index vs Bitmap Index
+
+| Aspect | B-Tree Index | Hash Index | Bitmap Index |
+|--------|--------------|------------|--------------|
+| **Query Types** | Range, equality | Equality only | Equality, low cardinality |
+| **Performance** | Good (O(log n)) | Excellent (O(1)) | Excellent (bitwise ops) |
+| **Storage** | Moderate | Low | High (for high cardinality) |
+| **Use Case** | General purpose | Exact match queries | Low cardinality columns |
+| **Updates** | Efficient | Efficient | Less efficient |
+
+**Choose B-Tree Index when:**
+- Range queries needed
+- General purpose
+- Ordered data
+- Standard use case
+
+**Choose Hash Index when:**
+- Exact match queries only
+- No range queries
+- Maximum performance needed
+- Memory-based
+
+**Choose Bitmap Index when:**
+- Low cardinality columns
+- Boolean queries
+- Data warehousing
+- Aggregations
+
+---
+
+### Message Delivery Comparisons
+
+#### At-Least-Once vs At-Most-Once vs Exactly-Once
+
+| Aspect | At-Least-Once | At-Most-Once | Exactly-Once |
+|--------|---------------|--------------|--------------|
+| **Guarantee** | No message loss (may duplicate) | No duplicates (may lose) | No loss, no duplicates |
+| **Performance** | Highest | High | Lower (overhead) |
+| **Complexity** | Low | Low | High (idempotency) |
+| **Use Case** | Logging, analytics | Non-critical data | Financial transactions |
+| **Implementation** | Simple | Simple | Complex (deduplication) |
+
+**Choose At-Least-Once when:**
+- Duplicates acceptable
+- Message loss unacceptable
+- Logging, analytics
+- Simple implementation
+
+**Choose At-Most-Once when:**
+- Duplicates unacceptable
+- Message loss acceptable
+- Non-critical data
+- Simple implementation
+
+**Choose Exactly-Once when:**
+- Financial transactions
+- Critical operations
+- Need idempotency
+- Can handle complexity
+
+---
+
 ## Technology Selection Guide
 
 ### Choose Based on Requirements
@@ -484,6 +993,9 @@ This quick reference provides an overview of essential technologies for system d
 - **Coordination**: Zookeeper for distributed coordination
 - **Theory**: CAP Theorem for understanding trade-offs
 - **Trade-offs**: Every technology has strengths and weaknesses - choose based on your specific requirements
+- **Patterns**: Caching strategies, replication models, partitioning methods, and consistency models all have trade-offs
+- **Architecture**: Consider scalability, consistency, availability, and complexity when choosing technologies
+- **Comparisons**: Use pair comparisons to understand when to choose one technology over another
 
 For detailed information on each technology, refer to the comprehensive guides linked above.
 
