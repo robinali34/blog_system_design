@@ -147,11 +147,26 @@ GET /{short_code}
 |----------|------|------|
 | **Long URL prefix** | Simple | Not short, poor UX |
 | **Hash (e.g., MD5/SHA) + truncate** | Deterministic, no central counter | Collision handling (retry or append), need collision check in DB |
+| **Bloom filter + MD5 prefix + string pattern** | Deterministic, fewer DB lookups for “new” codes; flexible collision handling | Bloom filter false positives → occasional DB check; need collision-resolution pattern |
 | **Unique counter + Base62 encoding** | Short, no collisions, efficient | Need a single source of truth for the counter (e.g., Redis INCR or DB sequence) |
+
+**Bloom filter + MD5 prefix + string pattern (optional approach):**
+
+1. **MD5 prefix:** Use the first N characters of `MD5(long_url)` (e.g., 6–8 chars) as the short code. Same long URL always yields the same candidate; no central counter.
+2. **Bloom filter:** Keep an in-memory Bloom filter of all existing short codes. Before hitting the DB:
+   - If the filter says **not present** → treat the code as new; attempt insert. On unique constraint failure (collision), fall back to string pattern.
+   - If the filter says **might be present** → do a DB lookup. If exists, return existing short URL (dedup); if not (false positive), insert and add to Bloom filter.
+3. **String pattern for collisions:** When the MD5 prefix is already taken, resolve with a deterministic pattern, e.g.:
+   - Append a numeric suffix: `abc123` → `abc123_1`, `abc123_2`, …
+   - Or use a second hash: `MD5(long_url + "salt1")`, etc., until unique.
+   - Or encode a counter in a fixed pattern (e.g., 2 extra Base62 chars) for that hash prefix.
+
+This reduces DB reads for “definitely new” codes while keeping uniqueness and a clear collision strategy.
 
 **Recommended:**  
 - **Custom alias:** Use as short code after uniqueness check.  
-- **Default:** Global counter in Redis (or DB) + Base62 encoding. Optionally use **counter batching**: each service instance reserves a range (e.g., 1000 IDs) to reduce round-trips to the counter store.
+- **Default:** Global counter in Redis (or DB) + Base62 encoding. Optionally use **counter batching**: each service instance reserves a range (e.g., 1000 IDs) to reduce round-trips to the counter store.  
+- **Alternative (no central counter):** Bloom filter + MD5 prefix + string pattern when you want deterministic codes and fewer DB lookups.
 
 ### Fast Redirects
 
@@ -192,7 +207,7 @@ Redirects must be fast (< 100 ms). Reads dominate, so optimize for read path.
 
 | Topic | Recommendation |
 |-------|----------------|
-| **Short code** | Custom alias with uniqueness check; else counter + Base62 (with optional batching). |
+| **Short code** | Custom alias with uniqueness check; else counter + Base62 (with optional batching), or Bloom filter + MD5 prefix + string pattern (no central counter). |
 | **Redirect** | 302, index on `short_code`, Redis cache, optional CDN/edge. |
 | **Scale** | Cache-heavy read path; separate read/write services; single counter store; DB replication and backups. |
 | **SLOs** | Redirect &lt; 100 ms, 99.99% availability, 1B URLs, 100M DAU. |
