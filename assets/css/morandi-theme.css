@@ -407,23 +407,69 @@ hr {
   text-decoration: none;
 }
 
+.post-index-list {
+  list-style: none;
+  padding-left: 0;
+  margin: 0 0 2rem;
+  columns: 1;
+}
+
+@media (min-width: 768px) {
+  .post-index-list {
+    columns: 2;
+    column-gap: 2rem;
+  }
+}
+
+.post-index-list li {
+  break-inside: avoid;
+  margin-bottom: 0.35rem;
+  line-height: 1.45;
+}
+
+.post-index-date {
+  color: var(--morandi-text-light, #888);
+  font-size: 0.85em;
+}
+
+.post-container .post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 2rem;
+  font-size: 0.95rem;
+}
+
+.post-container .post-content table th,
+.post-container .post-content table td {
+  border: 1px solid var(--morandi-border-light);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.post-container .post-content table th {
+  background-color: var(--morandi-bg-hover);
+  font-weight: 600;
+}
+
+.post-container .post-content table tr:nth-child(even) td {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
 .post-title-in-nav {
   color: var(--morandi-text-dark);
   font-weight: 600;
-  font-size: 1.2rem; /* Larger for desktop */
-  padding: 0.5rem 1rem;
-  margin-right: 0.5rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  margin-right: 0.25rem;
   border-right: 1px solid var(--morandi-border-light);
-  white-space: normal;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-word;
-  flex: 1 1 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: min(320px, 35vw);
+  flex-shrink: 1;
   min-width: 0;
-  max-width: 100%;
-  display: block;
   line-height: 1.4;
-  overflow: visible;
   box-sizing: border-box;
 }
 

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Design a URL Shortener (Bit.ly)"
-date: 2026-02-05
+date: 2026-05-26
 categories: [System Design, Interview Example, Distributed Systems, Scaling]
 excerpt: "A comprehensive guide to designing a URL shortener like Bit.ly, covering functional and non-functional requirements, short code generation, caching strategies, and scaling to billions of URLs and millions of daily users."
 ---

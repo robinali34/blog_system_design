@@ -180,14 +180,18 @@ $radius-full: 24px;
         padding: 0;
         align-items: center;
         width: auto;
+        flex: 1 1 auto;
+        justify-content: flex-end;
+        min-width: 0;
         
         @media (max-width: 768px) {
           width: 100% !important;
           gap: 0.75rem;
-          margin-top: 0.5rem;
+          margin-top: 0;
           flex-wrap: wrap;
           align-items: flex-start;
           display: flex;
+          justify-content: flex-start;
         }
         
         @media (max-width: 480px) {

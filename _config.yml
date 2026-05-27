@@ -47,7 +47,7 @@ exclude:
   - vendor/ruby/
   - README.md
 
-# Navigation
+# Navigation (Learning Path is in site-header-nav.html next to All Posts)
 header_pages:
   - about.md
 

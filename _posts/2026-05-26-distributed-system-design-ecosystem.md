@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Distributed System Design Ecosystem"
-date: 2026-02-05 12:00:00 -0000
+date: 2026-05-26
 categories: interview-preparation system-design distributed-systems reference
 tags: distributed-systems system-design ecosystem consistency replication partitioning messaging storage
 excerpt: "Reference guide to common categories, components, and usage patterns in distributed system design—consistency, replication, partitioning, messaging, storage, coordination, and more."

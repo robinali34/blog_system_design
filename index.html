@@ -9,15 +9,7 @@ layout: default
       <h1 class="site-title">
         <a href="{{ '/' | relative_url }}">{{ site.title | default: "Robina Li" }}</a>
       </h1>
-      <nav class="site-nav">
-        <a href="{{ '/posts' | relative_url }}">All Posts</a>
-        {%- for page_path in site.header_pages -%}
-          {%- assign page_obj = site.pages | where: "path", page_path | first -%}
-          {%- if page_obj -%}
-            <a href="{{ page_obj.url | relative_url }}">{{ page_obj.title | escape }}</a>
-          {%- endif -%}
-        {%- endfor -%}
-      </nav>
+      {% include site-header-nav.html %}
     </div>
   </header>
 
@@ -32,26 +24,6 @@ layout: default
       </div>
     </div>
   </section>
-
-  <!-- Learning Path Section -->
-  {%- assign learning_path_post = site.posts | where: "title", "System Design Learning Path & Technology Index" | first -%}
-  {%- if learning_path_post -%}
-  <section class="learning-path-section">
-    <div class="learning-path-content">
-      <h2 class="section-title">🚀 Start Your Learning Journey</h2>
-      <p class="learning-path-description">Navigate through our comprehensive learning path with organized guides, technology trees, and sample system designs.</p>
-      <div class="learning-path-card">
-        <h3 class="learning-path-title">
-          <a href="{{ learning_path_post.url | relative_url }}" class="learning-path-link">
-            {{ learning_path_post.title | escape }}
-          </a>
-        </h3>
-        <p class="learning-path-excerpt">{{ learning_path_post.excerpt | strip_html }}</p>
-        <a href="{{ learning_path_post.url | relative_url }}" class="btn btn-primary learning-path-btn">Explore Learning Path →</a>
-      </div>
-    </div>
-  </section>
-  {%- endif -%}
 
   {%- if site.posts.size > 0 -%}
     <!-- Latest Posts Section -->

@@ -4,24 +4,17 @@ title: "All Posts"
 permalink: /posts/
 ---
 
-<div class="posts">
+<div class="post-container">
   <header class="post-header">
     <div class="header-content">
       <h1 class="site-title">
-        <a href="{{ '/' | relative_url }}">{{ site.title | default: "C++ & Systems Blog" }}</a>
+        <a href="{{ '/' | relative_url }}">{{ site.title | default: "Robina Li" }}</a>
       </h1>
-      <nav class="site-nav">
-        <a href="{{ '/posts' | relative_url }}">All Posts</a>
-        {%- for page_path in site.header_pages -%}
-          {%- assign page_obj = site.pages | where: "path", page_path | first -%}
-          {%- if page_obj -%}
-            <a href="{{ page_obj.url | relative_url }}">{{ page_obj.title | escape }}</a>
-          {%- endif -%}
-        {%- endfor -%}
-      </nav>
+      {% include site-header-nav.html %}
     </div>
   </header>
-  
+
+<div class="posts">
   <div class="posts-content">
     <h1 class="post-title">All Posts</h1>
     <p class="post-description">Browse all posts by category or search by title</p>
@@ -181,6 +174,7 @@ permalink: /posts/
     </ul>
   {%- endif -%}
   </div>
+</div>
 </div>
 
 <script>
