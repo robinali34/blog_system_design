@@ -1,0 +1,5 @@
+flowchart TB
+  APP[Drivers] --> ROUTER[mongos router]
+  ROUTER --> S1[Shard 1]
+  ROUTER --> S2[Shard 2]
+  CFG[(Config servers)]

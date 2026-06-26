@@ -1,0 +1,6 @@
+flowchart LR
+  APP[Services] --> N[Notification Service]
+  N --> Q[Queue]
+  Q --> PUSH[Push Providers]
+  Q --> EMAIL[Email / SMS]
+  N --> PREF[(User Preferences)]

@@ -1,0 +1,8 @@
+sequenceDiagram
+  participant C as Client
+  participant API as Service
+  participant DB as Data Store
+  C->>API: request
+  API->>DB: read / write
+  DB-->>API: result
+  API-->>C: response

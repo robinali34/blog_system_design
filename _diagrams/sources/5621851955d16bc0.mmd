@@ -1,0 +1,4 @@
+flowchart LR
+  APP[Applications] -->|GET/SET| R[Redis]
+  R --> MEM[(In-memory structures)]
+  R -.->|optional| AOF[(AOF / RDB)]

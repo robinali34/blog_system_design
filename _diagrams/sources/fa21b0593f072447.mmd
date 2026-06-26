@@ -1,0 +1,19 @@
+sequenceDiagram
+  participant C as Client
+  participant GW as API Gateway
+  participant RL as Rate Limiter
+  participant R as Redis
+  participant APP as App Service
+
+  C->>GW: HTTP request
+  GW->>RL: isRequestAllowed(clientId, ruleId)
+  RL->>R: Lua script (refill + decrement)
+  R-->>RL: allowed, remaining, resetTime
+  alt allowed
+    RL-->>GW: OK + headers
+    GW->>APP: forward request
+    APP-->>C: 200 response
+  else denied
+    RL-->>GW: reject
+    GW-->>C: 429 Too Many Requests
+  end

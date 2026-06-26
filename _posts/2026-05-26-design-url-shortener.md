@@ -28,6 +28,12 @@ This post walks through the problem from requirements and API design through hig
 7. [Summary](#summary)
 8. [References](#references)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a URL shortener that:**
@@ -106,6 +112,30 @@ GET /{short_code}
 
 ## High-Level Design
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/037c7cb2141b4861.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+### Request flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/c503f4a542f6f989.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/94c16b8e8d471e25.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Left: write path (create). Right: read path (redirect) — optimize the right side for latency.</p>
+
 ### 1) Create Short URL
 
 1. **Client** sends `POST /urls` with long URL, optional alias, optional expiration.
@@ -120,20 +150,6 @@ GET /{short_code}
 2. **Server** looks up `short_code` in cache or database.
 3. If found and not expired, respond with `302` and `Location: <long_url>`.
 4. Browser follows redirect to the original URL.
-
-### High-Level Diagram
-
-```
-[Client] --> POST /urls --> [API Server] --> [DB]
-                |                    |
-                v                    v
-           short_url            (short_code, long_url, ...)
-
-[Client] --> GET /{short_code} --> [API Server] --> [Cache] --> [DB]
-                                        |
-                                        v
-                              302 Location: long_url
-```
 
 ## Deep Dives
 
@@ -194,14 +210,14 @@ Redirects must be fast (< 100 ms). Reads dominate, so optimize for read path.
 - **Write path:** Shorten service – scale horizontally; short code uniqueness via centralized counter (Redis or DB sequence).  
 - **Counter:** Single Redis instance (or Redis Cluster) with atomic `INCR`. Use counter batching so each app instance reserves a block of IDs to reduce Redis round-trips.
 
-**Final architecture (conceptual):**
+**Scaled architecture:**
 
-```
-[Client] --> [LB] --> [Redirect Service x N] --> [Redis Cache] --> [DB Read Replicas]
-                |
-                v
-           [Shorten Service x N] --> [Redis Counter] + [DB Primary]
-```
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/57fbaf1f8eb170ed.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Separate read and write paths; counter store is the only write bottleneck for code generation.</p>
 
 ## Summary
 

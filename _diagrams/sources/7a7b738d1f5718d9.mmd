@@ -1,0 +1,5 @@
+flowchart LR
+  DEV[Device] --> FW[Embedded Firmware]
+  FW --> BUF[Event Buffer]
+  BUF --> SYNC[Sync Agent]
+  SYNC --> CLOUD[(Cloud Ingest)]

@@ -39,6 +39,12 @@ This post provides a detailed walkthrough of designing a news feed system, cover
     - [Trade-offs and Optimizations](#trade-offs-and-optimizations)
 11. [Summary](#summary)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a news feed system with the following features:**
@@ -325,6 +331,36 @@ CREATE TABLE user_interactions (
 
 ## High-Level Design
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/970eda851480690d.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/6b6c25045248250c.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
+### Design patterns
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/c71e2fdbd6dc87da.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
+
 ```
 ┌─────────────┐
 │   Client    │
@@ -356,6 +392,10 @@ CREATE TABLE user_interactions (
 │ (Redis)      │  │ Queue        │  │ (Sharded)    │
 └──────────────┘  └──────────────┘  └──────────────┘
 ```
+
+</details>
+
+
 
 ## Feed Generation Strategies
 

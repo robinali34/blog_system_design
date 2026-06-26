@@ -11,12 +11,40 @@ tags: [system-design, timeline, feed, fanout, search, trends, caching]
 
 Goal: newsfeed of short posts with follows, likes/retweets, media, search, and trends, at massive read/write scale with low latency.
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Requirements
 
 - Functional: post tweet (text/media), follow/unfollow, home timeline, user timeline, likes/retweets/replies, search, trends, notifications.
 - Non‑functional: P95 read < 200 ms, write < 500 ms; HC read skew; hot‑key protection; multi‑region DR.
 
 ## High‑level architecture
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/dbb65b5a60bdb0ca.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/2afc8257300329d1.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 Clients → API Gateway → (Auth, Rate‑Limit)
@@ -27,6 +55,10 @@ Clients → API Gateway → (Auth, Rate‑Limit)
   ├─ Engagements (Likes/RT) → Counters Store (Redis/CRDT + Cassandra)
   └─ Search Indexer → Kafka → Elastic/OpenSearch
 ```
+
+</details>
+
+
 
 ## Data model
 

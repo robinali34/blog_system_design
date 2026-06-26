@@ -1,0 +1,7 @@
+flowchart TB
+  C[Clients] --> LB[Load Balancer]
+  LB --> N1[KV Node]
+  LB --> N2[KV Node]
+  N1 --> R1[Replication]
+  N2 --> R1
+  N1 --> DISK[(Local SSTable / WAL)]

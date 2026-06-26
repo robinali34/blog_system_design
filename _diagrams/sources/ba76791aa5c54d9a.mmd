@@ -1,0 +1,5 @@
+flowchart TB
+  API[API] --> SCH[Scheduler Cluster]
+  SCH --> ZK[(Coordination / Locks)]
+  SCH --> WORK[Worker Fleet]
+  WORK --> Q[(Task Queue)]

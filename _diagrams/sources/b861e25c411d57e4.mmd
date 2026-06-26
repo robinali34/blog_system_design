@@ -1,0 +1,5 @@
+flowchart TB
+  APP[SDK] --> API[DynamoDB API]
+  API --> PART[Partitions]
+  PART --> S3[(SSD storage)]
+  API --> GSI[Global secondary indexes]

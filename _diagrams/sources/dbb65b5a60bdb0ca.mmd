@@ -1,0 +1,6 @@
+flowchart LR
+  C[Clients] --> GW[API Gateway]
+  GW --> TWEET[Tweet Service]
+  GW --> TL[Timeline Service]
+  TWEET --> FAN[Fan-out]
+  FAN --> CACHE[(Timeline Cache)]

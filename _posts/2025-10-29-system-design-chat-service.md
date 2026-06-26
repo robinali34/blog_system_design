@@ -9,10 +9,35 @@ tags: [system-design, websocket, pubsub, storage, ordering, presence]
 
 # System Design: Chat/Messaging
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Requirements
 - One-to-one and group chats, delivery/read receipts, presence, search, attachments, E2E optional.
 
 ## Architecture
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/5d6543c86ebe7acf.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/98471643ea7749e0.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 Clients → Gateway (auth) → WebSocket Fanout + Pub/Sub (Kafka) → Message Store (Cassandra) → Search (Elastic) → Attachments (S3/CDN)
 
 ## Ordering/IDs

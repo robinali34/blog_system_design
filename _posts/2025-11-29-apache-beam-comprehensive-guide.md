@@ -17,6 +17,12 @@ This guide covers:
 - **Runners**: Execution engines (Spark, Flink, etc.)
 - **Best Practices**: Pipeline design, optimization, and testing
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Apache Beam?
 
 Apache Beam is a unified data processing framework that:
@@ -42,7 +48,19 @@ Apache Beam is a unified data processing framework that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -87,6 +105,10 @@ Apache Beam is a unified data processing framework that:
 │ (Database)  │           │  (Files)     │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Data Sources**: Systems that produce data (e.g., file systems, Kafka, Pub/Sub, databases).

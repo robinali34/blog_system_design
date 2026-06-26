@@ -1,0 +1,6 @@
+flowchart TB
+  C[Clients] --> GW[API Gateway]
+  GW --> ORD[Order Service]
+  ORD --> MATCH[Matching Engine]
+  ORD --> RISK[Risk Checks]
+  MATCH --> LEDGER[(Trade Ledger)]

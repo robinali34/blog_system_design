@@ -1,0 +1,8 @@
+flowchart TB
+  SEED[Seed URLs] --> F[URL Frontier]
+  F --> W1[Worker]
+  F --> W2[Worker]
+  W1 --> FETCH[Fetcher]
+  FETCH --> PARSE[Parser]
+  PARSE --> STORE[(Document Store)]
+  PARSE --> F

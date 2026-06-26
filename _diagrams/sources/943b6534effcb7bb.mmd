@@ -1,0 +1,6 @@
+flowchart TB
+  P[Players] --> CC[Client]
+  CC --> GW[Game Gateway]
+  GW --> SIM[Simulation Servers]
+  GW --> ASSET[Asset CDN]
+  SIM --> DATA[(Player Data Store)]

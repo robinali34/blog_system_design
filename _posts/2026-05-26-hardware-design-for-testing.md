@@ -15,6 +15,12 @@ excerpt: "ATE/DUT system design plus Design-for-Testability (DFT): scan, BIST, J
 
 This post covers both: the instrument stack from test controller to loadboard, then industry-standard **DFT techniques** (scan, BIST, JTAG, compression, at-speed test) and deep dives for interviews and advanced SoC programs.
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **layer diagrams** first (ATE stack, then SoC DFT). Part A is for fixture/instrument interviews; Part B–C are for silicon validation and DFT roles.
+
+</div>
+
 ## Table of Contents
 
 **Part A — ATE / DUT system design**
@@ -62,53 +68,10 @@ This post covers both: the instrument stack from test controller to loadboard, t
 
 Think in **layers**—each layer has clear ownership. Problems usually appear at **interfaces** (fixture ↔ DUT, switch ↔ RF path, trigger ↔ digitizer).
 
-```mermaid
-flowchart TB
-  subgraph L5 [Data & analysis]
-    DB[(Results DB / SPC)]
-    LIM[Limit sets & yield]
-  end
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/6287173f7349ca1f.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
 
-  subgraph L4 [Environmental]
-    TEMP[Thermal / chamber]
-    BURN[Burn-in / HALT-HASS]
-  end
-
-  subgraph L3 [Power]
-    SEQ[Power sequencing]
-    BULK[Bulk DC rails]
-    PROT[OVP / OCP]
-  end
-
-  subgraph L2 [DUT interface]
-    LB[Loadboard / fixture]
-    COND[Signal conditioning]
-    SW[Switch matrix]
-    KEL[Kelvin / 4-wire]
-  end
-
-  subgraph L1 [Instruments]
-    SMU[SMU]
-    AWG[AWG]
-    DGT[Digitizer / scope]
-    RF[VNA / spectrum analyzer]
-    DIO[Digital I/O / pattern]
-  end
-
-  subgraph L0 [Bus & controller]
-    BUS[PXI / PXIe / LXI / coax RF]
-    CTRL[Test controller / sequencer]
-  end
-
-  CTRL --> BUS --> SMU & AWG & DGT & RF & DIO
-  SMU & AWG & DGT & RF & DIO --> LB
-  LB --> COND --> SW --> KEL
-  KEL --> DUT[(DUT)]
-  SEQ --> DUT
-  TEMP --> DUT
-  DUT --> DB
-  DB --> LIM
-```
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
@@ -291,27 +254,10 @@ DFT exists at **multiple levels**:
 | **Board** | Interconnect, power, boot | Boundary scan, functional ATE |
 | **System** | OS boot, workloads, thermal | System-level test (SLT), field diagnostics |
 
-```mermaid
-flowchart LR
-  subgraph silicon [Silicon DFT]
-    SCAN[Scan chains]
-    BIST[LBIST / MBIST]
-    JTAG[JTAG / IJTAG]
-  end
-  subgraph mfg [Manufacturing]
-    ATE[Wafer / final test]
-    COMP[Scan compression]
-  end
-  subgraph system [System]
-    SLT[SLT workloads]
-    DBG[Debug & trace]
-  end
-  SCAN --> ATE
-  BIST --> ATE
-  JTAG --> ATE
-  ATE --> SLT
-  JTAG --> DBG
-```
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/05b09cb2b27d8b3e.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
 
 ---
 

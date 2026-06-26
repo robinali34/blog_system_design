@@ -32,6 +32,12 @@ This post provides a comprehensive walkthrough of designing a JNI (Java Native I
    - [Common Pitfalls and Solutions](#common-pitfalls-and-solutions)
 10. [Conclusion](#conclusion)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a JNI (Java Native Interface) Bridge that addresses:**
@@ -121,6 +127,25 @@ JNI (Java Native Interface) is a programming framework that allows Java code run
 
 ## High-Level Design
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/cd0e3cbbb8c68bbe.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/2afc8257300329d1.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 ### System Components
 
 ```

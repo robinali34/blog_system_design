@@ -1,0 +1,26 @@
+flowchart TB
+  ROOT([This blog — 172 posts])
+
+  subgraph path [Main interview path — most readers]
+    F["Foundations & prep<br/>~22 posts"]
+    D["Design problems<br/>~58 posts"]
+    P["Product-scale notes<br/>~11 posts"]
+    F --> D --> P
+  end
+
+  subgraph ref [On-demand reference]
+    T["Technology guides<br/>~50 posts"]
+    E["Ecosystem & quick ref"]
+  end
+
+  subgraph spec [Specialized tracks]
+    O["OS / embedded<br/>~31 posts"]
+    H["Hardware test & DFT"]
+  end
+
+  ROOT --> F
+  D -.->|need Redis, Kafka, DB…| T
+  F --> E
+  D -.->|OS / middleware role| O
+  O --> H
+  P -.->|review| T

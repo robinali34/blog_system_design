@@ -1,0 +1,6 @@
+flowchart LR
+  U[Users] --> API[Booking API]
+  API --> INV[Inventory Service]
+  API --> PAY[Payment Service]
+  INV --> DB[(Reservations DB)]
+  INV --> LOCK[Distributed Locks]

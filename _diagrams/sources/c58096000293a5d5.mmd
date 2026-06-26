@@ -1,0 +1,6 @@
+flowchart LR
+  C[Clients] --> GW[API Gateway / LB]
+  GW -->|check limit| RL[Rate Limiter]
+  RL --> R[(Redis Cluster)]
+  GW -->|allowed| APP[App Services]
+  GW -->|429| C

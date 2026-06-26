@@ -10,7 +10,13 @@ excerpt: "A comprehensive guide to Apache Cassandra, covering architecture, data
 
 Apache Cassandra is an open-source, distributed NoSQL database designed to handle large amounts of data across many commodity servers, providing high availability with no single point of failure. Originally developed at Facebook and released as open-source in 2008, Cassandra has become one of the most popular distributed databases, powering systems at companies like Netflix, Apple, Instagram, and many others.
 
-### What is Cassandra?
+#<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
+## What is Cassandra?
 
 Cassandra is a **wide-column store** NoSQL database that provides:
 - **Distributed Architecture**: Data distributed across multiple nodes
@@ -40,6 +46,15 @@ Cassandra is a **wide-column store** NoSQL database that provides:
 ---
 
 ## Architecture
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/faf80ac388a63b07.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
 
 ### Distributed Architecture
 

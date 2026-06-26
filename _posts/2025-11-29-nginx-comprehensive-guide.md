@@ -17,6 +17,12 @@ This guide covers:
 - **SSL/TLS**: Certificate management and HTTPS configuration
 - **Performance**: Caching, compression, and optimization
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is NGINX?
 
 NGINX is a web server and reverse proxy that:
@@ -40,7 +46,19 @@ NGINX is a web server and reverse proxy that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/a71c90015b54d0c0.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -73,6 +91,10 @@ NGINX is a web server and reverse proxy that:
 │  Server 1   │           │  Server 2    │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Clients**: Web browsers, mobile apps, or other HTTP clients that make requests to the server.

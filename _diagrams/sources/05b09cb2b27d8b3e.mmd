@@ -1,0 +1,19 @@
+flowchart LR
+  subgraph silicon [Silicon DFT]
+    SCAN[Scan chains]
+    BIST[LBIST / MBIST]
+    JTAG[JTAG / IJTAG]
+  end
+  subgraph mfg [Manufacturing]
+    ATE[Wafer / final test]
+    COMP[Scan compression]
+  end
+  subgraph system [System]
+    SLT[SLT workloads]
+    DBG[Debug & trace]
+  end
+  SCAN --> ATE
+  BIST --> ATE
+  JTAG --> ATE
+  ATE --> SLT
+  JTAG --> DBG

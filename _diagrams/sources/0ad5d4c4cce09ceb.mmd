@@ -1,0 +1,11 @@
+sequenceDiagram
+  participant R as Rider
+  participant API as API
+  participant M as Matcher
+  participant D as Driver
+  R->>API: request ride
+  API->>M: find nearby drivers
+  M->>D: dispatch offer
+  D-->>M: accept
+  M-->>API: matched trip
+  API-->>R: driver en route

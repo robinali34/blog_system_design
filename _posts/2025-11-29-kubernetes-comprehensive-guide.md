@@ -17,6 +17,12 @@ This guide covers:
 - **Storage**: Persistent volumes and storage classes
 - **Best Practices**: Resource management, security, and monitoring
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Kubernetes?
 
 Kubernetes is a container orchestration platform that:
@@ -42,7 +48,19 @@ Kubernetes is a container orchestration platform that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/75513c9226e502f8.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -72,6 +90,10 @@ Kubernetes is a container orchestration platform that:
               │  └──────────┘           │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Users**: Developers, DevOps engineers, and operators who deploy and manage applications on Kubernetes.

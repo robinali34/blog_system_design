@@ -1,0 +1,4 @@
+flowchart LR
+  C[gRPC Client] --> CH[HTTP/2 Channel]
+  CH --> S[gRPC Server]
+  S --> SVC[Service impl]

@@ -1,0 +1,6 @@
+flowchart LR
+  C1[Client A] --> SYNC[Sync Service]
+  C2[Client B] --> SYNC
+  SYNC --> META[(File Metadata)]
+  SYNC --> BLOB[(Block Storage)]
+  SYNC --> NOTIF[Change Notifications]

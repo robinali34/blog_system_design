@@ -17,6 +17,12 @@ This guide covers:
 - **Workspaces**: Environment management
 - **Best Practices**: Code organization, security, and versioning
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Terraform?
 
 Terraform is an infrastructure as code tool that:
@@ -40,7 +46,19 @@ Terraform is an infrastructure as code tool that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/8b635bc355d773f9.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -75,6 +93,10 @@ Terraform is an infrastructure as code tool that:
 │ Resources   │           │  Resources   │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Users**: Developers, DevOps engineers, and CI/CD pipelines that define and manage infrastructure using Terraform.

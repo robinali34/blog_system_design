@@ -1,0 +1,5 @@
+flowchart LR
+  C[Clients] --> API[Config API]
+  API --> LRU[LRU Cache Layer]
+  LRU --> DB[(Config Store)]
+  ADMIN[Admin] -->|push| API

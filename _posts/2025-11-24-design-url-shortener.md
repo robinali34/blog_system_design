@@ -33,6 +33,12 @@ This guide covers the design of a URL shortener with focus on these aspects, inc
 10. [Deep Dive](#deep-dive)
 11. [Summary](#summary)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a URL shortener service that:**
@@ -577,6 +583,27 @@ class CacheManager:
         self.l1_cache[short_code] = long_url
 ```
 
+
+## High-Level Design
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/037c7cb2141b4861.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/96b3aba4645bee83.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 ## Deep Dive
 
 ### URL Validation

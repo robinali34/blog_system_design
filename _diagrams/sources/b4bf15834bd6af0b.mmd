@@ -1,0 +1,4 @@
+flowchart LR
+  U[Users] --> EDGE[Edge PoP]
+  EDGE -->|miss| ORIGIN[Origin]
+  EDGE -->|hit| U

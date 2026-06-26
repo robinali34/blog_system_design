@@ -6,6 +6,10 @@ url: "https://robinali34.github.io/blog_system_design/" # the base hostname & pr
 
 # Build settings
 markdown: kramdown
+kramdown:
+  auto_ids: true
+  auto_id_stripping: true
+  toc_levels: 2..4
 highlighter: rouge
 theme: minima
 show_excerpts: true
@@ -41,6 +45,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - node_modules
+  - _diagrams
   - vendor/bundle/
   - vendor/cache/
   - vendor/gems/

@@ -17,6 +17,12 @@ This guide covers:
 - **Use Cases**: Real-world applications and patterns
 - **Best Practices**: Performance, reliability, and optimization
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Apache Zookeeper?
 
 Apache Zookeeper is a distributed coordination service that offers:
@@ -45,7 +51,19 @@ Apache Zookeeper is a distributed coordination service that offers:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -74,6 +92,10 @@ Apache Zookeeper is a distributed coordination service that offers:
               │  └───────────────────┘  │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Distributed applications that connect to Zookeeper for coordination services (locks, leader election, configuration).

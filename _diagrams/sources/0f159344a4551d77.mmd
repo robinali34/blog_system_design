@@ -1,0 +1,6 @@
+flowchart TB
+  U[Users] --> API[API Gateway]
+  API --> BOOK[Booking Service]
+  BOOK --> SEAT[Seat Lock / Hold]
+  SEAT --> DB[(Ticket DB)]
+  BOOK --> PAY[Payment]

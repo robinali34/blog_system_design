@@ -1,0 +1,6 @@
+flowchart LR
+  B[Broadcaster] --> ING[Live Ingest]
+  ING --> TRANS[Transcode]
+  TRANS --> CDN[CDN]
+  V[Viewers] --> CDN
+  CHAT[Chat] --> RT[Real-time Channel]

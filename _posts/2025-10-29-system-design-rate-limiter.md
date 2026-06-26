@@ -9,6 +9,12 @@ tags: [system-design, redis, token-bucket, leaky-bucket, lua, consistency]
 
 # System Design: Distributed Rate Limiter
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Requirements
 - Enforce per-user and per-IP limits (e.g., 100 req/min), burst handling, low latency, global distribution.
 
@@ -16,6 +22,33 @@ tags: [system-design, redis, token-bucket, leaky-bucket, lua, consistency]
 - Token bucket in Redis with Lua scripts (atomic); or sliding window counters.
 
 ## Architecture
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/c58096000293a5d5.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/58009e50002fbbe3.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
+### Design patterns
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/0a3203c37cabde1c.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 Clients → Gateway → Limiter SDK → Redis/Memcache cluster (sharded) → Fallback local estimators.
 
 ## Data model

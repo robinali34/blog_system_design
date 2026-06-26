@@ -1,0 +1,6 @@
+stateDiagram-v2
+  [*] --> HasTokens: refill rate
+  HasTokens --> HasTokens: request (decrement)
+  HasTokens --> Empty: tokens = 0
+  Empty --> HasTokens: time passes / refill
+  Empty --> Empty: request rejected

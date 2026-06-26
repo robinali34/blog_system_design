@@ -1,0 +1,4 @@
+flowchart LR
+  P[Producers] --> B[Broker cluster]
+  B --> T1[Topic partitions]
+  T1 --> CG[Consumer groups]

@@ -1,0 +1,6 @@
+flowchart LR
+  P[Publishers] -->|publish| B[Broker Cluster]
+  B --> T1[Topic A]
+  B --> T2[Topic B]
+  T1 --> S1[Subscriber Group]
+  T2 --> S2[Subscriber Group]

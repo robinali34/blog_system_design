@@ -17,6 +17,12 @@ This guide covers:
 - **Performance**: Write optimization, indexing, and compression
 - **Best Practices**: Schema design, retention, and downsampling
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is InfluxDB?
 
 InfluxDB is a time-series database that:
@@ -42,7 +48,19 @@ InfluxDB is a time-series database that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -82,6 +100,10 @@ InfluxDB is a time-series database that:
 │  (InfluxQL) │           │  (Flux)      │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications that write time-series data to InfluxDB (e.g., IoT devices, monitoring systems, analytics platforms).

@@ -1,0 +1,6 @@
+flowchart TB
+  C[Clients] --> GW[Gateway]
+  GW --> ROUTE[Model Router]
+  ROUTE --> GPU[GPU Inference Pool]
+  ROUTE --> CACHE[(Prompt / KV Cache)]
+  GW --> SAFE[Safety Filters]

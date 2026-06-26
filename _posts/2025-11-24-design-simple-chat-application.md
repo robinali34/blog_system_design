@@ -29,6 +29,12 @@ This guide covers the design of a simple chat application with proper entity mod
 8. [Implementation](#implementation)
 9. [Summary](#summary)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a simple chat application that:**
@@ -544,6 +550,27 @@ unread = chat_app.get_unread_count(user1.user_id)
    - Efficient updates
    - **Key**: Demonstrate state management skills
 
+
+## High-Level Design
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/5d6543c86ebe7acf.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/98471643ea7749e0.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 ## Summary
 
 ### Key Takeaways

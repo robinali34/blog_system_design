@@ -1,0 +1,6 @@
+flowchart LR
+  APP[Services] --> AGENT[Log Agents]
+  AGENT --> BUF[Kafka Buffer]
+  BUF --> PROC[Stream Processors]
+  PROC --> IDX[(Search Index)]
+  PROC --> S3[(Cold Storage)]

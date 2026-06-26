@@ -1,0 +1,4 @@
+flowchart TB
+  APP[Cluster members] --> ETCD[etcd cluster]
+  ETCD --> RAFT[Raft consensus]
+  RAFT --> LOG[(Replicated log)]

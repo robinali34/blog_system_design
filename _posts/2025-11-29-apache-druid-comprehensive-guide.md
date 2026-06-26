@@ -17,6 +17,12 @@ This guide covers:
 - **Performance**: Indexing, compression, and optimization
 - **Best Practices**: Data modeling, partitioning, and scaling
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Apache Druid?
 
 Apache Druid is an analytics database that:
@@ -42,7 +48,19 @@ Apache Druid is an analytics database that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -76,6 +94,10 @@ Apache Druid is an analytics database that:
               │   (S3, HDFS)            │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications that query Druid for real-time and historical analytics (e.g., dashboards, analytics platforms, monitoring systems).

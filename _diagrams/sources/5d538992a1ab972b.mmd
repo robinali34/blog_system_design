@@ -1,0 +1,8 @@
+flowchart TB
+  C[Clients] --> REST[REST]
+  C --> WS[WebSocket]
+  C --> GRPC[gRPC]
+  REST --> GW[API Gateway]
+  WS --> GW
+  GRPC --> GW
+  GW --> SVC[Backend Services]

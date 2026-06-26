@@ -17,6 +17,12 @@ This guide covers:
 - **Performance Optimization**: Connection pooling, pipelining, and monitoring
 - **Best Practices**: Cache invalidation, key design, and error handling
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Memcached?
 
 Memcached is a distributed memory caching system that:
@@ -42,7 +48,19 @@ Memcached is a distributed memory caching system that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/f25b286d06edc4d2.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -68,6 +86,10 @@ Memcached is a distributed memory caching system that:
 │  (RAM)      │           │  (RAM)       │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications that use Memcached for caching (e.g., web applications, APIs, databases).

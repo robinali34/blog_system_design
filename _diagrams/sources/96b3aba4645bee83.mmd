@@ -1,0 +1,12 @@
+sequenceDiagram
+  participant C as Client
+  participant S as API
+  participant DB as Database
+  C->>S: POST /urls
+  S->>DB: store mapping
+  DB-->>S: OK
+  S-->>C: short_url
+  C->>S: GET /code
+  S->>DB: lookup
+  DB-->>S: long_url
+  S-->>C: 302 redirect

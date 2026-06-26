@@ -1,0 +1,22 @@
+sequenceDiagram
+  participant B as Browser
+  participant CDN as CDN / Edge
+  participant RS as Redirect Service
+  participant Cache as Redis Cache
+  participant DB as DB Replica
+
+  B->>CDN: GET /abc123
+  alt cache hit at edge
+    CDN-->>B: 302 Location
+  else miss
+    CDN->>RS: forward
+    RS->>Cache: GET abc123
+    alt cache hit
+      Cache-->>RS: long_url
+    else cache miss
+      RS->>DB: SELECT by short_code
+      DB-->>RS: long_url
+      RS->>Cache: SET abc123
+    end
+    RS-->>B: 302 Location
+  end

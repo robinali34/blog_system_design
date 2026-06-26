@@ -1,0 +1,47 @@
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+(function() {
+  function convertMermaidBlocks() {
+    document.querySelectorAll('code.language-mermaid').forEach(function(code) {
+      var pre = code.parentElement;
+      if (!pre || pre.tagName !== 'PRE') return;
+      var container = pre.parentElement;
+      var div = document.createElement('div');
+      div.className = 'mermaid';
+      div.textContent = code.textContent;
+      if (container && container.classList.contains('highlighter-rouge')) {
+        container.replaceWith(div);
+      } else {
+        pre.replaceWith(div);
+      }
+    });
+  }
+
+  function initMermaid() {
+    convertMermaidBlocks();
+    if (typeof mermaid === 'undefined') return;
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'neutral',
+      securityLevel: 'loose',
+      flowchart: { curve: 'basis', padding: 16 },
+      themeVariables: {
+        primaryColor: '#E8E3D8',
+        primaryTextColor: '#5A5752',
+        primaryBorderColor: '#B8B5B0',
+        lineColor: '#9A9792',
+        secondaryColor: '#F5F0E8',
+        tertiaryColor: '#FFFFFF',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif'
+      }
+    });
+    mermaid.run({ querySelector: '.mermaid' });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
+})();
+</script>

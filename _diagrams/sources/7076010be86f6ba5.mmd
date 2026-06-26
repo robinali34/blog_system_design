@@ -1,0 +1,4 @@
+flowchart TB
+  DRV[Driver] --> CL[Cluster manager]
+  CL --> EX[Executors]
+  EX --> DATA[(Partitions / HDFS)]

@@ -17,6 +17,12 @@ This guide covers:
 - **Geo-Replication**: Cross-datacenter replication
 - **Best Practices**: Performance, reliability, and monitoring
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Apache Pulsar?
 
 Apache Pulsar is a messaging and streaming platform that:
@@ -42,7 +48,19 @@ Apache Pulsar is a messaging and streaming platform that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -73,6 +91,10 @@ Apache Pulsar is a messaging and streaming platform that:
 │   Group 1   │           │   Group 2    │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Producers**: Applications that publish messages to Pulsar topics (e.g., microservices, data pipelines, event sources).

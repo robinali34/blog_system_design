@@ -17,6 +17,12 @@ This guide covers:
 - **System Design Applications**: How to apply CAP Theorem in interviews
 - **Practical Patterns**: CP, AP, and CA systems
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is CAP Theorem?
 
 The CAP Theorem, proposed by Eric Brewer in 2000, states that in a distributed system, you can only guarantee **two out of three** properties:
@@ -94,6 +100,15 @@ When a network partition occurs:
 - ❌ Must choose C or A during partitions
 
 ## Architecture
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
 
 ### CAP Theorem Trade-off Visualization
 

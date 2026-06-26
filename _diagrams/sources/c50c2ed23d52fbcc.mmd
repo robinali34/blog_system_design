@@ -1,0 +1,6 @@
+flowchart LR
+  U[Upload] --> ING[Ingest]
+  ING --> TRANS[Transcoder Farm]
+  TRANS --> CDN[CDN]
+  V[Viewers] --> CDN
+  META[(Metadata DB)] --> API[Video API]

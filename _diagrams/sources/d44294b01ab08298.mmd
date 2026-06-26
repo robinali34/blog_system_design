@@ -1,0 +1,6 @@
+flowchart LR
+  C[Clients] --> API[Like API]
+  API --> CTR[Counter Service]
+  CTR --> CACHE[(Redis Counters)]
+  CTR --> DB[(Like Table)]
+  API --> FAN[Fan-out Events]

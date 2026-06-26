@@ -1,0 +1,9 @@
+sequenceDiagram
+  participant A as User A
+  participant GW as Gateway
+  participant S as Chat Service
+  participant B as User B
+  A->>GW: send message
+  GW->>S: persist + route
+  S->>B: push via WebSocket
+  S-->>A: ack delivered

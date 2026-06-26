@@ -1,0 +1,7 @@
+flowchart TB
+  R[Rider App] --> API[API Gateway]
+  D[Driver App] --> API
+  API --> MATCH[Matching Service]
+  API --> TRIP[Trip Service]
+  MATCH --> GEO[(Geo Index)]
+  TRIP --> LOC[Location Stream]

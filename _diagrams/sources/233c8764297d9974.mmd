@@ -1,0 +1,5 @@
+flowchart TB
+  C[Clients] --> CDN[Open Connect CDN]
+  CDN --> ORIGIN[Origin / Packager]
+  API[Catalog API] --> REC[Recommendation]
+  REC --> LOG[(Viewing Events)]

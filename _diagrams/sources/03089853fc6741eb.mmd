@@ -1,0 +1,5 @@
+flowchart LR
+  G[Game Servers] --> ING[Score Ingest]
+  ING --> ZSET[(Redis Sorted Set)]
+  C[Clients] --> API[Leaderboard API]
+  API --> ZSET

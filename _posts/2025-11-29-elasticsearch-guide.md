@@ -18,6 +18,12 @@ This guide covers:
 - **Use Cases**: Real-world applications and patterns
 - **Best Practices**: Performance, reliability, and optimization
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Elasticsearch?
 
 Elasticsearch is a distributed search and analytics engine that offers:
@@ -46,7 +52,19 @@ Elasticsearch is a distributed search and analytics engine that offers:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/eeed69ddcf08a238.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -76,6 +94,10 @@ Elasticsearch is a distributed search and analytics engine that offers:
               │  └───────────────────┘  │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications that send search and indexing requests to Elasticsearch (e.g., web applications, log aggregators).

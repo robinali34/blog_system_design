@@ -1,0 +1,6 @@
+flowchart LR
+  EVENTS[Event Stream] --> AGG[Aggregator Nodes]
+  AGG --> SKETCH[(Count-Min Sketch)]
+  AGG --> HEAP[Local Top-K]
+  HEAP --> MERGE[Merge Service]
+  Q[Queries] --> MERGE

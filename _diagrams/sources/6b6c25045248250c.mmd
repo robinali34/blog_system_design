@@ -1,0 +1,15 @@
+sequenceDiagram
+  participant U as User
+  participant API as Feed API
+  participant C as Feed Cache
+  participant DB as Post Store
+  U->>API: GET /feed
+  API->>C: read cached feed
+  alt cache hit
+    C-->>API: post ids
+  else miss
+    API->>DB: generate feed
+    DB-->>API: posts
+    API->>C: cache result
+  end
+  API-->>U: ranked feed

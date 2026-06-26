@@ -1,0 +1,16 @@
+flowchart TB
+  A(["Start"])
+  B["① Interview basics"]
+  C["② One small design"]
+  D{"③ Unfamiliar tool?"}
+  E["Read that tech guide"]
+  F["④ Finish design"]
+  G{"⑤ More practice?"}
+  H["⑥ Larger systems"]
+
+  A --> B --> C --> D
+  D -->|Yes| E --> F
+  D -->|No| F
+  F --> G
+  G -->|Yes| C
+  G -->|Ready| H

@@ -29,6 +29,12 @@ This guide covers the complete design of a ticket booking system with proper sta
 8. [Implementation](#implementation)
 9. [Summary](#summary)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a ticket booking system for cinema/events that:**
@@ -497,6 +503,27 @@ class TicketBookingSystem:
    - Efficient algorithms
    - **Key**: Balance correctness with efficiency
 
+
+## High-Level Design
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/0f159344a4551d77.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/2afc8257300329d1.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 ## Summary
 
 ### Key Takeaways

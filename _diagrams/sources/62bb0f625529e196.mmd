@@ -1,0 +1,10 @@
+sequenceDiagram
+  participant F as Frontier
+  participant W as Worker
+  participant WQ as Web
+  participant S as Storage
+  F->>W: next URL
+  W->>WQ: HTTP GET
+  WQ-->>W: HTML
+  W->>S: store page
+  W->>F: enqueue links

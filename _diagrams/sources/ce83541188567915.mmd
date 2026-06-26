@@ -1,0 +1,4 @@
+flowchart LR
+  SVC[Services] --> AGENT[Consul agent]
+  AGENT --> SERF[Gossip / health]
+  AGENT --> KV[(KV store)]

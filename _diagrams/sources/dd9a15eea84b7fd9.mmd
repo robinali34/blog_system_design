@@ -1,0 +1,5 @@
+flowchart TB
+  C[Client] --> GQL[GraphQL server]
+  GQL --> R1[Resolver: users]
+  GQL --> R2[Resolver: posts]
+  R1 --> DB[(Data sources)]

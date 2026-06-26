@@ -1,0 +1,6 @@
+flowchart TB
+  APP[Application] --> COMP[Core Component]
+  COMP --> POOL[Worker / Resource Pool]
+  POOL --> W1[Worker 1]
+  POOL --> W2[Worker N]
+  COMP --> STORE[(In-Memory Structure)]

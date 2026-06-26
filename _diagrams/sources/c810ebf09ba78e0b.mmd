@@ -1,0 +1,5 @@
+flowchart LR
+  P[Players] --> Q[Matchmaking Queue]
+  Q --> MM[Matcher]
+  MM --> RULE[(Skill / Latency Rules)]
+  MM --> GS[Game Server Allocator]

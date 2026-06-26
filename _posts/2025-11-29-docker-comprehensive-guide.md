@@ -17,6 +17,12 @@ This guide covers:
 - **Docker Compose**: Multi-container applications
 - **Best Practices**: Security, optimization, and performance
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Docker?
 
 Docker is a containerization platform that:
@@ -42,7 +48,19 @@ Docker is a containerization platform that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/b1107788e8676bff.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -74,6 +92,10 @@ Docker is a containerization platform that:
               │  └───────────────────┘  │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Users**: Developers, DevOps engineers, and CI/CD pipelines that build and run containerized applications.

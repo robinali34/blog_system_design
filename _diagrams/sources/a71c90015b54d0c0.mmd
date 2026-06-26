@@ -1,0 +1,5 @@
+flowchart LR
+  C[Clients] --> NGX[NGINX]
+  NGX --> U1[Upstream 1]
+  NGX --> U2[Upstream 2]
+  NGX --> CACHE[(Cache zone)]

@@ -1,0 +1,45 @@
+flowchart TB
+  subgraph L5 [Data & analysis]
+    DB[(Results DB / SPC)]
+    LIM[Limit sets & yield]
+  end
+
+  subgraph L4 [Environmental]
+    TEMP[Thermal / chamber]
+    BURN[Burn-in / HALT-HASS]
+  end
+
+  subgraph L3 [Power]
+    SEQ[Power sequencing]
+    BULK[Bulk DC rails]
+    PROT[OVP / OCP]
+  end
+
+  subgraph L2 [DUT interface]
+    LB[Loadboard / fixture]
+    COND[Signal conditioning]
+    SW[Switch matrix]
+    KEL[Kelvin / 4-wire]
+  end
+
+  subgraph L1 [Instruments]
+    SMU[SMU]
+    AWG[AWG]
+    DGT[Digitizer / scope]
+    RF[VNA / spectrum analyzer]
+    DIO[Digital I/O / pattern]
+  end
+
+  subgraph L0 [Bus & controller]
+    BUS[PXI / PXIe / LXI / coax RF]
+    CTRL[Test controller / sequencer]
+  end
+
+  CTRL --> BUS --> SMU & AWG & DGT & RF & DIO
+  SMU & AWG & DGT & RF & DIO --> LB
+  LB --> COND --> SW --> KEL
+  KEL --> DUT[(DUT)]
+  SEQ --> DUT
+  TEMP --> DUT
+  DUT --> DB
+  DB --> LIM

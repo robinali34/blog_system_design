@@ -17,6 +17,12 @@ This guide covers:
 - **Best Practices**: Performance, reliability, and optimization
 - **Practical Examples**: Code samples and deployment scripts
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Redis?
 
 Redis is an in-memory data structure store that offers:

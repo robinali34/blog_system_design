@@ -17,6 +17,12 @@ This guide covers:
 - **Performance**: Batching, caching, and optimization
 - **Best Practices**: Schema design, security, and monitoring
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is GraphQL?
 
 GraphQL is a query language for APIs that:
@@ -42,7 +48,19 @@ GraphQL is a query language for APIs that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/dd9a15eea84b7fd9.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -76,6 +94,10 @@ GraphQL is a query language for APIs that:
 │             │           │  Services    │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Clients**: Applications that send GraphQL queries and mutations (e.g., web apps, mobile apps, API clients).

@@ -1,0 +1,11 @@
+sequenceDiagram
+  participant U as Uploader
+  participant ING as Ingest
+  participant TR as Transcoder
+  participant CDN as CDN
+  participant V as Viewer
+  U->>ING: upload video
+  ING->>TR: transcode job
+  TR->>CDN: publish renditions
+  V->>CDN: GET manifest
+  CDN-->>V: stream chunks

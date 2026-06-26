@@ -9,10 +9,35 @@ tags: [system-design, push, apns, fcm, email, retry]
 
 # System Design: Notification/Push Service
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Requirements
 - Multi-channel: mobile push (APNs/FCM), email, SMS; templates, preferences, retries, dedupe.
 
 ## Architecture
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/fc7a1f983b273c2c.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/2afc8257300329d1.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>
 Producers → Topic (Kafka) → Router → Channel Workers (APNs/FCM/SMTP/SMS) → Providers
            ↘ Store (Postgres) for receipts, logs, preferences
 

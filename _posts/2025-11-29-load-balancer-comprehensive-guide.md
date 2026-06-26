@@ -17,6 +17,12 @@ This guide covers:
 - **SSL Termination**: HTTPS handling at the load balancer
 - **Best Practices**: Performance, security, and reliability
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is a Load Balancer?
 
 A Load Balancer is a device or software that:
@@ -42,7 +48,19 @@ A Load Balancer is a device or software that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/214acdef21df02fa.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -74,6 +92,10 @@ A Load Balancer is a device or software that:
 │  Server 1   │           │  Server 2    │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Clients**: Web browsers, mobile apps, or API clients that make requests to the application.

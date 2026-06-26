@@ -1,0 +1,7 @@
+flowchart TB
+  URL[URL] --> ROBOT{robots.txt OK?}
+  ROBOT -->|yes| FETCH[Fetch]
+  ROBOT -->|no| SKIP[Skip]
+  FETCH --> PARSE[Parse links]
+  PARSE --> DEDUP{Dedup?}
+  DEDUP -->|new| FRONT[Frontier]

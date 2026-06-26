@@ -1,0 +1,5 @@
+flowchart TB
+  P[Players] --> API[Game API]
+  API --> ENGINE[Game Engine]
+  ENGINE --> STATE[(Game State + History)]
+  ENGINE --> ELO[ELO Rating Service]

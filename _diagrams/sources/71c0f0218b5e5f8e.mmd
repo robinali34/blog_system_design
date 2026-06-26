@@ -1,0 +1,6 @@
+flowchart TB
+  C[Clients] --> API[API]
+  API --> OT[OT / CRDT Engine]
+  OT --> DOC[(Document Store)]
+  API --> WS[WebSocket Sync]
+  WS --> C

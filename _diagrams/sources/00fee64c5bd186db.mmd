@@ -1,0 +1,7 @@
+flowchart TB
+  SCRAPE[Scrapers] --> Q[Queue]
+  Q --> PROC[Price Processor]
+  PROC --> DB[(Price History)]
+  PROC --> ALERT[Alert Service]
+  U[Users] --> API[Tracker API]
+  API --> DB

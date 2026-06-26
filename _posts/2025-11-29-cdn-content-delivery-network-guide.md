@@ -17,6 +17,12 @@ This guide covers:
 - **Use Cases**: Static assets, dynamic content, media streaming
 - **Best Practices**: Performance, security, and cost optimization
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is a CDN?
 
 A Content Delivery Network (CDN) is a geographically distributed network of servers that:
@@ -46,7 +52,19 @@ A Content Delivery Network (CDN) is a geographically distributed network of serv
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/b4bf15834bd6af0b.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -80,6 +98,10 @@ A Content Delivery Network (CDN) is a geographically distributed network of serv
               │   (Content Source)      │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Users**: End users in different geographic locations requesting content (e.g., web pages, images, videos).

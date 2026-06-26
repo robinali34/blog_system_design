@@ -1,0 +1,11 @@
+flowchart LR
+  subgraph push [Push fan-out on write]
+    NP[New post] --> FAN[Write to follower feeds]
+  end
+  subgraph pull [Pull on read]
+    RD[Read feed] --> MERGE[Merge followed users]
+  end
+  subgraph hybrid [Hybrid]
+    HOT[Celebrity: pull] --> MERGE
+    FAN --> NORMAL[Regular users: push]
+  end

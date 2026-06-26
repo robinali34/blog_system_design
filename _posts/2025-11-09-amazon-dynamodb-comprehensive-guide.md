@@ -10,7 +10,13 @@ excerpt: "A comprehensive guide to Amazon DynamoDB, covering architecture, data 
 
 Amazon DynamoDB is a fully managed NoSQL database service provided by AWS that delivers single-digit millisecond performance at any scale. DynamoDB is a key-value and document database that provides built-in security, backup and restore, and in-memory caching for internet-scale applications. It's designed to handle massive workloads with predictable performance and seamless scalability.
 
-### What is DynamoDB?
+#<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
+## What is DynamoDB?
 
 DynamoDB is a **managed NoSQL database** that provides:
 - **Serverless Architecture**: No servers to manage, automatic scaling
@@ -45,7 +51,19 @@ DynamoDB is a **managed NoSQL database** that provides:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/b861e25c411d57e4.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -78,6 +96,10 @@ DynamoDB is a **managed NoSQL database** that provides:
               │  └───────────────────┘  │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications that use DynamoDB to store and retrieve data (e.g., web applications, mobile backends, microservices).

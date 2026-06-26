@@ -1,0 +1,6 @@
+flowchart TB
+  KUBECTL[kubectl] --> API[API Server]
+  API --> SCH[Scheduler]
+  API --> CM[Controller Manager]
+  SCH --> NODE[Worker nodes]
+  NODE --> POD[Pods]

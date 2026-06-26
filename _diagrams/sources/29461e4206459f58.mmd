@@ -1,0 +1,4 @@
+flowchart TB
+  APP[Apps] --> POOL[Connection pool]
+  POOL --> PRI[(Primary)]
+  PRI --> REP[(Read replicas)]

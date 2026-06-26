@@ -1,0 +1,6 @@
+flowchart LR
+  DB[(Primary DB)] --> LOG[Transaction Log]
+  LOG --> CDC[CDC Connector]
+  CDC --> K[Kafka]
+  K --> DW[(Warehouse)]
+  K --> CACHE[(Downstream Caches)]

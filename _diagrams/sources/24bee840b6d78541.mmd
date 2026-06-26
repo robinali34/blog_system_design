@@ -1,0 +1,5 @@
+flowchart LR
+  C[Clients] --> API[Search API]
+  API --> GEO[Geo Index]
+  GEO --> SHARD[(Sharded Location DB)]
+  API --> CACHE[(Query Cache)]

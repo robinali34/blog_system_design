@@ -11,6 +11,12 @@ tags: [system-design, git, storage, code-review, ci, actions]
 
 Scope: multi‑tenant git hosting, code browsing/search, pull requests, permissions, webhooks, CI runners.
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Git storage
 
 - Sharded object storage for packfiles; replicas across AZs; maintenance (gc, repack) off the hot path.
@@ -188,3 +194,24 @@ POST /repos/{o}/{r}/actions/workflows/{id}/dispatches { ref, inputs }
    - Large-scale git hosting
    - Performance optimization
    - **Key**: Demonstrate scale expertise
+
+## High-Level Design
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/271048b83ca11e33.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+
+### Key flows
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/2afc8257300329d1.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Typical request/data flow — use in interviews to explain the happy path.</p>

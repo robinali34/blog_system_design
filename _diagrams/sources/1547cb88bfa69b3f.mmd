@@ -1,0 +1,6 @@
+flowchart TB
+  B[Bidders] --> API[Auction API]
+  API --> AUC[Auction Engine]
+  AUC --> BID[(Bid Store)]
+  AUC --> WS[WebSocket Push]
+  WS --> B

@@ -1,0 +1,5 @@
+flowchart TB
+  UI[Client / UI] --> CTRL[Controller]
+  CTRL --> SVC[Domain Services]
+  SVC --> REPO[(Data Store)]
+  SVC --> RULE[Business Rules]

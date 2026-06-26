@@ -35,6 +35,12 @@ This post walks through designing a **request-level** rate limiter for an API: i
 7. [Summary](#summary)
 8. [References](#references)
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this post:** Skim the **architecture diagram** under High-Level Design first, then walk through requirements → API → deep dives. Diagrams render as interactive visuals in the browser.
+
+</div>
+
 ## Problem Statement
 
 **Design a rate limiter that:**
@@ -94,6 +100,31 @@ isRequestAllowed(clientId, ruleId) -> { allowed: boolean, remaining: number, res
 - **Output:** Whether the request is allowed, remaining requests in the window, and when the limit resets (for headers like `X-RateLimit-Remaining`, `X-RateLimit-Reset`).
 
 ## High-Level Design
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/c58096000293a5d5.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level system diagram — read top to bottom or left to right.</p>
+
+### Request check flow
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/fa21b0593f072447.png' | relative_url }}" alt="Request flow sequence diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+### Token bucket (concept)
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/150ba72b0c4e8630.png' | relative_url }}" alt="State diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Token bucket allows bursts up to bucket capacity, then enforces steady refill rate.</p>
 
 ### Placement
 

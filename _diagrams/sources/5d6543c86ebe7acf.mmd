@@ -1,0 +1,7 @@
+flowchart LR
+  C1[User A] --> WS[WebSocket Gateway]
+  C2[User B] --> WS
+  WS --> CHAT[Chat Service]
+  CHAT --> PRES[(Presence Store)]
+  CHAT --> MSG[(Message Store)]
+  CHAT --> MQ[Pub/Sub or Kafka]

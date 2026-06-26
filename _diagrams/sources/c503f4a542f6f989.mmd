@@ -1,0 +1,13 @@
+sequenceDiagram
+  participant C as Client
+  participant API as Shorten Service
+  participant CTR as Redis Counter
+  participant DB as Database
+
+  C->>API: POST /urls (long_url)
+  API->>API: Validate URL
+  API->>CTR: INCR (or reserve batch)
+  CTR-->>API: unique id
+  API->>DB: INSERT (short_code, long_url)
+  DB-->>API: OK
+  API-->>C: 200 { short_url }

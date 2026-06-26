@@ -17,6 +17,12 @@ This guide covers:
 - **Alerting**: Alert rules and Alertmanager
 - **Best Practices**: Metric naming, labeling, and performance
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Prometheus?
 
 Prometheus is a monitoring system that:
@@ -42,7 +48,19 @@ Prometheus is a monitoring system that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/9f4af1c191b07547.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -83,6 +101,10 @@ Prometheus is a monitoring system that:
 │ (Dashboards)│           │ (Alerts)     │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Services**: Applications, servers, or infrastructure components that expose metrics endpoints (e.g., HTTP /metrics).

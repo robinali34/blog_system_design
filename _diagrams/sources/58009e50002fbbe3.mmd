@@ -1,0 +1,14 @@
+sequenceDiagram
+  participant C as Client
+  participant GW as Gateway
+  participant RL as Rate Limiter
+  participant R as Redis
+  C->>GW: HTTP request
+  GW->>RL: check limit
+  RL->>R: atomic update
+  R-->>RL: allowed/denied
+  alt allowed
+    GW-->>C: 200
+  else denied
+    GW-->>C: 429
+  end

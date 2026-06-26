@@ -1,0 +1,6 @@
+flowchart TB
+  COORD[Coordinator] --> F[Distributed Frontier]
+  F --> N1[Node 1..N]
+  N1 --> DNS[DNS / Politeness]
+  N1 --> S3[(Blob Storage)]
+  N1 --> IDX[Indexer]

@@ -11,6 +11,19 @@ excerpt: "Reference guide to common categories, components, and usage patterns i
 
 A reference guide to **common categories** in distributed system design, the **typical components** in each category, and their **common usage**. Use this as a mental checklist when tackling system design interviews or architecting real systems.
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this map:** Start with the ecosystem diagram below, then use the category tables as a lookup when a design needs messaging, storage, coordination, or search.
+
+</div>
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/bbe2f91ff3a48969.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">High-level ecosystem — every large design combines pieces from multiple boxes.</p>
+
 ---
 
 ## Component Reference by Technology

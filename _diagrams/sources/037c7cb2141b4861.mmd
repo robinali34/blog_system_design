@@ -1,0 +1,14 @@
+flowchart TB
+  subgraph write [Create short URL]
+    C1[Client] -->|POST /urls| LB[Load Balancer]
+    LB --> WS[Shorten Service]
+    WS --> CTR[Redis Counter]
+    WS --> DBW[(DB Primary)]
+  end
+  subgraph read [Redirect — hot path]
+    C2[Browser] -->|GET /code| CDN[CDN / Edge]
+    CDN --> RR[Redirect Service]
+    RR --> CACHE[(Redis Cache)]
+    CACHE --> DBR[(DB Replicas)]
+    RR -->|302 Location| C2
+  end

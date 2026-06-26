@@ -17,6 +17,12 @@ This guide covers:
 - **Reliability**: Message acknowledgments, persistence, and delivery guarantees
 - **Best Practices**: Performance, monitoring, and error handling
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is RabbitMQ?
 
 RabbitMQ is a message broker that:
@@ -44,7 +50,19 @@ RabbitMQ is a message broker that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/e0cc16dba16caf1f.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -76,6 +94,10 @@ RabbitMQ is a message broker that:
 │      A      │           │      B       │
 └─────────────┘           └─────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Producers**: Applications that publish messages to RabbitMQ (e.g., web servers, microservices, background jobs).

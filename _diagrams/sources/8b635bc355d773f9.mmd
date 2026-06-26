@@ -1,0 +1,6 @@
+flowchart TB
+  DEV[.tf files] --> TF[Terraform Core]
+  TF --> PLAN[plan]
+  PLAN --> APPLY[apply]
+  APPLY --> AWS[Cloud APIs]
+  TF --> STATE[(State file)]

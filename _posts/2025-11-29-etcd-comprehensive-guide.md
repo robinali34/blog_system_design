@@ -17,6 +17,12 @@ This guide covers:
 - **Transactions**: Atomic operations
 - **Best Practices**: Performance, security, and monitoring
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is etcd?
 
 etcd is a distributed key-value store that:
@@ -42,7 +48,19 @@ etcd is a distributed key-value store that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/379f4756dc7aaf25.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -72,6 +90,10 @@ etcd is a distributed key-value store that:
               │  └───────────────────┘  │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications (e.g., Kubernetes, distributed systems) that connect to etcd for distributed key-value storage and coordination.

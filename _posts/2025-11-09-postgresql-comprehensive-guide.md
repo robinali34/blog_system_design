@@ -10,7 +10,13 @@ excerpt: "A comprehensive guide to PostgreSQL, covering architecture, advanced f
 
 PostgreSQL (often called Postgres) is a powerful, open-source object-relational database management system (ORDBMS) that has been in active development for over 30 years. Known for its advanced features, standards compliance, and extensibility, PostgreSQL has become one of the most popular relational databases, powering applications at companies like Instagram, Spotify, Uber, and many others.
 
-### What is PostgreSQL?
+#<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
+## What is PostgreSQL?
 
 PostgreSQL is an **ACID-compliant relational database** that extends SQL with:
 - **Advanced Data Types**: JSON, arrays, ranges, geospatial
@@ -41,7 +47,19 @@ PostgreSQL is an **ACID-compliant relational database** that extends SQL with:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/29461e4206459f58.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -90,6 +108,10 @@ PostgreSQL is an **ACID-compliant relational database** that extends SQL with:
 │  └──────────────────────────────────────────────────┘   │
 └──────────────────────────────────────────────────────────┘
 ```
+
+</details>
+
+
 
 ### Process Model
 

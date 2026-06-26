@@ -17,6 +17,12 @@ This guide covers:
 - **Bucketing**: Data organization and optimization
 - **Best Practices**: Query optimization, performance tuning, and schema design
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Apache Hive?
 
 Apache Hive is a data warehouse system that:
@@ -40,7 +46,19 @@ Apache Hive is a data warehouse system that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -79,6 +97,10 @@ Apache Hive is a data warehouse system that:
               │  └──────────┘           │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Users**: Data analysts, data engineers, and BI tools that query data using SQL-like HiveQL queries.

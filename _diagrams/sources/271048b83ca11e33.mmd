@@ -1,0 +1,6 @@
+flowchart TB
+  DEV[Developers] --> API[Git / API]
+  API --> GIT[Git Storage]
+  API --> PR[PR / Review Service]
+  API --> CI[CI Webhooks]
+  GIT --> OBJ[(Object Storage)]

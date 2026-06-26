@@ -1,0 +1,6 @@
+flowchart TB
+  API[Payment API] --> SCHED[Scheduler Service]
+  SCHED --> Q[Delayed Queue]
+  Q --> WORK[Workers]
+  WORK --> PAY[Payment Processor]
+  SCHED --> DB[(Job State DB)]

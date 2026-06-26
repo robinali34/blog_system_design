@@ -1,0 +1,6 @@
+flowchart TB
+  C[Clients] --> API[API Gateway]
+  API --> MEDIA[Media Service]
+  API --> FEED[Feed Service]
+  MEDIA --> S3[(Object Storage)]
+  FEED --> GRAPH[(Social Graph)]

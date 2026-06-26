@@ -1,0 +1,6 @@
+flowchart LR
+  APP[App] --> JNI[JNI]
+  JNI --> SO1[libA.so]
+  JNI --> SO2[libB.so]
+  MERGE[Linker] --> SO1
+  MERGE --> SO2

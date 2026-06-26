@@ -1,0 +1,8 @@
+flowchart TB
+  C[Clients] --> LB[Load Balancer]
+  LB --> RR[Redirect Service x N]
+  RR --> CACHE[(Redis Cache)]
+  CACHE --> DBR[(DB Read Replicas)]
+  LB --> WS[Shorten Service x N]
+  WS --> CTR[(Redis Counter)]
+  WS --> DBP[(DB Primary)]

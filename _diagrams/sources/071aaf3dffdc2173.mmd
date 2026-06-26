@@ -1,0 +1,6 @@
+flowchart TB
+  C[Clients] --> API[Translation API]
+  API --> ROUTE[Language Router]
+  ROUTE --> MT[Machine Translation]
+  ROUTE --> HUMAN[Human Post-edit Queue]
+  MT --> CACHE[(Translation Cache)]

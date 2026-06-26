@@ -1,0 +1,5 @@
+flowchart LR
+  C[Clients] --> COORD[Coordinating node]
+  COORD --> SH1[Shard]
+  COORD --> SH2[Shard]
+  SH1 --> REP[Replicas]

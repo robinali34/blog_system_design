@@ -17,6 +17,12 @@ This guide covers:
 - **Best Practices**: Security, performance, and cost optimization
 - **Practical Examples**: Code samples and deployment scripts
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is Amazon S3?
 
 Amazon S3 is an object storage service that offers:
@@ -43,7 +49,19 @@ Amazon S3 is an object storage service that offers:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/69210c48c963c6d2.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -76,6 +94,10 @@ Amazon S3 is an object storage service that offers:
               │  └───────────────────┘  │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Client Applications**: Applications that store and retrieve objects from S3 (e.g., web applications, data pipelines, backup systems).

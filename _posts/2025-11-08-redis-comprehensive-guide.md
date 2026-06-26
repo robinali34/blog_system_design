@@ -10,7 +10,13 @@ excerpt: "A comprehensive guide to Redis, covering architecture, data structures
 
 Redis (Remote Dictionary Server) is an open-source, in-memory data structure store that serves as a database, cache, message broker, and streaming engine. Since its initial release in 2009, Redis has become one of the most popular NoSQL databases, powering millions of applications worldwide.
 
-### What is Redis?
+#<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
+## What is Redis?
 
 Redis is a **key-value store** where keys are mapped to values, but unlike simple key-value stores, Redis values can be complex data structures including:
 - Strings
@@ -48,6 +54,15 @@ Redis is a **key-value store** where keys are mapped to values, but unlike simpl
 ## Redis Architecture
 
 ### High-Level Architecture
+
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/5621851955d16bc0.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐

@@ -1,0 +1,5 @@
+flowchart LR
+  DF[Dockerfile] --> BUILD[docker build]
+  BUILD --> IMG[Image]
+  IMG --> REG[Registry]
+  IMG --> RUN[Container runtime]

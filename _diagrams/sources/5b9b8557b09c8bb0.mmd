@@ -1,0 +1,13 @@
+flowchart TB
+  S([START])
+  M["① Map & motivation<br/>this page + framework"]
+  C["② Core concepts<br/>CAP, patterns, guide"]
+  F["③ First designs<br/>URL shortener, rate limiter"]
+  B["④ Bigger systems<br/>feed, chat, crawler"]
+  L["⑤ Large products<br/>Twitter, YouTube, Uber"]
+  T["⑥ Tech guides<br/>on demand only"]
+
+  S --> M --> C --> F --> B --> L
+  F -.-> T
+  B -.-> T
+  L -.-> T

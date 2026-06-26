@@ -1,0 +1,10 @@
+flowchart TB
+  C[Clients] --> LB[Load Balancer]
+  LB --> FS[Feed Service]
+  FS --> CACHE[(Feed Cache)]
+  FS --> FG[Feed Generator]
+  FG --> GRAPH[(Social Graph DB)]
+  FG --> POSTS[(Post Store)]
+  PUB[Post Service] -->|new post| Q[Message Queue]
+  Q --> FAN[Fan-out Workers]
+  FAN --> CACHE

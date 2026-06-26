@@ -1,0 +1,6 @@
+flowchart LR
+  C[Clients] --> API[Query API]
+  API --> TRIE[(Trie / FST Index)]
+  API --> CACHE[(Hot Prefix Cache)]
+  LOG[Search Logs] --> AGG[Aggregator]
+  AGG --> TRIE

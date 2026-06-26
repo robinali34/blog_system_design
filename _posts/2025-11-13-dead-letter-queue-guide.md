@@ -17,6 +17,12 @@ This guide covers:
 - **Best Practices**: Error handling, monitoring, and recovery strategies
 - **Practical Examples**: Code samples and deployment configurations
 
+<div class="post-reading-tip" markdown="1">
+
+**How to read this guide:** Start with the **architecture diagram**, then use sections as reference during system design interviews when this technology appears in a design.
+
+</div>
+
 ## What is a Dead Letter Queue?
 
 A Dead Letter Queue (DLQ) is a queue that receives messages that:
@@ -39,7 +45,19 @@ A Dead Letter Queue (DLQ) is a queue that receives messages that:
 
 ## Architecture
 
+### Architecture at a glance
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/ecf5c786e5c51c39.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+</figure>
+
+
+<p class="diagram-caption">Visual overview — expand optional ASCII detail below if present.</p>
+
 ### High-Level Architecture
+
+<details class="lp-collapse" markdown="1">
+<summary>Expanded ASCII diagram (optional detail)</summary>
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -84,6 +102,10 @@ A Dead Letter Queue (DLQ) is a queue that receives messages that:
               │  └──────────┘           │
               └─────────────────────────┘
 ```
+
+</details>
+
+
 
 **Explanation:**
 - **Producers**: Applications that send messages to the main queue (e.g., web servers, microservices, event sources).

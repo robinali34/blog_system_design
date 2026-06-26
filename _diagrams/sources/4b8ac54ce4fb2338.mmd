@@ -1,0 +1,7 @@
+sequenceDiagram
+  participant P as Publisher
+  participant B as Broker
+  participant S as Subscriber
+  P->>B: publish(topic, msg)
+  B->>S: deliver
+  S-->>B: ack
