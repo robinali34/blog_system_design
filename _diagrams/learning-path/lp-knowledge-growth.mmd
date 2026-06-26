@@ -1,0 +1,24 @@
+flowchart TB
+  subgraph skills [Knowledge you build]
+    direction TB
+    K1["Interview skills<br/>requirements · API · trade-offs"]
+    K2["Building blocks<br/>cache · queue · DB · CDN"]
+    K3["Product systems<br/>feeds · chat · video · rides"]
+    K4["Tech depth<br/>Redis · Kafka · SQL · K8s"]
+  end
+
+  K1 --> K2 --> K3
+  K2 -.-> K4
+  K3 -.-> K4
+
+  subgraph posts [Example posts on this blog]
+    P1[Framework + URL shortener]
+    P2[News feed + chat + crawler]
+    P3[Uber + Twitter + YouTube]
+    P4[Technology guides]
+  end
+
+  K1 --- P1
+  K2 --- P2
+  K3 --- P3
+  K4 --- P4

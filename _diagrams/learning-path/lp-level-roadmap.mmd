@@ -1,0 +1,40 @@
+flowchart TB
+  subgraph L0 ["Level 0 · Week 0"]
+    direction TB
+    O1[Interview framework]
+    O2[References & ecosystem map]
+  end
+
+  subgraph L1 ["Level 1 · Weeks 1–2"]
+    direction TB
+    F1[CAP & patterns]
+    F2[URL shortener & rate limiter]
+    F3[Parking lot, chat local]
+  end
+
+  subgraph L2 ["Level 2 · Weeks 3–5"]
+    direction TB
+    I1[Cache & KV store]
+    I2[Chat, pub/sub, crawler]
+    I3[News feed & Instagram]
+  end
+
+  subgraph L3 ["Level 3 · Weeks 6+"]
+    direction TB
+    A1[Twitter, YouTube, Netflix]
+    A2[Uber, payments, schedulers]
+    A3[LLM, GitHub, gaming]
+  end
+
+  subgraph L4 ["Level 4 · On demand"]
+    T[Redis · Kafka · DBs · K8s]
+  end
+
+  subgraph L5 ["Level 5 · Optional"]
+    S[OS · embedded · hardware DFT]
+  end
+
+  L0 --> L1 --> L2 --> L3
+  L2 -.-> L4
+  L3 -.-> L4
+  L1 -.-> L5

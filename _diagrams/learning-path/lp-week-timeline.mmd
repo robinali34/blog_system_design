@@ -1,0 +1,18 @@
+flowchart LR
+  subgraph week0 [Week 0]
+    W0[Framework + references]
+  end
+  subgraph week12 [Weeks 1–2]
+    W12[URL shortener · rate limiter · parking lot]
+  end
+  subgraph week35 [Weeks 3–5]
+    W35[Feed · chat · crawler · Redis/Kafka]
+  end
+  subgraph week6 [Week 6+]
+    W6[Twitter · Uber · YouTube · schedulers]
+  end
+
+  week0 --> week12 --> week35 --> week6
+
+  week35 -.->|when stuck| TECH[(Tech guides)]
+  week6 -.->|when stuck| TECH

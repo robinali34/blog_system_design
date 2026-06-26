@@ -9,98 +9,187 @@ categories: [System Design, Learning Path, Reference]
 # System Design Interview — Learning Path & Blog Index
 
 <div class="lp-hero">
-  <p class="lp-hero-lead">Your guided map through <strong>{{ site.posts.size }} posts</strong> — start at Level 0, follow the graphs, or jump to any section from the sidebar.</p>
+  <p class="lp-hero-lead"><strong>New to system design?</strong> This page is your map through <strong>{{ site.posts.size }} posts</strong> — follow the graphs below, then dive into Levels 0–5. Every design post includes <strong>architecture PNG diagrams</strong> you can skim before reading.</p>
   <div class="lp-stat-grid">
-    <div class="lp-stat"><span class="lp-stat-num">58</span><span class="lp-stat-label">Design problems</span></div>
-    <div class="lp-stat"><span class="lp-stat-num">50</span><span class="lp-stat-label">Tech guides</span></div>
-    <div class="lp-stat"><span class="lp-stat-num">22</span><span class="lp-stat-label">Foundations</span></div>
-    <div class="lp-stat"><span class="lp-stat-num">31</span><span class="lp-stat-label">OS / embedded</span></div>
     <div class="lp-stat"><span class="lp-stat-num">6</span><span class="lp-stat-label">Study levels</span></div>
+    <div class="lp-stat"><span class="lp-stat-num">58</span><span class="lp-stat-label">Design walkthroughs</span></div>
+    <div class="lp-stat"><span class="lp-stat-num">50</span><span class="lp-stat-label">Tech guides</span></div>
+    <div class="lp-stat"><span class="lp-stat-num">~10</span><span class="lp-stat-label">Weeks to advanced</span></div>
   </div>
   <nav class="lp-jump-nav" aria-label="Jump to study level">
-    <a href="#level-0-orientation-references" class="lp-pill lp-pill-0">Level 0 · Prep</a>
-    <a href="#level-1-fundamentals-beginner" class="lp-pill lp-pill-1">Level 1 · Basics</a>
-    <a href="#level-2-intermediate-distributed-systems" class="lp-pill lp-pill-2">Level 2 · Distributed</a>
-    <a href="#level-3-advanced-large-scale-systems" class="lp-pill lp-pill-3">Level 3 · Advanced</a>
-    <a href="#level-4-technology-depth-reference-library" class="lp-pill lp-pill-4">Level 4 · Tech</a>
-    <a href="#level-5-specialized-tracks-optional" class="lp-pill lp-pill-5">Level 5 · Specialized</a>
+    <a href="#new-here-start-in-30-minutes" class="lp-pill lp-pill-start">Start here</a>
+    <a href="#level-0-orientation-references" class="lp-pill lp-pill-0">Level 0</a>
+    <a href="#level-1-fundamentals-beginner" class="lp-pill lp-pill-1">Level 1</a>
+    <a href="#level-2-intermediate-distributed-systems" class="lp-pill lp-pill-2">Level 2</a>
+    <a href="#level-3-advanced-large-scale-systems" class="lp-pill lp-pill-3">Level 3</a>
+    <a href="#level-4-technology-depth-reference-library" class="lp-pill lp-pill-4">Level 4</a>
+    <a href="#level-5-specialized-tracks-optional" class="lp-pill lp-pill-5">Level 5</a>
   </nav>
 </div>
 
+---
+
+## New here? Start in 30 minutes
+
+If you have **never** done a system design interview, do exactly this before exploring the full index.
+
+<figure class="diagram-figure diagram-figure-prominent">
+  <img src="{{ '/assets/diagrams/lp-new-reader-journey.png' | relative_url }}" alt="New reader journey: framework, first design, then scale" class="diagram-img" loading="eager" />
+</figure>
+
+<div class="lp-start-steps">
+
+| Step | Time | Do this | Why |
+|:----:|:----:|---------|-----|
+| **1** | 15 min | [Interview framework]({{ site.baseurl }}/2025/10/04/system-design-interview-framework/) | Learn how interviews are structured (requirements → API → diagram → scale) |
+| **2** | 30 min | [Design a URL Shortener]({{ site.baseurl }}/2026/05/26/design-url-shortener/) — **skim the architecture diagrams first** | Your first end-to-end design with caching and scale |
+| **3** | 20 min | [Design a Rate Limiter]({{ site.baseurl }}/2026/05/26/design-rate-limiter/) | Adds Redis, gateways, and a second classic question |
+
+</div>
+
+<p class="lp-cta-row">
+  <a href="{{ site.baseurl }}/2025/10/04/system-design-interview-framework/" class="lp-cta-btn">Step 1 — Framework</a>
+  <a href="{{ site.baseurl }}/2026/05/26/design-url-shortener/" class="lp-cta-btn lp-cta-primary">Step 2 — URL Shortener</a>
+  <a href="#1-system-design-study-path" class="lp-cta-btn">Full study path ↓</a>
+</p>
+
+---
+
+## Study path at a glance
+
+Six levels from **orientation** to **large-scale products**. Level 4 (tech guides) and Level 5 (OS / hardware) branch off when your role or a design requires them.
+
+<figure class="diagram-figure diagram-figure-prominent">
+  <img src="{{ '/assets/diagrams/lp-level-roadmap.png' | relative_url }}" alt="Levels 0 through 5 study roadmap with topics" class="diagram-img" loading="lazy" />
+</figure>
+
+<p class="diagram-caption">Follow solid arrows in order. Dashed lines = open only when needed (tech guides or specialized tracks).</p>
+
+<div class="lp-diagram-row">
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/lp-week-timeline.png' | relative_url }}" alt="Sample 10-week study timeline" class="diagram-img" loading="lazy" />
+</figure>
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/88d177a65e8ee5d5.png' | relative_url }}" alt="Blog content distribution by category" class="diagram-img" loading="lazy" />
+</figure>
+</div>
+
+<p class="diagram-caption">Left: sample week-by-week pace. Right: how {{ site.posts.size }} posts split across categories.</p>
+
+| Level | Focus | Time | You can design… |
+|:-----:|-------|------|-----------------|
+| **0** | Orientation | Week 0 | How interviews work; where to look things up |
+| **1** | Fundamentals | Weeks 1–2 | URL shortener, rate limiter, parking lot, local chat |
+| **2** | Distributed | Weeks 3–5 | Feeds, chat at scale, crawlers, KV store, pub/sub |
+| **3** | Advanced | Weeks 6+ | Twitter, Uber, YouTube, schedulers, LLM-style APIs |
+| **4** | Tech depth | On demand | Redis, Kafka, SQL, K8s — when a post names the tool |
+| **5** | Specialized | Optional | OS frameworks, embedded, hardware test & DFT |
+
+---
+
+## What knowledge you'll build
+
+Each level adds skills that stack. Posts on this blog mirror that growth — diagrams in every walkthrough show the architecture before the deep dive.
+
+<figure class="diagram-figure diagram-figure-prominent">
+  <img src="{{ '/assets/diagrams/lp-knowledge-growth.png' | relative_url }}" alt="Knowledge growth from interview skills to product systems" class="diagram-img" loading="lazy" />
+</figure>
+
+<details class="lp-collapse" markdown="1">
+<summary>Expand full topic mind map</summary>
+
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/lp-knowledge-mindmap.png' | relative_url }}" alt="System design topic mind map" class="diagram-img" loading="lazy" />
+</figure>
+
+</details>
+
+### Pick your track
+
+<div class="lp-card-grid" markdown="1">
+
+<div class="lp-audience-card">
+
+#### Complete beginner
+
+[Framework]({{ site.baseurl }}/2025/10/04/system-design-interview-framework/) → [URL shortener]({{ site.baseurl }}/2026/05/26/design-url-shortener/) → [Level 1 list](#level-1-fundamentals-beginner)
+
+</div>
+
+<div class="lp-audience-card">
+
+#### Backend / platform interview
+
+[Level 2](#level-2-intermediate-distributed-systems) → [Level 3](#level-3-advanced-large-scale-systems). Open [tech reference]({{ site.baseurl }}/2025/11/29/technology-list-quick-reference/) when stuck.
+
+</div>
+
+<div class="lp-audience-card">
+
+#### OS, embedded, or hardware
+
+Jump to [Level 5](#level-5-specialized-tracks-optional): [OS frameworks]({{ site.baseurl }}/2025/11/03/os-frameworks-system-design/) or [hardware test & DFT]({{ site.baseurl }}/2026/05/26/hardware-design-for-testing/).
+
+</div>
+
+</div>
+
+### Level previews (example architecture from each stage)
+
+<div class="lp-level-preview-grid">
+  <a href="#level-0-orientation-references" class="lp-level-preview-card">
+    <img src="{{ '/assets/diagrams/bbe2f91ff3a48969.png' | relative_url }}" alt="Distributed ecosystem map" class="lp-level-thumb" loading="lazy" />
+    <span class="lp-level-badge-sm">0</span>
+    <strong>Orientation</strong>
+    <span>Ecosystem & interview prep</span>
+  </a>
+  <a href="#level-1-fundamentals-beginner" class="lp-level-preview-card">
+    <img src="{{ '/assets/diagrams/037c7cb2141b4861.png' | relative_url }}" alt="URL shortener architecture" class="lp-level-thumb" loading="lazy" />
+    <span class="lp-level-badge-sm">1</span>
+    <strong>Fundamentals</strong>
+    <span>URL shortener, rate limiter</span>
+  </a>
+  <a href="#level-2-intermediate-distributed-systems" class="lp-level-preview-card">
+    <img src="{{ '/assets/diagrams/970eda851480690d.png' | relative_url }}" alt="News feed architecture" class="lp-level-thumb" loading="lazy" />
+    <span class="lp-level-badge-sm">2</span>
+    <strong>Distributed</strong>
+    <span>Feeds, chat, crawlers</span>
+  </a>
+  <a href="#level-3-advanced-large-scale-systems" class="lp-level-preview-card">
+    <img src="{{ '/assets/diagrams/c9204feca2c1f288.png' | relative_url }}" alt="Uber ride-sharing architecture" class="lp-level-thumb" loading="lazy" />
+    <span class="lp-level-badge-sm">3</span>
+    <strong>Advanced</strong>
+    <span>Uber, Twitter, YouTube</span>
+  </a>
+  <a href="#level-4-technology-depth-reference-library" class="lp-level-preview-card">
+    <img src="{{ '/assets/diagrams/5621851955d16bc0.png' | relative_url }}" alt="Redis architecture" class="lp-level-thumb" loading="lazy" />
+    <span class="lp-level-badge-sm">4</span>
+    <strong>Tech guides</strong>
+    <span>Redis, Kafka, K8s…</span>
+  </a>
+  <a href="#level-5-specialized-tracks-optional" class="lp-level-preview-card">
+    <img src="{{ '/assets/diagrams/6287173f7349ca1f.png' | relative_url }}" alt="Hardware test architecture" class="lp-level-thumb" loading="lazy" />
+    <span class="lp-level-badge-sm">5</span>
+    <strong>Specialized</strong>
+    <span>OS, embedded, DFT</span>
+  </a>
+</div>
+
 <div class="lp-quick-links">
-  <strong>Quick links:</strong>
-  <a href="#1-system-design-study-path">Study path</a>
-  <a href="{{ site.baseurl }}/2025/11/29/system-design-learning-path-index/">Path index</a>
+  <strong>Also useful:</strong>
   <a href="{{ site.baseurl }}/2025/11/29/technology-list-quick-reference/">Tech reference</a>
-  <a href="{{ site.baseurl }}/2025/11/03/system-design-references/">References</a>
+  <a href="{{ site.baseurl }}/2025/11/03/system-design-references/">Books & courses</a>
+  <a href="{{ site.baseurl }}/2026/05/26/distributed-system-design-ecosystem/">Ecosystem map</a>
   <a href="{{ site.baseurl }}/posts/">All posts</a>
 </div>
 
----
-
-## Blog at a glance
-
-This blog is a **structured library** for system design interview prep and related engineering depth—not a chronological diary. Content spans **distributed systems** (feeds, chat, storage, streaming), **50+ technology guides** (Redis, Kafka, databases, K8s, …), **local/embedded/OS** interviews, and **hardware test & DFT** (ATE, scan, BIST).
-
-### Content mix (visual)
-
-<div class="lp-bar-chart" aria-label="Approximate post counts by category">
-  <div class="lp-bar-row"><span class="lp-bar-label">Design problems</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:34%"></div></div><span class="lp-bar-count">58</span></div>
-  <div class="lp-bar-row"><span class="lp-bar-label">Technology guides</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:29%"></div></div><span class="lp-bar-count">50</span></div>
-  <div class="lp-bar-row"><span class="lp-bar-label">OS / embedded</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:18%"></div></div><span class="lp-bar-count">31</span></div>
-  <div class="lp-bar-row"><span class="lp-bar-label">Foundations & prep</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:13%"></div></div><span class="lp-bar-count">22</span></div>
-  <div class="lp-bar-row"><span class="lp-bar-label">Product-scale notes</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:6%"></div></div><span class="lp-bar-count">11</span></div>
-</div>
-
-<figure class="diagram-figure">
-  <img src="{{ '/assets/diagrams/88d177a65e8ee5d5.png' | relative_url }}" alt="Distribution chart" class="diagram-img" loading="lazy" />
-</figure>
-
-<p class="diagram-caption">Bar chart + pie chart — same data, pick whichever reads easier for you.</p>
-
-| Category | ~Posts | What it covers |
-|----------|-------:|----------------|
-| **System design problems** | 58 | Step-by-step “Design a …” walkthroughs (URL shortener → Uber, crawlers, schedulers) |
-| **Technology guides** | 50 | Deep dives on tools you plug into designs (reference, not read cover-to-cover) |
-| **OS, embedded & domain prep** | 31 | OS frameworks, JNI, glass/IoT, Android native, **hardware test & DFT** |
-| **Foundations & interview prep** | 22 | Framework, CAP, patterns, references, question lists, ecosystem map |
-| **Product-scale designs** | 11 | Concise “System Design: Twitter/YouTube/…” product notes |
-| **Total** | **{{ site.posts.size }}** | Full lists in [Section 3](#3-all-posts-by-category) (expandable) |
-
-### High-level content map
-
-How the major tracks relate—start at the top, branch only when your role or a design requires it.
-
-<figure class="diagram-figure">
-  <img src="{{ '/assets/diagrams/c2e6caca6c0f8bc2.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
-</figure>
-
-<p class="diagram-caption">Main path flows left to right inside each box; dashed lines mean “open when needed,” not required reading order.</p>
-
-### Three ways to use this blog
-
-<div class="lp-card-grid">
-  <div class="lp-audience-card">
-    <h4>New to system design interviews</h4>
-    <p>Start with the <a href="{{ site.baseurl }}/2025/10/04/system-design-interview-framework/">interview framework</a>, then <a href="#1-system-design-study-path">Level 0–1</a> and your first design: <a href="{{ site.baseurl }}/2026/05/26/design-url-shortener/">URL shortener</a>.</p>
-  </div>
-  <div class="lp-audience-card">
-    <h4>Backend / platform practice</h4>
-    <p>Follow <a href="#level-2-intermediate-distributed-systems">Levels 2–3</a> in order. Open the <a href="{{ site.baseurl }}/2025/11/29/technology-list-quick-reference/">tech reference</a> only when a post names a tool you do not know.</p>
-  </div>
-  <div class="lp-audience-card">
-    <h4>OS, embedded, or hardware test</h4>
-    <p>Jump to <a href="#level-5-specialized-tracks-optional">Level 5</a>, or start with <a href="{{ site.baseurl }}/2025/11/03/os-frameworks-system-design/">OS frameworks</a> / <a href="{{ site.baseurl }}/2026/05/26/hardware-design-for-testing/">hardware test & DFT</a>.</p>
-  </div>
-</div>
-
-**New posts worth noting (2026):** [URL shortener]({{ site.baseurl }}/2026/05/26/design-url-shortener/) · [Rate limiter]({{ site.baseurl }}/2026/05/26/design-rate-limiter/) · [Distributed ecosystem map]({{ site.baseurl }}/2026/05/26/distributed-system-design-ecosystem/) · [Hardware design for testing & DFT]({{ site.baseurl }}/2026/05/26/hardware-design-for-testing/)
+**2026 highlights:** [URL shortener]({{ site.baseurl }}/2026/05/26/design-url-shortener/) · [Rate limiter]({{ site.baseurl }}/2026/05/26/design-rate-limiter/) · [Ecosystem map]({{ site.baseurl }}/2026/05/26/distributed-system-design-ecosystem/) · [Hardware test & DFT]({{ site.baseurl }}/2026/05/26/hardware-design-for-testing/)
 
 ---
 
-## 1. System Design Study Path
+## 1. System Design Study Path — full post lists
 
-Follow **Level 0 → 3** in order for a typical backend/platform interview. Use **Level 4** for technology depth on demand. **Level 5** is optional for OS, embedded, or hardware roles.
+Detailed links for every level. If you are new, complete [Start in 30 minutes](#new-here-start-in-30-minutes) first, then work through Levels 0 → 3 in order.
 
 | Level | Focus | Time hint | Outcome |
 |:-----:|-------|-----------|---------|
@@ -111,17 +200,6 @@ Follow **Level 0 → 3** in order for a typical backend/platform interview. Use 
 | **4** | Technology guides (on demand) | As needed | Redis, Kafka, DBs, K8s when a design requires them |
 | **5** | Specialized tracks (optional) | Role-specific | OS/middleware, embedded, hardware test & DFT |
 {: .lp-level-table}
-
-<figure class="diagram-figure">
-  <img src="{{ '/assets/diagrams/b4778b2226a424a2.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
-</figure>
-
-
-<figure class="diagram-figure">
-  <img src="{{ '/assets/diagrams/1471e7b8093d42ca.png' | relative_url }}" alt="Timeline diagram" class="diagram-img" loading="lazy" />
-</figure>
-
-<p class="diagram-caption">Top: level dependencies. Bottom: a sample 10-week backend timeline — adjust pace to your schedule.</p>
 
 ---
 
@@ -334,13 +412,27 @@ Full technology tree: [Learning Path & Technology Index]({{ site.baseurl }}/2025
 
 ## 2. How this blog is organized
 
-**New to system design?** This section explains what kinds of posts exist, what order to read them in, and why some topics appear more than once. You do not need to read every post—use this map to pick the right starting point.
+**Skim the diagram, then use the tables** — you do not need to read every post. Each design article includes **architecture PNGs** at the top; open a [tech guide]({{ site.baseurl }}/2025/11/29/technology-list-quick-reference/) only when a design names a tool you do not know.
 
 <figure class="diagram-figure">
-  <img src="{{ '/assets/diagrams/c12b1fad2384752f.png' | relative_url }}" alt="System architecture diagram" class="diagram-img" loading="lazy" />
+  <img src="{{ '/assets/diagrams/c2e6caca6c0f8bc2.png' | relative_url }}" alt="Blog content tracks: interview path, reference library, specialized" class="diagram-img" loading="lazy" />
 </figure>
 
-<p class="diagram-caption">Read §1 first for the study path; use §3–§4 as lookup tables when you need a specific post.</p>
+<figure class="diagram-figure">
+  <img src="{{ '/assets/diagrams/c12b1fad2384752f.png' | relative_url }}" alt="Page sections map" class="diagram-img" loading="lazy" />
+</figure>
+
+<p class="diagram-caption">Top: three content tracks. Bottom: how sections on this page fit together.</p>
+
+### Content categories
+
+<div class="lp-bar-chart" aria-label="Post counts by category">
+  <div class="lp-bar-row"><span class="lp-bar-label">Design problems</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:34%"></div></div><span class="lp-bar-count">58</span></div>
+  <div class="lp-bar-row"><span class="lp-bar-label">Technology guides</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:29%"></div></div><span class="lp-bar-count">50</span></div>
+  <div class="lp-bar-row"><span class="lp-bar-label">OS / embedded</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:18%"></div></div><span class="lp-bar-count">31</span></div>
+  <div class="lp-bar-row"><span class="lp-bar-label">Foundations</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:13%"></div></div><span class="lp-bar-count">22</span></div>
+  <div class="lp-bar-row"><span class="lp-bar-label">Product notes</span><div class="lp-bar-track"><div class="lp-bar-fill" style="width:6%"></div></div><span class="lp-bar-count">11</span></div>
+</div>
 
 ### The big picture (30 seconds)
 
