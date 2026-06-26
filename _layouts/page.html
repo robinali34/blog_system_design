@@ -204,3 +204,40 @@ layout: default
 })();
 </script>
 
+{% if page.permalink == '/system-design-list.html' %}
+<script>
+(function() {
+  const dialog = document.getElementById('lp-diagram-lightbox');
+  if (!dialog) return;
+
+  const lightboxImg = dialog.querySelector('.lp-lightbox-img');
+  const lightboxCaption = dialog.querySelector('.lp-lightbox-caption');
+
+  document.querySelectorAll('.lp-level-thumb-wrap').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      const img = btn.querySelector('.lp-level-thumb');
+      if (!img) return;
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      lightboxCaption.textContent = btn.getAttribute('data-caption') || img.alt;
+      if (typeof dialog.showModal === 'function') {
+        dialog.showModal();
+      }
+    });
+  });
+
+  dialog.addEventListener('click', function(e) {
+    if (e.target === dialog) {
+      dialog.close();
+    }
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && dialog.open) {
+      dialog.close();
+    }
+  });
+})();
+</script>
+{% endif %}
+

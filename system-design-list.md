@@ -106,74 +106,101 @@ Each level adds skills that stack. Posts on this blog mirror that growth — dia
 
 ### Pick your track
 
-<div class="lp-card-grid" markdown="1">
-
-<div class="lp-audience-card">
-
-#### Complete beginner
-
-[Framework]({{ site.baseurl }}/2025/10/04/system-design-interview-framework/) → [URL shortener]({{ site.baseurl }}/2026/05/26/design-url-shortener/) → [Level 1 list](#level-1-fundamentals-beginner)
-
-</div>
-
-<div class="lp-audience-card">
-
-#### Backend / platform interview
-
-[Level 2](#level-2-intermediate-distributed-systems) → [Level 3](#level-3-advanced-large-scale-systems). Open [tech reference]({{ site.baseurl }}/2025/11/29/technology-list-quick-reference/) when stuck.
-
-</div>
-
-<div class="lp-audience-card">
-
-#### OS, embedded, or hardware
-
-Jump to [Level 5](#level-5-specialized-tracks-optional): [OS frameworks]({{ site.baseurl }}/2025/11/03/os-frameworks-system-design/) or [hardware test & DFT]({{ site.baseurl }}/2026/05/26/hardware-design-for-testing/).
-
-</div>
-
+<div class="lp-card-grid">
+  <div class="lp-audience-card">
+    <h4>Complete beginner</h4>
+    <p><a href="{{ site.baseurl }}/2025/10/04/system-design-interview-framework/">Framework</a> → <a href="{{ site.baseurl }}/2026/05/26/design-url-shortener/">URL shortener</a> → <a href="#level-1-fundamentals-beginner">Level 1 list</a></p>
+  </div>
+  <div class="lp-audience-card">
+    <h4>Backend / platform interview</h4>
+    <p><a href="#level-2-intermediate-distributed-systems">Level 2</a> → <a href="#level-3-advanced-large-scale-systems">Level 3</a>. Open <a href="{{ site.baseurl }}/2025/11/29/technology-list-quick-reference/">tech reference</a> when stuck.</p>
+  </div>
+  <div class="lp-audience-card">
+    <h4>OS, embedded, or hardware</h4>
+    <p>Jump to <a href="#level-5-specialized-tracks-optional">Level 5</a>: <a href="{{ site.baseurl }}/2025/11/03/os-frameworks-system-design/">OS frameworks</a> or <a href="{{ site.baseurl }}/2026/05/26/hardware-design-for-testing/">hardware test &amp; DFT</a>.</p>
+  </div>
 </div>
 
 ### Level previews (example architecture from each stage)
 
+<p class="diagram-caption">Wide architecture diagrams — click any image to view full size.</p>
+
 <div class="lp-level-preview-grid">
-  <a href="#level-0-orientation-references" class="lp-level-preview-card">
-    <img src="{{ '/assets/diagrams/bbe2f91ff3a48969.png' | relative_url }}" alt="Distributed ecosystem map" class="lp-level-thumb" loading="lazy" />
-    <span class="lp-level-badge-sm">0</span>
-    <strong>Orientation</strong>
-    <span>Ecosystem & interview prep</span>
-  </a>
-  <a href="#level-1-fundamentals-beginner" class="lp-level-preview-card">
-    <img src="{{ '/assets/diagrams/037c7cb2141b4861.png' | relative_url }}" alt="URL shortener architecture" class="lp-level-thumb" loading="lazy" />
-    <span class="lp-level-badge-sm">1</span>
-    <strong>Fundamentals</strong>
-    <span>URL shortener, rate limiter</span>
-  </a>
-  <a href="#level-2-intermediate-distributed-systems" class="lp-level-preview-card">
-    <img src="{{ '/assets/diagrams/970eda851480690d.png' | relative_url }}" alt="News feed architecture" class="lp-level-thumb" loading="lazy" />
-    <span class="lp-level-badge-sm">2</span>
-    <strong>Distributed</strong>
-    <span>Feeds, chat, crawlers</span>
-  </a>
-  <a href="#level-3-advanced-large-scale-systems" class="lp-level-preview-card">
-    <img src="{{ '/assets/diagrams/c9204feca2c1f288.png' | relative_url }}" alt="Uber ride-sharing architecture" class="lp-level-thumb" loading="lazy" />
-    <span class="lp-level-badge-sm">3</span>
-    <strong>Advanced</strong>
-    <span>Uber, Twitter, YouTube</span>
-  </a>
-  <a href="#level-4-technology-depth-reference-library" class="lp-level-preview-card">
-    <img src="{{ '/assets/diagrams/5621851955d16bc0.png' | relative_url }}" alt="Redis architecture" class="lp-level-thumb" loading="lazy" />
-    <span class="lp-level-badge-sm">4</span>
-    <strong>Tech guides</strong>
-    <span>Redis, Kafka, K8s…</span>
-  </a>
-  <a href="#level-5-specialized-tracks-optional" class="lp-level-preview-card">
-    <img src="{{ '/assets/diagrams/6287173f7349ca1f.png' | relative_url }}" alt="Hardware test architecture" class="lp-level-thumb" loading="lazy" />
-    <span class="lp-level-badge-sm">5</span>
-    <strong>Specialized</strong>
-    <span>OS, embedded, DFT</span>
-  </a>
+  <article class="lp-level-preview-card">
+    <button type="button" class="lp-level-thumb-wrap" data-caption="Level 0 — Orientation (ecosystem map)" aria-label="Enlarge Level 0 architecture diagram">
+      <img src="{{ '/assets/diagrams/bbe2f91ff3a48969.png' | relative_url }}" alt="Distributed ecosystem map" class="lp-level-thumb" loading="lazy" />
+      <span class="lp-level-zoom-hint">Click to enlarge</span>
+    </button>
+    <a href="#level-0-orientation-references" class="lp-level-preview-meta">
+      <span class="lp-level-badge-sm">0</span>
+      <strong>Orientation</strong>
+      <span>Ecosystem &amp; interview prep</span>
+    </a>
+  </article>
+  <article class="lp-level-preview-card">
+    <button type="button" class="lp-level-thumb-wrap" data-caption="Level 1 — Fundamentals (URL shortener)" aria-label="Enlarge Level 1 architecture diagram">
+      <img src="{{ '/assets/diagrams/037c7cb2141b4861.png' | relative_url }}" alt="URL shortener architecture" class="lp-level-thumb" loading="lazy" />
+      <span class="lp-level-zoom-hint">Click to enlarge</span>
+    </button>
+    <a href="#level-1-fundamentals-beginner" class="lp-level-preview-meta">
+      <span class="lp-level-badge-sm">1</span>
+      <strong>Fundamentals</strong>
+      <span>URL shortener, rate limiter</span>
+    </a>
+  </article>
+  <article class="lp-level-preview-card">
+    <button type="button" class="lp-level-thumb-wrap" data-caption="Level 2 — Distributed (news feed)" aria-label="Enlarge Level 2 architecture diagram">
+      <img src="{{ '/assets/diagrams/970eda851480690d.png' | relative_url }}" alt="News feed architecture" class="lp-level-thumb" loading="lazy" />
+      <span class="lp-level-zoom-hint">Click to enlarge</span>
+    </button>
+    <a href="#level-2-intermediate-distributed-systems" class="lp-level-preview-meta">
+      <span class="lp-level-badge-sm">2</span>
+      <strong>Distributed</strong>
+      <span>Feeds, chat, crawlers</span>
+    </a>
+  </article>
+  <article class="lp-level-preview-card">
+    <button type="button" class="lp-level-thumb-wrap" data-caption="Level 3 — Advanced (Uber ride-sharing)" aria-label="Enlarge Level 3 architecture diagram">
+      <img src="{{ '/assets/diagrams/c9204feca2c1f288.png' | relative_url }}" alt="Uber ride-sharing architecture" class="lp-level-thumb" loading="lazy" />
+      <span class="lp-level-zoom-hint">Click to enlarge</span>
+    </button>
+    <a href="#level-3-advanced-large-scale-systems" class="lp-level-preview-meta">
+      <span class="lp-level-badge-sm">3</span>
+      <strong>Advanced</strong>
+      <span>Uber, Twitter, YouTube</span>
+    </a>
+  </article>
+  <article class="lp-level-preview-card">
+    <button type="button" class="lp-level-thumb-wrap" data-caption="Level 4 — Tech guides (Redis)" aria-label="Enlarge Level 4 architecture diagram">
+      <img src="{{ '/assets/diagrams/5621851955d16bc0.png' | relative_url }}" alt="Redis architecture" class="lp-level-thumb" loading="lazy" />
+      <span class="lp-level-zoom-hint">Click to enlarge</span>
+    </button>
+    <a href="#level-4-technology-depth-reference-library" class="lp-level-preview-meta">
+      <span class="lp-level-badge-sm">4</span>
+      <strong>Tech guides</strong>
+      <span>Redis, Kafka, K8s…</span>
+    </a>
+  </article>
+  <article class="lp-level-preview-card">
+    <button type="button" class="lp-level-thumb-wrap" data-caption="Level 5 — Specialized (hardware test &amp; DFT)" aria-label="Enlarge Level 5 architecture diagram">
+      <img src="{{ '/assets/diagrams/6287173f7349ca1f.png' | relative_url }}" alt="Hardware test architecture" class="lp-level-thumb" loading="lazy" />
+      <span class="lp-level-zoom-hint">Click to enlarge</span>
+    </button>
+    <a href="#level-5-specialized-tracks-optional" class="lp-level-preview-meta">
+      <span class="lp-level-badge-sm">5</span>
+      <strong>Specialized</strong>
+      <span>OS, embedded, DFT</span>
+    </a>
+  </article>
 </div>
+
+<dialog id="lp-diagram-lightbox" class="lp-diagram-lightbox" aria-label="Enlarged architecture diagram">
+  <form method="dialog">
+    <button type="submit" class="lp-lightbox-close" aria-label="Close">×</button>
+  </form>
+  <img src="" alt="" class="lp-lightbox-img" />
+  <p class="lp-lightbox-caption"></p>
+</dialog>
 
 <div class="lp-quick-links">
   <strong>Also useful:</strong>
